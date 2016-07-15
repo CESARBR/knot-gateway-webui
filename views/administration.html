@@ -1,0 +1,21 @@
+<div class="jumbotron administration">
+    <form class="form-administration" ng-controller="admController" ng-submit="save()">
+        <h2 class="form-signin-heading">Administration</h2>
+        <label for="inputGatewayPassword" class="sr-only">Password</label>
+        <input type="text" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required autofocus>
+        <label for="inputGatewayPasswordConfirmation" class="sr-only">Confirmation</label>
+        <input type="text" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.passwordConfirmation" required>
+        <label for="inputRemoteSshPort" class="sr-only">Remote SSH Port</label>
+        <input type="text" id="inputRemoteSshPort" class="form-control" placeholder="port" ng-model="form.remoteSshPort" required>
+        <div class="checkbox">
+            <label>
+            <input type="checkbox" value="allowedPassword" ng-model="form.allowedPassword"> Allowed password
+          </label>
+        </div>
+        <label for="inputSshKey" class="sr-only">SSH Key</label>
+        <textarea type="text" id="inputSshKey" class="form-control" rows="5" cols="50" ng-model="form.sshKey" required>
+        <h2>Update firmeware</h2>
+	    <input type="file" id="fileinput" multiple="multiple" accept="image/*" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+    </form>
+</div>

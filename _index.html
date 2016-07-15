@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="content-language" content="pt-br" />
+      <title>AngularJS: Single Page com ngView e ngRoute</title>
+      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+   </head>
+ 
+   <body>
+      <ul class="nav nav-tabs">
+         <li ng-class="{active: activetab == '/'}"><a href="/home">Home</a></li>
+         <li ng-class="{active: activetab == '/sobre'}"><a href="/sobre">Sobre</a></li>
+         <li ng-class="{active: activetab == '/contato'}"><a href="/contato">Contato</a></li>
+      </ul>
+ 
+      <div ng-view>
+          
+      </div>
+ 
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+ 
+      <script src="app.js"></script>
+      <script src="controllers/controllers.js"></script>
+   </body>
+</html>

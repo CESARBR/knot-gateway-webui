@@ -30,6 +30,5 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/cloud.html',
             controller: 'cloudController'
         })
-
-     //.otherwise ({ redirectTo: '/main' });
+        //.otherwise ({ redirectTo: '/main' });
 });

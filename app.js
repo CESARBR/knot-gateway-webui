@@ -8,7 +8,7 @@ app.config(function ($routeProvider, $locationProvider) {
 
         .when('/signin', {
             templateUrl: 'signin.html',
-            controller: 'SiginCtrl'
+            controller: 'siginController'
         })
         .when('/main', {
             templateUrl: 'main.html',
@@ -18,8 +18,18 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/administration.html',
             controller: 'admController'
         })
-       
+        .when('/network', {
+            templateUrl: 'views/network.html',
+            controller: 'networkController'
+        })
+        .when('/radio', {
+            templateUrl: 'views/radio.html',
+            controller: 'radioController'
+        })
+        .when('/cloud', {
+            templateUrl: 'views/cloud.html',
+            controller: 'cloudController'
+        })
 
-    // caso não seja nenhum desses, redirecione para a rota '/'
-    //.otherwise ({ redirectTo: '/' });
+     //.otherwise ({ redirectTo: '/main' });
 });

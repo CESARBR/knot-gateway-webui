@@ -1,5 +1,5 @@
 
-app.controller('siginController', function ($scope,$rootScope, $http, $location,$window) {
+app.controller('siginController',function ($scope,$rootScope, $window,AppService) {
 
     var formData = {
         user: "default",
@@ -13,26 +13,8 @@ app.controller('siginController', function ($scope,$rootScope, $http, $location,
 
     $scope.submitForm = function () {
 
-        formData = $scope.form;
-        $http({
-            method: 'POST',
-            url: '/user/authentication',
-            data: formData,
-            config: {
-                 headers : {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
-
-        }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
+        AppService.authetication($scope.form,function sucess(params) {
              $window.location.href = '/';
-             
-        }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-             console.log(response);
         });
     };
 });

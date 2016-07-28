@@ -1,11 +1,11 @@
-<div class="jumbotron administration">
-    <form class="form-administration" ng-controller="admController" ng-submit="save()">
+<div class="jumbotron administration"  ng-controller="admController">
+    <form class="form-administration" ng-submit="save()" ng-init="init()">
         <h2 class="form-signin-heading">Administration</h2>
-       
+
         <label for="inputGatewayPassword" class="sr-only">Password</label>
-        <input type="text" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
+        <input type="password" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
         <label for="inputGatewayPasswordConfirmation" class="sr-only">Confirmation</label>
-        <input type="text" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.passwordConfirmation" required>
+        <input type="password" id="inputGatewayPasswordConfirmation" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation" required>
         <label for="inputRemoteSshPort" class="sr-only">Remote SSH Port</label>
         <input type="text" id="inputRemoteSshPort" class="form-control" placeholder="Port" ng-model="form.remoteSshPort" required>
         <div class="checkbox">
@@ -13,10 +13,38 @@
             <input type="checkbox" value="allowedPassword" ng-model="form.allowedPassword"> Allowed password
           </label>
         </div>
-       <label for="inputSshKey" class="sr-only">SSH Key</label>
-       <input type="text" id="inputSshKey" class="form-control" ng-model="form.sshKey" placeholder="SSH Key" required>
-       <label for="inputFirmeware" class="sr-only">Firmeware Update</label>
-       <input type="file" name="inputFirmeware" accept="bin">
-       <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+        <label for="inputSshKey" class="sr-only">SSH Key</label>
+        <input type="text" id="inputSshKey" class="form-control" ng-model="form.sshKey" placeholder="SSH Key" required>
+        <label for="inputCurrentFirmware" class="sr-only">Current Firmeware</label>
+        <input type="text" name="inputCurrentFirmware" id="inputCurrentFirmware" class="form-control" readonly ng-model="form.currentFirmware" required>
+        <label for="inputCurrentFirmware" class="sr-only">Firmeware Update</label>
+        <input type="file" name="inputNewFirmware" id="inputNewFirmeware" ng-model="form.newFirmware" accept="bin">
+        <input type="hidden" id="hiddenFirmware" ng-model="form.newFirmware64Base">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
     </form>
+    <script>
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            
+            var handleFileSelect = function(evt) {
+                var files = evt.target.files;
+                var file = files[0];
+
+                if (files && file) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(readerEvt) {
+                        alert("done");
+                        var binaryString = readerEvt.target.result;
+                        document.getElementById("hiddenFirmeware").value = btoa(binaryString);
+                    };
+
+                    reader.readAsBinaryString(file);
+                }
+            };
+            
+            document.getElementById('inputNewFirmeware').addEventListener('change', handleFileSelect, false);
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+    </script>
 </div>

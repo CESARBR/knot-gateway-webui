@@ -1,5 +1,5 @@
 
-app.controller('siginController',function ($scope,$rootScope, $window,AppService) {
+app.controller('siginController',function ($scope,$rootScope,$location, $window,SigninService) {
 
     var formData = {
         user: "default",
@@ -12,9 +12,9 @@ app.controller('siginController',function ($scope,$rootScope, $window,AppService
     };
 
     $scope.submitForm = function () {
-
-        AppService.authetication($scope.form,function sucess(params) {
-             $window.location.href = '/';
+        SigninService.authetication($scope.form,function sucess(params) {
+            $window.location.href = '/main';
+            //$location.path("/main"); // path not hash
         });
     };
 });

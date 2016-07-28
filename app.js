@@ -11,8 +11,8 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: 'siginController'
         })
         .when('/main', {
-            templateUrl: 'main.html',
-            controller: 'mainController'
+            templateUrl: 'views/administration.html',
+            controller: 'admController'
         })
         .when('/administration', {
             templateUrl: 'views/administration.html',

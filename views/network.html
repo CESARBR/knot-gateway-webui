@@ -1,14 +1,14 @@
-<div class="jumbotron network">
-    <form class="form-network" ng-controller="networkController" ng-submit="save()">
+<div class="jumbotron network" ng-controller="networkController">
+    <form class="form-network" ng-submit="save()" ng-init="init()">
         <h2 class="form-signin-heading">Network Interface</h2>
-        <label><input type="radio" name="rdAutomaticIP" value="Automatic IP Address" checked>Automatic IP Address</label>
+        <label><input type="radio" name="rdAutomaticIP" value="Automatic IP Address">Automatic IP Address</label>
         <label><input type="radio" name="rdAutomaticIP" value="Using IP Address below"/>Using IP Address below</label>
         <label for="ipaddress" class="sr-only">IP Address</label>
-        <input type="text" id="ipaddress" class="form-control" placeholder="IP Address" ng-model="form.ipaddress" required>
+        <input type="text" id="ipaddress" class="form-control" placeholder="IP Address" ng-model="form.ipaddress" ng-disabled="form.automaticIP">
         <label for="networkMask" class="sr-only">Network Mask</label>
-        <input type="text" id="networkMask" class="form-control" placeholder="Network Mask" ng-model="form.networkMask" required>
+        <input type="text" id="networkMask" class="form-control" placeholder="Network Mask" ng-model="form.networkMask" ng-readonly="form.automaticIP" required>
         <label for="defaultGateway" class="sr-only">Default Gateway</label>
-        <input type="text" id="defaultGateway" class="form-control" placeholder="Default Gateway" ng-model="form.defaultGateway" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+        <input type="text" id="defaultGateway" class="form-control" placeholder="Default Gateway" ng-model="form.defaultGateway" ng-readonly="form.automaticIP" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Apply</button>
     </form>
 </div>

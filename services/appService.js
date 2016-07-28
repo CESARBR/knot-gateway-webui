@@ -1,7 +1,7 @@
-app.factory('AppService', function ($http, $location, $window) {
-    var factory = {};
+app.factory('SigninService', function ($http, $location, $window) {
+    var signinFactory = {};
 
-    factory.authetication = function (userData,successCallback) {
+    signinFactory.authetication = function (userData, successCallback, errorCallback) {
         $http({
             method: 'POST',
             url: '/user/authentication',
@@ -12,18 +12,74 @@ app.factory('AppService', function ($http, $location, $window) {
                 }
             }
 
-        }).then(function(response) {
+        }).then(function (response) {
             // this callback will be called asynchronously
             // when the response is available
-             successCallback();
-             console.log("setting new location");
+            successCallback();
+            
+            console.log(response);
 
-        }, function errorCallback(response) {
+        }, function (response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
+            if (errorCallback)
+                errorCallback();
+            
+            console.log(response);
+        });
+    }
+
+    return signinFactory;
+}); 
+
+app.factory('AppService', function ($http, $location, $window) {
+    var factory = {};
+
+    factory.saveAdmInfo = function (info, successCallback, errorCallback) {
+        $http({
+            method: 'POST',
+            url: '/administration/save',
+            data: info,
+            config: {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            }
+
+        }).then(function (response) {
+            successCallback();
+            
+            console.log(response);
+
+        }, function (response) {
+
+            if (errorCallback)
+                errorCallback();
+            
+            console.log(response);
+        });
+    }
+
+   factory.loadAdmInfo = function (successCallback, errorCallback) {
+        $http({
+            method: 'GET',
+            url: '/administration/info',
+            config: {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            }
+
+        }).then(function(data, status, headers, config) {
+            successCallback(data);
+        }, function (response) {
+
+            if (errorCallback)
+                errorCallback();
             console.log(response);
         });
     }
 
     return factory;
 }); 
+

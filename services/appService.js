@@ -80,6 +80,52 @@ app.factory('AppService', function ($http, $location, $window) {
         });
     }
 
+    factory.saveNetworkInfo = function (info, successCallback, errorCallback) {
+        $http({
+            method: 'POST',
+            url: '/network/save',
+            data: info,
+            config: {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            }
+
+        }).then(function (response) {
+            successCallback();
+            
+            console.log(response);
+
+        }, function (response) {
+
+            if (errorCallback)
+                errorCallback();
+            
+            console.log(response);
+        });
+    }
+
+   factory.loadNetworkInfo = function (successCallback, errorCallback) {
+        $http({
+            method: 'GET',
+            url: '/network/info',
+            config: {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            }
+
+        }).then(function(data, status, headers, config) {
+            successCallback(data);
+        }, function (response) {
+
+            if (errorCallback)
+                errorCallback();
+            console.log(response);
+        });
+    }
+
     return factory;
+
 }); 
 

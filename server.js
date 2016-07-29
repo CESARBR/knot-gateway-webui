@@ -27,6 +27,21 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
       localData.administration.allowedPassword = incomingData.allowedPassword;
       localData.administration.sshKey = incomingData.sshKey;
     }
+    else if (type == "net") {
+      
+      localData.network.automaticIp = incomingData.automaticIp;
+      
+      if (incomingData.automaticIp == false) {
+        localData.network.ipaddress = incomingData.ipaddress;
+        localData.network.defaultGateway = incomingData.defaultGateway;
+        localData.network.networkMask = incomingData.networkMask;
+      }
+      else {
+        localData.network.ipaddress = "";
+        localData.network.defaultGateway = "";
+        localData.network.networkMask = "";
+      }
+    }
 
     fs.writeFile(configurationFile, JSON.stringify(localData), 'utf8', successCallback);
   });
@@ -114,6 +129,38 @@ serverConfig.get("/administration/info", function (req, res) {
     res.send(admObject);
   });
 });
+
+
+serverConfig.post("/network/save", function (req, res) {
+
+  var body = '';
+  req.on('data', function (data) {
+    body += data;
+  });
+
+  req.on('end', function () {
+    var jsonObj = JSON.parse(body);
+    writeFile("net", jsonObj, function () {
+      console.log("success");
+    }, function (error) {
+      console.log(error);
+    });
+
+    res.end();
+  });
+});
+
+serverConfig.get("/network/info", function (req, res) {
+  var obj;
+  fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
+    if (err)
+      throw err;
+    obj = JSON.parse(data);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(obj.network);
+  });
+});
+
 
 var port = process.env.PORT || 8080;
 serverConfig.listen(port, function () {

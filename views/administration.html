@@ -22,29 +22,4 @@
         <input type="hidden" id="hiddenFirmware" ng-model="form.newFirmware64Base">
         <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
     </form>
-    <script>
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-            
-            var handleFileSelect = function(evt) {
-                var files = evt.target.files;
-                var file = files[0];
-
-                if (files && file) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(readerEvt) {
-                        alert("done");
-                        var binaryString = readerEvt.target.result;
-                        document.getElementById("hiddenFirmeware").value = btoa(binaryString);
-                    };
-
-                    reader.readAsBinaryString(file);
-                }
-            };
-            
-            document.getElementById('inputNewFirmeware').addEventListener('change', handleFileSelect, false);
-        } else {
-            alert('The File APIs are not fully supported in this browser.');
-        }
-    </script>
 </div>

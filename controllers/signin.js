@@ -1,4 +1,3 @@
-
 app.controller('siginController',function ($scope,$rootScope,$location, $window,SigninService) {
 
     var formData = {
@@ -12,8 +11,16 @@ app.controller('siginController',function ($scope,$rootScope,$location, $window,
     };
 
     $scope.submitForm = function () {
-        SigninService.authetication($scope.form,function sucess(params) {
-            $window.location.href = '/main';
+        SigninService.authetication($scope.form,function sucess(result) {
+            if(result.data.authenticated == true){
+                $window.location.href = '/main';
+                console.log("Success singin");
+            }
+            else{
+                alert("Authetication Error");
+                $window.location.href = '/';
+                console.log("error");
+            }
             //$location.path("/main"); // path not hash
         });
     };

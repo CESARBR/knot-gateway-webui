@@ -14,5 +14,9 @@
     "ipaddress": null,
     "defaultGateway": null,
     "networkMask": null
+  },
+  "user": {
+    "username": "admin",
+    "password": "admin"
   }
 }

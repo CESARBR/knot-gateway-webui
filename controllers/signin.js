@@ -1,20 +1,15 @@
 /*global app*/
 
 app.controller('siginController', function ($scope, $rootScope, $location, $window, SigninService) {
-  // var formData = {
-  //   user: 'default',
-  //   password: 'default',
-  //   rememberMe: false
-  // };
-
-  $scope.save = function () {
-    // formData = $scope.form;
-  };
-
   $scope.submitForm = function () {
-    SigninService.authetication($scope.form, function sucess(/* params */) {
-      $window.location.href = '/main';
-      // $location.path("/main"); // path not hash
+    SigninService.authentication($scope.form, function success(result) {
+      if (result.data.authenticated === true) {
+        $window.location.href = '/main';
+      } else {
+        alert('Authentication Error');
+        $window.location.href = '/';
+        console.log('error');
+      }
     });
   };
 });

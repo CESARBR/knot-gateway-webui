@@ -6,11 +6,6 @@
         <input type="password" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
         <label for="inputGatewayPasswordConfirmation" class="sr-only">Confirmation</label>
         <input type="password" id="inputGatewayPasswordConfirmation" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation" required>
-        <label for="inputCurrentFirmware" class="sr-only">Current Firmeware</label>
-        <input type="text" name="inputCurrentFirmware" id="inputCurrentFirmware" class="form-control" readonly ng-model="form.currentFirmware" required>
-        <label for="inputCurrentFirmware" class="sr-only">Firmeware Update</label>
-        <input type="file" name="inputNewFirmware" id="inputNewFirmeware" ng-model="form.newFirmware" accept="bin">
-        <input type="hidden" id="hiddenFirmware" ng-model="form.newFirmware64Base">
         <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
     </form>
 </div>

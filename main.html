@@ -14,9 +14,18 @@
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
 
-
   <!-- Custom styles for this template -->
   <link href="css/main.css" rel="stylesheet">
+
+  <!-- Local CSS -->
+  <style>
+    .knot-logo {
+      float: left;
+      margin-right: 8px;
+      width: 40px;
+      height: 40px;
+    }
+  </style>
 </head>
 
 <body ng-app="app" ng-controller="mainController">
@@ -30,14 +39,13 @@
           <li role="presentation" ng-class="{active: activetab == '/devices'}"><a href="/devices">My Devices</a></li>
         </ul>
       </nav>
+      <img src="img/knot_logo.png" alt="Knot logo" class="knot-logo">
       <h3 class="text-muted">Knot Gateway</h3>
     </div>
-
     <div ng-view></div>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <script src="js/ngMask.min.js"></script>
-
     <script src="app.js"></script>
     <script src="controllers/controllers.js"></script>
     <script src="services/appService.js"></script>

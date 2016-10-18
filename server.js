@@ -28,9 +28,9 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
       localData.administration.sshKey = incomingData.sshKey;
     }
     else if (type == "net") {
-      
+
       localData.network.automaticIp = incomingData.automaticIp;
-      
+
       if (incomingData.automaticIp == false) {
         localData.network.ipaddress = incomingData.ipaddress;
         localData.network.defaultGateway = incomingData.defaultGateway;
@@ -46,6 +46,22 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
     fs.writeFile(configurationFile, JSON.stringify(localData), 'utf8', successCallback);
   });
 }
+function authenticate(incomingData, successCallback, errorCallback){
+  fs.readFile('gatewayConfig.json', 'utf8', function (err, data2) {
+      if (err)
+        errorCallback();
+
+      obj = JSON.parse(data2);
+
+      if (incomingData.user == obj.user.email && incomingData.password == obj.user.password){
+        successCallback();
+      }
+      else {
+        errorCallback();
+      }
+
+    })
+}
 
 serverConfig.use(express.static(__dirname + '/'));
 
@@ -59,37 +75,25 @@ serverConfig.get("/main", function (req, res) {
 });
 
 serverConfig.post("/user/authentication", function (req, res) {
-  //TODO
   var body = '';
   req.on('data', function (data) {
     body += data;
   });
 
   req.on('end', function () {
-    var jsonObj = JSON.parse(body);
-    authenticated = true;
-    /*   passport.use(new LocalStrategy(
-         function (username, password, done) {
-           User.findOne({ username: username }, function (err, user) {
-             if (err) { return done(err); }
-             if (!user) {
-               return done(null, false, { message: 'Incorrect username.' });
-             }
-             if (!user.validPassword(password)) {
-               return done(null, false, { message: 'Incorrect password.' });
-             }
-             return done(null, user);
-           });
-         }
-       )); */
-    res.end();
+    var reqObj = JSON.parse(body);
+    authenticate(reqObj, function(){
+      console.log("Authenticated");
+      res.setHeader('Content-Type', 'application/json');
+      res.send({ "authenticated" : true });
+    }, function(){
+      console.log("Failed");
+      res.setHeader('Content-Type', 'application/json');
+      res.send({ "authenticated" : false });
+    })
   });
-
-
-
-
-
 });
+
 
 serverConfig.post("/administration/save", function (req, res) {
 

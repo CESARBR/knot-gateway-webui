@@ -1,1 +1,3 @@
-{"administration":{"password":"123456","remoteSshPort":"50001","allowedPassword":true,"sshKey":"1234fghjk4567asdfg","firmware":{"name":"lastFile.bin","base64":""}},"network":{"automaticIp":true,"ipaddress":null,"defaultGateway":null,"networkMask":null}}
+{"administration":{"password":"123456","remoteSshPort":"50001","allowedPassword":true,"sshKey":"1234fghjk4567asdfg","firmware":{"name":"lastFile.bin","base64":""}},
+"network":{"automaticIp":true,"ipaddress":null,"defaultGateway":null,"networkMask":null},
+"user":{"email":"admin","password":"admin"}}

@@ -1,0 +1,27 @@
+<form name='myForm' ng-controller="devicesController" ng-submit="add()">
+	<table id="tDevices" ng-init="init()" style="width:100%">
+		<tr>
+			<th>Device Name</th>
+			<th>MAC Address</th>
+		</tr>
+		<tr ng-repeat="key in macAddresses.keys">
+			<td>{{ key.name }}</td><td>{{ key.mac }}</td>
+			<td>
+			<button class="btn btn-default" ng-click='remove(key)'>
+			<span class="glyphicon glyphicon-plus">Remove</span>
+			</button>
+			</td>
+		</tr>
+		<tr>
+			<td><input type="text" id="newkey" ng-model="form.name" placeholder="New name"  required></td>
+			<td><input type="text" id="newMac" ng-model="form.mac" name = 'newMac' placeholder="New MAC" ng-pattern="/^([0-9A-Fa-f]{2}[:-]){7}([0-9A-Fa-f]{2})/" required mask="%%:%%:%%:%%:%%:%%:%%:%%">
+			<br><span ng-show="myForm.newMac.$error.pattern" style="color:red">Invalid MAC</span>
+			</td>
+			<td>
+			<button ng-disabled="myForm.$invalid" class="btn btn-lg btn-primary btn-block" type="submit" ng-click="Submit">
+			<span class="glyphicon glyphicon-plus">Add</span>
+			</button>
+			</td>
+		</tr>
+	</table>
+</form>

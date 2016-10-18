@@ -1,6 +1,6 @@
 /*global angular*/
 
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ngMask']);
 
 app.config(function ($routeProvider, $locationProvider) {
   // Removes # from URL
@@ -29,6 +29,10 @@ app.config(function ($routeProvider, $locationProvider) {
     .when('/cloud', {
       templateUrl: 'views/cloud.html',
       controller: 'cloudController'
+    })
+    .when('/devices', {
+      templateUrl: 'views/devices.html',
+      controller: 'devicesController'
     });
     // .otherwise ({ redirectTo: '/main' });
 });

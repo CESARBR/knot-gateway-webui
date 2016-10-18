@@ -88,6 +88,53 @@ app.controller('networkController', function ($rootScope, $scope, $location, App
   };
 });
 
+app.controller('devicesController', function ($window, $rootScope, $scope, $location, AppService) {
+  var MAX_LENTGH = 5;
+
+  $rootScope.activetab = $location.path();
+
+  $scope.init = function () {
+    AppService.loadDevicesInfo(function success(result) {
+      $scope.macAddresses = result.data;
+    }, function error() {
+      console.log('Error loading devices');
+    });
+  };
+
+  $scope.add = function () {
+    var tmp;
+    if ($scope.macAddresses.keys.length === MAX_LENTGH) {
+      alert('No space left for new device');
+    } else {
+      tmp = $scope.macAddresses.keys.find(function (key) {
+        return key.mac === $scope.form.mac;
+      });
+      if (tmp !== undefined) {
+        alert('MAC already in use');
+      } else {
+        $scope.macAddresses.keys.push({ name: $scope.form.name, mac: $scope.form.mac });
+        AppService.saveDevicesInfo($scope.macAddresses, function success() {
+        }, function error() {
+          $scope.macAddresses.keys.pop();
+          console.log('Error on access to keys file');
+        });
+      }
+    }
+    $scope.form.name = null;
+    $scope.form.mac = null;
+  };
+
+  $scope.remove = function (key) {
+    var pos = $scope.macAddresses.keys.lastIndexOf(key);
+    var tmp = $scope.macAddresses.keys.splice(pos, 1);
+    AppService.saveDevicesInfo($scope.macAddresses, function success() {
+    }, function error() {
+      $scope.macAddresses.keys.splice(pos, 0, tmp);
+      console.log('Error on access to keys file');
+    });
+  };
+});
+
 app.controller('mainController', function ($rootScope, $location) {
   $rootScope.activetab = $location.path();
 });
@@ -99,3 +146,4 @@ app.controller('radioController', function ($rootScope, $location) {
 app.controller('cloudController', function ($rootScope, $location) {
   $rootScope.activetab = $location.path();
 });
+

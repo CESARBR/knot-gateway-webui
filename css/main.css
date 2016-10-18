@@ -149,3 +149,22 @@ div.jumbotron.cloud .btn {
     border-bottom: 0;
   }
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-spacing: 5px;
+}
+th, td {
+  padding: 7px;
+}
+tr:nth-child(even) {
+  background-color: #eee;
+}
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+thead, th {
+  color: gray;
+  background-color: #99ff99;
+}

@@ -6,6 +6,7 @@ var fs = require('fs');
 var port = process.env.PORT || 8080;
 var serverConfig = express();
 var configurationFile = 'gatewayConfig.json';
+var keysFile = 'keys.json';
 
 function writeFile(type, incomingData, successCallback, errorCallback) {
   fs.readFile(configurationFile, 'utf8', function (err, data) {
@@ -156,6 +157,41 @@ serverConfig.get('/network/info', function (req, res) {
     obj = JSON.parse(data);
     res.setHeader('Content-Type', 'application/json');
     res.send(obj.network);
+  });
+});
+
+serverConfig.post('/devices/save', function (req, res) {
+  var body = '';
+  var jsonObj;
+  req.on('data', function (data) {
+    body += data;
+  });
+
+  req.on('end', function () {
+    try {
+      jsonObj = JSON.parse(body);
+      fs.writeFile(keysFile, JSON.stringify(jsonObj), 'utf8', function (err) {
+        if (err) res.send(500);
+      });
+    } catch (e) {
+      res.send(400);
+    }
+    res.end();
+  });
+});
+
+serverConfig.get('/devices/info', function (req, res) {
+  var obj;
+  fs.readFile(keysFile, 'utf8', function (err, data) {
+    if (err) res.send(500);
+
+    try {
+      obj = JSON.parse(data);
+      res.setHeader('Content-Type', 'application/json');
+      res.send(obj);
+    } catch (e) {
+      res.send(500);
+    }
   });
 });
 

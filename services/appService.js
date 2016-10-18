@@ -1,6 +1,6 @@
 /*global app*/
 
-app.factory('SigninService', function ($http/*, $location, $window*/) {
+app.factory('SigninService', function ($http) {
   var signinFactory = {};
 
   signinFactory.authetication = function (userData, successCallback, errorCallback) {
@@ -13,11 +13,11 @@ app.factory('SigninService', function ($http/*, $location, $window*/) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
+
     }).then(function (response) {
       // this callback will be called asynchronously
       // when the response is available
       successCallback();
-
       console.log(response);
     }, function (response) {
       // called asynchronously if an error occurs
@@ -33,7 +33,7 @@ app.factory('SigninService', function ($http/*, $location, $window*/) {
   return signinFactory;
 });
 
-app.factory('AppService', function ($http/*, $location, $window*/) {
+app.factory('AppService', function ($http) {
   var factory = {};
 
   factory.saveAdmInfo = function (info, successCallback, errorCallback) {
@@ -46,15 +46,14 @@ app.factory('AppService', function ($http/*, $location, $window*/) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
+
     }).then(function (response) {
       successCallback();
-
       console.log(response);
     }, function (response) {
       if (errorCallback) {
         errorCallback();
       }
-
       console.log(response);
     });
   };
@@ -92,7 +91,6 @@ app.factory('AppService', function ($http/*, $location, $window*/) {
       }
     }).then(function (response) {
       successCallback();
-
       console.log(response);
     }, function (response) {
       if (errorCallback) {
@@ -112,7 +110,6 @@ app.factory('AppService', function ($http/*, $location, $window*/) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
-
     }).then(function (data/*, status, headers, config*/) {
       successCallback(data);
     }, function (response) {
@@ -120,6 +117,46 @@ app.factory('AppService', function ($http/*, $location, $window*/) {
         errorCallback();
       }
 
+      console.log(response);
+    });
+  };
+  factory.saveDevicesInfo = function (info, successCallback, errorCallback) {
+    $http({
+      method: 'POST',
+      url: '/devices/save',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function (response) {
+      successCallback();
+      console.log(response);
+    }, function (response) {
+      if (errorCallback) {
+        errorCallback();
+      }
+      console.log(response);
+    });
+  };
+
+  factory.loadDevicesInfo = function (successCallback, errorCallback) {
+    $http({
+      method: 'GET',
+      url: '/devices/info',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function (data) {
+      console.log(data);
+      successCallback(data);
+    }, function (response) {
+      if (errorCallback) {
+        errorCallback();
+      }
       console.log(response);
     });
   };

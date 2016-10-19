@@ -10,7 +10,7 @@
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
 
-  <title>Knot sign in</title>
+  <title>Knot Sign In</title>
 
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +18,7 @@
   <!-- Custom styles for this template -->
   <link href="css/signin.css" rel="stylesheet">
 
+  <!-- Local CSS -->
   <style>
     .btn-primary {
       width: 205px;
@@ -29,23 +30,64 @@
     .btn-primary:hover {
       background-color: #267a1a;
     }
+
+    .container {
+      width: 540px;
+      padding: 30px;
+      background-color: #eee;
+      border-radius: 2%;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .white-background {
+      background-color: white;
+    }
+
+    .banner {
+      color: #555;
+      font-size: 38px;
+      margin-bottom: 15px;
+      font-family: "Open Sans",arial;
+      font-weight: 400;
+    }
+
+    .small-font {
+      font-size: 18px;
+    }
+
+    .remember-me-checkbox {
+      font-size: 13px;
+      margin-top: 5px;
+      margin-left: 60px;
+    }
+
+    .round-image{
+      width: 60px;
+      border-radius: 100%;
+    }
   </style>
 </head>
 
-<body>
-  <div class="container">
+<body class="white-background">
+  <div align="center">
+    <img src="img/knot_logo_green_background.png" class="round-image" />
+    <h2 class="banner">KNoT Gateway</h2>
+  </div>
+  <div>
+    <h2 class="banner small-font" align="center" >Sign in to continue</h2>
+  </div>
+  <div align="center" class="container">
     <form class="form-signin" ng-controller="siginController" ng-submit="submitForm()">
-      <h2 class="form-signin-heading">Please sign in</h2>
-      <label for="inputEmail" class="sr-only">User Name</label>
-      <input type="text" id="inputEmail" class="form-control" placeholder="User Name" ng-model="form.user" required>
-      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="Username" ng-model="form.user" required>
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" value="remember-me" ng-model="form.rememberMe"> Remember me
-        </label>
-      </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <div class="checkbox">
+        <div align="left" class="remember-me-checkbox">
+          <input type="checkbox" class="custom-control-input">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Remember me</span>
+        </div>
+      </div>
     </form>
   </div>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>

@@ -6,7 +6,6 @@ var localStrategy = require('passport-local').Strategy;
 var configurationFile = 'gatewayConfig.json';
 
 function writeFile(type, incomingData, successCallback, errorCallback) {
-
   fs.readFile(configurationFile, 'utf8', function (err, data) {
     if (err)
       errorCallback(err);
@@ -28,9 +27,8 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
       localData.administration.sshKey = incomingData.sshKey;
     }
     else if (type == "net") {
-      
       localData.network.automaticIp = incomingData.automaticIp;
-      
+
       if (incomingData.automaticIp == false) {
         localData.network.ipaddress = incomingData.ipaddress;
         localData.network.defaultGateway = incomingData.defaultGateway;
@@ -84,15 +82,9 @@ serverConfig.post("/user/authentication", function (req, res) {
        )); */
     res.end();
   });
-
-
-
-
-
 });
 
 serverConfig.post("/administration/save", function (req, res) {
-
   var body = '';
   req.on('data', function (data) {
     body += data;
@@ -130,9 +122,7 @@ serverConfig.get("/administration/info", function (req, res) {
   });
 });
 
-
 serverConfig.post("/network/save", function (req, res) {
-
   var body = '';
   req.on('data', function (data) {
     body += data;
@@ -160,7 +150,6 @@ serverConfig.get("/network/info", function (req, res) {
     res.send(obj.network);
   });
 });
-
 
 var port = process.env.PORT || 8080;
 serverConfig.listen(port, function () {

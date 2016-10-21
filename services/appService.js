@@ -1,131 +1,119 @@
 app.factory('SigninService', function ($http, $location, $window) {
-    var signinFactory = {};
+  var signinFactory = {};
 
-    signinFactory.authetication = function (userData, successCallback, errorCallback) {
-        $http({
-            method: 'POST',
-            url: '/user/authentication',
-            data: userData,
-            config: {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
+  signinFactory.authetication = function (userData, successCallback, errorCallback) {
+    $http({
+      method: 'POST',
+      url: '/user/authentication',
+      data: userData,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function (response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      successCallback();
 
-        }).then(function (response) {
-            // this callback will be called asynchronously
-            // when the response is available
-            successCallback();
-            
-            console.log(response);
+      console.log(response);
+    }, function (response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      if (errorCallback)
+        errorCallback();
 
-        }, function (response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            if (errorCallback)
-                errorCallback();
-            
-            console.log(response);
-        });
-    }
+      console.log(response);
+    });
+  }
 
-    return signinFactory;
-}); 
+  return signinFactory;
+});
 
 app.factory('AppService', function ($http, $location, $window) {
-    var factory = {};
+  var factory = {};
 
-    factory.saveAdmInfo = function (info, successCallback, errorCallback) {
-        $http({
-            method: 'POST',
-            url: '/administration/save',
-            data: info,
-            config: {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
+  factory.saveAdmInfo = function (info, successCallback, errorCallback) {
+    $http({
+      method: 'POST',
+      url: '/administration/save',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function (response) {
+      successCallback();
 
-        }).then(function (response) {
-            successCallback();
-            
-            console.log(response);
+      console.log(response);
+    }, function (response) {
+      if (errorCallback)
+        errorCallback();
 
-        }, function (response) {
+      console.log(response);
+    });
+  }
 
-            if (errorCallback)
-                errorCallback();
-            
-            console.log(response);
-        });
-    }
+  factory.loadAdmInfo = function (successCallback, errorCallback) {
+    $http({
+      method: 'GET',
+      url: '/administration/info',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
 
-   factory.loadAdmInfo = function (successCallback, errorCallback) {
-        $http({
-            method: 'GET',
-            url: '/administration/info',
-            config: {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
+    }).then(function (data, status, headers, config) {
+      successCallback(data);
+    }, function (response) {
+      if (errorCallback)
+        errorCallback();
+      console.log(response);
+    });
+  }
 
-        }).then(function(data, status, headers, config) {
-            successCallback(data);
-        }, function (response) {
+  factory.saveNetworkInfo = function (info, successCallback, errorCallback) {
+    $http({
+      method: 'POST',
+      url: '/network/save',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function (response) {
+      successCallback();
 
-            if (errorCallback)
-                errorCallback();
-            console.log(response);
-        });
-    }
+      console.log(response);
+    }, function (response) {
+      if (errorCallback)
+        errorCallback();
 
-    factory.saveNetworkInfo = function (info, successCallback, errorCallback) {
-        $http({
-            method: 'POST',
-            url: '/network/save',
-            data: info,
-            config: {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
+      console.log(response);
+    });
+  }
 
-        }).then(function (response) {
-            successCallback();
-            
-            console.log(response);
+  factory.loadNetworkInfo = function (successCallback, errorCallback) {
+    $http({
+      method: 'GET',
+      url: '/network/info',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
 
-        }, function (response) {
+    }).then(function (data, status, headers, config) {
+      successCallback(data);
+    }, function (response) {
+      if (errorCallback)
+        errorCallback();
+      console.log(response);
+    });
+  }
 
-            if (errorCallback)
-                errorCallback();
-            
-            console.log(response);
-        });
-    }
-
-   factory.loadNetworkInfo = function (successCallback, errorCallback) {
-        $http({
-            method: 'GET',
-            url: '/network/info',
-            config: {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            }
-
-        }).then(function(data, status, headers, config) {
-            successCallback(data);
-        }, function (response) {
-
-            if (errorCallback)
-                errorCallback();
-            console.log(response);
-        });
-    }
-
-    return factory;
-
-}); 
-
+  return factory;
+});

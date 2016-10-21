@@ -1,11 +1,11 @@
-<div class="jumbotron administration"  ng-controller="admController">
-    <form class="form-administration" ng-submit="save()" ng-init="init()">
-        <h2 class="form-signin-heading">Administration</h2>
-
-        <label for="inputGatewayPassword" class="sr-only">Password</label>
-        <input type="password" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
-        <label for="inputGatewayPasswordConfirmation" class="sr-only">Confirmation</label>
-        <input type="password" id="inputGatewayPasswordConfirmation" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
-    </form>
+<div class="jumbotron administration" ng-controller="admController">
+	<form class="form-administration" ng-submit="save()" ng-init="init()">
+		<h2 class="form-signin-heading">Administration</h2>
+		<label for="inputGatewayPassword" class="sr-only">Password</label>
+		<input type="password" id="inputGatewayPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
+		<label for="inputGatewayPasswordConfirmation" class="sr-only">Confirmation</label>
+		<input type="password" id="inputGatewayPasswordConfirmation" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation"
+			required>
+		<button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+	</form>
 </div>

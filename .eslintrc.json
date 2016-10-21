@@ -1,0 +1,9 @@
+{
+  // ES5
+  "extends": "airbnb/legacy",
+  "rules": {
+    // It is a common practice in AngularJS code, leave it as a warning
+    "no-param-reassign": 1,
+    "spaced-comment": ["error", "always", { "markers": ["global", ","]}]
+  }
+}

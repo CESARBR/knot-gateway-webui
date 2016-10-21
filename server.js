@@ -1,18 +1,23 @@
-var express = require("express");
+var express = require('express');
 var fs = require('fs');
-var passport = require('passport');
+// var passport = require('passport');
+// var localStrategy = require('passport-local').Strategy;
+
+var port = process.env.PORT || 8080;
 var serverConfig = express();
-var localStrategy = require('passport-local').Strategy;
 var configurationFile = 'gatewayConfig.json';
 
 function writeFile(type, incomingData, successCallback, errorCallback) {
   fs.readFile(configurationFile, 'utf8', function (err, data) {
-    if (err)
+    var localData;
+
+    if (err) {
       errorCallback(err);
+    }
 
-    var localData = JSON.parse(data);
+    localData = JSON.parse(data);
 
-    if (type == "adm") {
+    if (type === 'adm') {
       if (incomingData.password) {
         localData.administration.password = incomingData.password;
       }
@@ -25,19 +30,17 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
       localData.administration.remoteSshPort = incomingData.remoteSshPort;
       localData.administration.allowedPassword = incomingData.allowedPassword;
       localData.administration.sshKey = incomingData.sshKey;
-    }
-    else if (type == "net") {
+    } else if (type === 'net') {
       localData.network.automaticIp = incomingData.automaticIp;
 
-      if (incomingData.automaticIp == false) {
+      if (!incomingData.automaticIp) {
         localData.network.ipaddress = incomingData.ipaddress;
         localData.network.defaultGateway = incomingData.defaultGateway;
         localData.network.networkMask = incomingData.networkMask;
-      }
-      else {
-        localData.network.ipaddress = "";
-        localData.network.defaultGateway = "";
-        localData.network.networkMask = "";
+      } else {
+        localData.network.ipaddress = '';
+        localData.network.defaultGateway = '';
+        localData.network.networkMask = '';
       }
     }
 
@@ -45,27 +48,27 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
   });
 }
 
-serverConfig.use(express.static(__dirname + '/'));
+serverConfig.use(express.static(__dirname + '/')); // eslint-disable-line no-path-concat
 
 /* serves main page */
-serverConfig.get("/", function (req, res) {
+serverConfig.get('/', function (req, res) {
   res.sendfile('signin.html');
 });
 
-serverConfig.get("/main", function (req, res) {
+serverConfig.get('/main', function (req, res) {
   res.sendfile('main.html');
 });
 
-serverConfig.post("/user/authentication", function (req, res) {
-  //TODO
-  var body = '';
-  req.on('data', function (data) {
-    body += data;
+serverConfig.post('/user/authentication', function (req, res) {
+  // TODO
+  // var body = '';
+  req.on('data', function (/* data */) {
+    // body += data;
   });
 
   req.on('end', function () {
-    var jsonObj = JSON.parse(body);
-    authenticated = true;
+    // var jsonObj = JSON.parse(body);
+    // authenticated = true;
     /*   passport.use(new LocalStrategy(
          function (username, password, done) {
            User.findOne({ username: username }, function (err, user) {
@@ -84,7 +87,7 @@ serverConfig.post("/user/authentication", function (req, res) {
   });
 });
 
-serverConfig.post("/administration/save", function (req, res) {
+serverConfig.post('/administration/save', function (req, res) {
   var body = '';
   req.on('data', function (data) {
     body += data;
@@ -92,8 +95,8 @@ serverConfig.post("/administration/save", function (req, res) {
 
   req.on('end', function () {
     var jsonObj = JSON.parse(body);
-    writeFile("adm", jsonObj, function () {
-      console.log("success");
+    writeFile('adm', jsonObj, function () {
+      console.log('success');
     }, function (error) {
       console.log(error);
     });
@@ -102,27 +105,30 @@ serverConfig.post("/administration/save", function (req, res) {
   });
 });
 
-serverConfig.get("/administration/info", function (req, res) {
+serverConfig.get('/administration/info', function (req, res) {
   var obj;
   fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
-    if (err)
+    var admObject;
+
+    if (err) {
       throw err;
+    }
 
     obj = JSON.parse(data);
 
-    var admObject = {
-      "password": "xxxxxxxxxx",
-      "remoteSshPort": obj.administration.remoteSshPort,
-      "allowedPassword": obj.administration.allowedPassword,
-      "sshKey": obj.administration.sshKey,
-      "firmware": obj.administration.firmware.name
-    }
+    admObject = {
+      password: 'xxxxxxxxxx',
+      remoteSshPort: obj.administration.remoteSshPort,
+      allowedPassword: obj.administration.allowedPassword,
+      sshKey: obj.administration.sshKey,
+      firmware: obj.administration.firmware.name
+    };
     res.setHeader('Content-Type', 'application/json');
     res.send(admObject);
   });
 });
 
-serverConfig.post("/network/save", function (req, res) {
+serverConfig.post('/network/save', function (req, res) {
   var body = '';
   req.on('data', function (data) {
     body += data;
@@ -130,8 +136,8 @@ serverConfig.post("/network/save", function (req, res) {
 
   req.on('end', function () {
     var jsonObj = JSON.parse(body);
-    writeFile("net", jsonObj, function () {
-      console.log("success");
+    writeFile('net', jsonObj, function () {
+      console.log('success');
     }, function (error) {
       console.log(error);
     });
@@ -140,18 +146,19 @@ serverConfig.post("/network/save", function (req, res) {
   });
 });
 
-serverConfig.get("/network/info", function (req, res) {
+serverConfig.get('/network/info', function (req, res) {
   var obj;
   fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
-    if (err)
+    if (err) {
       throw err;
+    }
+
     obj = JSON.parse(data);
     res.setHeader('Content-Type', 'application/json');
     res.send(obj.network);
   });
 });
 
-var port = process.env.PORT || 8080;
 serverConfig.listen(port, function () {
-  console.log("Listening on " + port);
+  console.log('Listening on ' + port);
 });

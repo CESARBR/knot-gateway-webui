@@ -1,4 +1,6 @@
-app.factory('SigninService', function ($http, $location, $window) {
+/*global app*/
+
+app.factory('SigninService', function ($http/*, $location, $window*/) {
   var signinFactory = {};
 
   signinFactory.authetication = function (userData, successCallback, errorCallback) {
@@ -20,17 +22,18 @@ app.factory('SigninService', function ($http, $location, $window) {
     }, function (response) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
-      if (errorCallback)
+      if (errorCallback) {
         errorCallback();
+      }
 
       console.log(response);
     });
-  }
+  };
 
   return signinFactory;
 });
 
-app.factory('AppService', function ($http, $location, $window) {
+app.factory('AppService', function ($http/*, $location, $window*/) {
   var factory = {};
 
   factory.saveAdmInfo = function (info, successCallback, errorCallback) {
@@ -48,12 +51,13 @@ app.factory('AppService', function ($http, $location, $window) {
 
       console.log(response);
     }, function (response) {
-      if (errorCallback)
+      if (errorCallback) {
         errorCallback();
+      }
 
       console.log(response);
     });
-  }
+  };
 
   factory.loadAdmInfo = function (successCallback, errorCallback) {
     $http({
@@ -65,14 +69,16 @@ app.factory('AppService', function ($http, $location, $window) {
         }
       }
 
-    }).then(function (data, status, headers, config) {
+    }).then(function (data/*, status, headers, config*/) {
       successCallback(data);
     }, function (response) {
-      if (errorCallback)
+      if (errorCallback) {
         errorCallback();
+      }
+
       console.log(response);
     });
-  }
+  };
 
   factory.saveNetworkInfo = function (info, successCallback, errorCallback) {
     $http({
@@ -89,12 +95,13 @@ app.factory('AppService', function ($http, $location, $window) {
 
       console.log(response);
     }, function (response) {
-      if (errorCallback)
+      if (errorCallback) {
         errorCallback();
+      }
 
       console.log(response);
     });
-  }
+  };
 
   factory.loadNetworkInfo = function (successCallback, errorCallback) {
     $http({
@@ -106,14 +113,16 @@ app.factory('AppService', function ($http, $location, $window) {
         }
       }
 
-    }).then(function (data, status, headers, config) {
+    }).then(function (data/*, status, headers, config*/) {
       successCallback(data);
     }, function (response) {
-      if (errorCallback)
+      if (errorCallback) {
         errorCallback();
+      }
+
       console.log(response);
     });
-  }
+  };
 
   return factory;
 });

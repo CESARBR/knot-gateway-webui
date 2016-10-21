@@ -1,9 +1,11 @@
+/*global angular*/
+
 var app = angular.module('app', ['ngRoute']);
 
 app.config(function ($routeProvider, $locationProvider) {
-  // remove o # da url
-  $locationProvider.html5Mode(true)
-  $routeProvide
+  // Removes # from URL
+  $locationProvider.html5Mode(true);
+  $routeProvider
     .when('/signin', {
       templateUrl: 'signin.html',
       controller: 'siginController'
@@ -27,6 +29,6 @@ app.config(function ($routeProvider, $locationProvider) {
     .when('/cloud', {
       templateUrl: 'views/cloud.html',
       controller: 'cloudController'
-    })
-    //.otherwise ({ redirectTo: '/main' });
+    });
+    // .otherwise ({ redirectTo: '/main' });
 });

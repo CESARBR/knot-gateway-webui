@@ -2,46 +2,46 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-	<title>Knot Gateway</title>
+  <title>Knot Gateway</title>
 
-	<!-- Bootstrap core CSS -->
-	<link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
-	<!-- Custom styles for this template -->
-	<link href="css/main.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body ng-app="app" ng-controller="mainController">
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation" ng-class="{active: activetab == '/administration'}"><a href="/administration">Administration</a></li>
+          <li role="presentation" ng-class="{active: activetab == '/radio'}"><a href="/radio">Radio Interface</a></li>
+          <li role="presentation" ng-class="{active: activetab == '/cloud'}"><a href="/cloud">Cloud Settings</a></li>
+          <li role="presentation" ng-class="{active: activetab == '/devices'}"><a href="/devices">My Devices</a></li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Knot Gateway</h3>
+    </div>
 
-	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
-					<li role="presentation" ng-class="{active: activetab == '/administration'}"><a href="/administration">Administration</a></li>
-					<li role="presentation" ng-class="{active: activetab == '/radio'}"><a href="/radio">Radio Interface</a></li>
-					<li role="presentation" ng-class="{active: activetab == '/cloud'}"><a href="/cloud">Cloud Settings</a></li>
-					<li role="presentation" ng-class="{active: activetab == '/devices'}"><a href="/devices">My Devices</a></li>
-				</ul>
-			</nav>
-			<h3 class="text-muted">Knot Gateway</h3>
-		</div>
+    <div ng-view></div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <script src="js/ngMask.min.js"></script>
 
-		<div ng-view></div>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-		<script src="js/ngMask.min.js"></script>
-
-		<script src="app.js"></script>
-		<script src="controllers/controllers.js"></script>
-		<script src="services/appService.js"></script>
-	</div>
+    <script src="app.js"></script>
+    <script src="controllers/controllers.js"></script>
+    <script src="services/appService.js"></script>
+  </div>
 </body>
+
 </html>

@@ -1,23 +1,23 @@
 <div class="jumbotron radio">
-	<form class="form-radio" ng-controller="radioController" ng-submit="save()">
-		<h2 class="form-signin-heading">Radio Interface</h2>
-		<label class="sr-only" for="rdnRF24L01">
+  <form class="form-radio" ng-controller="radioController" ng-submit="save()">
+    <h2 class="form-signin-heading">Radio Interface</h2>
+    <label class="sr-only" for="rdnRF24L01">
       <input type="checkbox" name="rdnRF24L01" value="nRF24L01 Interface" checked>
       nRF24L01 Interface
     </label>
 
-		<label class="sr-only" for="channel">Channel</label>
-		<input type="number" name="channel" min="10" max="116" step="2" value="10">
-		<label class="sr-only" for="powerRating">Power Rating</label>
-		<input type="number" name="powerRating" min="-18" max="0" step="6" value="-18">
-		<label class="sr-only" for="attempt">Attempt</label>
-		<input type="number" name="attempt" min="0" max="15" step="1" value="0">
-		<label class="sr-only" for="security">Security </label>
-		<select name="security">
+    <label class="sr-only" for="channel">Channel</label>
+    <input type="number" name="channel" min="10" max="116" step="2" value="10">
+    <label class="sr-only" for="powerRating">Power Rating</label>
+    <input type="number" name="powerRating" min="-18" max="0" step="6" value="-18">
+    <label class="sr-only" for="attempt">Attempt</label>
+    <input type="number" name="attempt" min="0" max="15" step="1" value="0">
+    <label class="sr-only" for="security">Security </label>
+    <select name="security">
       <option value="Diffie-Hellman">Diffie-Hellman</option>
     </select>
-		<label for="key" class="sr-only">Key</label>
-		<input type="text" id="key" class="form-control" placeholder="key" required>
-		<button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
-	</form>
+    <label for="key" class="sr-only">Key</label>
+    <input type="text" id="key" class="form-control" placeholder="key" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+  </form>
 </div>

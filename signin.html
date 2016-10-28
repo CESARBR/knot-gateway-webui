@@ -2,45 +2,44 @@
 <html lang="en" ng-app="app">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="../../favicon.ico">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
 
-	<title>Knot sign in</title>
+  <title>Knot sign in</title>
 
-	<!-- Bootstrap core CSS -->
-	<link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom styles for this template -->
-	<link href="css/signin.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/signin.css" rel="stylesheet">
 </head>
 
 <body>
-	<div class="container">
-		<form class="form-signin" ng-controller="siginController" ng-submit="submitForm()">
-			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">User Name</label>
-			<input type="text" id="inputEmail" class="form-control" placeholder="User Name" ng-model="form.user" required>
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
-			<div class="checkbox">
-				<label>
+  <div class="container">
+    <form class="form-signin" ng-controller="siginController" ng-submit="submitForm()">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <label for="inputEmail" class="sr-only">User Name</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="User Name" ng-model="form.user" required>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
+      <div class="checkbox">
+        <label>
           <input type="checkbox" value="remember-me" ng-model="form.rememberMe"> Remember me
         </label>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-		</form>
-
-	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-	<script src="js/ngMask.min.js"></script>
-	<script src="app.js"></script>
-	<script src="services/appService.js"></script>
-	<script src="controllers/signin.js"></script>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+  <script src="js/ngMask.min.js"></script>
+  <script src="app.js"></script>
+  <script src="services/appService.js"></script>
+  <script src="controllers/signin.js"></script>
 </body>
 </html>

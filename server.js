@@ -1,72 +1,27 @@
 var express = require('express');
-var fs = require('fs');
 // var passport = require('passport');
 // var localStrategy = require('passport-local').Strategy;
 
+var users = require('./models/users');
+var devices = require('./models/devices');
+var settings = require('./models/settings');
+
 var publicRoot = __dirname + '/'; // eslint-disable-line no-path-concat
 var port = process.env.PORT || 8080;
+
 var serverConfig = express();
-var configurationFile = process.env.CONFIG_FILE || '/etc/knot/gatewayConfig.json';
-var keysFile = process.env.KEYS_FILE || '/etc/knot/keys.json';
 
-function writeFile(type, incomingData, done) {
-  fs.readFile(configurationFile, 'utf8', function onRead(err, data) {
-    var localData;
-
+function authenticate(incomingData, successCallback, errorCallback) {
+  users.get(function onUserReturned(err, user) {
     if (err) {
-      done(err);
+      errorCallback(500);
       return;
     }
 
-    localData = JSON.parse(data);
-
-    if (type === 'adm') {
-      if (incomingData.password) {
-        localData.administration.password = incomingData.password;
-      }
-
-      if (incomingData.firmware && incomingData.firmware.name && incomingData.firmware.base64) {
-        localData.administration.firmware.name = incomingData.firmware.name;
-        localData.administration.firmware.base64 = incomingData.firmware.base64;
-      }
-
-      localData.administration.remoteSshPort = incomingData.remoteSshPort;
-      localData.administration.allowedPassword = incomingData.allowedPassword;
-      localData.administration.sshKey = incomingData.sshKey;
-    } else if (type === 'net') {
-      localData.network.automaticIp = incomingData.automaticIp;
-
-      if (!incomingData.automaticIp) {
-        localData.network.ipaddress = incomingData.ipaddress;
-        localData.network.defaultGateway = incomingData.defaultGateway;
-        localData.network.networkMask = incomingData.networkMask;
-      } else {
-        localData.network.ipaddress = '';
-        localData.network.defaultGateway = '';
-        localData.network.networkMask = '';
-      }
-    }
-
-    fs.writeFile(configurationFile, JSON.stringify(localData), 'utf8', done);
-  });
-}
-
-function authenticate(incomingData, successCallback, errorCallback) {
-  var obj;
-  fs.readFile(configurationFile, 'utf8', function (err, data) {
-    if (err) {
-      errorCallback(500);
-    }
-    try {
-      obj = JSON.parse(data);
-      if (incomingData.username === obj.user.username &&
-                                 incomingData.password === obj.user.password) {
-        successCallback();
-      } else {
-        errorCallback('login error');
-      }
-    } catch (e) {
-      errorCallback(e);
+    if (incomingData.username === user.username && incomingData.password === user.password) {
+      successCallback();
+    } else {
+      errorCallback('login error');
     }
   });
 }
@@ -115,107 +70,93 @@ serverConfig.post('/user/authentication', function (req, res) {
 
 serverConfig.post('/administration/save', function (req, res) {
   var body = '';
-  req.on('data', function (data) {
+  var obj;
+  req.on('data', function onData(data) {
     body += data;
   });
 
-  req.on('end', function () {
-    var jsonObj = JSON.parse(body);
-    writeFile('adm', jsonObj, function (err) {
-      if (err) {
-        console.log(err);
-      }
-    });
-
-    res.end();
+  req.on('end', function onEnd() {
+    try {
+      obj = JSON.parse(body);
+      settings.setAdministrationSettings(obj, function onAdministrationSettingsSet(err) {
+        if (err) res.send(500);
+        else res.end();
+      });
+    } catch (e) {
+      res.send(500);
+    }
   });
 });
 
 serverConfig.get('/administration/info', function (req, res) {
-  var obj;
-  fs.readFile(configurationFile, 'utf8', function (err, data) {
-    var admObject;
-
+  settings.getAdministrationSettings(function onAdministrationSettingsReturned(err, admSettings) {
     if (err) {
-      throw err;
+      res.send(500);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(admSettings);
     }
-
-    obj = JSON.parse(data);
-
-    admObject = {
-      password: 'xxxxxxxxxx',
-      remoteSshPort: obj.administration.remoteSshPort,
-      allowedPassword: obj.administration.allowedPassword,
-      sshKey: obj.administration.sshKey,
-      firmware: obj.administration.firmware.name
-    };
-    res.setHeader('Content-Type', 'application/json');
-    res.send(admObject);
   });
 });
 
 serverConfig.post('/network/save', function (req, res) {
   var body = '';
-  req.on('data', function (data) {
+  var obj;
+  req.on('data', function onData(data) {
     body += data;
   });
 
-  req.on('end', function () {
-    var jsonObj = JSON.parse(body);
-    writeFile('net', jsonObj, function (err) {
-      if (err) {
-        console.log(err);
-      }
-    });
-
-    res.end();
+  req.on('end', function onEnd() {
+    try {
+      obj = JSON.parse(body);
+      settings.setNetworkSettings(obj, function onNetworkSettingsSet(err) {
+        if (err) res.send(500);
+        else res.end();
+      });
+    } catch (e) {
+      res.send(500);
+    }
   });
 });
 
 serverConfig.get('/network/info', function (req, res) {
-  var obj;
-  fs.readFile(configurationFile, 'utf8', function (err, data) {
+  settings.getNetworkSettings(function onNetworkSettingsReturned(err, netSettings) {
     if (err) {
-      throw err;
+      res.send(500);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(netSettings);
     }
-
-    obj = JSON.parse(data);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(obj.network);
   });
 });
 
 serverConfig.post('/devices/save', function (req, res) {
   var body = '';
-  var jsonObj;
-  req.on('data', function (data) {
+  var obj;
+  req.on('data', function onData(data) {
     body += data;
   });
 
-  req.on('end', function () {
+  req.on('end', function onEnd() {
     try {
-      jsonObj = JSON.parse(body);
-      fs.writeFile(keysFile, JSON.stringify(jsonObj), 'utf8', function (err) {
+      obj = JSON.parse(body);
+      devices.createOrUpdate(obj, function onDevicesCreated(err) {
         if (err) res.sendStatus(500);
+        else res.end();
       });
     } catch (e) {
-      res.sendStatus(400);
+      res.sendStatus(500);
     }
-    res.end();
   });
 });
 
 serverConfig.get('/devices/info', function (req, res) {
-  var obj;
-  fs.readFile(keysFile, 'utf8', function (err, data) {
-    if (err) res.sendStatus(500);
-
-    try {
-      obj = JSON.parse(data);
-      res.setHeader('Content-Type', 'application/json');
-      res.send(obj);
-    } catch (e) {
+  devices.all(function onDevicesReturned(err, deviceList) {
+    if (err) {
       res.sendStatus(500);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(deviceList);
     }
   });
 });

@@ -9,12 +9,13 @@ var serverConfig = express();
 var configurationFile = 'gatewayConfig.json';
 var keysFile = 'keys.json';
 
-function writeFile(type, incomingData, successCallback, errorCallback) {
-  fs.readFile(configurationFile, 'utf8', function (err, data) {
+function writeFile(type, incomingData, done) {
+  fs.readFile(configurationFile, 'utf8', function onRead(err, data) {
     var localData;
 
     if (err) {
-      errorCallback(err);
+      done(err);
+      return;
     }
 
     localData = JSON.parse(data);
@@ -46,7 +47,7 @@ function writeFile(type, incomingData, successCallback, errorCallback) {
       }
     }
 
-    fs.writeFile(configurationFile, JSON.stringify(localData), 'utf8', successCallback);
+    fs.writeFile(configurationFile, JSON.stringify(localData), 'utf8', done);
   });
 }
 
@@ -120,10 +121,10 @@ serverConfig.post('/administration/save', function (req, res) {
 
   req.on('end', function () {
     var jsonObj = JSON.parse(body);
-    writeFile('adm', jsonObj, function () {
-      console.log('success');
-    }, function (error) {
-      console.log(error);
+    writeFile('adm', jsonObj, function (err) {
+      if (err) {
+        console.log(err);
+      }
     });
 
     res.end();
@@ -161,10 +162,10 @@ serverConfig.post('/network/save', function (req, res) {
 
   req.on('end', function () {
     var jsonObj = JSON.parse(body);
-    writeFile('net', jsonObj, function () {
-      console.log('success');
-    }, function (error) {
-      console.log(error);
+    writeFile('net', jsonObj, function (err) {
+      if (err) {
+        console.log(err);
+      }
     });
 
     res.end();

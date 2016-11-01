@@ -3,6 +3,7 @@ var fs = require('fs');
 // var passport = require('passport');
 // var localStrategy = require('passport-local').Strategy;
 
+var publicRoot = __dirname + '/'; // eslint-disable-line no-path-concat
 var port = process.env.PORT || 8080;
 var serverConfig = express();
 var configurationFile = 'gatewayConfig.json';
@@ -69,15 +70,15 @@ function authenticate(incomingData, successCallback, errorCallback) {
   });
 }
 
-serverConfig.use(express.static(__dirname + '/')); // eslint-disable-line no-path-concat
+serverConfig.use(express.static(publicRoot));
 
 /* serves main page */
 serverConfig.get('/', function (req, res) {
-  res.sendfile('signin.html');
+  res.sendFile('signin.html', { root: publicRoot });
 });
 
 serverConfig.get('/main', function (req, res) {
-  res.sendfile('main.html');
+  res.sendFile('main.html', { root: publicRoot });
 });
 
 serverConfig.post('/user/authentication', function (req, res) {
@@ -100,13 +101,13 @@ serverConfig.post('/user/authentication', function (req, res) {
           res.setHeader('Content-Type', 'application/json');
           res.send({ authenticated: false });
         } else if (err === 500) {
-          res.send(500);
+          res.sendStatus(500);
         } else {
-          res.send(400);
+          res.sendStatus(400);
         }
       });
     } catch (e) {
-      res.send(400);
+      res.sendStatus(400);
     }
   });
 });
@@ -194,10 +195,10 @@ serverConfig.post('/devices/save', function (req, res) {
     try {
       jsonObj = JSON.parse(body);
       fs.writeFile(keysFile, JSON.stringify(jsonObj), 'utf8', function (err) {
-        if (err) res.send(500);
+        if (err) res.sendStatus(500);
       });
     } catch (e) {
-      res.send(400);
+      res.sendStatus(400);
     }
     res.end();
   });
@@ -206,14 +207,14 @@ serverConfig.post('/devices/save', function (req, res) {
 serverConfig.get('/devices/info', function (req, res) {
   var obj;
   fs.readFile(keysFile, 'utf8', function (err, data) {
-    if (err) res.send(500);
+    if (err) res.sendStatus(500);
 
     try {
       obj = JSON.parse(data);
       res.setHeader('Content-Type', 'application/json');
       res.send(obj);
     } catch (e) {
-      res.send(500);
+      res.sendStatus(500);
     }
   });
 });

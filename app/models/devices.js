@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var DEVICES_FILE = require('../config/config').DEVICES_FILE;
+var DEVICES_FILE = require('../config').DEVICES_FILE;
 
 var all = function all(done) {
   fs.readFile(DEVICES_FILE, 'utf8', function onRead(err, data) {

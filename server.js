@@ -1,11 +1,11 @@
 var express = require('express');
 
-var authRoute = require('./routes/auth');
-var admRoute = require('./routes/administration');
-var networkRoute = require('./routes/network');
-var devicesRoute = require('./routes/devices');
+var authRoute = require('./app/routes/auth');
+var admRoute = require('./app/routes/administration');
+var networkRoute = require('./app/routes/network');
+var devicesRoute = require('./app/routes/devices');
 
-var publicRoot = __dirname + '/'; // eslint-disable-line no-path-concat
+var publicRoot = __dirname + '/public/'; // eslint-disable-line no-path-concat
 var port = process.env.PORT || 8080;
 
 var serverConfig = express();

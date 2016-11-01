@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var CONFIGURATION_FILE = require('../config/config').CONFIGURATION_FILE;
+var CONFIGURATION_FILE = require('../config').CONFIGURATION_FILE;
 
 var get = function get(done) {
   fs.readFile(CONFIGURATION_FILE, 'utf8', function (err, data) {

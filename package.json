@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "CONFIG_FILE=./config/gatewayConfig.json KEYS_FILE=./config/keys.json node server.js",
+    "start": "CONFIG_FILE=./app/config/gatewayConfig.json KEYS_FILE=./app/config/keys.json node server.js",
     "lint": "eslint *.js **/*.js"
   },
   "author": "",

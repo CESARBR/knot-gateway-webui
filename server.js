@@ -6,8 +6,8 @@ var fs = require('fs');
 var publicRoot = __dirname + '/'; // eslint-disable-line no-path-concat
 var port = process.env.PORT || 8080;
 var serverConfig = express();
-var configurationFile = 'gatewayConfig.json';
-var keysFile = 'keys.json';
+var configurationFile = process.env.CONFIG_FILE || '/etc/knot/gatewayConfig.json';
+var keysFile = process.env.KEYS_FILE || '/etc/knot/keys.json';
 
 function writeFile(type, incomingData, done) {
   fs.readFile(configurationFile, 'utf8', function onRead(err, data) {
@@ -53,7 +53,7 @@ function writeFile(type, incomingData, done) {
 
 function authenticate(incomingData, successCallback, errorCallback) {
   var obj;
-  fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
+  fs.readFile(configurationFile, 'utf8', function (err, data) {
     if (err) {
       errorCallback(500);
     }
@@ -133,7 +133,7 @@ serverConfig.post('/administration/save', function (req, res) {
 
 serverConfig.get('/administration/info', function (req, res) {
   var obj;
-  fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
+  fs.readFile(configurationFile, 'utf8', function (err, data) {
     var admObject;
 
     if (err) {
@@ -174,7 +174,7 @@ serverConfig.post('/network/save', function (req, res) {
 
 serverConfig.get('/network/info', function (req, res) {
   var obj;
-  fs.readFile('gatewayConfig.json', 'utf8', function (err, data) {
+  fs.readFile(configurationFile, 'utf8', function (err, data) {
     if (err) {
       throw err;
     }

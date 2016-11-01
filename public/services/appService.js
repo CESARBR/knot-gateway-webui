@@ -6,7 +6,7 @@ app.factory('SigninService', function ($http) {
   signinFactory.authentication = function (userData, successCallback, errorCallback) {
     $http({
       method: 'POST',
-      url: '/user/authentication',
+      url: '/auth',
       data: userData,
       config: {
         headers: {
@@ -38,7 +38,7 @@ app.factory('AppService', function ($http) {
   factory.saveAdmInfo = function (info, successCallback, errorCallback) {
     $http({
       method: 'POST',
-      url: '/administration/save',
+      url: '/administration',
       data: info,
       config: {
         headers: {
@@ -59,7 +59,7 @@ app.factory('AppService', function ($http) {
   factory.loadAdmInfo = function (successCallback, errorCallback) {
     $http({
       method: 'GET',
-      url: '/administration/info',
+      url: '/administration',
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'
@@ -80,7 +80,7 @@ app.factory('AppService', function ($http) {
   factory.saveNetworkInfo = function (info, successCallback, errorCallback) {
     $http({
       method: 'POST',
-      url: '/network/save',
+      url: '/network',
       data: info,
       config: {
         headers: {
@@ -102,7 +102,7 @@ app.factory('AppService', function ($http) {
   factory.loadNetworkInfo = function (successCallback, errorCallback) {
     $http({
       method: 'GET',
-      url: '/network/info',
+      url: '/network',
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'
@@ -121,7 +121,7 @@ app.factory('AppService', function ($http) {
   factory.saveDevicesInfo = function (info, successCallback, errorCallback) {
     $http({
       method: 'POST',
-      url: '/devices/save',
+      url: '/devices',
       data: info,
       config: {
         headers: {
@@ -142,7 +142,7 @@ app.factory('AppService', function ($http) {
   factory.loadDevicesInfo = function (successCallback, errorCallback) {
     $http({
       method: 'GET',
-      url: '/devices/info',
+      url: '/devices',
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'

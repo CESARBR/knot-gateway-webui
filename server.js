@@ -21,16 +21,10 @@ serverConfig.get('/main', function (req, res) {
   res.sendFile('main.html', { root: publicRoot });
 });
 
-serverConfig.post('/user/authentication', authRoute.post);
-
-serverConfig.post('/administration/save', admRoute.post);
-serverConfig.get('/administration/info', admRoute.get);
-
-serverConfig.post('/network/save', networkRoute.post);
-serverConfig.get('/network/info', networkRoute.get);
-
-serverConfig.post('/devices/save', devicesRoute.post);
-serverConfig.get('/devices/info', devicesRoute.get);
+serverConfig.use('/auth', authRoute.router);
+serverConfig.use('/administration', admRoute.router);
+serverConfig.use('/network', networkRoute.router);
+serverConfig.use('/devices', devicesRoute.router);
 
 serverConfig.listen(port, function () {
   console.log('Listening on ' + port);

@@ -1,3 +1,4 @@
+var router = require('express').Router(); // eslint-disable-line new-cap
 var users = require('../models/users');
 
 var authenticate = function authenticate(incomingData, successCallback, errorCallback) {
@@ -46,6 +47,8 @@ var post = function post(req, res) {
   });
 };
 
+router.post('/', post);
+
 module.exports = {
-  post: post
+  router: router
 };

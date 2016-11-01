@@ -1,3 +1,4 @@
+var router = require('express').Router(); // eslint-disable-line new-cap
 var settings = require('../models/settings');
 
 var get = function get(req, res) {
@@ -31,7 +32,9 @@ var post = function post(req, res) {
   });
 };
 
+router.get('/', get);
+router.post('/', post);
+
 module.exports = {
-  get: get,
-  post: post
+  router: router
 };

@@ -17,31 +17,22 @@ var authenticate = function authenticate(incomingData, successCallback, errorCal
 };
 
 var post = function post(req, res) {
-  var body = '';
-  var reqObj;
-  req.on('data', function (data) {
-    body += data;
-  });
+  if (!req.body) {
+    res.sendStatus(400);
+    return;
+  }
 
-  req.on('end', function () {
-    try {
-      reqObj = JSON.parse(body);
-      authenticate(reqObj, function () {
-        console.log('Authenticated');
-        res.setHeader('Content-Type', 'application/json');
-        res.send({ authenticated: true });
-      }, function (err) {
-        if (err === 'login error') {
-          console.log('Failed');
-          res.setHeader('Content-Type', 'application/json');
-          res.send({ authenticated: false });
-        } else if (err === 500) {
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(400);
-        }
-      });
-    } catch (e) {
+  authenticate(req.body, function () {
+    console.log('Authenticated');
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ authenticated: true });
+  }, function (err) {
+    if (err === 'login error') {
+      console.log('Failed');
+      res.json({ authenticated: false });
+    } else if (err === 500) {
+      res.sendStatus(500);
+    } else {
       res.sendStatus(400);
     }
   });

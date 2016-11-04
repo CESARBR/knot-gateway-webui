@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 
 var authRoute = require('./app/routes/auth');
 var admRoute = require('./app/routes/administration');
@@ -10,7 +11,14 @@ var port = process.env.PORT || 8080;
 
 var serverConfig = express();
 
+var errorHandler = function errorHandler(err, req, res, next) { // eslint-disable-line no-unused-vars,max-len
+  res.sendStatus(err.status || 500);
+};
+
+serverConfig.use(bodyParser.json());
+serverConfig.use(bodyParser.urlencoded({ extended: true }));
 serverConfig.use(express.static(publicRoot));
+serverConfig.use(errorHandler);
 
 /* serves main page */
 serverConfig.get('/', function (req, res) {

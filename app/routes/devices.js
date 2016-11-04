@@ -6,28 +6,22 @@ var get = function get(req, res) {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(deviceList);
+      res.json(deviceList);
     }
   });
 };
 
 var post = function post(req, res) {
-  var body = '';
-  var obj;
-  req.on('data', function onData(data) {
-    body += data;
-  });
+  if (!req.body) {
+    res.sendStatus(400);
+    return;
+  }
 
-  req.on('end', function onEnd() {
-    try {
-      obj = JSON.parse(body);
-      devices.createOrUpdate(obj, function onDevicesCreated(err) {
-        if (err) res.sendStatus(500);
-        else res.end();
-      });
-    } catch (e) {
+  devices.createOrUpdate(req.body, function onDevicesCreated(err) {
+    if (err) {
       res.sendStatus(500);
+    } else {
+      res.end();
     }
   });
 };

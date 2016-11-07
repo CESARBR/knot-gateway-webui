@@ -1,7 +1,8 @@
 /* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: white;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -150,4 +151,110 @@ tr:nth-child(odd) {
 thead, th {
   color: gray;
   background-color: #99ff99;
+}
+
+.knot-logo {
+  float: left;
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-primary {
+  background-image: linear-gradient(to bottom,#62a943,#267a1a);
+  border-color: #62a943 #62a943 #267a1a;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #267a1a;
+}
+
+a {
+  color: #62a943;
+}
+
+a:focus {
+  color: #62a943;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover, .nav-pills > .active > a:focus {
+  background-color: #62a943;
+}
+
+.checkbox {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* Sign-in styles */
+.banner {
+  color: #555;
+  font-size: 38px;
+  margin-bottom: 15px;
+  font-family: "Open Sans",arial;
+  font-weight: 400;
+}
+
+.small-font {
+  font-size: 18px;
+}
+
+.remember-me-checkbox {
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: 60px;
+}
+
+.round-image{
+  width: 60px;
+  border-radius: 100%;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin .btn-primary {
+  width: 205px;
+  margin-top: 5px;
+}
+
+.signin-container {
+  width: 540px;
+  padding: 30px;
+  background-color: #eee;
+  border-radius: 2%;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }

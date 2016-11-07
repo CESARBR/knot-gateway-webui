@@ -13,8 +13,6 @@ app.factory('SigninService', function ($http) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
-    }).then(function onSuccess(response) {
-      return response.data;
     });
   };
 

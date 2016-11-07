@@ -1,15 +1,13 @@
 /*global app*/
 
 app.controller('SigninController', function ($scope, $window, SigninService) {
-  $scope.submitForm = function submitForm() {
+  $scope.signin = function signin() {
     SigninService.signin($scope.form)
-      .then(function onSuccess(result) {
-        if (result.authenticated) {
-          $window.location.href = '/main';
-        } else {
-          alert('Authentication Error');
-          $window.location.href = '/';
-        }
+      .then(function onSuccess() {
+        $window.location.href = '/main';
+      }, function onError() {
+        alert('Authentication Error');
+        $window.location.href = '/';
       });
   };
 });

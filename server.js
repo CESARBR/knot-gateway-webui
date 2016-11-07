@@ -29,10 +29,10 @@ serverConfig.get('/main', function (req, res) {
   res.sendFile('main.html', { root: publicRoot });
 });
 
-serverConfig.use('/auth', authRoute.router);
-serverConfig.use('/administration', admRoute.router);
-serverConfig.use('/network', networkRoute.router);
-serverConfig.use('/devices', devicesRoute.router);
+serverConfig.use('/api/auth', authRoute.router);
+serverConfig.use('/api/administration', admRoute.router);
+serverConfig.use('/api/network', networkRoute.router);
+serverConfig.use('/api/devices', devicesRoute.router);
 
 serverConfig.listen(port, function () {
   console.log('Listening on ' + port);

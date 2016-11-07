@@ -8,31 +8,31 @@ app.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/signin', {
       templateUrl: 'signin.html',
-      controller: 'siginController'
+      controller: 'SigninController'
     })
     .when('/main', {
       templateUrl: 'views/administration.html',
-      controller: 'admController'
+      controller: 'AdminController'
     })
     .when('/administration', {
       templateUrl: 'views/administration.html',
-      controller: 'admController'
+      controller: 'AdminController'
     })
     .when('/network', {
       templateUrl: 'views/network.html',
-      controller: 'networkController'
+      controller: 'NetworkController'
     })
     .when('/radio', {
       templateUrl: 'views/radio.html',
-      controller: 'radioController'
+      controller: 'RadioController'
     })
     .when('/cloud', {
       templateUrl: 'views/cloud.html',
-      controller: 'cloudController'
+      controller: 'CloudController'
     })
     .when('/devices', {
       templateUrl: 'views/devices.html',
-      controller: 'devicesController'
+      controller: 'DevicesController'
     });
     // .otherwise ({ redirectTo: '/main' });
 });

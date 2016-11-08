@@ -1,0 +1,21 @@
+<div align="center">
+  <img src="img/knot_logo_green_background.png" class="round-image" />
+  <h2 class="banner">KNoT Gateway</h2>
+</div>
+<div>
+  <h2 class="banner small-font" align="center" >Sign in to continue</h2>
+</div>
+<div align="center" class="container signin-container">
+  <form class="form-signin" ng-submit="signin()">
+    <input type="text" id="inputEmail" class="form-control" placeholder="Username" ng-model="form.username" required>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <div class="checkbox">
+      <div align="left" class="remember-me-checkbox">
+        <input type="checkbox" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Remember me</span>
+      </div>
+    </div>
+  </form>
+</div>

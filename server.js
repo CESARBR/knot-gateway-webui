@@ -20,19 +20,14 @@ serverConfig.use(bodyParser.urlencoded({ extended: true }));
 serverConfig.use(express.static(publicRoot));
 serverConfig.use(errorHandler);
 
-/* serves main page */
-serverConfig.get('/', function (req, res) {
-  res.sendFile('signin.html', { root: publicRoot });
-});
-
-serverConfig.get('/main', function (req, res) {
-  res.sendFile('main.html', { root: publicRoot });
-});
-
 serverConfig.use('/api/auth', authRoute.router);
 serverConfig.use('/api/administration', admRoute.router);
 serverConfig.use('/api/network', networkRoute.router);
 serverConfig.use('/api/devices', devicesRoute.router);
+
+serverConfig.use('*', function (req, res) {
+  res.redirect('/');
+});
 
 serverConfig.listen(port, function () {
   console.log('Listening on ' + port);

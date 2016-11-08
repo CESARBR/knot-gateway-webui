@@ -1,38 +1,38 @@
 /*global angular*/
 
-var app = angular.module('app', ['ngRoute', 'ngMask']);
+var app = angular.module('app', ['ui.router', 'ngMask']);
 
-app.config(function ($routeProvider, $locationProvider) {
-  // Removes # from URL
-  $locationProvider.html5Mode(true);
-  $routeProvider
-    .when('/signin', {
-      templateUrl: 'signin.html',
+app.config(function ($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('signin', {
+      url: '/signin',
+      templateUrl: 'views/signin.html',
       controller: 'SigninController'
     })
-    .when('/main', {
-      templateUrl: 'views/administration.html',
+    .state('app', {
+      abstract: true,
+      templateUrl: 'views/app.html'
+    })
+    .state('app.admin', {
+      url: '/admin',
+      templateUrl: 'views/app.admin.html',
       controller: 'AdminController'
     })
-    .when('/administration', {
-      templateUrl: 'views/administration.html',
-      controller: 'AdminController'
-    })
-    .when('/network', {
-      templateUrl: 'views/network.html',
-      controller: 'NetworkController'
-    })
-    .when('/radio', {
-      templateUrl: 'views/radio.html',
+    .state('app.radio', {
+      url: '/radio',
+      templateUrl: 'views/app.radio.html',
       controller: 'RadioController'
     })
-    .when('/cloud', {
-      templateUrl: 'views/cloud.html',
+    .state('app.cloud', {
+      url: '/cloud',
+      templateUrl: 'views/app.cloud.html',
       controller: 'CloudController'
     })
-    .when('/devices', {
-      templateUrl: 'views/devices.html',
+    .state('app.devices', {
+      url: '/devices',
+      templateUrl: 'views/app.devices.html',
       controller: 'DevicesController'
     });
-    // .otherwise ({ redirectTo: '/main' });
+
+  $urlRouterProvider.otherwise('signin');
 });

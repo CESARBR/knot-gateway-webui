@@ -1,13 +1,12 @@
 /*global app*/
 
-app.controller('SigninController', function ($scope, $window, SigninService) {
+app.controller('SigninController', function ($scope, $state, SigninService) {
   $scope.signin = function signin() {
     SigninService.signin($scope.form)
       .then(function onSuccess() {
-        $window.location.href = '/main';
+        $state.go('app.admin');
       }, function onError() {
         alert('Authentication Error');
-        $window.location.href = '/';
       });
   };
 });

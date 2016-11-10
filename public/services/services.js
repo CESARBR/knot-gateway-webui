@@ -49,6 +49,18 @@ app.factory('AppService', function ($http) {
     });
   };
 
+  factory.reboot = function reboot() {
+    return $http({
+      method: 'POST',
+      url: '/api/administration/reboot',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
   factory.saveNetworkInfo = function saveNetworkInfo(info) {
     return $http({
       method: 'POST',

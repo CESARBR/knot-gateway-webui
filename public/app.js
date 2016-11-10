@@ -1,6 +1,6 @@
 /*global angular*/
 
-var app = angular.module('app', ['ui.router', 'ngMask']);
+var app = angular.module('app', ['ui.router', 'ngMask', 'ui.bootstrap']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -32,6 +32,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       url: '/devices',
       templateUrl: 'views/app.devices.html',
       controller: 'DevicesController'
+    })
+    .state('app.reboot', {
+      url: '/reboot',
+      templateUrl: 'views/app.reboot.html',
+      controller: 'RebootController'
     });
 
   $urlRouterProvider.otherwise('signin');

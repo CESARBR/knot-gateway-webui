@@ -2,9 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var apiRoute = require('./app/routes/api');
+var config = require('./app/config');
 
 var publicRoot = __dirname + '/public/'; // eslint-disable-line no-path-concat
-var port = process.env.PORT || 8080;
 
 var serverConfig = express();
 
@@ -23,6 +23,6 @@ serverConfig.use('*', function (req, res) {
   res.redirect('/');
 });
 
-serverConfig.listen(port, function () {
-  console.log('Listening on ' + port);
+serverConfig.listen(config.PORT, function () {
+  console.log('Listening on ' + config.PORT);
 });

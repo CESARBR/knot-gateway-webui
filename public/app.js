@@ -1,17 +1,29 @@
 /*global angular*/
 
-var app = angular.module('app', ['ui.router', 'ngMask', 'ui.bootstrap']);
+var app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngMask', 'ui.bootstrap']);
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function config($stateProvider, $urlRouterProvider, ROLES) {
   $stateProvider
     .state('signin', {
       url: '/signin',
       templateUrl: 'views/signin.html',
-      controller: 'SigninController'
+      controller: 'SigninController',
+      data: {
+        permissions: {
+          except: ROLES.ADMIN,
+          redirectTo: 'app.admin'
+        }
+      }
     })
     .state('app', {
       abstract: true,
-      templateUrl: 'views/app.html'
+      templateUrl: 'views/app.html',
+      data: {
+        permissions: {
+          only: ROLES.ADMIN,
+          redirectTo: 'signin'
+        }
+      }
     })
     .state('app.admin', {
       url: '/admin',
@@ -44,5 +56,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       controller: 'RebootController'
     });
 
-  $urlRouterProvider.otherwise('signin');
+  // Hack needed by angular-permission
+  // See https://github.com/Narzerus/angular-permission/wiki/Installation-guide-for-ui-router#known-issues
+  $urlRouterProvider.otherwise(function otherwise($injector) {
+    var $state = $injector.get('$state');
+    $state.go('signin');
+  });
+});
+
+app.run(function run(PermRoleStore, ROLES) {
+  PermRoleStore.defineRole(ROLES.ADMIN, ['AuthService', function (AuthService) {
+    return AuthService.isAdmin();
+  }]);
+});
+
+app.constant('ROLES', {
+  ANONYMOUS: 'anonymous',
+  ADMIN: 'admin'
 });

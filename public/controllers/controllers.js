@@ -1,8 +1,8 @@
 /*global app*/
 
-app.controller('SigninController', function ($scope, $state, SigninService) {
+app.controller('SigninController', function ($scope, $state, AuthService) {
   $scope.signin = function signin() {
-    SigninService.signin($scope.form)
+    AuthService.signin($scope.form)
       .then(function onSuccess() {
         $state.go('app.admin');
       }, function onError() {

@@ -1,9 +1,12 @@
 /*global app*/
 
-app.factory('SigninService', function ($http) {
-  var signinFactory = {};
+app.factory('AuthService', function ($http, ROLES) {
+  var currentUser = {
+    role: ROLES.ANONYMOUS
+  };
+  var authFactory = {};
 
-  signinFactory.signin = function signin(userData) {
+  authFactory.signin = function signin(userData) {
     return $http({
       method: 'POST',
       url: '/api/auth',
@@ -13,10 +16,17 @@ app.factory('SigninService', function ($http) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
+    }).then(function onSuccess(result) {
+      currentUser = result.data.user;
+      return currentUser;
     });
   };
 
-  return signinFactory;
+  authFactory.isAdmin = function isAdmin() {
+    return currentUser.role === ROLES.ADMIN;
+  };
+
+  return authFactory;
 });
 
 app.factory('AppService', function ($http) {

@@ -1,6 +1,5 @@
 {
   "administration": {
-    "password": "123456",
     "remoteSshPort": "50001",
     "allowedPassword": true,
     "sshKey": "1234fghjk4567asdfg",
@@ -18,5 +17,16 @@
   "user": {
     "username": "admin",
     "password": "admin"
+  },
+  "radio": {
+    "channel":14,
+    "TxPower":-18,
+    "mac":null
+  },
+  "cloud": {
+    "serverName":"localhost",
+    "port":3000,
+    "uuid":null,
+    "token":null
   }
 }

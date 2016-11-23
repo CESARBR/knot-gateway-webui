@@ -15,7 +15,7 @@ var writeFile = function writeFile(type, incomingData, done) {
 
     if (type === 'adm') {
       if (incomingData.password) {
-        localData.administration.password = incomingData.password;
+        localData.user.password = incomingData.password;
       }
 
       if (incomingData.firmware && incomingData.firmware.name && incomingData.firmware.base64) {

@@ -5,6 +5,7 @@ var authRoute = require('./app/routes/auth');
 var admRoute = require('./app/routes/administration');
 var networkRoute = require('./app/routes/network');
 var devicesRoute = require('./app/routes/devices');
+var radioRoute = require('./app/routes/radio');
 
 var publicRoot = __dirname + '/public/'; // eslint-disable-line no-path-concat
 var port = process.env.PORT || 8080;
@@ -24,6 +25,7 @@ serverConfig.use('/api/auth', authRoute.router);
 serverConfig.use('/api/administration', admRoute.router);
 serverConfig.use('/api/network', networkRoute.router);
 serverConfig.use('/api/devices', devicesRoute.router);
+serverConfig.use('/api/radio', radioRoute.router);
 
 serverConfig.use('*', function (req, res) {
   res.redirect('/');

@@ -184,8 +184,41 @@ app.controller('MainController', function ($rootScope, $location) {
   $rootScope.activetab = $location.path();
 });
 
-app.controller('RadioController', function ($rootScope, $location) {
+app.controller('RadioController', function ($rootScope, $scope, $location, AppService) {
+  var formData = {
+    channel: null,
+    powerRating: null,
+    mac: null
+  };
+
   $rootScope.activetab = $location.path();
+
+  $scope.init = function () {
+    AppService.loadRadioInfo()
+      .then(function onSuccess(result) {
+        formData.channel = result.channel;
+        formData.powerRating = result.TxPower;
+        formData.mac = result.mac;
+      }, function onError(err) {
+        console.log(err);
+      });
+
+    $scope.form = formData;
+  };
+
+  $scope.save = function () {
+    var config = {
+      channel: $scope.form.channel,
+      TxPower: $scope.form.powerRating
+    };
+
+    AppService.saveRadioInfo(config)
+      .then(function onSuccess(/* result */) {
+        alert('Information saved');
+      }, function onError(err) {
+        alert(err);
+      });
+  };
 });
 
 app.controller('CloudController', function ($rootScope, $location) {

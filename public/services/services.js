@@ -61,6 +61,33 @@ app.factory('AppService', function ($http) {
     });
   };
 
+  factory.saveRadioInfo = function saveRadioInfo(info) {
+    return $http({
+      method: 'POST',
+      url: '/api/radio',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
+  factory.loadRadioInfo = function loadRadioInfo() {
+    return $http({
+      method: 'GET',
+      url: '/api/radio',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function onSuccess(result) {
+      return result.data;
+    });
+  };
+
   factory.saveNetworkInfo = function saveNetworkInfo(info) {
     return $http({
       method: 'POST',

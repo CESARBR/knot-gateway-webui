@@ -1,15 +1,13 @@
 <div class="jumbotron radio">
-  <form class="form-radio" ng-submit="save()">
+  <form class="form-radio" ng-submit="save()" ng-init="init()">
     <h2 class="form-signin-heading">Radio Interface</h2>
-    <label class="sr-only" for="rdnRF24L01">
-      <input type="checkbox" name="rdnRF24L01" value="nRF24L01 Interface" checked>
-      nRF24L01 Interface
-    </label>
 
     <label class="sr-only" for="channel">Channel</label>
-    <input type="number" name="channel" min="10" max="116" step="2" value="10">
+    <input type="number" name="channel" min="10" max="116" step="2" value="10" ng-model="form.channel" required>
     <label class="sr-only" for="powerRating">Power Rating</label>
-    <input type="number" name="powerRating" min="-18" max="0" step="6" value="-18">
+    <input type="number" name="powerRating" min="-18" max="0" step="6" value="-18" ng-model="form.powerRating" required>
+    <label class="sr-only" for="mac">MAC</label>
+    <input type="text" id="mac" class="form-control" placeholder="MAC address" ng-model="form.mac" readonly>
     <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
   </form>
 </div>

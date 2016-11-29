@@ -48,12 +48,16 @@ app.controller('AdminController', function ($rootScope, $scope, $location, $stat
       firmware: { name: $scope.form.newFirmware, base64: $scope.form.newFirmware64Base }
     };
 
-    AppService.saveAdmInfo(config)
-      .then(function onSuccess(/* result */) {
-        alert('Information saved');
-      }, function onError(err) {
-        alert(err);
-      });
+    if ($scope.form.password === $scope.form.passwordConfirmation) {
+      AppService.saveAdmInfo(config)
+        .then(function onSuccess(/* result */) {
+          alert('Information saved');
+        }, function onError(err) {
+          alert(err);
+        });
+    } else {
+      alert('Password does not match');
+    }
   };
 
   $scope.reboot = function reboot() {

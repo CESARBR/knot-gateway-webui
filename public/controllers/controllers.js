@@ -187,7 +187,7 @@ app.controller('MainController', function ($rootScope, $location) {
 app.controller('RadioController', function ($rootScope, $scope, $location, AppService) {
   var formData = {
     channel: null,
-    powerRating: null,
+    outputPower: null,
     mac: null
   };
 
@@ -197,7 +197,7 @@ app.controller('RadioController', function ($rootScope, $scope, $location, AppSe
     AppService.loadRadioInfo()
       .then(function onSuccess(result) {
         formData.channel = result.channel;
-        formData.powerRating = result.TxPower;
+        formData.outputPower = result.TxPower;
         formData.mac = result.mac;
       }, function onError(err) {
         console.log(err);
@@ -209,7 +209,7 @@ app.controller('RadioController', function ($rootScope, $scope, $location, AppSe
   $scope.save = function () {
     var config = {
       channel: $scope.form.channel,
-      TxPower: $scope.form.powerRating
+      TxPower: $scope.form.outputPower
     };
 
     AppService.saveRadioInfo(config)

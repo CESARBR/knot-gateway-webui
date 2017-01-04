@@ -61,6 +61,18 @@ app.factory('AppService', function ($http) {
     });
   };
 
+  factory.restore = function restore() {
+    return $http({
+      method: 'POST',
+      url: '/api/administration/restore',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
   factory.saveRadioInfo = function saveRadioInfo(info) {
     return $http({
       method: 'POST',

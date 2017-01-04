@@ -68,6 +68,15 @@ app.controller('AdminController', function ($rootScope, $scope, $location, $stat
       alert('Failed to reboot the gateway');
     });
   };
+
+  $scope.restore = function restore() {
+    AppService.restore()
+    .then(function onSuccess(/* result */) {
+      $state.go('app.reboot');
+    }, function onError() {
+      alert('Failed to restore the gateway');
+    });
+  };
 });
 
 app.controller('NetworkController', function ($rootScope, $scope, $location, AppService) {

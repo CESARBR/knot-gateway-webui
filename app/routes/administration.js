@@ -37,9 +37,20 @@ var postReboot = function postReboot(req, res) {
   });
 };
 
+var postRestore = function postRestore(req, res) {
+  settings.setDefaultSettings(function onAdministrationSettingsDefaultSet(err) {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      postReboot(req, res);
+    }
+  });
+};
+
 router.get('/', get);
 router.post('/', post);
 router.post('/reboot', postReboot);
+router.post('/restore', postRestore);
 
 module.exports = {
   router: router

@@ -1,6 +1,8 @@
 var fs = require('fs');
 
 var CONFIGURATION_FILE = require('../config').CONFIGURATION_FILE;
+var DEFAULT_CONFIGURATION_FILE = require('../config/gatewayFactoryConfig.json');
+var DEVICES_FILE = require('../config').DEVICES_FILE;
 
 var writeFile = function writeFile(type, incomingData, done) {
   fs.readFile(CONFIGURATION_FILE, 'utf8', function onRead(err, data) {
@@ -36,10 +38,14 @@ var writeFile = function writeFile(type, incomingData, done) {
         localData.network.ipaddress = incomingData.ipaddress;
         localData.network.defaultGateway = incomingData.defaultGateway;
         localData.network.networkMask = incomingData.networkMask;
+        localData.network.primaryDns = incomingData.primaryDns;
+        localData.network.secondaryDns = incomingData.secondaryDns;
       } else {
         localData.network.ipaddress = '';
         localData.network.defaultGateway = '';
         localData.network.networkMask = '';
+        localData.network.primaryDns = '';
+        localData.network.secondaryDns = '';
       }
     }
 
@@ -123,11 +129,32 @@ var setNetworkSettings = function setNetworkSettings(settings, done) {
   writeFile('net', settings, done);
 };
 
+var setDefaultSettings = function setDefaultSettings(done) {
+  var keys = { keys: [] };
+  fs.writeFile(DEVICES_FILE, JSON.stringify(keys), 'utf8', null);
+
+  fs.readFile(CONFIGURATION_FILE, 'utf8', function onRead(err, data) {
+    var localData;
+
+    if (err) {
+      done(err);
+      return;
+    }
+
+    localData = JSON.parse(data);
+
+    DEFAULT_CONFIGURATION_FILE.radio.mac = localData.radio.mac;
+
+    fs.writeFile(CONFIGURATION_FILE, JSON.stringify(DEFAULT_CONFIGURATION_FILE), 'utf8', done);
+  });
+};
+
 module.exports = {
   getAdministrationSettings: getAdministrationSettings,
   setAdministrationSettings: setAdministrationSettings,
   getRadioSettings: getRadioSettings,
   setRadioSettings: setRadioSettings,
   getNetworkSettings: getNetworkSettings,
-  setNetworkSettings: setNetworkSettings
+  setNetworkSettings: setNetworkSettings,
+  setDefaultSettings: setDefaultSettings
 };

@@ -1,0 +1,22 @@
+<div class="jumbotron network">
+    <form class="form-network" ng-submit="save()" ng-init="init()">
+        <h2 class="form-signin-heading">Network Interface</h2>
+        <label for="hostname" class="sr-only">Hostname</label>
+        <input type="text" id="hostname" class="form-control" placeholder="Hostname" ng-model="form.hostname" required>
+        <label><input type="radio" name="rdAutomaticIP" text="Automatic IP Address" ng-model="automaticIp"  value="true">Automatic IP Address</label>
+        <label><input type="radio" name="rdAutomaticIP" text="Using IP Address below" ng-model="automaticIp" value="false"/>Using IP Address below</label>
+        <label for="ipaddress" class="sr-only">IP Address</label>
+        <input type="text" id="ipaddress" class="form-control" placeholder="IP Address" ng-model="form.ipaddress" ng-disabled="readonlyip" required>
+        <label for="networkMask" class="sr-only">Network Mask</label>
+        <input type="text" id="networkMask" class="form-control" placeholder="Network Mask" ng-model="form.networkMask" ng-disabled="readonlyip" required>
+        <label for="defaultGateway" class="sr-only">Default Gateway</label>
+        <input type="text" id="defaultGateway" class="form-control" placeholder="Default Gateway" ng-model="form.defaultGateway" ng-disabled="readonlyip" required>
+        <label><input type="radio" name="rdAutomaticDns" text="Automatic DNS" ng-model="automaticDns"  value="true">Automatic DNS</label>
+        <label><input type="radio" name="rdAutomaticDns" text="Using DNS below" ng-model="automaticDns" value="false"/>Using DNS below</label>
+        <label for="primarydns" class="sr-only">Primary DNS</label>
+        <input type="text" id="primarydns" class="form-control" placeholder="Primary DNS" ng-model="form.primarydns" ng-disabled="readonlydns" required>
+        <label for="secondarydns" class="sr-only">Secondary DNS</label>
+        <input type="text" id="secondarydns" class="form-control" placeholder="Secondary DNS" ng-model="form.secondarydns" ng-disabled="readonlydns" required>
+        <button class="btn btn-lg btn-primary btn-block" ng-confirm-click="Click the button ok to change network settings" type="submit">Apply</button>
+    </form>
+</div>

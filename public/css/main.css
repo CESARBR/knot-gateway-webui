@@ -72,6 +72,22 @@ div.jumbotron.reset .btn {
   height: 33px;
 }
 
+div.jumbotron.network {
+  background-color: #eee;
+  text-align: left;
+  padding: 5%;
+}
+
+div.jumbotron.network input[type="radio"] {
+  vertical-align: baseline;
+}
+
+div.jumbotron.network .btn {
+  padding: 1%;
+  font-size: 14px;
+  width: 20%;
+}
+
 div.jumbotron.radio {
   background-color: #eee;
   text-align: left;

@@ -18,6 +18,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: 'views/app.admin.html',
       controller: 'AdminController'
     })
+    .state('app.network', {
+      url: '/network',
+      templateUrl: 'views/app.network.html',
+      controller: 'NetworkController'
+    })
     .state('app.radio', {
       url: '/radio',
       templateUrl: 'views/app.radio.html',

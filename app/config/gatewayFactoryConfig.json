@@ -13,6 +13,7 @@
     "ipaddress": null,
     "defaultGateway": null,
     "networkMask": null,
+    "automaticDns": true,
     "primaryDns": null,
     "secondaryDns": null
   },
@@ -21,14 +22,14 @@
     "password": "admin"
   },
   "radio": {
-    "channel":14,
-    "TxPower":-18,
-    "mac":null
+    "channel": 14,
+    "TxPower": -18,
+    "mac": null
   },
   "cloud": {
-    "serverName":"localhost",
-    "port":3000,
-    "uuid":"4dea9c68-b2d1-4c52-b286-4ef30b94860a",
-    "token":"217775f6dad47c9a34f17ba59349c84ad5bb7d30"
+    "serverName": "localhost",
+    "port": 3000,
+    "uuid": "4dea9c68-b2d1-4c52-b286-4ef30b94860a",
+    "token": "217775f6dad47c9a34f17ba59349c84ad5bb7d30"
   }
 }

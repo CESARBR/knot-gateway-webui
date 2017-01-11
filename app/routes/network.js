@@ -1,5 +1,6 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 var settings = require('../models/settings');
+var administration = require('./administration');
 
 var get = function get(req, res) {
   settings.getNetworkSettings(function onNetworkSettingsReturned(err, netSettings) {
@@ -21,7 +22,7 @@ var post = function post(req, res) {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.end();
+      administration.postReboot(req, res);
     }
   });
 };

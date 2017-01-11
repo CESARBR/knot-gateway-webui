@@ -1,6 +1,7 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 var settings = require('../models/settings');
 var exec = require('child_process').exec;
+var os = require('os');
 
 var get = function get(req, res) {
   settings.getAdministrationSettings(function onAdministrationSettingsReturned(err, admSettings) {
@@ -28,11 +29,28 @@ var post = function post(req, res) {
 };
 
 var postReboot = function postReboot(req, res) {
+  var json = [];
+  var address;
+  var interfaces;
+  var networkInterfaces = os.networkInterfaces();
+
   exec('reboot', function reboot(error) {
     if (error !== null) {
       res.sendStatus(500);
     } else {
-      res.sendStatus(204);
+     /* eslint-disable no-restricted-syntax */
+      for (interfaces in networkInterfaces) {
+        if (!networkInterfaces[interfaces][0].internal) {
+          address = networkInterfaces[interfaces][0].address;
+        }
+      }
+      /* eslint-disable no-restricted-syntax */
+
+      json = {
+        gatewayIp: address
+      };
+
+      res.json(json);
     }
   });
 };
@@ -53,5 +71,6 @@ router.post('/reboot', postReboot);
 router.post('/restore', postRestore);
 
 module.exports = {
-  router: router
+  router: router,
+  postReboot: postReboot
 };

@@ -11,6 +11,14 @@ app.controller('SigninController', function ($scope, $state, AuthService) {
   };
 });
 
+app.controller('SignupController', function ($scope, $rootScope, $location) {
+  $rootScope.activetab = $location.path();
+
+  $scope.signup = function () {
+
+  };
+});
+
 app.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
   var formData = {
     password: null,

@@ -15,6 +15,11 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
         }
       }
     })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'views/signup.html',
+      controller: 'SignupController'
+    })
     .state('app', {
       abstract: true,
       templateUrl: 'views/app.html',

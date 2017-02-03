@@ -84,37 +84,28 @@ app.controller('AdminController', function ($rootScope, $scope, $location, $stat
 app.controller('NetworkController', function ($rootScope, $scope, $location, $state, AppService) {
   var networkData = {
     hostname: null,
+    automaticIp: true,
     ipaddress: null,
     networkMask: null,
     defaultGateway: null,
+    automaticDns: true,
     primarydns: null,
     secondarydns: null
   };
 
   $rootScope.activetab = $location.path();
 
-  $scope.readonlyip = true;
-  $scope.readonlydns = true;
-
-  $scope.$watch('automaticIp', function (/* value */) {
-    $scope.readonlyip = ($scope.automaticIp === 'true');
-  });
-
-  $scope.$watch('automaticDns', function (/* value */) {
-    $scope.readonlydns = ($scope.automaticDns === 'true');
-  });
-
   $scope.init = function () {
     AppService.loadNetworkInfo()
       .then(function onSuccess(result) {
         networkData.hostname = result.hostname !== '' ? result.hostname : null;
+        networkData.automaticIp = result.automaticIp;
         networkData.ipaddress = result.ipaddress !== '' ? result.ipaddress : null;
         networkData.networkMask = result.networkMask !== '' ? result.networkMask : null;
         networkData.defaultGateway = result.defaultGateway !== '' ? result.defaultGateway : null;
-        $scope.automaticIp = result.automaticIp ? 'true' : 'false';
+        networkData.automaticDns = result.automaticDns;
         networkData.primarydns = result.primarydns !== '' ? result.primarydns : null;
         networkData.secondarydns = result.secondarydns !== '' ? result.secondarydns : null;
-        $scope.automaticDns = result.automaticDns ? 'true' : 'false';
       }, function onError(err) {
         console.log(err);
       });
@@ -124,11 +115,7 @@ app.controller('NetworkController', function ($rootScope, $scope, $location, $st
 
   $scope.save = function () {
     var networkConfig = {
-      hostname: $scope.form.hostname,
-      ipaddress: $scope.form.ipaddress,
-      networkMask: $scope.form.networkMask,
-      defaultGateway: $scope.form.defaultGateway,
-      automaticIp: ($scope.automaticIp === 'true')
+      hostname: $scope.form.hostname
     };
 
     AppService.saveNetworkInfo(networkConfig)

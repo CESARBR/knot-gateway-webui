@@ -199,5 +199,19 @@ app.factory('AppService', function ($http) {
     });
   };
 
+  factory.loadBcastDevicesInfo = function loadBcastDevicesInfo() {
+    return $http({
+      method: 'GET',
+      url: '/api/devices/bcast',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function onSuccess(result) {
+      return result.data;
+    });
+  };
+
   return factory;
 });

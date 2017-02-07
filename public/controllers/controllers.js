@@ -140,6 +140,12 @@ app.controller('DevicesController', function ($rootScope, $scope, $location, App
       }, function onError() {
         console.log('Error loading devices');
       });
+    AppService.loadBcastDevicesInfo()
+      .then(function onSuccess(result) {
+        $scope.devices = result;
+      }, function onError() {
+        console.log('Error loading devices broadcasting');
+      });
   };
 
   $scope.add = function () {

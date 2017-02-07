@@ -1,4 +1,6 @@
 var fs = require('fs');
+var dbus = require('dbus-native');
+var sysbus = dbus.systemBus();
 
 var DEVICES_FILE = require('../config').DEVICES_FILE;
 
@@ -26,7 +28,33 @@ var createOrUpdate = function createOrUpdate(devices, done) {
   fs.writeFile(DEVICES_FILE, json, 'utf8', done);
 };
 
+var getBroadcastingPeers = function getBroadcastingPeers(done) {
+  sysbus.invoke({
+    path: '/org/cesar/knot/nrf0',
+    destination: 'org.cesar.knot.nrf',
+    interface: 'org.cesar.knot.nrf0.Adapter',
+    member: 'GetBroadcastingDevices',
+    signature: '',
+    body: [],
+    type: dbus.messageType.methodCall
+  }, function (err, res) {
+    var obj;
+    if (err) {
+      done(err);
+      return;
+    }
+
+    try {
+      obj = JSON.parse(res);
+      done(null, obj);
+    } catch (e) {
+      done(e);
+    }
+  });
+};
+
 module.exports = {
   all: all,
-  createOrUpdate: createOrUpdate
+  createOrUpdate: createOrUpdate,
+  getBroadcastingPeers: getBroadcastingPeers
 };

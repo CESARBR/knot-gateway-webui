@@ -26,8 +26,19 @@ var post = function post(req, res) {
   });
 };
 
+var bcast = function bcast(req, res) {
+  devices.getBroadcastingPeers(function onDevicesReturned(err, deviceList) {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.json(deviceList);
+    }
+  });
+};
+
 router.get('/', get);
 router.post('/', post);
+router.get('/bcast', bcast);
 
 module.exports = {
   router: router

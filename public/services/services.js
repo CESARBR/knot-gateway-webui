@@ -1,10 +1,40 @@
 /*global app*/
 
-app.factory('AuthService', function ($http, ROLES) {
-  var currentUser = {
-    role: ROLES.ANONYMOUS
+app.factory('httpAuthInterceptor', function ($sessionStorage) {
+  var request = function request(config) {
+    config.headers = config.headers || {};
+    if ($sessionStorage.token) {
+      config.headers.Authorization = 'Bearer ' + $sessionStorage.token;
+    }
+    return config;
   };
+
+  return {
+    request: request
+  };
+});
+
+app.factory('AuthService', function ($http, $sessionStorage, $window, ROLES) {
+  var currentUser;
   var authFactory = {};
+
+  var clearUser = function clearUser() {
+    currentUser = {
+      role: ROLES.ANONYMOUS
+    };
+  };
+
+  var parseJwt = function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse($window.atob(base64));
+  };
+
+  var loadToken = function loadToken() {
+    if ($sessionStorage.token) {
+      currentUser = parseJwt($sessionStorage.token);
+    }
+  };
 
   authFactory.signin = function signin(userData) {
     return $http({
@@ -17,6 +47,7 @@ app.factory('AuthService', function ($http, ROLES) {
         }
       }
     }).then(function onSuccess(result) {
+      $sessionStorage.token = result.data.token;
       currentUser = result.data.user;
       return currentUser;
     });
@@ -25,6 +56,10 @@ app.factory('AuthService', function ($http, ROLES) {
   authFactory.isAdmin = function isAdmin() {
     return currentUser.role === ROLES.ADMIN;
   };
+
+  // Init
+  clearUser();
+  loadToken();
 
   return authFactory;
 });

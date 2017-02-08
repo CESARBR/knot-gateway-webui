@@ -1,8 +1,8 @@
 /*global angular*/
 
-var app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngMask', 'ui.bootstrap']);
+var app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ngMask', 'ui.bootstrap']);
 
-app.config(function config($stateProvider, $urlRouterProvider, ROLES) {
+app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, ROLES) {
   $stateProvider
     .state('signin', {
       url: '/signin',
@@ -62,6 +62,8 @@ app.config(function config($stateProvider, $urlRouterProvider, ROLES) {
     var $state = $injector.get('$state');
     $state.go('signin');
   });
+
+  $httpProvider.interceptors.push('httpAuthInterceptor');
 });
 
 app.run(function run(PermRoleStore, ROLES) {

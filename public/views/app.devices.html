@@ -1,4 +1,4 @@
-<form name='myForm' ng-submit="add()">
+<form name='myForm'>
   <h3 class="text-muted">Allowed devices</h3>
   <table id="tDevices" ng-init="init()" style="width:100%">
     <tr>
@@ -21,7 +21,7 @@
         <span ng-show="myForm.newMac.$error.pattern" style="color:red">Invalid MAC</span>
       </td>
       <td>
-        <button ng-disabled="myForm.$invalid" class="btn btn-lg btn-primary btn-block" type="submit" ng-click="Submit">
+        <button ng-disabled="myForm.$invalid" class="btn btn-lg btn-primary btn-block" ng-click="add(form)">
         <span class="glyphicon glyphicon-plus">Add</span>
       </button>
       </td>
@@ -36,6 +36,11 @@
     </tr>
     <tr ng-repeat="peer in devices">
       <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
+      <td>
+        <button class="btn btn-default" ng-click='add(peer)'>
+        <span class="glyphicon glyphicon-plus">Allow peer</span>
+      </button>
+      </td>
     </tr>
   </table>
 </form>

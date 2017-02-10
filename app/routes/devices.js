@@ -17,8 +17,8 @@ var post = function post(req, res) {
     return;
   }
 
-  devices.createOrUpdate(req.body, function onDevicesCreated(err) {
-    if (err) {
+  devices.createOrUpdate(req.body, function onDevicesCreated(err, added) {
+    if (err || !added) {
       res.sendStatus(500);
     } else {
       res.end();

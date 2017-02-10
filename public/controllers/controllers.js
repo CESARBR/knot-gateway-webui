@@ -161,21 +161,19 @@ app.controller('DevicesController', function ($rootScope, $scope, $location, App
         alert('MAC already in use');
       } else {
         $scope.macAddresses.keys.push({ name: device.name, mac: device.mac });
-        AppService.saveDevicesInfo($scope.macAddresses)
+        AppService.addDevice(device)
           .catch(function onError() {
             $scope.macAddresses.keys.pop();
             console.log('Error on access to keys file');
           });
       }
     }
-    $scope.form.name = null;
-    $scope.form.mac = null;
   };
 
   $scope.remove = function (key) {
     var pos = $scope.macAddresses.keys.lastIndexOf(key);
     var tmp = $scope.macAddresses.keys.splice(pos, 1);
-    AppService.saveDevicesInfo($scope.macAddresses)
+    AppService.addDevice($scope.macAddresses)
       .catch(function onError() {
         $scope.macAddresses.keys.splice(pos, 0, tmp);
         console.log('Error on access to keys file');

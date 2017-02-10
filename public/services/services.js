@@ -172,7 +172,7 @@ app.factory('AppService', function ($http) {
     });
   };
 
-  factory.saveDevicesInfo = function saveDevicesInfo(info) {
+  factory.addDevice = function addDevice(info) {
     return $http({
       method: 'POST',
       url: '/api/devices',

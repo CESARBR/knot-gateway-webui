@@ -36,9 +36,20 @@ var bcast = function bcast(req, res) {
   });
 };
 
+var del = function del(req, res) {
+  devices.remove(req.params.id, function onDevicesReturned(err, deleted) {
+    if (err || !deleted) {
+      res.sendStatus(500);
+    } else {
+      res.end();
+    }
+  });
+};
+
 router.get('/', get);
 router.post('/', post);
 router.get('/bcast', bcast);
+router.delete('/:id', del);
 
 module.exports = {
   router: router

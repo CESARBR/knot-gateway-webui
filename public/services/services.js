@@ -213,5 +213,18 @@ app.factory('AppService', function ($http) {
     });
   };
 
+  factory.removeDevice = function removeDevice(info) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/devices/' + info.mac,
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
   return factory;
 });

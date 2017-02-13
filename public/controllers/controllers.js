@@ -170,13 +170,14 @@ app.controller('DevicesController', function ($rootScope, $scope, $location, App
     }
   };
 
+
   $scope.remove = function (key) {
     var pos = $scope.macAddresses.keys.lastIndexOf(key);
     var tmp = $scope.macAddresses.keys.splice(pos, 1);
-    AppService.addDevice($scope.macAddresses)
+    AppService.removeDevice(key)
       .catch(function onError() {
         $scope.macAddresses.keys.splice(pos, 0, tmp);
-        console.log('Error on access to keys file');
+        console.log('Could not remove device');
       });
   };
 });

@@ -45,9 +45,9 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       templateUrl: 'views/app.radio.html',
       controller: 'RadioController'
     })
-    .state('app.cloud', {
+    .state('cloud', {
       url: '/cloud',
-      templateUrl: 'views/app.cloud.html',
+      templateUrl: 'views/cloud.html',
       controller: 'CloudController'
     })
     .state('app.devices', {

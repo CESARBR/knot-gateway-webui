@@ -225,6 +225,32 @@ app.factory('AppService', function ($http) {
       }
     });
   };
+  factory.saveCloudConfig = function saveCloudConfig(info) {
+    return $http({
+      method: 'POST',
+      url: '/api/cloud',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
+  factory.loadCloudConfig = function loadCloudConfig() {
+    return $http({
+      method: 'GET',
+      url: '/api/cloud',
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    }).then(function onSuccess(result) {
+      return result.data;
+    });
+  };
 
   return factory;
 });

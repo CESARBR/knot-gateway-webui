@@ -247,6 +247,35 @@ app.controller('RadioController', function ($rootScope, $scope, $location, AppSe
   };
 });
 
-app.controller('CloudController', function ($rootScope, $location) {
-  $rootScope.activetab = $location.path();
+app.controller('CloudController', function ($scope, $state, AppService) {
+  var formData = {
+    servername: null,
+    port: null
+  };
+
+  $scope.init = function () {
+    AppService.loadCloudConfig()
+      .then(function onSuccess(result) {
+        if (!result) {
+          alert('Failed to load cloud config');
+        } else {
+          formData.servername = result.servername;
+          formData.port = result.port;
+        }
+      }, function onError(err) {
+        console.log(err);
+      });
+
+    $scope.form = formData;
+  };
+
+  $scope.save = function () {
+    formData.servername = $scope.form.servername;
+    formData.port = $scope.form.port;
+    AppService.saveCloudConfig(formData)
+      .then(function onSuccess(/* result */) {
+        alert('Information saved');
+        $state.go('signin');
+      });
+  };
 });

@@ -64,6 +64,25 @@ app.factory('AuthService', function ($http, $sessionStorage, $window, ROLES) {
   return authFactory;
 });
 
+app.factory('SignupService', function ($http) {
+  var signupFactory = {};
+
+  signupFactory.signup = function signup(info) {
+    return $http({
+      method: 'POST',
+      url: '/api/signup',
+      data: info,
+      config: {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;'
+        }
+      }
+    });
+  };
+
+  return signupFactory;
+});
+
 app.factory('AppService', function ($http) {
   var factory = {};
 

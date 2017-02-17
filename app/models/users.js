@@ -1,4 +1,25 @@
 var fs = require('fs');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
+  email: String,
+  password: String,
+  uuid: String,
+  token: String
+});
+
+var User = mongoose.model('User', userSchema);
+
+var setUser = function setUser(user, done) {
+  User.findOneAndUpdate({}, user, { upsert: true }, function (err) {
+    if (err) {
+      done(err);
+    } else {
+      done(null);
+    }
+  });
+};
 
 var CONFIGURATION_FILE = require('../config').CONFIGURATION_FILE;
 
@@ -21,5 +42,6 @@ var get = function get(done) {
 };
 
 module.exports = {
+  setUser: setUser,
   get: get
 };

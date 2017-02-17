@@ -11,11 +11,28 @@ app.controller('SigninController', function ($scope, $state, AuthService) {
   };
 });
 
-app.controller('SignupController', function ($scope, $rootScope, $location) {
-  $rootScope.activetab = $location.path();
-
+app.controller('SignupController', function ($scope, $state, $http, SignupService) {
   $scope.signup = function () {
-
+    var userData = {
+      email: $scope.form.email,
+      password: $scope.form.password,
+      passwordConfirmation: $scope.form.passwordConfirmation
+    };
+    if (userData.password === userData.passwordConfirmation) {
+      SignupService.signup(userData)
+          .then(function onSuccess(/* result */) {
+            alert('User registered');
+            $state.go('app.admin');
+          }, function onError(err) {
+            if (err.status === 400) {
+              $state.go('cloud');
+            } else if (err.status === 500) {
+              alert('Error registering user');
+            }
+          });
+    } else {
+      alert('Password does not match');
+    }
   };
 });
 

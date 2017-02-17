@@ -16,6 +16,7 @@
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.8.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "dbus-native": "^0.2.0"

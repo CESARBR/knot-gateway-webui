@@ -1,4 +1,3 @@
-var fs = require('fs');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -21,27 +20,17 @@ var setUser = function setUser(user, done) {
   });
 };
 
-var CONFIGURATION_FILE = require('../config').CONFIGURATION_FILE;
-
-var get = function get(done) {
-  fs.readFile(CONFIGURATION_FILE, 'utf8', function (err, data) {
-    var obj;
-
+var getUser = function getUser(email, done) {
+  User.findOne({ email: email }, function (err, user) {
     if (err) {
       done(err);
-      return;
-    }
-
-    try {
-      obj = JSON.parse(data);
-      done(null, obj.user);
-    } catch (e) {
-      done(e);
+    } else {
+      done(null, user);
     }
   });
 };
 
 module.exports = {
   setUser: setUser,
-  get: get
+  getUser: getUser
 };

@@ -5,13 +5,10 @@
 <div>
   <h2 class="banner small-font" align="center" >Configure cloud to continue</h2>
 </div>
-<div class="jumbotron cloud">
-  <form class="form-cloud" ng-submit="save()">
-    <h2 class="form-signin-heading">Cloud Interface</h2>
-    <label for="servername" class="sr-only">Server Name</label>
-    <input type="text" id="serverName" ng-model="form.servername" class="form-control" placeholder="IP Address" required>
-    <label for="port" class="sr-only">Port</label>
-    <input type="number" id="port" ng-model="form.port" class="form-control" min="1" max="5000" step="1" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" ngClick="Submit">Apply</button>
+<div align="center" class="container signin-container">
+  <form class="form-signin" ng-submit="save()">
+    <input type="text" id="inputServerName" class="form-control" placeholder="Server Name" ng-model="form.servername" required>
+    <input type="number" id="inputPort" class="form-control" placeholder="Port" ng-model="form.port" min="0" max="65535" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Apply</button>
   </form>
 </div>

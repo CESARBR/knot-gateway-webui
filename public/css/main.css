@@ -223,7 +223,7 @@ a:focus {
   margin-bottom: 10px;
 }
 
-/* Sign-in styles */
+/* Home styles */
 .banner {
   color: #555;
   font-size: 38px;
@@ -236,30 +236,24 @@ a:focus {
   font-size: 18px;
 }
 
-.remember-me-checkbox {
-  font-size: 13px;
-  margin-top: 5px;
-  margin-left: 60px;
-}
-
 .round-image{
   width: 60px;
   border-radius: 100%;
 }
 
-.form-signin {
+.form-home {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
+.form-home .form-home-heading,
+.form-home .checkbox {
   margin-bottom: 10px;
 }
-.form-signin .checkbox {
+.form-home .checkbox {
   font-weight: normal;
 }
-.form-signin .form-control {
+.form-home .form-control {
   position: relative;
   height: auto;
   -webkit-box-sizing: border-box;
@@ -268,26 +262,13 @@ a:focus {
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 
-.form-signin .btn-primary {
+.form-home .btn-primary {
   width: 205px;
   margin-top: 5px;
 }
 
-.signin-container {
+.home-container {
   width: 540px;
   padding: 30px;
   background-color: #eee;
@@ -295,6 +276,7 @@ a:focus {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Other */
 .progress-bar {
   float: left;
   width: 0%;

@@ -5,18 +5,11 @@
 <div>
   <h2 class="banner small-font" align="center" >Sign in to continue</h2>
 </div>
-<div align="center" class="container signin-container">
-  <form class="form-signin" ng-submit="signin()">
+<div align="center" class="container home-container">
+  <form class="form-home" ng-submit="signin()">
     <input type="text" id="inputEmail" class="form-control" placeholder="Email" ng-model="form.email" required>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <div class="checkbox">
-      <div align="left" class="remember-me-checkbox">
-        <input type="checkbox" class="custom-control-input" disabled>
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Remember me</span>
-      </div>
-    </div>
   </form>
-  <a href="#/signup">Create account</a>
+  <a ui-sref="signup">Create account</a>
 </div>

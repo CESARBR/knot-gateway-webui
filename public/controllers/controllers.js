@@ -292,7 +292,7 @@ app.controller('CloudController', function ($scope, $state, AppService) {
     AppService.saveCloudConfig(formData)
       .then(function onSuccess(/* result */) {
         alert('Information saved');
-        $state.go('signin');
+        $state.go('signup');
       });
   };
 });

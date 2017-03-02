@@ -26,6 +26,8 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
           }, function onError(err) {
             if (err.status === 400) {
               $state.go('cloud');
+            } else if (err.status === 409) {
+              alert('User already exists');
             } else if (err.status === 500) {
               alert('Error registering user');
             }

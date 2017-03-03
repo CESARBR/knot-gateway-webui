@@ -20,7 +20,17 @@ var setUser = function setUser(user, done) {
   });
 };
 
-var getUser = function getUser(email, done) {
+var getUserByUUID = function getUserByUUID(uuid, done) {
+  User.findOne({ uuid: uuid }, function (err, user) {
+    if (err) {
+      done(err);
+    } else {
+      done(null, user);
+    }
+  });
+};
+
+var getUserByEmail = function getUserByEmail(email, done) {
   User.findOne({ email: email }, function (err, user) {
     if (err) {
       done(err);
@@ -32,5 +42,6 @@ var getUser = function getUser(email, done) {
 
 module.exports = {
   setUser: setUser,
-  getUser: getUser
+  getUserByEmail: getUserByEmail,
+  getUserByUUID: getUserByUUID
 };

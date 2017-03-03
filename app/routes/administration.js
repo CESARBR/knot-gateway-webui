@@ -1,5 +1,7 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 var settings = require('../models/settings');
+var users = require('../models/users');
+var fog = require('../models/fog');
 var exec = require('child_process').exec;
 var os = require('os');
 
@@ -8,7 +10,23 @@ var get = function get(req, res) {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json(admSettings);
+      fog.getFogSettings(function (err2, fogConfig) {
+        if (err2) {
+          res.sendStatus(500);
+        } else {
+          admSettings.uuidFog = fogConfig.uuid;
+          admSettings.tokenFog = fogConfig.token;
+          users.getUserByUUID(req.user.uuid, function (err3, user) {
+            if (err3) {
+              res.sendStatus(500);
+            } else {
+              admSettings.uuid = user.uuid;
+              admSettings.token = user.token;
+              res.json(admSettings);
+            }
+          });
+        }
+      });
     }
   });
 };

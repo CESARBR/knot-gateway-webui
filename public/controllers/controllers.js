@@ -59,6 +59,10 @@ app.controller('AdminController', function ($rootScope, $scope, $location, $stat
         formData.allowedPassword = result.allowedPassword;
         formData.sshKey = result.sshKey;
         formData.currentFirmware = result.firmware;
+        $scope.uuidFog = result.uuidFog;
+        $scope.tokenFog = result.tokenFog;
+        $scope.uuid = result.uuid;
+        $scope.token = result.token;
       }, function onError(err) {
         console.log(err);
       });

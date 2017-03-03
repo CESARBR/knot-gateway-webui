@@ -1,4 +1,13 @@
 <div class="jumbotron administration">
+  <h2 class="form-home-heading">User Informations</h2>
+  <h4 for="uuid">UUID:</h4>
+  <p>{{ uuid }}</p>
+  <h4 for="token">Token:</h4>
+  <p>{{ token }}</p>
+  <h4 for="uuidFog">Gateway's UUID:</h4>
+  <p>{{ uuidFog }}</p>
+  <h4 for="tokenFog">Gateway's Token:</h4>
+  <p>{{ tokenFog }}</p>
   <form class="form-administration" ng-submit="save()" ng-init="init()">
     <h2 class="form-home-heading">Administration</h2>
     <label for="inputGatewayPassword" class="sr-only">Password</label>

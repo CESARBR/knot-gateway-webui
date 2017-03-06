@@ -1,4 +1,8 @@
 var mongoose = require('mongoose');
+var fs = require('fs');
+
+var DOTENV_FILE = require('./../config').DOTENV_FILE;
+
 var fogSchema = new mongoose.Schema({
   uuid: String,
   token: String
@@ -10,6 +14,12 @@ var setFogSettings = function setFogSettings(settings, done) {
     if (err) {
       done(err);
     } else {
+      // write singup info to cloud .env file
+      fs.appendFile(DOTENV_FILE,
+        'PARENT_CONNECTION_UUID=' + settings.uuid + '\n' +
+        'PARENT_CONNECTION_TOKEN=' + settings.token + '\n' +
+        'UUID=' + settings.uuid + '\n' +
+        'TOKEN=' + settings.token + '\n');
       done(null, fogConfig);
     }
   });

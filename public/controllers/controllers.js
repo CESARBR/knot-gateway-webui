@@ -248,28 +248,12 @@ app.controller('RadioController', function ($rootScope, $scope, $location, AppSe
   $scope.init = function () {
     AppService.loadRadioInfo()
       .then(function onSuccess(result) {
-        formData.channel = result.channel;
-        formData.outputPower = result.TxPower;
         formData.mac = result.mac;
       }, function onError(err) {
         console.log(err);
       });
 
     $scope.form = formData;
-  };
-
-  $scope.save = function () {
-    var config = {
-      channel: $scope.form.channel,
-      TxPower: $scope.form.outputPower
-    };
-
-    AppService.saveRadioInfo(config)
-      .then(function onSuccess(/* result */) {
-        alert('Information saved');
-      }, function onError(err) {
-        alert(err);
-      });
   };
 });
 

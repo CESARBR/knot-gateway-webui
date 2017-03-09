@@ -14,5 +14,5 @@ module.exports = {
   PORT: PORT,
   TOKEN_SECRET: TOKEN_SECRET,
   TOKEN_EXPIRATION: TOKEN_EXPIRATION,
-  DOTENV_FILE: '/usr/local/bin/knot-fog/.env'
+  DOTENV_FILE: '/usr/local/bin/knot-fog-source/.env'
 };

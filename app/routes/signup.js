@@ -92,12 +92,12 @@ var post = function post(req, res) {
                       res.sendStatus(500);
                     } else {
                     // Restart KNoT Fog daemon
-                    exec('/etc/init.d/S60knot-fog-daemon reload', function (error) {
-                      if (error) {
-                        console.log('Error restarting KNoT Fog: ' + error);
-                      }
-                    });
-		    res.end();
+                      exec('/etc/init.d/S60knot-fog-daemon reload', function (error) {
+                        if (error) {
+                          console.log('Error restarting KNoT Fog: ' + error);
+                        }
+                      });
+                      res.end();
                     }
                   });
                 }

@@ -22,8 +22,6 @@
     "password": "admin"
   },
   "radio": {
-    "channel": 14,
-    "TxPower": -18,
     "mac": null
   },
   "cloud": {

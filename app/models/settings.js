@@ -30,9 +30,6 @@ var writeFile = function writeFile(type, incomingData, done) {
       localData.administration.remoteSshPort = incomingData.remoteSshPort;
       localData.administration.allowedPassword = incomingData.allowedPassword;
       localData.administration.sshKey = incomingData.sshKey;
-    } else if (type === 'radio') {
-      localData.radio.channel = incomingData.channel;
-      localData.radio.TxPower = incomingData.TxPower;
     } else if (type === 'net') {
       cmd = 'echo ' + incomingData.hostname + ' > /etc/hostname';
       exec(cmd, function hostname(error) {
@@ -102,8 +99,6 @@ var getRadioSettings = function getRadioSettings(done) {
       try {
         obj = JSON.parse(data);
         radioObj = {
-          channel: obj.radio.channel,
-          TxPower: obj.radio.TxPower,
           mac: obj.radio.mac
         };
         done(null, radioObj);
@@ -112,10 +107,6 @@ var getRadioSettings = function getRadioSettings(done) {
       }
     }
   });
-};
-
-var setRadioSettings = function setRadioSettings(settings, done) {
-  writeFile('radio', settings, done);
 };
 
 var getNetworkSettings = function getNetworkSettings(done) {
@@ -173,7 +164,6 @@ module.exports = {
   getAdministrationSettings: getAdministrationSettings,
   setAdministrationSettings: setAdministrationSettings,
   getRadioSettings: getRadioSettings,
-  setRadioSettings: setRadioSettings,
   getNetworkSettings: getNetworkSettings,
   setNetworkSettings: setNetworkSettings,
   setDefaultSettings: setDefaultSettings

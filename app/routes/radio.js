@@ -11,23 +11,7 @@ var get = function get(req, res) {
   });
 };
 
-var post = function post(req, res) {
-  if (!req.body) {
-    res.sendStatus(400);
-    return;
-  }
-
-  settings.setRadioSettings(req.body, function onRadioSettingsSet(err) {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.end();
-    }
-  });
-};
-
 router.get('/', get);
-router.post('/', post);
 
 module.exports = {
   router: router

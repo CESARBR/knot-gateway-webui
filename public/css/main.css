@@ -302,3 +302,7 @@ input
 {
   height: 35px !important;
 }
+
+a[ng-click] {
+  cursor: pointer;
+}

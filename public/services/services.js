@@ -53,6 +53,11 @@ app.factory('AuthService', function ($http, $sessionStorage, $window, ROLES) {
     });
   };
 
+  authFactory.signout = function signout() {
+    $sessionStorage.token = null;
+    clearUser();
+  };
+
   authFactory.isAdmin = function isAdmin() {
     return currentUser.role === ROLES.ADMIN;
   };

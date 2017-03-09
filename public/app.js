@@ -23,6 +23,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
     .state('app', {
       abstract: true,
       templateUrl: 'views/app.html',
+      controller: 'AppController',
       data: {
         permissions: {
           only: ROLES.ADMIN,

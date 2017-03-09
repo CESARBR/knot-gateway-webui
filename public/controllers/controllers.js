@@ -1,5 +1,12 @@
 /*global app*/
 
+app.controller('AppController', function ($scope, $state, AuthService) {
+  $scope.signout = function signout() {
+    AuthService.signout();
+    $state.go('signin');
+  };
+});
+
 app.controller('SigninController', function ($scope, $state, AuthService) {
   $scope.signin = function signin() {
     AuthService.signin($scope.form)
@@ -227,10 +234,6 @@ app.controller('RebootController', function ($scope, $location, $interval, $stat
       }
     }, MINUTE / 100);
   };
-});
-
-app.controller('MainController', function ($rootScope, $location) {
-  $rootScope.activetab = $location.path();
 });
 
 app.controller('RadioController', function ($rootScope, $scope, $location, AppService) {

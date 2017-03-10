@@ -55,6 +55,9 @@ var writeFile = function writeFile(type, incomingData, done) {
           }
         }
       });
+    } else if (type === 'cloud') {
+      localData.cloud.uuid = incomingData.uuid;
+      localData.cloud.token = incomingData.token;
     }
     fs.writeFile(CONFIGURATION_FILE, JSON.stringify(localData), 'utf8', done);
   });
@@ -107,6 +110,32 @@ var getRadioSettings = function getRadioSettings(done) {
       }
     }
   });
+};
+
+var getCloudSettings = function getCloudSettings(done) {
+  fs.readFile(CONFIGURATION_FILE, 'utf8', function onRead(err, data) {
+    var obj;
+    var cloudObj;
+
+    if (err) {
+      done(err);
+    } else {
+      try {
+        obj = JSON.parse(data);
+        cloudObj = {
+          uuid: obj.cloud.uuid,
+          token: obj.cloud.token
+        };
+        done(null, cloudObj);
+      } catch (e) {
+        done(e);
+      }
+    }
+  });
+};
+
+var setCloudSettings = function setCloudSettings(settings, done) {
+  writeFile('cloud', settings, done);
 };
 
 var getNetworkSettings = function getNetworkSettings(done) {
@@ -164,6 +193,8 @@ module.exports = {
   getAdministrationSettings: getAdministrationSettings,
   setAdministrationSettings: setAdministrationSettings,
   getRadioSettings: getRadioSettings,
+  getCloudSettings: getCloudSettings,
+  setCloudSettings: setCloudSettings,
   getNetworkSettings: getNetworkSettings,
   setNetworkSettings: setNetworkSettings,
   setDefaultSettings: setDefaultSettings

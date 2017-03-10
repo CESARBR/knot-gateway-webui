@@ -2,6 +2,7 @@ var router = require('express').Router(); // eslint-disable-line new-cap
 var users = require('../models/users');
 var Fog = require('../models/fog');
 var cloudConfig = require('../models/cloud');
+var settings = require('../models/settings');
 var bCrypt = require('bcrypt-nodejs');
 var request = require('request');
 var exec = require('child_process').exec;
@@ -91,13 +92,19 @@ var post = function post(req, res) {
                     if (err5) {
                       res.sendStatus(500);
                     } else {
-                    // Restart KNoT Fog daemon
-                      exec('/etc/init.d/S60knot-fog-daemon reload', function (error) {
-                        if (error) {
-                          console.log('Error restarting KNoT Fog: ' + error);
+                      settings.setCloudSettings(newUser, function (err6) {
+                        if (err6) {
+                          res.sendStatus(500);
+                        } else {
+                          // Restart KNoT Fog daemon
+                          exec('/etc/init.d/S60knot-fog-daemon reload', function (error) {
+                            if (error) {
+                              console.log('Error restarting KNoT Fog: ' + error);
+                            }
+                          });
+                          res.end();
                         }
                       });
-                      res.end();
                     }
                   });
                 }

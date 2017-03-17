@@ -112,29 +112,7 @@ var getRadioSettings = function getRadioSettings(done) {
   });
 };
 
-var getCloudSettings = function getCloudSettings(done) {
-  fs.readFile(CONFIGURATION_FILE, 'utf8', function onRead(err, data) {
-    var obj;
-    var cloudObj;
-
-    if (err) {
-      done(err);
-    } else {
-      try {
-        obj = JSON.parse(data);
-        cloudObj = {
-          uuid: obj.cloud.uuid,
-          token: obj.cloud.token
-        };
-        done(null, cloudObj);
-      } catch (e) {
-        done(e);
-      }
-    }
-  });
-};
-
-var setCloudSettings = function setCloudSettings(settings, done) {
+var setUserCredentials = function setUserCredentials(settings, done) {
   writeFile('cloud', settings, done);
 };
 
@@ -193,8 +171,7 @@ module.exports = {
   getAdministrationSettings: getAdministrationSettings,
   setAdministrationSettings: setAdministrationSettings,
   getRadioSettings: getRadioSettings,
-  getCloudSettings: getCloudSettings,
-  setCloudSettings: setCloudSettings,
+  setUserCredentials: setUserCredentials,
   getNetworkSettings: getNetworkSettings,
   setNetworkSettings: setNetworkSettings,
   setDefaultSettings: setDefaultSettings

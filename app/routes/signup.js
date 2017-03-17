@@ -92,7 +92,7 @@ var post = function post(req, res) {
                     if (err5) {
                       res.sendStatus(500);
                     } else {
-                      settings.setCloudSettings(newUser, function (err6) {
+                      settings.setUserCredentials(newUser, function (err6) {
                         if (err6) {
                           res.sendStatus(500);
                         } else {

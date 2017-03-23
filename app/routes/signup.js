@@ -5,7 +5,7 @@ var cloudConfig = require('../models/cloud');
 var settings = require('../models/settings');
 var bCrypt = require('bcrypt-nodejs');
 var request = require('request');
-var exec = require('child_process').exec;
+var execFile = require('child_process').execFile;
 
 //  Generates hash using bCrypt
 var createHash = function (password) {
@@ -97,7 +97,7 @@ var post = function post(req, res) {
                           res.sendStatus(500);
                         } else {
                           // Restart KNoT Fog daemon
-                          exec('/etc/init.d/S60knot-fog-daemon reload', function (error) {
+                          execFile('/etc/init.d/S60knot-fog-daemon', ['reload'], function (error) {
                             if (error) {
                               console.log('Error restarting KNoT Fog: ' + error);
                             }

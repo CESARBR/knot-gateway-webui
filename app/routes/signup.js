@@ -42,7 +42,7 @@ var registerUser = function (cloud, user, cb) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    form: { 'user.email': user.email, 'user.password': user.password, type: 'user' }
+    form: { user: { email: user.email, password: user.password }, type: 'user' }
   }, function (err, response, body) {
     var data = {};
     var result;

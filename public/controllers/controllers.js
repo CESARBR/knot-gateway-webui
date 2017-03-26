@@ -28,15 +28,22 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
     if (userData.password === userData.passwordConfirmation) {
       SignupService.signup(userData)
           .then(function onSuccess(/* result */) {
-            alert('User registered');
+            alert('User registered ');
             $state.go('app.admin');
           }, function onError(err) {
+            console.log(err);
             if (err.status === 400) {
               $state.go('cloud');
+            } else if (err.status === 401) {
+              alert('Error: Unauthorized');
             } else if (err.status === 409) {
-              alert('User already exists');
+              alert('Error: email already exists');
             } else if (err.status === 500) {
-              alert('Error registering user');
+              alert('Error: cloud may not running');
+            } else if (err.status === 503) {
+              alert('MongoError: failed to connect with database');
+            } else if (err.status === 506) {
+              alert('Error: registering user');
             }
           });
     } else {

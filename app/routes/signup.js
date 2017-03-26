@@ -48,16 +48,16 @@ var registerUser = function (cloud, user, cb) {
     var result;
     if (body) {
       result = JSON.parse(body);
+      console.log(result);
     }
     if (err) {
       console.log('Error registering user on cloud: ' + err);
       err.status = 500;
       cb(err, null);
     } else if (!result.user) {
-      err = {};
-      console.log('User already exist');
-      err.status = 409;
-      cb(err, null);
+      // if there is no user field so it is a error response
+      console.log(result.message);
+      cb(result, null);
     } else {
       data.email = result.user.email;
       data.password = result.user.password;
@@ -82,7 +82,7 @@ var post = function post(req, res) {
         } else {
           registerGateway(cloud, newUser.uuid, function (err3, gateway) {
             if (err3) {
-              res.sendStatus(err2.status);
+              res.sendStatus(err3);
             } else {
               users.setUser(newUser, function (err4) {
                 if (err4) {

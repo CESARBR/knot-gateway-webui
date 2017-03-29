@@ -39,7 +39,7 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
             } else if (err.status === 409) {
               alert('Error: email already exists');
             } else if (err.status === 500) {
-              alert('Error: cloud may not running');
+              alert('Error: cloud may not be running');
             } else if (err.status === 503) {
               alert('MongoError: failed to connect with database');
             } else if (err.status === 506) {

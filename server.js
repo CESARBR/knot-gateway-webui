@@ -2,6 +2,7 @@ var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cloud = require('./app/models/cloud');
 var DATABASE_URL = require('./app/config').DATABASE_URL;
 var DOTENV_FILE = require('./app/config').DOTENV_FILE;
 
@@ -30,6 +31,14 @@ fs.readFile(DOTENV_FILE, 'utf8', function (err, data) {
 });
 
 mongoose.connect(DATABASE_URL);
+// Set default server
+cloud.setCloudSettings({ servername: config.SERVER_CLOUD, port: config.PORT_CLOUD },
+  function onCloudSettingsSet(err) {
+    if (err) {
+      console.log('Error setting cloud');
+    }
+  }
+);
 
 serverConfig.listen(config.PORT, function () {
   console.log('Listening on ' + config.PORT);

@@ -19,16 +19,19 @@ app.controller('SigninController', function ($scope, $state, AuthService) {
 });
 
 app.controller('SignupController', function ($scope, $state, $http, SignupService) {
+  $scope.hideButton = false;
   $scope.signup = function () {
     var userData = {
       email: $scope.form.email,
       password: $scope.form.password,
       passwordConfirmation: $scope.form.passwordConfirmation
     };
+    $scope.hideButton = true;
     if (userData.password === userData.passwordConfirmation) {
       SignupService.signup(userData)
           .then(function onSuccess(/* result */) {
             alert('User registered ');
+            $scope.hideButton = false;
             $state.go('app.admin');
           }, function onError(err) {
             console.log(err);
@@ -45,6 +48,7 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
             } else if (err.status === 506) {
               alert('Error: registering user');
             }
+            $scope.hideButton = false;
           });
     } else {
       alert('Password does not match');

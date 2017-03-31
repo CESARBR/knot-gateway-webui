@@ -10,6 +10,7 @@
     <input type="text" id="inputEmail" class="form-control" placeholder="Email" ng-model="form.email" required>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="form.password" required>
     <input type="password" id="inputPasswordConfirmation" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Sign Up</button>
+    <p ng-show="hideButton">Registering user...</p>
   </form>
 </div>

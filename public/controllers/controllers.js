@@ -30,7 +30,7 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
     if (userData.password === userData.passwordConfirmation) {
       SignupService.signup(userData)
           .then(function onSuccess(/* result */) {
-            alert('User registered ');
+            alert('The user was registered successfully');
             $scope.hideButton = false;
             $state.go('app.admin');
           }, function onError(err) {

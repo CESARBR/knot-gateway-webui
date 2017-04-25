@@ -3,14 +3,8 @@ var users = require('../models/users');
 var Fog = require('../models/fog');
 var cloudConfig = require('../models/cloud');
 var settings = require('../models/settings');
-var bCrypt = require('bcrypt-nodejs');
 var request = require('request');
 var execFile = require('child_process').execFile;
-
-//  Generates hash using bCrypt
-var createHash = function (password) {
-  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-};
 
 var registerGateway = function (cloud, ownerUuid, cb) {
   request({
@@ -70,7 +64,7 @@ var registerUser = function (cloud, user, cb) {
 
 var post = function post(req, res) {
   cloudConfig.getCloudSettings(function onCloudSettingsSet(err1, cloud) {
-    var user = { email: req.body.email, password: createHash(req.body.password) };
+    var user = { email: req.body.email, password: req.body.password };
     if (err1) {
       res.sendStatus(400);
     } else if (!cloud) {

@@ -15,14 +15,17 @@ var post = function post(req, res) {
   if (!req.body) {
     res.sendStatus(400);
     return;
+  } else if (req.body.servername.trim() === '') {
+    res.status(422).send({ message: 'Field is empty' });
+  } else {
+    cloud.setCloudSettings(req.body, function onCloudSettingsSet(err) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.end();
+      }
+    });
   }
-  cloud.setCloudSettings(req.body, function onCloudSettingsSet(err) {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.end();
-    }
-  });
 };
 
 router.get('/', get);

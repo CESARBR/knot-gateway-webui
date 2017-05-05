@@ -32,13 +32,20 @@ fs.readFile(DOTENV_FILE, 'utf8', function (err, data) {
 
 mongoose.connect(DATABASE_URL);
 // Set default server
-cloud.setCloudSettings({ servername: config.SERVER_CLOUD, port: config.PORT_CLOUD },
-  function onCloudSettingsSet(err) {
-    if (err) {
-      console.log('Error setting cloud');
-    }
+cloud.getCloudSettings(function (err, cloudSettings) {
+  if (err) {
+    console.log('Error setting cloud');
   }
-);
+  if (!cloudSettings) {
+    cloud.setCloudSettings({ servername: config.SERVER_CLOUD, port: config.PORT_CLOUD },
+    function onCloudSettingsSet(error) {
+      if (error) {
+        console.log('Error setting cloud');
+      }
+    });
+  }
+});
+
 
 serverConfig.listen(config.PORT, function () {
   console.log('Listening on ' + config.PORT);

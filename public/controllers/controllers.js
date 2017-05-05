@@ -297,6 +297,8 @@ app.controller('CloudController', function ($scope, $state, AppService) {
       .then(function onSuccess(/* result */) {
         alert('Information saved');
         $state.go('signup');
+      }, function onError(err) {
+        alert(err.data.message);
       });
   };
 });

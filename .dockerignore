@@ -1,0 +1,12 @@
+*~
+.*~
+#~
+.git
+.gitignore
+.eslintrc.json
+.eslintignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+node_modules
+npm-debug.log

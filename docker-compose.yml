@@ -1,0 +1,17 @@
+version: '2'
+services:
+  webui:
+    build: .
+    image: knot/webui
+    container_name: webui
+    security_opt:
+      - seccomp=unconfined
+    tmpfs:
+      - /run
+      - /run/lock
+    ports:
+      - '8080:8080'
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - .:/app
+      - /app/node_modules

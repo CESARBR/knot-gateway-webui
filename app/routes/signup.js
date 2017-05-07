@@ -4,7 +4,7 @@ var Fog = require('../models/fog');
 var cloudConfig = require('../models/cloud');
 var settings = require('../models/settings');
 var request = require('request');
-var execFile = require('child_process').execFile;
+var exec = require('child_process').exec;
 
 var registerGateway = function (cloud, ownerUuid, cb) {
   request({
@@ -91,7 +91,7 @@ var post = function post(req, res) {
                           res.sendStatus(500);
                         } else {
                           // Restart KNoT Fog daemon
-                          execFile('/etc/init.d/S60knot-fog-daemon', ['reload'], function (error) {
+                          exec('kill -15 `cat /tmp/knot-fog.pid`', function (error) {
                             if (error) {
                               console.log('Error restarting KNoT Fog: ' + error);
                             }

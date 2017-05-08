@@ -27,6 +27,11 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
     } else {
       res.sendStatus(500);
     }
+  } else if (err.isJoi) {
+    res.status(422).json({
+      message: 'Validation failed',
+      errors: err.details
+    });
   } else {
     console.error(err); // eslint-disable-line no-console
     res.sendStatus(500);

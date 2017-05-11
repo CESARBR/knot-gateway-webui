@@ -34,7 +34,4 @@ RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-sou
 COPY ./docker-knot-web.service /lib/systemd/system/knot-web.service
 RUN systemctl enable knot-web
 
-# copy files
-COPY . .
-
 CMD ["/bin/bash", "-c", "exec  /sbin/init --log-target=journal 3>&1"]

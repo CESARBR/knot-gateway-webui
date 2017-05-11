@@ -1,4 +1,6 @@
-/*global app*/
+var angular = require('angular');
+
+var app = angular.module('app.directives', []);
 
 app.directive('ngConfirmClick', [
   function () {

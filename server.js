@@ -10,7 +10,7 @@ var config = require('./app/config');
 var apiRoute = require('./app/routes/api');
 var handlers = require('./app/helpers/handlers');
 
-var publicRoot = __dirname + '/public/'; // eslint-disable-line no-path-concat
+var publicRoot = __dirname + '/www/'; // eslint-disable-line no-path-concat
 var serverConfig = express();
 
 require('dotenv').config({ path: DOTENV_FILE });

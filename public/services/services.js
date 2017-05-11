@@ -1,4 +1,8 @@
-/*global app*/
+var app;
+var angular = require('angular');
+require('ng-storage');
+
+app = angular.module('app.services', ['ngStorage']);
 
 app.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
   var request = function request(config) {

@@ -1,12 +1,32 @@
-/*global angular*/
+/* eslint-disable global-require */
 
-var app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ngMask', 'ui.bootstrap']);
+var app;
+
+// Libraries
+var angular = require('angular');
+require('@uirouter/angularjs');
+require('angular-ui-bootstrap');
+require('angular-permission');
+require('ng-storage');
+require('ng-mask');
+
+// Styles
+require('bootstrap-2.3.2/css/bootstrap.min.css');
+require('./css/main.css');
+
+// Application modules
+require('./directives/confirmClick.js');
+require('./services/services.js');
+require('./controllers/controllers.js');
+
+app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ngMask', 'ui.bootstrap',
+                                 'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
 app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, ROLES) {
   $stateProvider
     .state('signin', {
       url: '/signin',
-      templateUrl: 'views/signin.html',
+      template: require('./views/signin.html'),
       controller: 'SigninController',
       data: {
         permissions: {
@@ -17,12 +37,12 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
     })
     .state('signup', {
       url: '/signup',
-      templateUrl: 'views/signup.html',
+      template: require('./views/signup.html'),
       controller: 'SignupController'
     })
     .state('app', {
       abstract: true,
-      templateUrl: 'views/app.html',
+      template: require('./views/app.html'),
       controller: 'AppController',
       data: {
         permissions: {
@@ -33,32 +53,32 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
     })
     .state('app.admin', {
       url: '/admin',
-      templateUrl: 'views/app.admin.html',
+      template: require('./views/app.admin.html'),
       controller: 'AdminController'
     })
     .state('app.network', {
       url: '/network',
-      templateUrl: 'views/app.network.html',
+      template: require('./views/app.network.html'),
       controller: 'NetworkController'
     })
     .state('app.radio', {
       url: '/radio',
-      templateUrl: 'views/app.radio.html',
+      template: require('./views/app.radio.html'),
       controller: 'RadioController'
     })
     .state('cloud', {
       url: '/cloud',
-      templateUrl: 'views/cloud.html',
+      template: require('./views/cloud.html'),
       controller: 'CloudController'
     })
     .state('app.devices', {
       url: '/devices',
-      templateUrl: 'views/app.devices.html',
+      template: require('./views/app.devices.html'),
       controller: 'DevicesController'
     })
     .state('app.reboot', {
       url: '/reboot',
-      templateUrl: 'views/app.reboot.html',
+      template: require('./views/app.reboot.html'),
       controller: 'RebootController'
     });
 

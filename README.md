@@ -17,8 +17,9 @@ To ease development, we provide a Docker container, but it still doesn't abstrac
 ## Target environment
 
 ```
-npm install
-node server.js
+$ npm install
+$ npm run build
+$ node server.js
 ```
 
 The application can be accessed at `http://<target-ip>:8080`.
@@ -50,6 +51,16 @@ docker exec -ti webui systemctl status knot-web
 ```
 
 Once it is running, it can be accessed at `http://localhost:8080`.
+
+### Restart
+
+To restart the application, run:
+
+```
+docker exec -ti webui systemctl status knot-web
+```
+
+This will rebuild the application. While live reloading isn't supported, this can be an alternative.
 
 ### Stop
 

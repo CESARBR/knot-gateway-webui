@@ -15,3 +15,4 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - .:/usr/local/bin/knot-web-app
       - /usr/local/bin/knot-web-app/node_modules
+      - /usr/local/bin/knot-web-app/www

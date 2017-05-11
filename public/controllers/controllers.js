@@ -1,4 +1,8 @@
-/*global app*/
+var app;
+var angular = require('angular');
+require('@uirouter/angularjs');
+
+app = angular.module('app.controllers', ['ui.router', 'app.services']);
 
 app.controller('AppController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.signout = function signout() {

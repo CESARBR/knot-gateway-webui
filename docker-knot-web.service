@@ -4,7 +4,7 @@ Requires=mongodb.service
 After=mongodb.service
 
 [Service]
-ExecStart=/bin/bash -c "exec node /usr/local/bin/knot-web-app/server.js"
+ExecStart=/usr/local/bin/knot-web.sh
 Restart=always
 RestartSec=10
 

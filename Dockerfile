@@ -5,25 +5,27 @@ RUN apt-get update \
  && apt-get install -y \
       curl apt-transport-https
 
+# add node 6.x repo
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+
 # add yarn repo
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-# add node 6.x repo
-RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo "deb https://deb.nodesource.com/node_6.x xenial main" | tee /etc/apt/sources.list.d/nodesource.list
-
-# install dependencies
+# install build tools
 RUN apt-get update \
  && apt-get install -y \
-      yarn nodejs \
+      git yarn nodejs python bzip2
+
+# install dependencies
+RUN apt-get install -y \
       dbus connman \
       mongodb
 
 # install modules
 WORKDIR /usr/local/bin/knot-web-app
 COPY package.json .
-RUN yarn
+RUN npm_config_tmp=/tmp TMP=/tmp yarn
 
 # install configuration files
 RUN mkdir -p /etc/knot
@@ -32,6 +34,8 @@ RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-sou
 
 # install init script
 COPY ./docker-knot-web.service /lib/systemd/system/knot-web.service
+COPY ./docker-knot-web.sh /usr/local/bin/knot-web.sh
+RUN chmod +x /usr/local/bin/knot-web.sh
 RUN systemctl enable knot-web
 
 CMD ["/bin/bash", "-c", "exec  /sbin/init --log-target=journal 3>&1"]

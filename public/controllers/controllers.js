@@ -37,16 +37,10 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
             console.log(err);
             if (err.status === 400) {
               $state.go('cloud');
-            } else if (err.status === 401) {
-              alert('Error: Unauthorized');
-            } else if (err.status === 409) {
-              alert('Error: email already exists');
             } else if (err.status === 500) {
               alert('Error: cloud may not be running');
-            } else if (err.status === 503) {
-              alert('MongoError: failed to connect with database');
-            } else if (err.status === 506) {
-              alert('Error: registering user');
+            } else {
+              alert(err.data.message);
             }
             $scope.hideButton = false;
           });

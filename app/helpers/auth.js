@@ -4,13 +4,10 @@ var LocalStrategy = require('passport-local');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var users = require('../models/users');
+var crypto = require('./crypto');
 
 var TOKEN_SECRET = require('../config').TOKEN_SECRET;
 var TOKEN_EXPIRATION = require('../config').TOKEN_EXPIRATION;
-
-var isValidPassword = function (user, password) {
-  return password === user.password;
-};
 
 var initialize = function initialize() {
   return passport.initialize();
@@ -46,7 +43,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
     users.getUserByEmail(email, function onUserReturned(err, user) {
       if (err) {
         return done(err);
-      } else if (!user || email !== user.email || !isValidPassword(user, password)) {
+      } else if (!user || email !== user.email ||
+                  !crypto.isPasswordValid(password, user.password)) {
         return done(null, false);
       }
 

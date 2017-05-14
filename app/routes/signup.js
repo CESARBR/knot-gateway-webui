@@ -3,6 +3,7 @@ var users = require('../models/users');
 var Fog = require('../models/fog');
 var cloudConfig = require('../models/cloud');
 var settings = require('../models/settings');
+var crypto = require('../helpers/crypto');
 var request = require('request');
 var exec = require('child_process').exec;
 
@@ -64,7 +65,7 @@ var registerUser = function (cloud, user, cb) {
 
 var post = function post(req, res) {
   cloudConfig.getCloudSettings(function onCloudSettingsSet(err1, cloud) {
-    var user = { email: req.body.email, password: req.body.password };
+    var user = { email: req.body.email, password: crypto.createPasswordHash(req.body.password) };
     if (err1) {
       res.sendStatus(400);
     } else if (!cloud) {

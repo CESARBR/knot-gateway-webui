@@ -1,28 +1,32 @@
 /*global app*/
 
-app.factory('httpAuthInterceptor', function ($sessionStorage) {
+app.factory('httpAuthInterceptor', function httpAuthInterceptor($q, Session) {
   var request = function request(config) {
+    var sessionToken = Session.getSessionToken();
+
     config.headers = config.headers || {};
-    if ($sessionStorage.token) {
-      config.headers.Authorization = 'Bearer ' + $sessionStorage.token;
+    if (sessionToken) {
+      config.headers.Authorization = 'Bearer ' + sessionToken;
     }
+
     return config;
   };
 
+  var responseError = function responseError(response) {
+    if (response.status === 401) {
+      Session.clearSession();
+    }
+    return $q.reject(response);
+  };
+
   return {
-    request: request
+    request: request,
+    responseError: responseError
   };
 });
 
-app.factory('AuthService', function ($http, $sessionStorage, $window, ROLES) {
+app.factory('Session', function Session($window, $sessionStorage, ROLES) {
   var currentUser;
-  var authFactory = {};
-
-  var clearUser = function clearUser() {
-    currentUser = {
-      role: ROLES.ANONYMOUS
-    };
-  };
 
   var parseJwt = function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -30,43 +34,88 @@ app.factory('AuthService', function ($http, $sessionStorage, $window, ROLES) {
     return JSON.parse($window.atob(base64));
   };
 
-  var loadToken = function loadToken() {
+  var getUserFromToken = function getUserFromToken(token) {
+    return parseJwt(token);
+  };
+
+  var getAnonymousUser = function getAnonymousUser() {
+    return {
+      role: ROLES.ANONYMOUS
+    };
+  };
+
+  var clearCurrentUser = function clearCurrentUser() {
+    currentUser = getAnonymousUser();
+  };
+
+  var startSession = function startSession(token) {
+    $sessionStorage.token = token;
+    currentUser = getUserFromToken(token);
+  };
+
+  var clearSession = function clearSession() {
+    delete $sessionStorage.token;
+    clearCurrentUser();
+  };
+
+  var getSessionToken = function getSessionToken() {
+    return $sessionStorage.token;
+  };
+
+  var getCurrentUser = function getCurrentUser() {
+    return currentUser;
+  };
+
+  var isAdmin = function isAdmin() {
+    return getCurrentUser().role === ROLES.ADMIN;
+  };
+
+  // Init
+  var init = function init() {
     if ($sessionStorage.token) {
-      currentUser = parseJwt($sessionStorage.token);
+      startSession($sessionStorage.token);
+    } else {
+      clearSession();
     }
   };
 
-  authFactory.signin = function signin(userData) {
+  init();
+
+  return {
+    startSession: startSession,
+    clearSession: clearSession,
+    getSessionToken: getSessionToken,
+    getCurrentUser: getCurrentUser,
+    isAdmin: isAdmin
+  };
+});
+
+app.factory('AuthService', function AuthService($http, Session) {
+  var signin = function signin(credentials) {
     return $http({
       method: 'POST',
       url: '/api/auth',
-      data: userData,
+      data: credentials,
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
     }).then(function onSuccess(result) {
-      $sessionStorage.token = result.data.token;
-      currentUser = result.data.user;
-      return currentUser;
+      var token = result.data.token;
+      Session.startSession(token);
+      return Session.getCurrentUser();
     });
   };
 
-  authFactory.signout = function signout() {
-    $sessionStorage.token = null;
-    clearUser();
+  var signout = function signout() {
+    Session.clearSession();
   };
 
-  authFactory.isAdmin = function isAdmin() {
-    return currentUser.role === ROLES.ADMIN;
+  return {
+    signin: signin,
+    signout: signout
   };
-
-  // Init
-  clearUser();
-  loadToken();
-
-  return authFactory;
 });
 
 app.factory('SignupService', function ($http) {

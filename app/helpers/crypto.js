@@ -42,7 +42,12 @@ var isPasswordValid = function isPasswordValid(password, hash) {
   return newPasswordHash === passwordHash;
 };
 
+var createTokenSecret = function createTokenSecret() {
+  return crypto.randomBytes(32).toString('hex');
+};
+
 module.exports = {
   createPasswordHash: createPasswordHash,
-  isPasswordValid: isPasswordValid
+  isPasswordValid: isPasswordValid,
+  createTokenSecret: createTokenSecret
 };

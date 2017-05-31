@@ -37,6 +37,11 @@ var authorize = function authorize() {
   return expressJwt({ secret: TOKEN_SECRET });
 };
 
+// Generate random token secret, if not configured
+if (!TOKEN_SECRET) {
+  TOKEN_SECRET = crypto.createTokenSecret();
+}
+
 // Configure passport
 passport.use(new LocalStrategy({ usernameField: 'email' },
   function (email, password, done) {

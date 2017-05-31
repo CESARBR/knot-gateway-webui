@@ -12,7 +12,7 @@ var CLOUD_SERVER_PORT = process.env.CLOUD_SERVER_PORT || 3000;
 
 // Server configuration
 var PORT = process.env.PORT || 8080;
-var TOKEN_SECRET = process.env.TOKEN_SECRET || 'devsecret';
+var TOKEN_SECRET = process.env.TOKEN_SECRET;
 var TOKEN_EXPIRATION = 120 * 60;
 
 module.exports = {

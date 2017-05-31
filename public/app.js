@@ -82,3 +82,10 @@ app.constant('ROLES', {
   ANONYMOUS: 'anonymous',
   ADMIN: 'admin'
 });
+
+app.constant('AUTH_EVENTS', {
+  SIGNIN_SUCCESS: 'auth-signin-success',
+  SIGNIN_FAILED: 'auth-signin-failed',
+  SIGNOUT_SUCESS: 'auth-signout-success',
+  NOT_AUTHENTICATED: 'auth-not-authenticated'
+});

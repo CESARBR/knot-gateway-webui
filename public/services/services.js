@@ -1,6 +1,6 @@
 /*global app*/
 
-app.factory('httpAuthInterceptor', function httpAuthInterceptor($q, Session) {
+app.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
   var request = function request(config) {
     var sessionToken = Session.getSessionToken();
 
@@ -14,7 +14,8 @@ app.factory('httpAuthInterceptor', function httpAuthInterceptor($q, Session) {
 
   var responseError = function responseError(response) {
     if (response.status === 401) {
-      Session.clearSession();
+      Session.destroy();
+      $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED);
     }
     return $q.reject(response);
   };
@@ -48,12 +49,12 @@ app.factory('Session', function Session($window, $sessionStorage, ROLES) {
     currentUser = getAnonymousUser();
   };
 
-  var startSession = function startSession(token) {
+  var create = function create(token) {
     $sessionStorage.token = token;
     currentUser = getUserFromToken(token);
   };
 
-  var clearSession = function clearSession() {
+  var destroy = function destroy() {
     delete $sessionStorage.token;
     clearCurrentUser();
   };
@@ -73,24 +74,24 @@ app.factory('Session', function Session($window, $sessionStorage, ROLES) {
   // Init
   var init = function init() {
     if ($sessionStorage.token) {
-      startSession($sessionStorage.token);
+      create($sessionStorage.token);
     } else {
-      clearSession();
+      destroy();
     }
   };
 
   init();
 
   return {
-    startSession: startSession,
-    clearSession: clearSession,
+    create: create,
+    destroy: destroy,
     getSessionToken: getSessionToken,
     getCurrentUser: getCurrentUser,
     isAdmin: isAdmin
   };
 });
 
-app.factory('AuthService', function AuthService($http, Session) {
+app.factory('AuthService', function AuthService($http, $q, Session) {
   var signin = function signin(credentials) {
     return $http({
       method: 'POST',
@@ -103,13 +104,13 @@ app.factory('AuthService', function AuthService($http, Session) {
       }
     }).then(function onSuccess(result) {
       var token = result.data.token;
-      Session.startSession(token);
+      Session.create(token);
       return Session.getCurrentUser();
     });
   };
 
   var signout = function signout() {
-    Session.clearSession();
+    Session.destroy();
   };
 
   return {

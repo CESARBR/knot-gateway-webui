@@ -1,18 +1,28 @@
 /*global app*/
 
-app.controller('AppController', function ($scope, $state, AuthService) {
+app.controller('AppController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.signout = function signout() {
     AuthService.signout();
-    $state.go('signin');
+    $rootScope.$broadcast(AUTH_EVENTS.SIGNOUT_SUCCESS);
   };
+
+  $scope.$on(AUTH_EVENTS.NOT_AUTHENTICATED, function onNotAuthenticated() {
+    $state.go('signin');
+  });
+
+  $scope.$on(AUTH_EVENTS.SIGNOUT_SUCCESS, function onSignoutSuccess() {
+    $state.go('signin');
+  });
 });
 
-app.controller('SigninController', function ($scope, $state, AuthService) {
+app.controller('SigninController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.signin = function signin() {
     AuthService.signin($scope.form)
       .then(function onSuccess() {
+        $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.admin');
       }, function onError() {
+        $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_FAILED);
         alert('Authentication Error');
       });
   };

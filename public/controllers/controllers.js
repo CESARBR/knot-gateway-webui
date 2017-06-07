@@ -268,6 +268,7 @@ app.controller('CloudController', function ($scope, $state, AppService) {
     servername: null,
     port: null
   };
+  $scope.hideButton = false;
 
   $scope.init = function () {
     AppService.loadCloudConfig()
@@ -286,14 +287,17 @@ app.controller('CloudController', function ($scope, $state, AppService) {
   };
 
   $scope.save = function () {
+    $scope.hideButton = true;
     formData.servername = $scope.form.servername;
     formData.port = $scope.form.port;
     AppService.saveCloudConfig(formData)
       .then(function onSuccess(/* result */) {
         alert('Information saved');
+        $scope.hideButton = false;
         $state.go('signup');
       }, function onError(err) {
         alert(err.data.message);
+        $scope.hideButton = false;
       });
   };
 });

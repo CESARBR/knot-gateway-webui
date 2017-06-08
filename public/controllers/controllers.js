@@ -46,6 +46,7 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
           });
     } else {
       alert('Password does not match');
+      $scope.hideButton = false;
     }
   };
 });

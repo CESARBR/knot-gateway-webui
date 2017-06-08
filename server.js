@@ -37,7 +37,7 @@ cloud.getCloudSettings(function (err, cloudSettings) {
     console.log('Error setting cloud');
   }
   if (!cloudSettings) {
-    cloud.setCloudSettings({ servername: config.SERVER_CLOUD, port: config.PORT_CLOUD },
+    cloud.setCloudSettings({ servername: config.CLOUD_SERVER_URL, port: config.CLOUD_SERVER_PORT },
     function onCloudSettingsSet(error) {
       if (error) {
         console.log('Error setting cloud');

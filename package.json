@@ -27,7 +27,6 @@
     "express-jwt": "^5.1.0",
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.8.1",
-    "ng-mask": "^3.1.1",
     "ng-storage": "^0.3.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",

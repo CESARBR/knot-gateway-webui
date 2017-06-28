@@ -11,33 +11,15 @@ var userSchema = new Schema({
 var User = mongoose.model('User', userSchema);
 
 var setUser = function setUser(user, done) {
-  User.findOneAndUpdate({}, user, { upsert: true }, function (err) {
-    if (err) {
-      done(err);
-    } else {
-      done(null);
-    }
-  });
+  User.findOneAndUpdate({}, user, { upsert: true }, done);
 };
 
 var getUserByUUID = function getUserByUUID(uuid, done) {
-  User.findOne({ uuid: uuid }, function (err, user) {
-    if (err) {
-      done(err);
-    } else {
-      done(null, user);
-    }
-  });
+  User.findOne({ uuid: uuid }, done);
 };
 
 var getUserByEmail = function getUserByEmail(email, done) {
-  User.findOne({ email: email }, function (err, user) {
-    if (err) {
-      done(err);
-    } else {
-      done(null, user);
-    }
-  });
+  User.findOne({ email: email }, done);
 };
 
 module.exports = {

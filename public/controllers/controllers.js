@@ -52,182 +52,91 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
             if (err.status === 400) {
               $state.go('cloud');
             } else if (err.status === 500) {
-              alert('Error: cloud may not be running');
+              alert('Cloud may not be running, try again later');
             } else {
               alert(err.data.message);
             }
             $scope.hideButton = false;
           });
     } else {
-      alert('Password does not match');
+      alert('Passwords don\'t match');
       $scope.hideButton = false;
     }
   };
 });
 
 app.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
-  var formData = {
-    password: null,
-    passwordConfirmation: null,
-    remoteSshPort: null,
-    allowedPassword: true,
-    sshKey: null,
-    currentFirmware: null,
-    newFirmware: null,
-    newFirmware64Base: null
-  };
-
-  $rootScope.activetab = $location.path();
-
   $scope.init = function () {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
-        formData.remoteSshPort = result.remoteSshPort;
-        formData.allowedPassword = result.allowedPassword;
-        formData.sshKey = result.sshKey;
-        formData.currentFirmware = result.firmware;
         $scope.uuidFog = result.uuidFog;
         $scope.tokenFog = result.tokenFog;
         $scope.uuid = result.uuid;
         $scope.token = result.token;
-      }, function onError(err) {
-        console.log(err);
       });
-
-    $scope.form = formData;
-  };
-
-  $scope.save = function () {
-    var config = {
-      password: $scope.form.password,
-      remoteSshPort: $scope.form.remoteSshPort,
-      allowedPassword: $scope.form.allowedPassword,
-      sshKey: $scope.form.sshKey,
-      firmware: { name: $scope.form.newFirmware, base64: $scope.form.newFirmware64Base }
-    };
-
-    if ($scope.form.password === $scope.form.passwordConfirmation) {
-      AppService.saveAdmInfo(config)
-        .then(function onSuccess(/* result */) {
-          alert('Information saved');
-        }, function onError(err) {
-          alert(err);
-        });
-    } else {
-      alert('Password does not match');
-    }
   };
 
   $scope.reboot = function reboot() {
     AppService.reboot()
-    .then(function onSuccess(result) {
-      AppService.gatewayIp = result.data.gatewayIp;
+    .then(function onSuccess() {
       $state.go('app.reboot');
     }, function onError() {
       alert('Failed to reboot the gateway');
     });
   };
-
-  $scope.restore = function restore() {
-    AppService.restore()
-    .then(function onSuccess(result) {
-      AppService.gatewayIp = result.data.gatewayIp;
-      $state.go('app.reboot');
-    }, function onError() {
-      alert('Failed to restore the gateway');
-    });
-  };
 });
 
-app.controller('NetworkController', function ($rootScope, $scope, $location, $state, AppService) {
-  var networkData = {
-    hostname: null,
-    automaticIp: true,
-    ipaddress: null,
-    networkMask: null,
-    defaultGateway: null,
-    automaticDns: true,
-    primarydns: null,
-    secondarydns: null
-  };
-
-  $rootScope.activetab = $location.path();
+app.controller('NetworkController', function ($rootScope, $scope, AppService) {
+  $scope.form = {};
+  $scope.hideButton = false;
 
   $scope.init = function () {
     AppService.loadNetworkInfo()
       .then(function onSuccess(result) {
-        networkData.hostname = result.hostname !== '' ? result.hostname : null;
-        networkData.automaticIp = result.automaticIp;
-        networkData.ipaddress = result.ipaddress !== '' ? result.ipaddress : null;
-        networkData.networkMask = result.networkMask !== '' ? result.networkMask : null;
-        networkData.defaultGateway = result.defaultGateway !== '' ? result.defaultGateway : null;
-        networkData.automaticDns = result.automaticDns;
-        networkData.primarydns = result.primarydns !== '' ? result.primarydns : null;
-        networkData.secondarydns = result.secondarydns !== '' ? result.secondarydns : null;
-      }, function onError(err) {
-        console.log(err);
+        $scope.form.hostname = result.hostname !== '' ? result.hostname : null;
       });
-
-    $scope.form = networkData;
   };
 
   $scope.save = function () {
-    var networkConfig = {
-      hostname: $scope.form.hostname
-    };
-
-    AppService.saveNetworkInfo(networkConfig)
-      .then(function onSuccess(result) {
-        AppService.gatewayIp = result.data.gatewayIp;
-        $state.go('app.reboot');
-      }, function error(err) {
-        alert(err);
+    $scope.hideButton = true;
+    AppService.saveNetworkInfo($scope.form)
+      .then(function onSuccess() {
+        $scope.hideButton = false;
+        alert('Host name changed');
+      }, function onError() {
+        $scope.hideButton = false;
+        alert('Failed to change the host name');
       });
   };
 });
 
 app.controller('DevicesController', function ($rootScope, $scope, $location, AppService) {
-  var MAX_LENTGH = 5;
-
-  $rootScope.activetab = $location.path();
-
   $scope.init = function () {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
         $scope.macAddresses = result;
-      }, function onError() {
-        console.log('Error loading devices');
       });
 
     AppService.loadBcastDevicesInfo()
       .then(function onSuccess(result) {
         $scope.devices = result;
-      }, function onError() {
-        console.log('Error loading devices broadcasting');
       });
   };
 
   $scope.add = function (device) {
-    var tmp;
-    if ($scope.macAddresses.keys.length === MAX_LENTGH) {
-      alert('No space left for new device');
+    var tmp = $scope.macAddresses.keys.find(function (key) {
+      return key.mac === device.mac;
+    });
+    if (tmp) {
+      alert('MAC already in use');
     } else {
-      tmp = $scope.macAddresses.keys.find(function (key) {
-        return key.mac === device.mac;
-      });
-      if (tmp !== undefined) {
-        alert('MAC already in use');
-      } else {
-        $scope.macAddresses.keys.push({ name: device.name, mac: device.mac });
-        AppService.addDevice(device)
-          .catch(function onError() {
-            $scope.macAddresses.keys.pop();
-            console.log('Error on access to keys file');
-          });
-      }
+      $scope.macAddresses.keys.push({ name: device.name, mac: device.mac });
+      AppService.addDevice(device)
+        .catch(function onError() {
+          $scope.macAddresses.keys.pop();
+        });
     }
   };
-
 
   $scope.remove = function (key) {
     var pos = $scope.macAddresses.keys.lastIndexOf(key);
@@ -235,12 +144,11 @@ app.controller('DevicesController', function ($rootScope, $scope, $location, App
     AppService.removeDevice(key)
       .catch(function onError() {
         $scope.macAddresses.keys.splice(pos, 0, tmp);
-        console.log('Could not remove device');
       });
   };
 });
 
-app.controller('RebootController', function ($scope, $location, $interval, $state, $window, AppService) {
+app.controller('RebootController', function ($scope, $location, $interval, $state) {
   $scope.progress = function progress() {
     var promise;
     var MINUTE = 60000;
@@ -248,32 +156,11 @@ app.controller('RebootController', function ($scope, $location, $interval, $stat
     promise = $interval(function onInterval() {
       if ($scope.countup >= 100) {
         $interval.cancel(promise);
-        $window.location.href = 'http://' + AppService.gatewayIp + ':8080';
+        $state.go('signin');
       } else {
         $scope.countup += 1;
       }
     }, MINUTE / 100);
-  };
-});
-
-app.controller('RadioController', function ($rootScope, $scope, $location, AppService) {
-  var formData = {
-    channel: null,
-    outputPower: null,
-    mac: null
-  };
-
-  $rootScope.activetab = $location.path();
-
-  $scope.init = function () {
-    AppService.loadRadioInfo()
-      .then(function onSuccess(result) {
-        formData.mac = result.mac;
-      }, function onError(err) {
-        console.log(err);
-      });
-
-    $scope.form = formData;
   };
 });
 
@@ -288,13 +175,11 @@ app.controller('CloudController', function ($scope, $state, AppService) {
     AppService.loadCloudConfig()
       .then(function onSuccess(result) {
         if (!result) {
-          alert('Failed to load cloud config');
+          alert('Failed to load cloud configuration');
         } else {
           formData.servername = result.servername;
           formData.port = result.port;
         }
-      }, function onError(err) {
-        console.log(err);
       });
 
     $scope.form = formData;

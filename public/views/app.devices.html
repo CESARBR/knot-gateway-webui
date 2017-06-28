@@ -13,19 +13,6 @@
       </button>
       </td>
     </tr>
-    <tr>
-      <td><input type="text" id="newkey" ng-model="form.name" placeholder="New name"  required></td>
-      <td>
-        <input type="text" id="newMac" ng-model="form.mac" name = 'newMac' placeholder="New MAC" ng-pattern="/^([0-9A-Fa-f]{2}[:-]){7}([0-9A-Fa-f]{2})/" required mask="%%:%%:%%:%%:%%:%%:%%:%%">
-        <br>
-        <span ng-show="myForm.newMac.$error.pattern" style="color:red">Invalid MAC</span>
-      </td>
-      <td>
-        <button ng-disabled="myForm.$invalid" class="btn btn-lg btn-primary btn-block" ng-click="add(form)">
-        <span class="glyphicon glyphicon-plus">Add</span>
-      </button>
-      </td>
-    </tr>
   </table>
   <br/>
   <h3 class="text-muted">Nearby devices</h3>

@@ -1,25 +1,9 @@
 <div class="jumbotron network">
-    <form class="form-network" ng-submit="save()" ng-init="init()">
-        <h2 class="form-home-heading">Network Interface</h2>
-        <label for="hostname" class="sr-only">Hostname</label>
+  <form class="form-network" ng-submit="save()" ng-init="init()">
+    <h2 class="form-home-heading">Network Interface</h2>
 
-        <input type="text" id="hostname" class="form-control" placeholder="Hostname" ng-model="form.hostname" required>
-        <label><input type="radio" name="rdAutomaticIP" ng-model="form.automaticIp"  ng-value="true" disabled>Obtain an IP address automatically</label>
-        <label><input type="radio" name="rdAutomaticIP" ng-model="form.automaticIp" ng-value="false" disabled>Use the following IP address</label>
-        <label for="ipaddress" class="sr-only">IP address</label>
-        <input type="text" id="ipaddress" class="form-control" placeholder="IP address" ng-model="form.ipaddress" ng-disabled="form.automaticIp" required>
-        <label for="networkMask" class="sr-only">Network mask</label>
-        <input type="text" id="networkMask" class="form-control" placeholder="Network mask" ng-model="form.networkMask" ng-disabled="form.automaticIp" required>
-        <label for="defaultGateway" class="sr-only">Default gateway</label>
-        <input type="text" id="defaultGateway" class="form-control" placeholder="Default gateway" ng-model="form.defaultGateway" ng-disabled="form.automaticIp" required>
-
-        <label><input type="radio" name="rdAutomaticDns" ng-model="form.automaticDns" ng-value="true" disabled>Obtain DNS server addresses automatically</label>
-        <label><input type="radio" name="rdAutomaticDns" ng-model="form.automaticDns" ng-value="false" disabled>Use the following DNS server addresses</label>
-        <label for="primarydns" class="sr-only">Primary DNS</label>
-        <input type="text" id="primarydns" class="form-control" placeholder="Primary DNS" ng-model="form.primarydns" ng-disabled="form.automaticDns" required>
-        <label for="secondarydns" class="sr-only">Secondary DNS</label>
-        <input type="text" id="secondarydns" class="form-control" placeholder="Secondary DNS" ng-model="form.secondarydns" ng-disabled="form.automaticDns" required>
-
-        <button class="btn btn-lg btn-primary btn-block" ng-confirm-click="Click the button ok to change network settings" type="submit">Apply</button>
-    </form>
+    <label for="hostname" class="sr-only">Host name</label>
+    <input type="text" id="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Apply</button>
+  </form>
 </div>

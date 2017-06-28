@@ -8,7 +8,6 @@ require('@uirouter/angularjs');
 require('angular-ui-bootstrap');
 require('angular-permission');
 require('ng-storage');
-require('ng-mask');
 
 // Styles
 require('bootstrap-2.3.2/css/bootstrap.min.css');
@@ -19,8 +18,8 @@ require('./directives/confirmClick.js');
 require('./services/services.js');
 require('./controllers/controllers.js');
 
-app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ngMask', 'ui.bootstrap',
-                                 'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
+app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
+                             'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
 app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, ROLES) {
   $stateProvider
@@ -60,11 +59,6 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       url: '/network',
       template: require('./views/app.network.html'),
       controller: 'NetworkController'
-    })
-    .state('app.radio', {
-      url: '/radio',
-      template: require('./views/app.radio.html'),
-      controller: 'RadioController'
     })
     .state('cloud', {
       url: '/cloud',

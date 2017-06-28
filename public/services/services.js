@@ -145,19 +145,6 @@ app.factory('SignupService', function ($http) {
 app.factory('AppService', function ($http) {
   var factory = {};
 
-  factory.saveAdmInfo = function saveAdmInfo(info) {
-    return $http({
-      method: 'POST',
-      url: '/api/administration',
-      data: info,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
-  };
-
   factory.loadAdmInfo = function loadAdmInfo() {
     return $http({
       method: 'GET',
@@ -181,32 +168,6 @@ app.factory('AppService', function ($http) {
           'Content-Type': 'application/json;charset=utf-8;'
         }
       }
-    });
-  };
-
-  factory.restore = function restore() {
-    return $http({
-      method: 'POST',
-      url: '/api/administration/restore',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
-  };
-
-  factory.loadRadioInfo = function loadRadioInfo() {
-    return $http({
-      method: 'GET',
-      url: '/api/radio',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
     });
   };
 

@@ -14,9 +14,9 @@ require('bootstrap-2.3.2/css/bootstrap.min.css');
 require('./css/main.css');
 
 // Application modules
-require('./directives/confirmClick.js');
-require('./services/services.js');
-require('./controllers/controllers.js');
+require('./directives.js');
+require('./services.js');
+require('./controllers.js');
 
 app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
                              'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent

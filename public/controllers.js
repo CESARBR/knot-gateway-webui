@@ -1,10 +1,10 @@
-var app;
+var appCtrls;
 var angular = require('angular');
 require('@uirouter/angularjs');
 
-app = angular.module('app.controllers', ['ui.router', 'app.services']);
+appCtrls = angular.module('app.controllers', ['ui.router', 'app.services']);
 
-app.controller('AppController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+appCtrls.controller('AppController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.signout = function signout() {
     AuthService.signout();
     $rootScope.$broadcast(AUTH_EVENTS.SIGNOUT_SUCCESS);
@@ -19,7 +19,7 @@ app.controller('AppController', function ($rootScope, $scope, $state, AuthServic
   });
 });
 
-app.controller('SigninController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+appCtrls.controller('SigninController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.signin = function signin() {
     AuthService.signin($scope.form)
       .then(function onSuccess() {
@@ -32,7 +32,7 @@ app.controller('SigninController', function ($rootScope, $scope, $state, AuthSer
   };
 });
 
-app.controller('SignupController', function ($scope, $state, $http, SignupService) {
+appCtrls.controller('SignupController', function ($scope, $state, $http, SignupService) {
   $scope.hideButton = false;
   $scope.signup = function () {
     var userData = {
@@ -65,7 +65,7 @@ app.controller('SignupController', function ($scope, $state, $http, SignupServic
   };
 });
 
-app.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
+appCtrls.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
   $scope.init = function () {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
@@ -86,7 +86,7 @@ app.controller('AdminController', function ($rootScope, $scope, $location, $stat
   };
 });
 
-app.controller('NetworkController', function ($rootScope, $scope, AppService) {
+appCtrls.controller('NetworkController', function ($rootScope, $scope, AppService) {
   $scope.form = {};
   $scope.hideButton = false;
 
@@ -110,7 +110,7 @@ app.controller('NetworkController', function ($rootScope, $scope, AppService) {
   };
 });
 
-app.controller('DevicesController', function ($rootScope, $scope, $location, AppService) {
+appCtrls.controller('DevicesController', function ($rootScope, $scope, $location, AppService) {
   $scope.init = function () {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
@@ -148,7 +148,7 @@ app.controller('DevicesController', function ($rootScope, $scope, $location, App
   };
 });
 
-app.controller('RebootController', function ($scope, $location, $interval, $state) {
+appCtrls.controller('RebootController', function ($scope, $location, $interval, $state) {
   $scope.progress = function progress() {
     var promise;
     var MINUTE = 60000;
@@ -164,7 +164,7 @@ app.controller('RebootController', function ($scope, $location, $interval, $stat
   };
 });
 
-app.controller('CloudController', function ($scope, $state, AppService) {
+appCtrls.controller('CloudController', function ($scope, $state, AppService) {
   var formData = {
     servername: null,
     port: null

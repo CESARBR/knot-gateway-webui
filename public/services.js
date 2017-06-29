@@ -1,10 +1,10 @@
-var app;
+var appServices;
 var angular = require('angular');
 require('ng-storage');
 
-app = angular.module('app.services', ['ngStorage']);
+appServices = angular.module('app.services', ['ngStorage']);
 
-app.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
+appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
   var request = function request(config) {
     var sessionToken = Session.getSessionToken();
 
@@ -30,7 +30,7 @@ app.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, 
   };
 });
 
-app.factory('Session', function Session($window, $sessionStorage, ROLES) {
+appServices.factory('Session', function Session($window, $sessionStorage, ROLES) {
   var currentUser;
 
   var parseJwt = function parseJwt(token) {
@@ -95,7 +95,7 @@ app.factory('Session', function Session($window, $sessionStorage, ROLES) {
   };
 });
 
-app.factory('AuthService', function AuthService($http, $q, Session) {
+appServices.factory('AuthService', function AuthService($http, $q, Session) {
   var signin = function signin(credentials) {
     return $http({
       method: 'POST',
@@ -123,7 +123,7 @@ app.factory('AuthService', function AuthService($http, $q, Session) {
   };
 });
 
-app.factory('SignupService', function ($http) {
+appServices.factory('SignupService', function ($http) {
   var signupFactory = {};
 
   signupFactory.signup = function signup(info) {
@@ -142,7 +142,7 @@ app.factory('SignupService', function ($http) {
   return signupFactory;
 });
 
-app.factory('AppService', function ($http) {
+appServices.factory('AppService', function ($http) {
   var factory = {};
 
   factory.loadAdmInfo = function loadAdmInfo() {

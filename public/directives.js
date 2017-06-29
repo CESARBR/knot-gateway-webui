@@ -1,8 +1,8 @@
 var angular = require('angular');
 
-var app = angular.module('app.directives', []);
+var appDirectives = angular.module('app.directives', []);
 
-app.directive('ngConfirmClick', [
+appDirectives.directive('ngConfirmClick', [
   function () {
     return {
       priority: 1,

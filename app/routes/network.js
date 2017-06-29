@@ -1,34 +1,9 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 
-var settings = require('../models/settings');
+var networkCtrl = require('../controllers/network');
 
-var get = function get(req, res) {
-  settings.getNetworkSettings(function onNetworkSettingsReturned(err, netSettings) {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.json(netSettings);
-    }
-  });
-};
-
-var post = function post(req, res) {
-  if (!req.body) {
-    res.sendStatus(400);
-    return;
-  }
-
-  settings.setNetworkSettings(req.body, function onNetworkSettingsSet(err) {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.end();
-    }
-  });
-};
-
-router.get('/', get);
-router.post('/', post);
+router.get('/', networkCtrl.get);
+router.post('/', networkCtrl.update);
 
 module.exports = {
   router: router

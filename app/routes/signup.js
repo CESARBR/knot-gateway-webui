@@ -1,11 +1,12 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
+var request = require('request');
+var exec = require('child_process').exec;
+
 var users = require('../models/users');
 var Fog = require('../models/fog');
 var cloudConfig = require('../models/cloud');
 var settings = require('../models/settings');
-var crypto = require('../helpers/crypto');
-var request = require('request');
-var exec = require('child_process').exec;
+var crypto = require('../crypto');
 
 var registerGateway = function (cloud, ownerUuid, cb) {
   request({

@@ -1,4 +1,5 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
+
 var cloud = require('../models/cloud');
 
 var get = function get(req, res) {

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var DOTENV_FILE = require('./../config').DOTENV_FILE;
+var DOTENV_FILE = require('../config').DOTENV_FILE;
 
 var fogSchema = new mongoose.Schema({
   uuid: String,

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var DOTENV_FILE = require('./../config').DOTENV_FILE;
+var DOTENV_FILE = require('../config').DOTENV_FILE;
 
 var cloudSchema = new mongoose.Schema({
   servername: String,

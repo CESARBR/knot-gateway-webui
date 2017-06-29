@@ -1,6 +1,6 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 
-var authHelper = require('../helpers/auth');
+var authHelper = require('../auth');
 
 var admRoute = require('./administration');
 var networkRoute = require('./network');

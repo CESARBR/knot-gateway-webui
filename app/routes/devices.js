@@ -1,4 +1,5 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
+
 var devices = require('../models/devices');
 
 var get = function get(req, res) {

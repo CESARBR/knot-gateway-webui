@@ -1,7 +1,8 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
+var exec = require('child_process').exec;
+
 var users = require('../models/users');
 var fog = require('../models/fog');
-var exec = require('child_process').exec;
 
 var get = function get(req, res) {
   var admSettings = {};

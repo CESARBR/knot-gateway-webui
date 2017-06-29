@@ -2,15 +2,16 @@ var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var cloud = require('./app/models/cloud');
-var DATABASE_URL = require('./app/config').DATABASE_URL;
-var DOTENV_FILE = require('./app/config').DOTENV_FILE;
 
-var config = require('./app/config');
-var apiRoute = require('./app/routes/api');
-var handlers = require('./app/helpers/handlers');
+var cloud = require('./models/cloud');
+var DATABASE_URL = require('./config').DATABASE_URL;
+var DOTENV_FILE = require('./config').DOTENV_FILE;
 
-var publicRoot = __dirname + '/www/'; // eslint-disable-line no-path-concat
+var config = require('./config');
+var apiRoute = require('./routes/api');
+var handlers = require('./handlers');
+
+var publicRoot = __dirname + '/../www/'; // eslint-disable-line no-path-concat
 var serverConfig = express();
 
 require('dotenv').config({ path: DOTENV_FILE });

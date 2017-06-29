@@ -2,12 +2,11 @@
   "name": "gateway",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "node server.js",
-    "start:dev": "touch ./app/config/.env && CONFIG_FILE=./app/config/gatewayConfig.json KEYS_FILE=./app/config/keys.json DOTENV_FILE=./app/config/.env node server.js",
+    "start": "node app",
+    "start:dev": "touch ./app/config/.env && CONFIG_FILE=./app/config/gatewayConfig.json KEYS_FILE=./app/config/keys.json DOTENV_FILE=./app/config/.env node app",
     "lint": "eslint ."
   },
   "author": "",

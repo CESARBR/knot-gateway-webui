@@ -1,10 +1,10 @@
 // Configuration files
 var DEVICES_FILE = process.env.KEYS_FILE || '/etc/knot/keys.json';
 var CONFIGURATION_FILE = process.env.CONFIG_FILE || '/etc/knot/gatewayConfig.json';
-var DOTENV_FILE = process.env.DOTENV_FILE || '/usr/local/bin/knot-fog-source/.env';
+var FOG_DOTENV_FILE = process.env.FOG_DOTENV_FILE || '/usr/local/bin/knot-fog-source/.env';
 
 // Database and cloud addresses
-var DB_URL = process.env.DB_URL || 'localhost';
+var DB_HOST = process.env.DB_HOST || 'localhost';
 var DB_PORT = process.env.DB_PORT || '27017';
 var DB_NAME = process.env.DB_NAME || 'knot_fog';
 var CLOUD_SERVER_URL = process.env.CLOUD_SERVER_URL || 'knot-test.cesar.org.br';
@@ -19,10 +19,10 @@ module.exports = {
   // Configuration files
   DEVICES_FILE: DEVICES_FILE,
   CONFIGURATION_FILE: CONFIGURATION_FILE,
-  DOTENV_FILE: DOTENV_FILE,
+  FOG_DOTENV_FILE: FOG_DOTENV_FILE,
 
   // Database and cloud addresses
-  DATABASE_URL: 'mongodb://' + DB_URL + ':' + DB_PORT + '/' + DB_NAME,
+  DATABASE_URI: 'mongodb://' + DB_HOST + ':' + DB_PORT + '/' + DB_NAME,
   CLOUD_SERVER_URL: CLOUD_SERVER_URL,
   CLOUD_SERVER_PORT: CLOUD_SERVER_PORT,
 

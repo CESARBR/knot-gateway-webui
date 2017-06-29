@@ -41,7 +41,7 @@ div.jumbotron {
   padding-bottom: 48px;
 }
 
-div.jumbotron.administration {
+div.jumbotron.admin {
   background-color: #eee;
   text-align: left;
   padding: 5%;
@@ -52,7 +52,7 @@ div.jumbotron.reboot {
   padding-left:5%;
 }
 
-div.jumbotron.administration .btn {
+div.jumbotron.admin .btn {
   padding: 1%;
   font-size: 14px;
   width: 20%;

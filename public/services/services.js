@@ -148,7 +148,7 @@ app.factory('AppService', function ($http) {
   factory.loadAdmInfo = function loadAdmInfo() {
     return $http({
       method: 'GET',
-      url: '/api/administration',
+      url: '/api/admin',
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'
@@ -162,7 +162,7 @@ app.factory('AppService', function ($http) {
   factory.reboot = function reboot() {
     return $http({
       method: 'POST',
-      url: '/api/administration/reboot',
+      url: '/api/admin/reboot',
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'

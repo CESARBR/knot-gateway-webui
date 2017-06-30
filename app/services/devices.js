@@ -1,10 +1,12 @@
 var fs = require('fs');
 var dbus = require('dbus-native');
-var sysbus = dbus.systemBus();
 
 var DEVICES_FILE = require('../config').DEVICES_FILE;
 
-var all = function all(done) {
+var DevicesService = function DevicesService() {
+};
+
+DevicesService.prototype.list = function list(done) {
   fs.readFile(DEVICES_FILE, 'utf8', function onRead(err, data) {
     var obj;
 
@@ -22,26 +24,8 @@ var all = function all(done) {
   });
 };
 
-var createOrUpdate = function createOrUpdate(devices, done) {
-  devices.key = '';
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'AddDevice',
-    signature: 'ss',
-    body: [devices.mac, devices.key],
-    type: dbus.messageType.methodCall
-  }, function (err, res) {
-    if (err) {
-      done(err);
-      return;
-    }
-    done(null, res);
-  });
-};
-
-var getBroadcastingPeers = function getBroadcastingPeers(done) {
+DevicesService.prototype.listBroadcasting = function listBroadcasting(done) {
+  var sysbus = dbus.systemBus();
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
     destination: 'org.cesar.knot.nrf',
@@ -50,7 +34,7 @@ var getBroadcastingPeers = function getBroadcastingPeers(done) {
     signature: '',
     body: [],
     type: dbus.messageType.methodCall
-  }, function (err, res) {
+  }, function onResult(err, res) {
     var obj;
     if (err) {
       done(err);
@@ -66,7 +50,28 @@ var getBroadcastingPeers = function getBroadcastingPeers(done) {
   });
 };
 
-var remove = function remove(device, done) {
+DevicesService.prototype.upsert = function upsert(devices, done) {
+  var sysbus = dbus.systemBus();
+  devices.key = '';
+  sysbus.invoke({
+    path: '/org/cesar/knot/nrf0',
+    destination: 'org.cesar.knot.nrf',
+    interface: 'org.cesar.knot.nrf0.Adapter',
+    member: 'AddDevice',
+    signature: 'ss',
+    body: [devices.mac, devices.key],
+    type: dbus.messageType.methodCall
+  }, function onResult(err, res) {
+    if (err) {
+      done(err);
+      return;
+    }
+    done(null, res);
+  });
+};
+
+DevicesService.prototype.remove = function remove(device, done) {
+  var sysbus = dbus.systemBus();
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
     destination: 'org.cesar.knot.nrf',
@@ -75,7 +80,7 @@ var remove = function remove(device, done) {
     signature: 's',
     body: [device],
     type: dbus.messageType.methodCall
-  }, function (err, res) {
+  }, function onResult(err, res) {
     if (err) {
       done(err);
       return;
@@ -85,8 +90,5 @@ var remove = function remove(device, done) {
 };
 
 module.exports = {
-  all: all,
-  createOrUpdate: createOrUpdate,
-  getBroadcastingPeers: getBroadcastingPeers,
-  remove: remove
+  DevicesService: DevicesService
 };

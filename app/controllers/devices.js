@@ -1,7 +1,8 @@
-var devices = require('../models/devices');
+var DevicesService = require('../services/devices').DevicesService;
 
 var list = function list(req, res) {
-  devices.all(function onDevicesReturned(err, deviceList) {
+  var devicesSvc = new DevicesService();
+  devicesSvc.list(function onDevicesReturned(err, deviceList) {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -11,12 +12,15 @@ var list = function list(req, res) {
 };
 
 var upsert = function upsert(req, res) {
+  var devicesSvc;
+
   if (!req.body) {
     res.sendStatus(400);
     return;
   }
 
-  devices.createOrUpdate(req.body, function onDevicesCreated(err, added) {
+  devicesSvc = new DevicesService();
+  devicesSvc.upsert(req.body, function onDevicesCreated(err, added) {
     if (err || !added) {
       res.sendStatus(500);
     } else {
@@ -26,7 +30,8 @@ var upsert = function upsert(req, res) {
 };
 
 var remove = function remove(req, res) {
-  devices.remove(req.params.id, function onDevicesReturned(err, deleted) {
+  var devicesSvc = new DevicesService();
+  devicesSvc.remove(req.params.id, function onDevicesReturned(err, deleted) {
     if (err || !deleted) {
       res.sendStatus(500);
     } else {
@@ -36,7 +41,8 @@ var remove = function remove(req, res) {
 };
 
 var listBcast = function listBcast(req, res) {
-  devices.getBroadcastingPeers(function onDevicesReturned(err, deviceList) {
+  var devicesSvc = new DevicesService();
+  devicesSvc.listBroadcasting(function onDevicesReturned(err, deviceList) {
     if (err) {
       res.sendStatus(500);
     } else {

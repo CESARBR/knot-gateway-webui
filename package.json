@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "node app",
-    "start:dev": "touch ./app/config/.env && CONFIG_FILE=./app/config/gatewayConfig.json KEYS_FILE=./app/config/keys.json FOG_DOTENV_FILE=./app/config/.env node app",
+    "start:dev": "touch ./app/config/.env && KNOTD_CONFIG_FILE=./app/config/gatewayConfig.json KEYS_FILE=./app/config/keys.json FOG_DOTENV_FILE=./app/config/.env node app",
     "lint": "eslint ."
   },
   "author": "",

@@ -1,10 +1,10 @@
 var users = require('../models/users');
 var fogs = require('../models/fog');
 var clouds = require('../models/cloud');
-var settings = require('../models/settings');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
+var KnotService = require('../services/knot').KnotService;
 
 var create = function create(req, res) {
   clouds.getCloudSettings(function onCloudSettingsSet(errGetCloud, cloud) {
@@ -27,10 +27,12 @@ var create = function create(req, res) {
               res.status(500).send(errCreateGateway);
             } else {
               users.setUser(user, function onUserSet(errSetUser) {
+                var knotSvc;
                 if (errSetUser) {
                   res.sendStatus(500);
                 } else {
-                  settings.setUserCredentials(user, function onUserCredentialsSet(errSetUserCredentials) { // eslint-disable-line max-len
+                  knotSvc = new KnotService();
+                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(errSetUserCredentials) { // eslint-disable-line max-len
                     if (errSetUserCredentials) {
                       res.sendStatus(500);
                     } else {

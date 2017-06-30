@@ -1,6 +1,6 @@
 // Configuration files
 var DEVICES_FILE = process.env.KEYS_FILE || '/etc/knot/keys.json';
-var CONFIGURATION_FILE = process.env.CONFIG_FILE || '/etc/knot/gatewayConfig.json';
+var KNOTD_CONFIGURATION_FILE = process.env.KNOTD_CONFIG_FILE || '/etc/knot/gatewayConfig.json';
 var FOG_DOTENV_FILE = process.env.FOG_DOTENV_FILE || '/usr/local/bin/knot-fog-source/.env';
 
 // Database and cloud addresses
@@ -18,7 +18,7 @@ var TOKEN_EXPIRATION = 120 * 60;
 module.exports = {
   // Configuration files
   DEVICES_FILE: DEVICES_FILE,
-  CONFIGURATION_FILE: CONFIGURATION_FILE,
+  KNOTD_CONFIGURATION_FILE: KNOTD_CONFIGURATION_FILE,
   FOG_DOTENV_FILE: FOG_DOTENV_FILE,
 
   // Database and cloud addresses

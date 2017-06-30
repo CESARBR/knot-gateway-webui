@@ -1,22 +1,25 @@
-var settings = require('../models/settings');
+var NetworkService = require('../services/network').NetworkService;
 
 var get = function get(req, res) {
-  settings.getNetworkSettings(function onNetworkSettingsReturned(err, netSettings) {
+  var netSvc = new NetworkService();
+  netSvc.getHostName(function onHostName(err, hostname) {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json(netSettings);
+      res.json({ hostname: hostname });
     }
   });
 };
 
 var update = function update(req, res) {
-  if (!req.body) {
+  var netSvc;
+  if (!req.body.hostname) {
     res.sendStatus(400);
     return;
   }
 
-  settings.setNetworkSettings(req.body, function onNetworkSettingsSet(err) {
+  netSvc = new NetworkService();
+  netSvc.setHostName(req.body.hostname, function onHostNameSet(err) {
     if (err) {
       res.sendStatus(500);
     } else {

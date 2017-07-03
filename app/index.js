@@ -8,7 +8,6 @@ var handlers = require('./handlers');
 
 var clouds = require('./models/cloud');
 var FogService = require('./services/fog').FogService;
-var DATABASE_URI = require('./config').DATABASE_URI;
 
 var publicRoot = __dirname + '/../www/'; // eslint-disable-line no-path-concat
 var app = express();
@@ -23,37 +22,34 @@ app.use('*', handlers.defaultHandler);
 app.use(handlers.errorHandler);
 
 // TODO: move this to another component, it should be the responsibility of this server
-fogSvc.setupDatabaseUri(DATABASE_URI, function onSetup(err) {
+fogSvc.setupDatabaseUri(config.DATABASE_URI, function onSetup(err) {
   if (err) {
     console.error('Failed setting fog\'s database URI');
   }
 });
 
-mongoose.connect(DATABASE_URI);
+mongoose.connect(config.DATABASE_URI);
 
-// Set default server
-clouds.getCloudSettings(function onCloudSettings(errGetSettings, cloudSettings) {
-  var defaultCloud;
-  if (errGetSettings) {
-    console.log('Error setting cloud');
-  } else if (!cloudSettings) {
-    defaultCloud = { servername: config.CLOUD_SERVER_URL, port: config.CLOUD_SERVER_PORT };
-    clouds.setCloudSettings(defaultCloud, function onCloudSettingsSet(errSetSettings) {
-      if (errSetSettings) {
-        console.log('Error setting cloud');
-      } else {
-        fogSvc.setParentAddress({
-          host: defaultCloud.servername,
-          port: defaultCloud.port
-        }, function onParentAddressSet(errParentAddress) {
-          if (errParentAddress) {
-            console.log('Error setting cloud');
-          }
-        });
-      }
-    });
-  }
-});
+// Set cloud server
+if (config.CLOUD_SERVER_URL && config.CLOUD_SERVER_PORT) {
+  clouds.setCloudSettings({
+    servername: config.CLOUD_SERVER_URL,
+    port: config.CLOUD_SERVER_PORT
+  }, function onCloudSettingsSet(err) {
+    if (err) {
+      console.error('Failed configuring the cloud server');
+    } else {
+      fogSvc.setParentAddress({
+        host: config.CLOUD_SERVER_URL,
+        port: config.CLOUD_SERVER_PORT
+      }, function onParentAddressSet(errParentAddress) {
+        if (errParentAddress) {
+          console.error('Failed configuring the cloud server');
+        }
+      });
+    }
+  });
+}
 
 app.listen(config.PORT, function () {
   console.log('Listening on ' + config.PORT);

@@ -7,8 +7,8 @@ var FOG_DOTENV_FILE = process.env.FOG_DOTENV_FILE || '/usr/local/bin/knot-fog-so
 var DB_HOST = process.env.DB_HOST || 'localhost';
 var DB_PORT = process.env.DB_PORT || '27017';
 var DB_NAME = process.env.DB_NAME || 'knot_fog';
-var CLOUD_SERVER_URL = process.env.CLOUD_SERVER_URL || 'knot-test.cesar.org.br';
-var CLOUD_SERVER_PORT = process.env.CLOUD_SERVER_PORT || 3000;
+var CLOUD_SERVER_URL = process.env.CLOUD_SERVER_URL;
+var CLOUD_SERVER_PORT = process.env.CLOUD_SERVER_PORT;
 
 // Server configuration
 var PORT = process.env.PORT || 8080;

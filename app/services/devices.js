@@ -58,8 +58,8 @@ DevicesService.prototype.upsert = function upsert(devices, done) {
     destination: 'org.cesar.knot.nrf',
     interface: 'org.cesar.knot.nrf0.Adapter',
     member: 'AddDevice',
-    signature: 'ss',
-    body: [devices.mac, devices.key],
+    signature: 'sss',
+    body: [devices.mac, devices.key, devices.name],
     type: dbus.messageType.methodCall
   }, function onResult(err, res) {
     if (err) {

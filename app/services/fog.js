@@ -89,9 +89,9 @@ FogService.prototype.setParentAddress = function setParentAddress(address, done)
 FogService.prototype.setGatewayCredentials = function setGatewayCredentials(credentials, done) {
   var vars = {};
   vars[PARENT_CONNECTION_CRED_UUID_KEY] = credentials.uuid;
-  vars[PARENT_CONNECTION_CRED_TOKEN_KEY] = credentials.port;
+  vars[PARENT_CONNECTION_CRED_TOKEN_KEY] = credentials.token;
   vars[GATEWAY_CRED_UUID_KEY] = credentials.uuid;
-  vars[GATEWAY_CRED_TOKEN_KEY] = credentials.port;
+  vars[GATEWAY_CRED_TOKEN_KEY] = credentials.token;
   setEnvVars(vars, done);
 };
 

@@ -20,12 +20,16 @@ appCtrls.controller('AppController', function ($rootScope, $scope, $state, AuthS
 });
 
 appCtrls.controller('SigninController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+  $scope.hideButton = false;
   $scope.signin = function signin() {
+    $scope.hideButton = true;
     AuthService.signin($scope.form)
       .then(function onSuccess() {
+        $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.admin');
       }, function onError() {
+        $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_FAILED);
         alert('Authentication Error');
       });

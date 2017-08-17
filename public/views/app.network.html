@@ -1,9 +1,9 @@
 <div class="jumbotron network">
-  <form class="form-network" ng-submit="save()" ng-init="init()" novalidate>
+  <form class="form-network" name="networkForm" ng-submit="save()" ng-init="init()" novalidate>
     <h2 class="form-home-heading">Network Interface</h2>
 
     <label for="hostname" class="sr-only">Host name</label>
     <input type="text" id="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Apply</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="networkForm.$invalid" ng-hide="hideButton">Apply</button>
   </form>
 </div>

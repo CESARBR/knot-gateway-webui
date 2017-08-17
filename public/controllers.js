@@ -38,34 +38,28 @@ appCtrls.controller('SigninController', function ($rootScope, $scope, $state, Au
 
 appCtrls.controller('SignupController', function ($scope, $state, $http, SignupService) {
   $scope.hideButton = false;
-  $scope.signup = function () {
-    var userData = {
+  $scope.signup = function signup() {
+    var credentials = {
       email: $scope.form.email,
-      password: $scope.form.password,
-      passwordConfirmation: $scope.form.passwordConfirmation
+      password: $scope.form.password
     };
     $scope.hideButton = true;
-    if (userData.password === userData.passwordConfirmation) {
-      SignupService.signup(userData)
-          .then(function onSuccess(/* result */) {
-            alert('The user was registered successfully');
-            $scope.hideButton = false;
-            $state.go('app.admin');
-          }, function onError(err) {
-            console.log(err);
-            if (err.status === 400) {
-              $state.go('cloud');
-            } else if (err.status === 500) {
-              alert('Cloud may not be running, try again later');
-            } else {
-              alert(err.data.message);
-            }
-            $scope.hideButton = false;
-          });
-    } else {
-      alert('Passwords don\'t match');
-      $scope.hideButton = false;
-    }
+    SignupService.signup(credentials)
+      .then(function onSuccess(/* result */) {
+        alert('The user was registered successfully');
+        $scope.hideButton = false;
+        $state.go('app.admin');
+      }, function onError(err) {
+        console.log(err);
+        if (err.status === 400) {
+          $state.go('cloud');
+        } else if (err.status === 500) {
+          alert('Cloud may not be running, try again later');
+        } else {
+          alert(err.data.message);
+        }
+        $scope.hideButton = false;
+      });
   };
 });
 

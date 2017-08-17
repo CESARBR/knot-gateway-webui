@@ -17,3 +17,25 @@ appDirectives.directive('confirmClick', [
       }
     };
   }]);
+
+appDirectives.directive('compareTo', [
+  function compareTo() {
+    var link = function link(scope, element, attributes, ngModel) {
+      ngModel.$validators.compareTo = function $validatorsCompareTo(value) {
+        return value === scope.other;
+      };
+
+      scope.$watch('other', function onOtherChanged(/* value */) {
+        ngModel.$validate();
+      });
+    };
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      scope: {
+        other: '=compareTo'
+      },
+      link: link
+    };
+  }
+]);

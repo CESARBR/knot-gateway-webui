@@ -6,7 +6,7 @@
   <h2 class="banner small-font" align="center" >Sign in to continue</h2>
 </div>
 <div align="center" class="container home-container">
-  <form class="form-home" ng-submit="signin()">
+  <form class="form-home" ng-submit="signin()" novalidate>
     <input type="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>
     <input type="password" class="form-control" placeholder="Password" ng-model="form.password" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Sign in</button>

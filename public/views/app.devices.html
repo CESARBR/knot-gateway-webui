@@ -1,33 +1,45 @@
-<form name='myForm'>
-  <h3 class="text-muted">Allowed devices</h3>
-  <table id="tDevices" ng-init="init()" style="width:100%">
-    <tr>
-      <th>Device Name</th>
-      <th>MAC Address</th>
-    </tr>
-    <tr ng-repeat="key in macAddresses.keys">
-      <td>{{ key.name }}</td><td>{{ key.mac }}</td>
-      <td>
-        <button class="btn btn-default" ng-click='remove(key)'>
-        <span class="glyphicon glyphicon-plus">Remove</span>
-      </button>
-      </td>
-    </tr>
+<div ng-init="init()">
+  <div class="page-header">
+    <h4>Allowed devices</h4>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>MAC Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="key in macAddresses.keys">
+        <td>{{ key.name }}</td><td>{{ key.mac }}</td>
+        <td>
+          <a class="btn btn-default pull-right" href="#" ng-click='remove(key)'>
+            <i class="icon-trash"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
   </table>
-  <br/>
-  <h3 class="text-muted">Nearby devices</h3>
-    <table id="tDevices" style="width:100%">
-    <tr>
-      <th>Device Name</th>
-      <th>MAC Address</th>
-    </tr>
-    <tr ng-repeat="peer in devices">
-      <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
-      <td>
-        <button class="btn btn-default" ng-click='add(peer)'>
-        <span class="glyphicon glyphicon-plus">Allow peer</span>
-      </button>
-      </td>
-    </tr>
+
+  <div class="page-header">
+    <h4>Nearby devices</h4>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>MAC Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="peer in devices">
+        <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
+        <td>
+          <a class="btn btn-default pull-right" href="#" ng-click='add(peer)'>
+            <i class="icon-plus"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </form>

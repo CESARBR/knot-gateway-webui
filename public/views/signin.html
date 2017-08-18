@@ -1,16 +1,29 @@
-<div align="center" ng-init="init()">
-  <img src="../img/knot_logo_green_background.png" class="round-image" />
-  <h2 class="banner">KNoT Gateway</h2>
-</div>
-<div>
-  <h2 class="banner small-font" align="center">Sign in to continue</h2>
-</div>
-<div align="center" class="container home-container">
-  <form class="form-home" name="signinForm" ng-submit="signin()" novalidate>
-    <input type="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>
-    <input type="password" class="form-control" placeholder="Password" ng-model="form.password" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="signinForm.$invalid">Sign in</button>
-    <div class="loader" ng-show="hideButton">Authenticating user...</div>
+<div class="container container-landing" ng-init="init()">
+  <div class="logo-landing">
+    <img src="../img/knot_logo_green_background.png" alt="KNoT Logo" class="img-rounded" />
+    <h2>KNoT Gateway</h2>
+  </div>
+
+  <form name="signinForm" ng-submit="signin()" novalidate>
+    <div class="control-group ng-class:{ error: signinForm.email.$invalid && !signinForm.email.$pristine }">
+      <div class="controls">
+        <input type="email" name="email" class="form-control input-block-level" placeholder="E-mail" ng-model="form.email" required>
+      </div>
+    </div>
+
+    <div class="control-group ng-class:{ error: signinForm.password.$invalid && !signinForm.password.$pristine }">
+      <div class="controls">
+        <input type="password" name="password" class="form-control input-block-level" placeholder="Password" ng-model="form.password" required>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit" ng-disabled="signinForm.$invalid" ng-hide="hideButton">Sign in</button>
+    <div class="loader text-center" ng-show="hideButton">Authenticating user...</div>
   </form>
-  <a ui-sref="signup">Create account</a>
+
+  <hr />
+
+  <p class="text-center">
+    <a ui-sref="signup">Create an account</a>
+  </p>
 </div>

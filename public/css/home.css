@@ -1,0 +1,13 @@
+.logo-home > img {
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  vertical-align: bottom;
+}
+
+.logo-home > h3 {
+  display: inline;
+  font-family: "Open Sans",arial;
+  font-weight: 400;
+  color: #555;
+}

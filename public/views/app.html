@@ -1,15 +1,19 @@
 <div class="container">
-  <div class="header clearfix">
+  <div class="clearfix">
+    <div class="logo-home pull-left">
+      <img src="../img/knot_logo_white_background.png" alt="KNoT Logo">
+      <h3>KNoT Gateway</h3>
+    </div>
+
     <nav>
       <ul class="nav nav-pills pull-right">
         <li role="presentation" ui-sref-active="active"><a ui-sref="app.admin">Administration</a></li>
-        <li role="presentation" ui-sref-active="active"><a ui-sref="app.network">Network Interface</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="app.network">Network</a></li>
         <li role="presentation" ui-sref-active="active"><a ui-sref="app.devices">Devices</a></li>
-        <li role="presentation" ui-sref-active="active"><a ng-click="signout()" confirm-click="Do you want to sign out?">Sign Out</a></li>
+        <li role="presentation" ui-sref-active="active"><a href="#" ng-click="signout()" confirm-click="Do you want to sign out?">Sign Out</a></li>
       </ul>
     </nav>
-    <img src="../img/knot_logo_white_background.png" alt="Knot logo" class="knot-logo">
-    <h3 class="text-muted">KNoT</h3>
   </div>
+
   <div ui-view></div>
 </div>

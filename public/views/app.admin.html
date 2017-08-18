@@ -1,19 +1,35 @@
-<div class="jumbotron admin" ng-init="init()">
-  <h2 class="form-home-heading">User information</h2>
-  <h4 for="uuid">UUID:</h4>
-  <p>{{ uuid }}</p>
-  <h4 for="token">Token:</h4>
-  <p>{{ token }}</p>
-  <h4 for="uuidFog">Gateway's UUID:</h4>
-  <p>{{ uuidFog }}</p>
-  <h4 for="tokenFog">Gateway's Token:</h4>
-  <p>{{ tokenFog }}</p>
-</div>
-
-<div class="jumbotron reset">
-  <div class="row">
-    <div class="col-xs-30 col-md-10">
-      <button class="btn btn-lg btn-primary btn-block" ng-click="reboot()" confirm-click="Do you want to reboot the gateway?">Reboot</button>
-    </div>
+<div ng-init="init()">
+  <div class="page-header">
+    <h4>User credentials</h4>
   </div>
+  <dl class="dl-horizontal">
+    <dt>UUID</dt>
+    <dd>{{ uuid }}</dd>
+
+    <dt>Token</dt>
+    <dd>{{ token }}</dd>
+  </dl>
+
+  <div class="page-header">
+    <h4>Gateway credentials</h4>
+  </div>
+  <dl class="dl-horizontal">
+    <dt>UUID</dt>
+    <dd>{{ uuidFog }}</dd>
+
+    <dt>Token</dt>
+    <dd>{{ tokenFog }}</dd>
+  </dl>
+
+  <div class="page-header">
+    <h4>Maintenance</h4>
+  </div>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <div class="controls">
+        <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
+        <div class="loader" ng-show="hideButton">Rebooting...</div>
+      </div>
+    </div>
+  </form>
 </div>

@@ -1,0 +1,25 @@
+.container-landing {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.container-landing .form-control {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.logo-landing {
+  margin: 0 auto 45px auto;
+  text-align: center;
+}
+
+.logo-landing > img {
+  width: 60px;
+}
+
+.logo-landing > h2 {
+  font-family: "Open Sans",arial;
+  font-weight: 400;
+  color: #555;
+}

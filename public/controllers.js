@@ -64,6 +64,8 @@ appCtrls.controller('SignupController', function ($scope, $state, $http, SignupS
 });
 
 appCtrls.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
+  $scope.hideButton = false;
+
   $scope.init = function () {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
@@ -75,11 +77,14 @@ appCtrls.controller('AdminController', function ($rootScope, $scope, $location, 
   };
 
   $scope.reboot = function reboot() {
+    $scope.hideButton = true;
     AppService.reboot()
     .then(function onSuccess() {
+      $scope.hideButton = false;
       $state.go('app.reboot');
     }, function onError() {
       alert('Failed to reboot the gateway');
+      $scope.hideButton = false;
     });
   };
 });

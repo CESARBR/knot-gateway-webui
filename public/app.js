@@ -33,7 +33,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       data: {
         permissions: {
           except: ROLES.ADMIN,
-          redirectTo: 'app.admin'
+          redirectTo: 'app.devices'
         }
       }
     })
@@ -41,6 +41,11 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       url: '/signup',
       template: require('./views/signup.html'),
       controller: 'SignupController'
+    })
+    .state('cloud', {
+      url: '/cloud',
+      template: require('./views/cloud.html'),
+      controller: 'CloudController'
     })
     .state('app', {
       abstract: true,
@@ -62,11 +67,6 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       url: '/network',
       template: require('./views/app.network.html'),
       controller: 'NetworkController'
-    })
-    .state('cloud', {
-      url: '/cloud',
-      template: require('./views/cloud.html'),
-      controller: 'CloudController'
     })
     .state('app.devices', {
       url: '/devices',

@@ -27,7 +27,7 @@ appCtrls.controller('SigninController', function ($rootScope, $scope, $state, Au
       .then(function onSuccess() {
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_SUCCESS);
-        $state.go('app.admin');
+        $state.go('app.devices');
       }, function onError() {
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_FAILED);
@@ -48,7 +48,7 @@ appCtrls.controller('SignupController', function ($scope, $state, $http, SignupS
       .then(function onSuccess(/* result */) {
         alert('The user was registered successfully');
         $scope.hideButton = false;
-        $state.go('app.admin');
+        $state.go('app.devices');
       }, function onError(err) {
         console.log(err);
         if (err.status === 400) {
@@ -58,6 +58,43 @@ appCtrls.controller('SignupController', function ($scope, $state, $http, SignupS
         } else {
           alert(err.data.message);
         }
+        $scope.hideButton = false;
+      });
+  };
+});
+
+appCtrls.controller('CloudController', function ($scope, $state, AppService) {
+  var formData = {
+    servername: null,
+    port: null
+  };
+  $scope.hideButton = false;
+
+  $scope.init = function () {
+    AppService.loadCloudConfig()
+      .then(function onSuccess(result) {
+        if (!result) {
+          alert('Failed to load cloud configuration');
+        } else {
+          formData.servername = result.servername;
+          formData.port = result.port;
+        }
+      });
+
+    $scope.form = formData;
+  };
+
+  $scope.save = function () {
+    $scope.hideButton = true;
+    formData.servername = $scope.form.servername;
+    formData.port = $scope.form.port;
+    AppService.saveCloudConfig(formData)
+      .then(function onSuccess(/* result */) {
+        alert('Information saved');
+        $scope.hideButton = false;
+        $state.go('signup');
+      }, function onError(err) {
+        alert(err.data.message);
         $scope.hideButton = false;
       });
   };
@@ -164,42 +201,5 @@ appCtrls.controller('RebootController', function ($scope, $location, $interval, 
         $scope.countup += 1;
       }
     }, MINUTE / 100);
-  };
-});
-
-appCtrls.controller('CloudController', function ($scope, $state, AppService) {
-  var formData = {
-    servername: null,
-    port: null
-  };
-  $scope.hideButton = false;
-
-  $scope.init = function () {
-    AppService.loadCloudConfig()
-      .then(function onSuccess(result) {
-        if (!result) {
-          alert('Failed to load cloud configuration');
-        } else {
-          formData.servername = result.servername;
-          formData.port = result.port;
-        }
-      });
-
-    $scope.form = formData;
-  };
-
-  $scope.save = function () {
-    $scope.hideButton = true;
-    formData.servername = $scope.form.servername;
-    formData.port = $scope.form.port;
-    AppService.saveCloudConfig(formData)
-      .then(function onSuccess(/* result */) {
-        alert('Information saved');
-        $scope.hideButton = false;
-        $state.go('signup');
-      }, function onError(err) {
-        alert(err.data.message);
-        $scope.hideButton = false;
-      });
   };
 });

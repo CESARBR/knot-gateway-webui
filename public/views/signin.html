@@ -5,16 +5,12 @@
   </div>
 
   <form name="signinForm" ng-submit="signin()" novalidate>
-    <div class="control-group ng-class:{ error: signinForm.email.$invalid && !signinForm.email.$pristine }">
-      <div class="controls">
-        <input type="email" name="email" class="form-control input-block-level" placeholder="E-mail" ng-model="form.email" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': signinForm.email.$invalid && !signinForm.email.$pristine }">
+      <input type="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>
     </div>
 
-    <div class="control-group ng-class:{ error: signinForm.password.$invalid && !signinForm.password.$pristine }">
-      <div class="controls">
-        <input type="password" name="password" class="form-control input-block-level" placeholder="Password" ng-model="form.password" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': signinForm.password.$invalid && !signinForm.password.$pristine }">
+      <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" required>
     </div>
 
     <button class="btn btn-primary btn-block" type="submit" ng-disabled="signinForm.$invalid" ng-hide="hideButton">Sign in</button>

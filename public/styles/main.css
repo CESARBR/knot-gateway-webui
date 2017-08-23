@@ -1,0 +1,11 @@
+.navbar-brand {
+  padding: 12px 12px;
+  line-height: 26px;
+}
+
+.navbar-brand > img {
+  display: inline-block;
+  vertical-align: top;
+  width: 26px;
+  height: 26px;
+}

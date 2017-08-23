@@ -14,6 +14,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /\.less$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'less-loader'] }) },
       { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
       { test: /\.html$/, loader: 'html-loader?name=views/[name].[ext]' },
       { test: /\.(jpe?g|png|gif|svg|eot|woff2?|ttf|svg)$/i, loader: 'url-loader?limit=100000' }

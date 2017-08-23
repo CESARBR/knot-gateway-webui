@@ -5,23 +5,17 @@
   </div>
 
   <form name="signupForm" ng-submit="signup()" novalidate>
-    <div class="control-group ng-class:{ error: signupForm.email.$invalid && !signupForm.email.$pristine }">
-      <div class="controls">
-        <input type="email" name="email" class="form-control input-block-level" placeholder="E-mail" ng-model="form.email" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
+      <input type="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>
     </div>
 
-    <div class="control-group ng-class:{ error: signupForm.password.$invalid && !signupForm.password.$pristine }">
-      <div class="controls">
-        <input type="password" name="password" class="form-control input-block-level" placeholder="Password" ng-model="form.password" minlength="6" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
+      <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" minlength="6" required>
     </div>
 
-    <div class="control-group ng-class:{ error: signupForm.password.$invalid && !signupForm.password.$pristine }">
-        <div class="controls">
-          <input type="password" name="password" class="form-control input-block-level" placeholder="Password confirmation" ng-model="form.passwordConfirmation" compare-to="form.password" minlength="6" required>
-        </div>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
+      <input type="password" name="password" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" compare-to="form.password" minlength="6" required>
+    </div>
 
     <button class="btn btn-primary btn-block" type="submit" ng-disabled="signupForm.$invalid" ng-hide="hideButton">Sign up</button>
     <div class="loader text-center" ng-show="hideButton">Signing up...</div>

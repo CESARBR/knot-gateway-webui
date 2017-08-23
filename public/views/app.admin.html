@@ -24,12 +24,6 @@
   <div class="page-header">
     <h4>Maintenance</h4>
   </div>
-  <form class="form-horizontal">
-    <div class="control-group">
-      <div class="controls">
-        <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
-        <div class="loader" ng-show="hideButton">Rebooting...</div>
-      </div>
-    </div>
-  </form>
+  <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
+  <div class="loader" ng-show="hideButton">Rebooting...</div>
 </div>

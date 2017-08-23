@@ -9,23 +9,15 @@
   </div>
 
   <form name="cloudForm" ng-submit="save()" novalidate>
-    <div class="control-group ng-class:{ error: cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
-      <div class="controls">
-        <input type="text" id="hostname" name="hostname" class="form-control input-block-level" placeholder="Host name" ng-model="form.servername" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
+      <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.servername" required>
     </div>
 
-    <div class="control-group ng-class:{ error: cloudForm.port.$invalid && !cloudForm.port.$pristine }">
-      <div class="controls">
-        <input type="number" id="port" name="port" class="form-control input-block-level" placeholder="Port" ng-model="form.port" min="0" max="65535" required>
-      </div>
+    <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
+      <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" min="0" max="65535" required>
     </div>
 
-    <div class="control-group">
-      <div class="controls">
-        <button class="btn btn-primary btn-block" type="submit" ng-disabled="cloudForm.$invalid" ng-hide="hideButton">Save</button>
-        <div class="loader text-center" ng-show="hideButton">Saving address...</div>
-      </div>
-    </div>
+    <button class="btn btn-primary btn-block" type="submit" ng-disabled="cloudForm.$invalid" ng-hide="hideButton">Save</button>
+    <div class="loader text-center" ng-show="hideButton">Saving address...</div>
   </form>
 </div>

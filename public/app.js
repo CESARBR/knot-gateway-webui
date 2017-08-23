@@ -10,11 +10,10 @@ require('angular-permission');
 require('ng-storage');
 
 // Styles
-require('bootstrap-2.3.2/css/bootstrap.min.css');
-require('./css/theme.css');
-require('./css/main.css');
-require('./css/landing.css');
-require('./css/home.css');
+require('./styles/bootstrap/bootstrap.less');
+require('./styles/app.css');
+require('./styles/landing.css');
+require('./styles/main.css');
 
 // Application modules
 require('./directives.js');

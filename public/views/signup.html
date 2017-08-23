@@ -11,6 +11,8 @@
     <input type="password" class="form-control" placeholder="Password" ng-model="form.password" required>
     <input type="password" class="form-control" placeholder="Confirm Password" ng-model="form.passwordConfirmation" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Sign up</button>
-    <p ng-show="hideButton">Registering user...</p>
+    <div ng-show="hideButton">
+      <div class="loader">Registering user...</div>
+    </div>
   </form>
 </div>

@@ -306,3 +306,21 @@ input
 a[ng-click] {
   cursor: pointer;
 }
+
+.loader:before {
+  content: '';
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 4px solid #62a943;
+  border-top: 4px solid #267a1a;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -10,6 +10,8 @@
     <input type="text" id="inputServerName" class="form-control" placeholder="Server Name" ng-model="form.servername">
     <input type="number" id="inputPort" class="form-control" placeholder="Port" ng-model="form.port" min="0" max="65535">
     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-hide="hideButton">Apply</button>
-    <p ng-show="hideButton">Configuring cloud...</p>
+    <div ng-show="hideButton">
+      <div class="loader">Configuring cloud...</div>
+    </div>
   </form>
 </div>

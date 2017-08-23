@@ -4,7 +4,9 @@ require('@uirouter/angularjs');
 
 appCtrls = angular.module('app.controllers', ['ui.router', 'app.services']);
 
-appCtrls.controller('AppController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+appCtrls.controller('AppController', function AppController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, APP_EVENTS) {
+  $scope.hideMenu = false;
+
   $scope.signout = function signout() {
     AuthService.signout();
     $rootScope.$broadcast(AUTH_EVENTS.SIGNOUT_SUCCESS);
@@ -17,26 +19,36 @@ appCtrls.controller('AppController', function ($rootScope, $scope, $state, AuthS
   $scope.$on(AUTH_EVENTS.SIGNOUT_SUCCESS, function onSignoutSuccess() {
     $state.go('signin');
   });
+
+  $scope.$on(APP_EVENTS.REBOOTING, function onRebooting() {
+    $scope.hideMenu = true;
+    $state.go('app.reboot');
+  });
+
+  $scope.$on(APP_EVENTS.REBOOTED, function onRebooted() {
+    $scope.hideMenu = false;
+    $scope.signout();
+  });
 });
 
-appCtrls.controller('SigninController', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
   $scope.hideButton = false;
   $scope.signin = function signin() {
     $scope.hideButton = true;
     AuthService.signin($scope.form)
       .then(function onSuccess() {
         $scope.hideButton = false;
-        $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_SUCCESS);
+        $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.devices');
       }, function onError() {
         $scope.hideButton = false;
-        $rootScope.$broadcast(AUTH_EVENTS, AUTH_EVENTS.SIGNIN_FAILED);
+        $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
         alert('Authentication Error');
       });
   };
 });
 
-appCtrls.controller('SignupController', function ($scope, $state, $http, SignupService) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, $http, SignupService) {
   $scope.hideButton = false;
   $scope.signup = function signup() {
     var credentials = {
@@ -63,7 +75,7 @@ appCtrls.controller('SignupController', function ($scope, $state, $http, SignupS
   };
 });
 
-appCtrls.controller('CloudController', function ($scope, $state, AppService) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, AppService) {
   var formData = {
     servername: null,
     port: null
@@ -100,9 +112,7 @@ appCtrls.controller('CloudController', function ($scope, $state, AppService) {
   };
 });
 
-appCtrls.controller('AdminController', function ($rootScope, $scope, $location, $state, AppService) {
-  $scope.hideButton = false;
-
+appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $location, $state, AppService, APP_EVENTS) {
   $scope.init = function () {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
@@ -116,17 +126,17 @@ appCtrls.controller('AdminController', function ($rootScope, $scope, $location, 
   $scope.reboot = function reboot() {
     $scope.hideButton = true;
     AppService.reboot()
-    .then(function onSuccess() {
-      $scope.hideButton = false;
-      $state.go('app.reboot');
-    }, function onError() {
-      alert('Failed to reboot the gateway');
-      $scope.hideButton = false;
-    });
+      .then(function onSuccess() {
+        $scope.hideButton = false;
+        $rootScope.$broadcast(APP_EVENTS.REBOOTING);
+      }, function onError() {
+        alert('Failed to reboot the gateway');
+        $scope.hideButton = false;
+      });
   };
 });
 
-appCtrls.controller('NetworkController', function ($rootScope, $scope, AppService) {
+appCtrls.controller('NetworkController', function NetworkController($rootScope, $scope, AppService) {
   $scope.form = {};
   $scope.hideButton = false;
 
@@ -150,7 +160,7 @@ appCtrls.controller('NetworkController', function ($rootScope, $scope, AppServic
   };
 });
 
-appCtrls.controller('DevicesController', function ($rootScope, $scope, $location, AppService) {
+appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, AppService) {
   $scope.init = function () {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
@@ -188,7 +198,7 @@ appCtrls.controller('DevicesController', function ($rootScope, $scope, $location
   };
 });
 
-appCtrls.controller('RebootController', function ($scope, $location, $interval, $state) {
+appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $location, $interval, $state, APP_EVENTS) {
   $scope.progress = function progress() {
     var promise;
     var MINUTE = 60000;
@@ -196,7 +206,7 @@ appCtrls.controller('RebootController', function ($scope, $location, $interval, 
     promise = $interval(function onInterval() {
       if ($scope.countup >= 100) {
         $interval.cancel(promise);
-        $state.go('signin');
+        $rootScope.$broadcast(APP_EVENTS.REBOOTED);
       } else {
         $scope.countup += 1;
       }

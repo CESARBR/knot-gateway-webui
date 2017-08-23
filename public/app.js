@@ -106,3 +106,8 @@ app.constant('AUTH_EVENTS', {
   SIGNOUT_SUCESS: 'auth-signout-success',
   NOT_AUTHENTICATED: 'auth-not-authenticated'
 });
+
+app.constant('APP_EVENTS', {
+  REBOOTING: 'rebooting',
+  REBOOTED: 'rebooted'
+});

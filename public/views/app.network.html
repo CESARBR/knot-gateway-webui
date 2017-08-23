@@ -1,21 +1,25 @@
 <div ng-init="init()">
-  <div class="page-header">
-    <h4>Network settings</h4>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Network settings</h4>
+    </div>
+
+    <div class="panel-body">
+      <form name="networkForm" class="form-horizontal" ng-submit="save()" novalidate>
+        <div class="form-group ng-class:{ 'has-error': networkForm.hostname.$invalid && !networkForm.hostname.$pristine }">
+          <label class="control-label col-sm-2" for="hostname">Host name</label>
+          <div class="col-sm-3">
+            <input type="text" name="hostname" id="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" type="submit" ng-disabled="networkForm.$invalid" ng-hide="hideButton">Save</button>
+            <div class="loader" ng-show="hideButton">Saving host name...</div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-
-  <form name="networkForm" class="form-horizontal" ng-submit="save()" novalidate>
-    <div class="form-group ng-class:{ 'has-error': networkForm.hostname.$invalid && !networkForm.hostname.$pristine }">
-      <label class="control-label col-sm-2" for="hostname">Host name</label>
-      <div class="col-sm-3">
-        <input type="text" name="hostname" id="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" required>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-primary" type="submit" ng-disabled="networkForm.$invalid" ng-hide="hideButton">Save</button>
-        <div class="loader" ng-show="hideButton">Saving host name...</div>
-      </div>
-    </div>
-  </form>
 </div>

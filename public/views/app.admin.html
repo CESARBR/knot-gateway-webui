@@ -1,29 +1,54 @@
 <div ng-init="init()">
-  <div class="page-header">
-    <h4>User credentials</h4>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">User credentials</h4>
+        </div>
+
+        <dl class="list-group">
+          <div class="list-group-item">
+            <dt>UUID</dt>
+            <dd>{{ uuid }}</dd>
+          </div>
+
+          <div class="list-group-item">
+            <dt>Token</dt>
+            <dd>{{ token }}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">Gateway credentials</h4>
+        </div>
+
+        <dl class="list-group">
+          <div class="list-group-item">
+            <dt>UUID</dt>
+            <dd>{{ uuidFog }}</dd>
+          </div>
+
+          <div class="list-group-item">
+            <dt>Token</dt>
+            <dd>{{ tokenFog }}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
   </div>
-  <dl class="dl-horizontal">
-    <dt>UUID</dt>
-    <dd>{{ uuid }}</dd>
 
-    <dt>Token</dt>
-    <dd>{{ token }}</dd>
-  </dl>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Maintenance</h4>
+    </div>
 
-  <div class="page-header">
-    <h4>Gateway credentials</h4>
+    <div class="panel-body">
+      <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
+      <div class="loader" ng-show="hideButton">Rebooting...</div>
+    </div>
   </div>
-  <dl class="dl-horizontal">
-    <dt>UUID</dt>
-    <dd>{{ uuidFog }}</dd>
-
-    <dt>Token</dt>
-    <dd>{{ tokenFog }}</dd>
-  </dl>
-
-  <div class="page-header">
-    <h4>Maintenance</h4>
-  </div>
-  <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
-  <div class="loader" ng-show="hideButton">Rebooting...</div>
 </div>

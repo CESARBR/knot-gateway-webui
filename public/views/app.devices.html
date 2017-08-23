@@ -1,49 +1,54 @@
 <div ng-init="init()">
-  <div class="page-header">
-    <h4>Allowed devices</h4>
-  </div>
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Device Name</th>
-          <th>MAC Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="key in macAddresses.keys">
-          <td>{{ key.name }}</td><td>{{ key.mac }}</td>
-          <td>
-            <a class="btn btn-default pull-right" href="#" ng-click="remove(key)" aria-label="Remove Device">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Allowed devices</h4>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Device Name</th>
+            <th>MAC Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="key in macAddresses.keys">
+            <td>{{ key.name }}</td><td>{{ key.mac }}</td>
+            <td>
+              <a class="btn btn-default pull-right" href="#" ng-click="remove(key)" aria-label="Remove Device">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="page-header">
-    <h4>Nearby devices</h4>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Nearby devices</h4>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Device Name</th>
+            <th>MAC Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="peer in devices">
+            <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
+            <td>
+              <a class="btn btn-default pull-right" href="#" ng-click="add(peer)"  aria-label="Add Device">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Device Name</th>
-          <th>MAC Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="peer in devices">
-          <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
-          <td>
-            <a class="btn btn-default pull-right" href="#" ng-click="add(peer)"  aria-label="Add Device">
-              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</form>
+</div>

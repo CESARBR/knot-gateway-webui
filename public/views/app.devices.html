@@ -1,5 +1,5 @@
 <div ng-init="init()">
-  <div class="panel panel-default">
+  <div class="panel panel-default" ng-hide="macAddresses.keys.length === 0">
     <div class="panel-heading">
       <h4 class="panel-title">Allowed devices</h4>
     </div>
@@ -30,7 +30,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">Nearby devices</h4>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" ng-hide="devices.length === 0">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -49,6 +49,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="panel-body text-center" ng-show="devices.length === 0">
+      No nearby devices found. Please refresh to try again.
     </div>
   </div>
 </div>

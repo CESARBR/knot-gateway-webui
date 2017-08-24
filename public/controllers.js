@@ -161,6 +161,11 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
 });
 
 appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, AppService) {
+  $scope.macAddresses = {
+    keys: []
+  };
+  $scope.devices = [];
+
   $scope.init = function () {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {

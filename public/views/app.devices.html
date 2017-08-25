@@ -1,4 +1,9 @@
 <div ng-init="init()">
+  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+    <p ng-message="devices-unavailable">Devices service is unavailable. Try again later or check your configuration.</p>
+    <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+  </div>
+
   <div class="panel panel-default" ng-hide="allowedDevices.length === 0">
     <div class="panel-heading">
       <h4 class="panel-title">Allowed devices</h4>

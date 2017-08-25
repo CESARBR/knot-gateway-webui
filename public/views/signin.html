@@ -4,6 +4,11 @@
     <h2>KNoT Gateway</h2>
   </div>
 
+  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+    <p ng-message="invalid-credentials">Invalid credentials.</p>
+    <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+  </div>
+
   <form name="signinForm" ng-submit="signin()" novalidate>
     <div class="form-group ng-class:{ 'has-error': signinForm.email.$invalid && !signinForm.email.$pristine }">
       <input type="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>

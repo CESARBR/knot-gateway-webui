@@ -1,4 +1,8 @@
 <div ng-init="init()">
+  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+    <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+  </div>
+
   <div class="row">
     <div class="col-sm-6">
       <div class="panel panel-default">

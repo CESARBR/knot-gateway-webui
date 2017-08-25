@@ -1,8 +1,9 @@
 var appCtrls;
 var angular = require('angular');
 require('@uirouter/angularjs');
+require('angular-messages');
 
-appCtrls = angular.module('app.controllers', ['ui.router', 'app.services']);
+appCtrls = angular.module('app.controllers', ['ngMessages', 'ui.router', 'app.services']);
 
 appCtrls.controller('AppController', function AppController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, APP_EVENTS) {
   $scope.hideMenu = false;
@@ -31,10 +32,24 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
   });
 });
 
-appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, AuthService, AUTH_EVENTS) {
+appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, SERVER_ERRORS) {
   $scope.hideButton = false;
+  $scope.$apiError = null;
+
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
+
   $scope.signin = function signin() {
     $scope.hideButton = true;
+    hideApiError();
     AuthService.signin($scope.form)
       .then(function onSuccess() {
         $scope.hideButton = false;
@@ -44,22 +59,36 @@ appCtrls.controller('SigninController', function SigninController($rootScope, $s
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
         if (err.status === 401) {
-          alert('Invalid e-mail and/or password.');
+          showApiError(SERVER_ERRORS.INVALID_CREDENTIALS);
         } else {
-          alert('An unexpected error occurred. Try again later or check your configuration.');
+          showApiError(SERVER_ERRORS.UNEXPECTED);
         }
       });
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, $http, SignupService) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, $http, SignupService, SERVER_ERRORS) {
   $scope.hideButton = false;
+  $scope.$apiError = null;
+
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
+
   $scope.signup = function signup() {
     var credentials = {
       email: $scope.form.email,
       password: $scope.form.password
     };
     $scope.hideButton = true;
+    hideApiError();
     SignupService.signup(credentials)
       .then(function onSuccess(/* result */) {
         $scope.hideButton = false;
@@ -68,25 +97,37 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
         if (err.status === 400) {
           $state.go('cloud');
         } else if (err.status === 409) {
-          alert('User exists. Try a different e-mail address.');
+          showApiError(SERVER_ERRORS.EXISTING_USER);
         } else if (err.status === 503) {
-          alert('Cloud service is unavailable. Try again later or check your cloud configuration.');
+          showApiError(SERVER_ERRORS.CLOUD_UNAVAILABLE);
         } else {
-          alert('An unexpected error occurred. Try again later or check your configuration.');
+          showApiError(SERVER_ERRORS.UNEXPECTED);
         }
         $scope.hideButton = false;
       });
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, AppService) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, AppService, SERVER_ERRORS) {
   $scope.form = {
     servername: null,
     port: null
   };
   $scope.hideButton = false;
+  $scope.$apiError = null;
 
-  $scope.init = function () {
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
+
+  $scope.init = function init() {
     AppService.loadCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
@@ -96,21 +137,35 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       });
   };
 
-  $scope.save = function () {
+  $scope.save = function save() {
     $scope.hideButton = true;
+    hideApiError();
     AppService.saveCloudConfig($scope.form)
       .then(function onSuccess(/* result */) {
         $scope.hideButton = false;
         $state.go('signup');
       }, function onError(/* err */) {
-        alert('An unexpected error occurred. Try again later or check your configuration.');
         $scope.hideButton = false;
+        showApiError(SERVER_ERRORS.UNEXPECTED);
       });
   };
 });
 
-appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $location, $state, AppService, APP_EVENTS) {
+appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $location, $state, AppService, APP_EVENTS, SERVER_ERRORS) {
   $scope.credentials = {};
+  $scope.$apiError = null;
+
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
+
   $scope.init = function init() {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
@@ -120,55 +175,106 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
 
   $scope.reboot = function reboot() {
     $scope.hideButton = true;
+    hideApiError();
     AppService.reboot()
       .then(function onSuccess() {
         $scope.hideButton = false;
         $rootScope.$broadcast(APP_EVENTS.REBOOTING);
       }, function onError() {
-        alert('An unexpected error occurred. Try again later or check your configuration.');
+        showApiError(SERVER_ERRORS.UNEXPECTED);
         $scope.hideButton = false;
       });
   };
 });
 
-appCtrls.controller('NetworkController', function NetworkController($rootScope, $scope, AppService) {
+appCtrls.controller('NetworkController', function NetworkController($rootScope, $scope, AppService, SERVER_ERRORS) {
   $scope.form = {};
   $scope.hideButton = false;
+  $scope.$apiError = null;
+  $scope.successAlertVisible = false;
 
-  $scope.init = function () {
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
+
+  function showSuccessAlert() {
+    $scope.successAlertVisible = true;
+  }
+
+  function hideSuccessAlert() {
+    $scope.successAlertVisible = false;
+  }
+
+  $scope.init = function init() {
     AppService.loadNetworkInfo()
       .then(function onSuccess(result) {
         $scope.form.hostname = result.hostname !== '' ? result.hostname : null;
       });
   };
 
-  $scope.save = function () {
+  $scope.hideSuccessAlert = hideSuccessAlert;
+
+  $scope.save = function save() {
     $scope.hideButton = true;
+    hideApiError();
     AppService.saveNetworkInfo($scope.form)
       .then(function onSuccess() {
-        alert('Host name changed');
+        showSuccessAlert();
         $scope.hideButton = false;
       }, function onError() {
         $scope.hideButton = false;
-        alert('An unexpected error occurred. Try again later or check your configuration.');
+        showApiError(SERVER_ERRORS.UNEXPECTED);
       });
   };
 });
 
-appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, $q, AppService) {
+appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, $q, AppService, SERVER_ERRORS) {
   $scope.disableButtons = false;
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
+  $scope.$apiError = null;
+
+  function showApiError(errorType) {
+    if (!$scope.$apiError) {
+      $scope.$apiError = {};
+    }
+    $scope.$apiError[errorType] = true;
+  }
+
+  function hideApiError() {
+    $scope.$apiError = null;
+  }
 
   function reloadDevices() {
     var allowedPromise = AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
         $scope.allowedDevices = result;
+      })
+      .catch(function onError(err) {
+        if (err.status === 503) {
+          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
+        } else {
+          showApiError(SERVER_ERRORS.UNEXPECTED);
+        }
       });
 
     var nearbyPromise = AppService.loadBcastDevicesInfo()
       .then(function onSuccess(result) {
         $scope.nearbyDevices = result;
+      })
+      .catch(function onError(err) {
+        if (err.status === 503) {
+          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
+        } else {
+          showApiError(SERVER_ERRORS.UNEXPECTED);
+        }
       });
 
     return $q.all([allowedPromise, nearbyPromise]);
@@ -180,7 +286,15 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
 
   $scope.add = function add(device) {
     $scope.disableButtons = true;
+    hideApiError();
     AppService.addDevice(device)
+      .catch(function onError(err) {
+        if (err.status === 503) {
+          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
+        } else {
+          showApiError(SERVER_ERRORS.UNEXPECTED);
+        }
+      })
       .finally(function onFulfilled() {
         return reloadDevices();
       })
@@ -191,13 +305,21 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
 
   $scope.remove = function remove(key) {
     $scope.disableButtons = true;
+    hideApiError();
     AppService.removeDevice(key)
-    .finally(function onFulfilled() {
-      return reloadDevices();
-    })
-    .finally(function onFulfilled() {
-      $scope.disableButtons = false;
-    });
+      .catch(function onError(err) {
+        if (err.status === 503) {
+          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
+        } else {
+          showApiError(SERVER_ERRORS.UNEXPECTED);
+        }
+      })
+      .finally(function onFulfilled() {
+        return reloadDevices();
+      })
+      .finally(function onFulfilled() {
+        $scope.disableButtons = false;
+      });
   };
 });
 

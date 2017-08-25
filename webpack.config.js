@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   entry: {
     app: path.resolve(__dirname, './public/app.js'),
-    vendors: ['angular', '@uirouter/angularjs', 'angular-permission', 'angular-ui-bootstrap', 'ng-storage']
+    vendors: ['angular', '@uirouter/angularjs', 'angular-permission', 'angular-ui-bootstrap', 'ng-storage', 'angular-messages']
   },
   output: {
     path: path.resolve(__dirname, './www'),

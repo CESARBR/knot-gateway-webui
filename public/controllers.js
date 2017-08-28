@@ -155,20 +155,23 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
   };
 });
 
-appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, AppService) {
+appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, $q, AppService) {
+  $scope.disableButtons = false;
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
 
   function reloadDevices() {
-    AppService.loadDevicesInfo()
+    var allowedPromise = AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
         $scope.allowedDevices = result;
       });
 
-    AppService.loadBcastDevicesInfo()
+    var nearbyPromise = AppService.loadBcastDevicesInfo()
       .then(function onSuccess(result) {
         $scope.nearbyDevices = result;
       });
+
+    return $q.all([allowedPromise, nearbyPromise]);
   }
 
   $scope.init = function init() {
@@ -176,17 +179,25 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
   };
 
   $scope.add = function add(device) {
+    $scope.disableButtons = true;
     AppService.addDevice(device)
       .finally(function onFulfilled() {
-        reloadDevices();
+        return reloadDevices();
+      })
+      .finally(function onFulfilled() {
+        $scope.disableButtons = false;
       });
   };
 
   $scope.remove = function remove(key) {
+    $scope.disableButtons = true;
     AppService.removeDevice(key)
-      .finally(function onFulfilled() {
-        reloadDevices();
-      });
+    .finally(function onFulfilled() {
+      return reloadDevices();
+    })
+    .finally(function onFulfilled() {
+      $scope.disableButtons = false;
+    });
   };
 });
 

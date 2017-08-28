@@ -16,7 +16,7 @@
           <tr ng-repeat="device in allowedDevices">
             <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="remove(device)" aria-label="Remove Device">
+              <a class="btn btn-default pull-right" href="#" ng-click="remove(device)" ng-disabled="disableButtons" aria-label="Remove Device">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </a>
             </td>
@@ -42,7 +42,7 @@
           <tr ng-repeat="device in nearbyDevices">
             <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="add(device)"  aria-label="Add Device">
+              <a class="btn btn-default pull-right" href="#" ng-click="add(device)" ng-disabled="disableButtons" aria-label="Add Device">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
               </a>
             </td>

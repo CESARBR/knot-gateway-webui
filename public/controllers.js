@@ -159,7 +159,7 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
 
-  $scope.init = function init() {
+  function reloadDevices() {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
         $scope.allowedDevices = result;
@@ -169,29 +169,23 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
       .then(function onSuccess(result) {
         $scope.nearbyDevices = result;
       });
+  }
+
+  $scope.init = function init() {
+    reloadDevices();
   };
 
   $scope.add = function add(device) {
-    var tmp = $scope.allowedDevices.find(function (key) {
-      return key.mac === device.mac;
-    });
-    if (tmp) {
-      alert('MAC already in use');
-    } else {
-      $scope.allowedDevices.push({ name: device.name, mac: device.mac });
-      AppService.addDevice(device)
-        .catch(function onError() {
-          $scope.allowedDevices.pop();
-        });
-    }
+    AppService.addDevice(device)
+      .finally(function onFulfilled() {
+        reloadDevices();
+      });
   };
 
   $scope.remove = function remove(key) {
-    var pos = $scope.allowedDevices.lastIndexOf(key);
-    var tmp = $scope.allowedDevices.splice(pos, 1);
     AppService.removeDevice(key)
-      .catch(function onError() {
-        $scope.allowedDevices.splice(pos, 0, tmp);
+      .finally(function onFulfilled() {
+        reloadDevices();
       });
   };
 });

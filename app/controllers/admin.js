@@ -3,20 +3,20 @@ var exec = require('child_process').exec;
 var users = require('../models/users');
 var fog = require('../models/fog');
 
-var get = function get(req, res) {
-  var admSettings = {};
-  fog.getFogSettings(function (err2, fogConfig) {
-    if (err2) {
-      res.sendStatus(500);
+var get = function get(req, res, next) {
+  var admSettings = { credentials: {} };
+  fog.getFogSettings(function onFogSettings(getFogErr, fogConfig) {
+    if (getFogErr) {
+      next(getFogErr);
     } else {
-      admSettings.uuidFog = fogConfig.uuid;
-      admSettings.tokenFog = fogConfig.token;
-      users.getUserByUUID(req.user.uuid, function (err3, user) {
-        if (err3) {
-          res.sendStatus(500);
+      users.getUserByUUID(req.user.uuid, function onUser(getUserErr, user) {
+        if (getUserErr) {
+          next(getUserErr);
         } else {
-          admSettings.uuid = user.uuid;
-          admSettings.token = user.token;
+          admSettings.credentials = {
+            user: user,
+            gateway: fogConfig
+          };
           res.json(admSettings);
         }
       });
@@ -24,10 +24,10 @@ var get = function get(req, res) {
   });
 };
 
-var reboot = function reboot(req, res) {
-  exec('reboot', function onReboot(error) {
-    if (error) {
-      res.sendStatus(500);
+var reboot = function reboot(req, res, next) {
+  exec('reboot', function onReboot(err) {
+    if (err) {
+      next(err);
     } else {
       res.end();
     }

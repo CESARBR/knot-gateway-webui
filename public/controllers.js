@@ -40,10 +40,14 @@ appCtrls.controller('SigninController', function SigninController($rootScope, $s
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.devices');
-      }, function onError() {
+      }, function onError(err) {
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
-        alert('Authentication Error');
+        if (err.status === 401) {
+          alert('Invalid e-mail and/or password.');
+        } else {
+          alert('An unexpected error occurred. Try again later or check your configuration.');
+        }
       });
   };
 });
@@ -58,17 +62,17 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     $scope.hideButton = true;
     SignupService.signup(credentials)
       .then(function onSuccess(/* result */) {
-        alert('The user was registered successfully');
         $scope.hideButton = false;
         $state.go('app.devices');
       }, function onError(err) {
-        console.log(err);
         if (err.status === 400) {
           $state.go('cloud');
-        } else if (err.status === 500) {
-          alert('Cloud may not be running, try again later');
+        } else if (err.status === 409) {
+          alert('User exists. Try a different e-mail address.');
+        } else if (err.status === 503) {
+          alert('Cloud service is unavailable. Try again later or check your cloud configuration.');
         } else {
-          alert(err.data.message);
+          alert('An unexpected error occurred. Try again later or check your configuration.');
         }
         $scope.hideButton = false;
       });
@@ -76,7 +80,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 });
 
 appCtrls.controller('CloudController', function CloudController($scope, $state, AppService) {
-  var formData = {
+  $scope.form = {
     servername: null,
     port: null
   };
@@ -85,41 +89,32 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.init = function () {
     AppService.loadCloudConfig()
       .then(function onSuccess(result) {
-        if (!result) {
-          alert('Failed to load cloud configuration');
-        } else {
-          formData.servername = result.servername;
-          formData.port = result.port;
+        if (result) {
+          $scope.form.servername = result.servername;
+          $scope.form.port = result.port;
         }
       });
-
-    $scope.form = formData;
   };
 
   $scope.save = function () {
     $scope.hideButton = true;
-    formData.servername = $scope.form.servername;
-    formData.port = $scope.form.port;
-    AppService.saveCloudConfig(formData)
+    AppService.saveCloudConfig($scope.form)
       .then(function onSuccess(/* result */) {
-        alert('Information saved');
         $scope.hideButton = false;
         $state.go('signup');
-      }, function onError(err) {
-        alert(err.data.message);
+      }, function onError(/* err */) {
+        alert('An unexpected error occurred. Try again later or check your configuration.');
         $scope.hideButton = false;
       });
   };
 });
 
 appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $location, $state, AppService, APP_EVENTS) {
-  $scope.init = function () {
+  $scope.credentials = {};
+  $scope.init = function init() {
     AppService.loadAdmInfo()
       .then(function onSuccess(result) {
-        $scope.uuidFog = result.uuidFog;
-        $scope.tokenFog = result.tokenFog;
-        $scope.uuid = result.uuid;
-        $scope.token = result.token;
+        $scope.credentials = result.credentials;
       });
   };
 
@@ -130,7 +125,7 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
         $scope.hideButton = false;
         $rootScope.$broadcast(APP_EVENTS.REBOOTING);
       }, function onError() {
-        alert('Failed to reboot the gateway');
+        alert('An unexpected error occurred. Try again later or check your configuration.');
         $scope.hideButton = false;
       });
   };
@@ -151,54 +146,52 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
     $scope.hideButton = true;
     AppService.saveNetworkInfo($scope.form)
       .then(function onSuccess() {
-        $scope.hideButton = false;
         alert('Host name changed');
+        $scope.hideButton = false;
       }, function onError() {
         $scope.hideButton = false;
-        alert('Failed to change the host name');
+        alert('An unexpected error occurred. Try again later or check your configuration.');
       });
   };
 });
 
 appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, AppService) {
-  $scope.macAddresses = {
-    keys: []
-  };
-  $scope.devices = [];
+  $scope.allowedDevices = [];
+  $scope.nearbyDevices = [];
 
-  $scope.init = function () {
+  $scope.init = function init() {
     AppService.loadDevicesInfo()
       .then(function onSuccess(result) {
-        $scope.macAddresses = result;
+        $scope.allowedDevices = result;
       });
 
     AppService.loadBcastDevicesInfo()
       .then(function onSuccess(result) {
-        $scope.devices = result;
+        $scope.nearbyDevices = result;
       });
   };
 
-  $scope.add = function (device) {
-    var tmp = $scope.macAddresses.keys.find(function (key) {
+  $scope.add = function add(device) {
+    var tmp = $scope.allowedDevices.find(function (key) {
       return key.mac === device.mac;
     });
     if (tmp) {
       alert('MAC already in use');
     } else {
-      $scope.macAddresses.keys.push({ name: device.name, mac: device.mac });
+      $scope.allowedDevices.push({ name: device.name, mac: device.mac });
       AppService.addDevice(device)
         .catch(function onError() {
-          $scope.macAddresses.keys.pop();
+          $scope.allowedDevices.pop();
         });
     }
   };
 
-  $scope.remove = function (key) {
-    var pos = $scope.macAddresses.keys.lastIndexOf(key);
-    var tmp = $scope.macAddresses.keys.splice(pos, 1);
+  $scope.remove = function remove(key) {
+    var pos = $scope.allowedDevices.lastIndexOf(key);
+    var tmp = $scope.allowedDevices.splice(pos, 1);
     AppService.removeDevice(key)
       .catch(function onError() {
-        $scope.macAddresses.keys.splice(pos, 0, tmp);
+        $scope.allowedDevices.splice(pos, 0, tmp);
       });
   };
 });

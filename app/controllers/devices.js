@@ -1,17 +1,17 @@
 var DevicesService = require('../services/devices').DevicesService;
 
-var list = function list(req, res) {
+var list = function list(req, res, next) {
   var devicesSvc = new DevicesService();
   devicesSvc.list(function onDevicesReturned(err, deviceList) {
     if (err) {
-      res.sendStatus(500);
+      next(err);
     } else {
-      res.json(deviceList);
+      res.json(deviceList.keys);
     }
   });
 };
 
-var upsert = function upsert(req, res) {
+var upsert = function upsert(req, res, next) {
   var devicesSvc;
 
   if (!req.body) {
@@ -21,30 +21,34 @@ var upsert = function upsert(req, res) {
 
   devicesSvc = new DevicesService();
   devicesSvc.upsert(req.body, function onDevicesCreated(err, added) {
-    if (err || !added) {
-      res.sendStatus(500);
+    if (err) {
+      next(err);
+    } else if (!added) {
+      res.sendStatus(500); // TODO: verify in which case a device isn't added
     } else {
       res.end();
     }
   });
 };
 
-var remove = function remove(req, res) {
+var remove = function remove(req, res, next) {
   var devicesSvc = new DevicesService();
   devicesSvc.remove(req.params.id, function onDevicesReturned(err, deleted) {
-    if (err || !deleted) {
-      res.sendStatus(500);
+    if (err) {
+      next(err);
+    } else if (!deleted) {
+      res.sendStatus(500); // TODO: verify in which case a device isn't removed
     } else {
       res.end();
     }
   });
 };
 
-var listBcast = function listBcast(req, res) {
+var listBcast = function listBcast(req, res, next) {
   var devicesSvc = new DevicesService();
   devicesSvc.listBroadcasting(function onDevicesReturned(err, deviceList) {
     if (err) {
-      res.sendStatus(500);
+      next(err);
     } else {
       res.json(deviceList);
     }

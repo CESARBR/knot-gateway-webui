@@ -6,50 +6,52 @@ var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
 
-var create = function create(req, res) {
-  clouds.getCloudSettings(function onCloudSettingsSet(errGetCloud, cloud) {
+var create = function create(req, res, next) {
+  clouds.getCloudSettings(function onCloudSettingsSet(getCloudErr, cloud) {
     var cloudSvc;
     var credentials;
-    if (errGetCloud || !cloud) {
-      res.sendStatus(400);
+    if (getCloudErr) {
+      next(getCloudErr);
+    } else if (!cloud) {
+      res.status(400).json({ message: 'Cloud not configured' });
     } else {
       credentials = {
         email: req.body.email,
         password: crypto.createPasswordHash(req.body.password)
       };
       cloudSvc = new CloudService(cloud.servername, cloud.port);
-      cloudSvc.createUser(credentials, function onUserCreated(errCreateUser, user) {
-        if (errCreateUser) {
-          res.status(500).send(errCreateUser);
+      cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
+        if (createUserErr) {
+          next(createUserErr);
         } else {
-          cloudSvc.createGateway(user.uuid, function onGatewayCreated(errCreateGateway, gateway) {
-            if (errCreateGateway) {
-              res.status(500).send(errCreateGateway);
+          cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gateway) {
+            if (createGatewayErr) {
+              next(createGatewayErr);
             } else {
-              users.setUser(user, function onUserSet(errSetUser) {
+              users.setUser(user, function onUserSet(setUserErr) {
                 var knotSvc;
-                if (errSetUser) {
-                  res.sendStatus(500);
+                if (setUserErr) {
+                  next(setUserErr);
                 } else {
                   knotSvc = new KnotService();
-                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(errSetUserCredentials) { // eslint-disable-line max-len
-                    if (errSetUserCredentials) {
-                      res.sendStatus(500);
+                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) { // eslint-disable-line max-len
+                    if (setUserCredErr) {
+                      next(setUserCredErr);
                     } else {
-                      fogs.setFogSettings(gateway, function onFogSet(errSetFog) {
+                      fogs.setFogSettings(gateway, function onFogSet(setFogErr) {
                         var fogSvc;
-                        if (errSetFog) {
-                          res.sendStatus(500);
+                        if (setFogErr) {
+                          next(setFogErr);
                         } else {
                           fogSvc = new FogService();
-                          fogSvc.setGatewayCredentials(gateway, function onGwCredentialsSet(errSetGwCredentials) { // eslint-disable-line max-len
-                            if (errSetGwCredentials) {
-                              res.sendStatus(500);
+                          fogSvc.setGatewayCredentials(gateway, function onGwCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
+                            if (setGwCredErr) {
+                              next(setGwCredErr);
                             } else {
-                              fogSvc.restart(function onRestart(errRestart) {
-                                if (errRestart) {
+                              fogSvc.restart(function onRestart(restartErr) {
+                                if (restartErr) {
                                   // don't fail if fog daemon isn't restarted
-                                  console.error('Error restarting KNoT Fog: ', errRestart);
+                                  console.error('Error restarting KNoT Fog: ', restartErr);
                                 }
                               });
                               res.end();

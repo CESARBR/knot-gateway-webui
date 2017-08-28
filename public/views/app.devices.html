@@ -1,5 +1,5 @@
 <div ng-init="init()">
-  <div class="panel panel-default" ng-hide="macAddresses.keys.length === 0">
+  <div class="panel panel-default" ng-hide="allowedDevices.length === 0">
     <div class="panel-heading">
       <h4 class="panel-title">Allowed devices</h4>
     </div>
@@ -13,10 +13,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="key in macAddresses.keys">
-            <td>{{ key.name }}</td><td>{{ key.mac }}</td>
+          <tr ng-repeat="device in allowedDevices">
+            <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="remove(key)" aria-label="Remove Device">
+              <a class="btn btn-default pull-right" href="#" ng-click="remove(device)" aria-label="Remove Device">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </a>
             </td>
@@ -30,7 +30,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">Nearby devices</h4>
     </div>
-    <div class="table-responsive" ng-hide="devices.length === 0">
+    <div class="table-responsive" ng-hide="nearbyDevices.length === 0">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -39,10 +39,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="peer in devices">
-            <td>{{ peer.name }}</td><td>{{ peer.mac }}</td>
+          <tr ng-repeat="device in nearbyDevices">
+            <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="add(peer)"  aria-label="Add Device">
+              <a class="btn btn-default pull-right" href="#" ng-click="add(device)"  aria-label="Add Device">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
               </a>
             </td>
@@ -50,7 +50,7 @@
         </tbody>
       </table>
     </div>
-    <div class="panel-body text-center" ng-show="devices.length === 0">
+    <div class="panel-body text-center" ng-show="nearbyDevices.length === 0">
       No nearby devices found. Please refresh to try again.
     </div>
   </div>

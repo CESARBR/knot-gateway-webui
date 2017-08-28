@@ -7,11 +7,11 @@ var KnotService = function KnotService() {
 };
 
 KnotService.prototype.setUserCredentials = function setUserCredentials(settings, done) {
-  fs.readFile(KNOTD_CONFIGURATION_FILE, 'utf8', function onReadConfigurationFile(err, data) {
+  fs.readFile(KNOTD_CONFIGURATION_FILE, 'utf8', function onReadConfigurationFile(readErr, data) {
     var currentConfig;
 
-    if (err) {
-      done(err);
+    if (readErr) {
+      done(readErr);
       return;
     }
 
@@ -21,8 +21,8 @@ KnotService.prototype.setUserCredentials = function setUserCredentials(settings,
       currentConfig.cloud.token = settings.token;
 
       fs.writeFile(KNOTD_CONFIGURATION_FILE, JSON.stringify(currentConfig), 'utf8', done);
-    } catch (e) {
-      done(e);
+    } catch (parseErr) {
+      done(parseErr);
     }
   });
 };

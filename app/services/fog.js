@@ -13,14 +13,15 @@ var GATEWAY_CRED_UUID_KEY = 'UUID';
 var GATEWAY_CRED_TOKEN_KEY = 'TOKEN';
 
 var readEnvFile = function readEnvFile(done) {
-  fs.readFile(FOG_DOTENV_FILE, function onRead(err, data) {
+  fs.readFile(FOG_DOTENV_FILE, function onRead(readErr, data) {
     var envVars;
-    if (err) {
-      done(err);
-    } else {
-      envVars = dotenv.parse(data);
-      done(null, envVars);
+    if (readErr) {
+      done(readErr);
+      return;
     }
+
+    envVars = dotenv.parse(data);
+    done(null, envVars);
   });
 };
 
@@ -33,46 +34,49 @@ var writeEnvFile = function writeEnvFile(envVars, done) {
 };
 
 var setEnvVars = function setEnvVars(envVars, done) {
-  readEnvFile(function onRead(err, curVars) {
-    if (err) {
-      done(err);
-    } else {
-      for (var key in envVars) { // eslint-disable-line guard-for-in,no-restricted-syntax,vars-on-top, max-len
-        curVars[key] = envVars[key];
-      }
-      writeEnvFile(curVars, done);
+  readEnvFile(function onRead(readErr, curVars) {
+    if (readErr) {
+      done(readErr);
+      return;
     }
+
+    for (var key in envVars) { // eslint-disable-line guard-for-in,no-restricted-syntax,vars-on-top, max-len
+      curVars[key] = envVars[key];
+    }
+    writeEnvFile(curVars, done);
   });
 };
 
 var getEnvVars = function getEnvVars(keys, done) {
-  readEnvFile(function onRead(err, curVars) {
+  readEnvFile(function onRead(readErr, curVars) {
     var envVars = {};
     var foundKeys;
 
-    if (err) {
-      done(err);
-    } else {
-      foundKeys = Object
-        .keys(curVars)
-        .filter(function onKey(key) {
-          return keys.indexOf(key) !== -1;
-        });
-      for (var key in foundKeys) { // eslint-disable-line guard-for-in,no-restricted-syntax,vars-on-top, max-len
-        envVars[key] = curVars[key];
-      }
-      done(null, envVars);
+    if (readErr) {
+      done(readErr);
+      return;
     }
+
+    foundKeys = Object
+      .keys(curVars)
+      .filter(function onKey(key) {
+        return keys.indexOf(key) !== -1;
+      });
+    for (var key in foundKeys) { // eslint-disable-line guard-for-in,no-restricted-syntax,vars-on-top, max-len
+      envVars[key] = curVars[key];
+    }
+    done(null, envVars);
   });
 };
+
 
 var FogService = function FogService() {
 };
 
 FogService.prototype.setupDatabaseUri = function setupDatabaseUri(uri, done) {
-  getEnvVars([DATABASE_URI_KEY], function onEnvVars(err, envVars) {
+  getEnvVars([DATABASE_URI_KEY], function onEnvVars(getVarsErr, envVars) {
     var vars = {};
-    if (err || envVars[DATABASE_URI_KEY]) {
+    if (getVarsErr || !envVars[DATABASE_URI_KEY]) {
       vars[DATABASE_URI_KEY] = uri;
       setEnvVars(vars, done);
     }

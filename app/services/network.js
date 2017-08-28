@@ -4,9 +4,7 @@ var NetworkService = function NetworkService() {
 };
 
 NetworkService.prototype.getHostName = function getHostName(done) {
-  fs.readFile('/etc/hostname', 'utf8', function onReadHostname(err, hostname) {
-    done(err, hostname);
-  });
+  fs.readFile('/etc/hostname', 'utf8', done);
 };
 
 NetworkService.prototype.setHostName = function setHostName(hostname, done) {

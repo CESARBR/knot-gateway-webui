@@ -3,23 +3,39 @@ var dbus = require('dbus-native');
 
 var DEVICES_FILE = require('../config').DEVICES_FILE;
 
-var DevicesService = function DevicesService() {
+var DevicesServiceError = function DevicesServiceError(message) {
+  this.name = 'DevicesServiceError';
+  this.message = message;
+  this.stack = (new Error()).stack;
+};
+
+DevicesServiceError.prototype = Object.create(Error.prototype);
+DevicesServiceError.prototype.constructor = DevicesServiceError;
+
+
+var parseDbusError = function handleDbusError(err) { // eslint-disable-line vars-on-top
+  console.log('Unknown error while communicating with devices service:', err); // eslint-disable-line no-console
+  return new DevicesServiceError('Devices service is unavailable');
+};
+
+
+var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
 
 DevicesService.prototype.list = function list(done) {
-  fs.readFile(DEVICES_FILE, 'utf8', function onRead(err, data) {
+  fs.readFile(DEVICES_FILE, 'utf8', function onRead(readErr, data) {
     var obj;
 
-    if (err) {
-      done(err);
+    if (readErr) {
+      done(readErr);
       return;
     }
 
     try {
       obj = JSON.parse(data);
       done(null, obj);
-    } catch (e) {
-      done(e);
+    } catch (parseErr) {
+      done(parseErr);
     }
   });
 };
@@ -34,18 +50,21 @@ DevicesService.prototype.listBroadcasting = function listBroadcasting(done) {
     signature: '',
     body: [],
     type: dbus.messageType.methodCall
-  }, function onResult(err, res) {
+  }, function onResult(dbusErr, res) {
     var obj;
-    if (err) {
-      done(err);
+    var devicesErr;
+
+    if (dbusErr) {
+      devicesErr = parseDbusError(dbusErr);
+      done(devicesErr);
       return;
     }
 
     try {
       obj = JSON.parse(res);
       done(null, obj);
-    } catch (e) {
-      done(e);
+    } catch (parseErr) {
+      done(parseErr);
     }
   });
 };
@@ -61,12 +80,16 @@ DevicesService.prototype.upsert = function upsert(devices, done) {
     signature: 'sss',
     body: [devices.mac, devices.key, devices.name],
     type: dbus.messageType.methodCall
-  }, function onResult(err, res) {
-    if (err) {
-      done(err);
+  }, function onUpsert(dbusErr, upserted) {
+    var devicesErr;
+
+    if (dbusErr) {
+      devicesErr = parseDbusError(dbusErr);
+      done(devicesErr);
       return;
     }
-    done(null, res);
+
+    done(null, upserted); // TODO: verify in which case a device isn't added
   });
 };
 
@@ -80,15 +103,20 @@ DevicesService.prototype.remove = function remove(device, done) {
     signature: 's',
     body: [device],
     type: dbus.messageType.methodCall
-  }, function onResult(err, res) {
-    if (err) {
-      done(err);
+  }, function onRemove(dbusErr, removed) {
+    var devicesErr;
+
+    if (dbusErr) {
+      devicesErr = parseDbusError(dbusErr);
+      done(devicesErr);
       return;
     }
-    done(null, res);
+
+    done(null, removed); // TODO: verify in which case a device isn't removed
   });
 };
 
 module.exports = {
-  DevicesService: DevicesService
+  DevicesService: DevicesService,
+  DevicesServiceError: DevicesServiceError
 };

@@ -1,17 +1,17 @@
 var NetworkService = require('../services/network').NetworkService;
 
-var get = function get(req, res) {
+var get = function get(req, res, next) {
   var netSvc = new NetworkService();
   netSvc.getHostName(function onHostName(err, hostname) {
     if (err) {
-      res.sendStatus(500);
+      next(err);
     } else {
       res.json({ hostname: hostname });
     }
   });
 };
 
-var update = function update(req, res) {
+var update = function update(req, res, next) {
   var netSvc;
   if (!req.body.hostname) {
     res.sendStatus(400);
@@ -21,7 +21,7 @@ var update = function update(req, res) {
   netSvc = new NetworkService();
   netSvc.setHostName(req.body.hostname, function onHostNameSet(err) {
     if (err) {
-      res.sendStatus(500);
+      next(err);
     } else {
       res.end();
     }

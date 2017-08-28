@@ -1,35 +1,35 @@
 var cloud = require('../models/cloud');
 var FogService = require('../services/fog').FogService;
 
-var get = function get(req, res) {
+var get = function get(req, res, next) {
   cloud.getCloudSettings(function onCloudSettingsReturned(err, cloudSettings) {
     if (err) {
-      res.sendStatus(500);
+      next(err);
     } else {
       res.json(cloudSettings);
     }
   });
 };
 
-var upsert = function upsert(req, res) {
+var upsert = function upsert(req, res, next) {
   if (!req.body) {
     res.sendStatus(400);
     return;
   } else if (req.body.servername.trim() === '') {
     res.status(422).send({ message: 'Field is empty' });
   } else {
-    cloud.setCloudSettings(req.body, function onCloudSettingsSet(err) {
+    cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
       var fogSvc;
-      if (err) {
-        res.status(500).send(err);
+      if (setCloudErr) {
+        next(setCloudErr);
       } else {
         fogSvc = new FogService();
         fogSvc.setParentAddress({
           host: req.body.servername,
           port: req.body.port
-        }, function onParentAddressSet(errParentAddress) {
-          if (errParentAddress) {
-            res.status(500).send(errParentAddress);
+        }, function onParentAddressSet(setAddressErr) {
+          if (setAddressErr) {
+            next(setAddressErr);
           } else {
             res.end();
           }

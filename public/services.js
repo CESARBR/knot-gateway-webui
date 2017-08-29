@@ -1,6 +1,6 @@
 var appServices;
 var angular = require('angular');
-require('ng-storage');
+require('ngstorage');
 
 appServices = angular.module('app.services', ['ngStorage']);
 

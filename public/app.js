@@ -7,7 +7,7 @@ var angular = require('angular');
 require('@uirouter/angularjs');
 require('angular-ui-bootstrap');
 require('angular-permission');
-require('ng-storage');
+require('ngstorage');
 
 // Styles
 require('./styles/bootstrap/bootstrap.less');

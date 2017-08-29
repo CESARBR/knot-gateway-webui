@@ -3,8 +3,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
+var celebrate = require('celebrate');
 
 var users = require('./models/users');
+var authSchemas = require('./schemas/auth');
 var crypto = require('./crypto');
 
 var TOKEN_SECRET = require('./config').TOKEN_SECRET;
@@ -28,6 +30,7 @@ var respond = function respond(req, res) {
 
 var authenticate = function authenticate() {
   var chain = connect();
+  chain.use(celebrate({ body: authSchemas.auth }));
   chain.use(passport.authenticate('local', { session: false }));
   chain.use(createToken);
   chain.use(respond);

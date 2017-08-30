@@ -202,7 +202,7 @@ appServices.factory('AppService', function ($http) {
     return $http({
       method: 'POST',
       url: '/api/devices',
-      data: info,
+      data: { name: info.name, mac: info.mac },
       config: {
         headers: {
           'Content-Type': 'application/json;charset=utf-8;'

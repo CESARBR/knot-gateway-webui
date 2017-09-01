@@ -14,7 +14,7 @@
 
   <form name="cloudForm" ng-submit="save()" novalidate>
     <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
-      <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.servername" required>
+      <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.servername" hostname required>
     </div>
 
     <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">

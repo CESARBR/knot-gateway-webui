@@ -4,22 +4,14 @@ require('ngstorage');
 
 appServices = angular.module('app.services', ['ngStorage']);
 
-appServices.factory('AuthService', function AuthService($http, $q, Session) {
+appServices.factory('AuthService', function AuthService(IdentityApi, Session) {
   var signin = function signin(credentials) {
-    return $http({
-      method: 'POST',
-      url: '/api/auth',
-      data: credentials,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      var token = result.data.token;
-      Session.create(token);
-      return Session.getCurrentUser();
-    });
+    return IdentityApi.signin(credentials)
+      .then(function onSuccess(result) {
+        var token = result.token;
+        Session.create(token);
+        return Session.getCurrentUser();
+      });
   };
 
   var signout = function signout() {
@@ -32,162 +24,108 @@ appServices.factory('AuthService', function AuthService($http, $q, Session) {
   };
 });
 
-appServices.factory('SignupService', function SignupService($http) {
-  var signupFactory = {};
-
-  signupFactory.signup = function signup(info) {
-    return $http({
-      method: 'POST',
-      url: '/api/signup',
-      data: info,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
+appServices.factory('IdentityApi', function IdentityApi($http) {
+  var extractData = function extractData(httpResponse) {
+    return httpResponse.data;
   };
 
-  return signupFactory;
+  var signup = function signup(credentials) {
+    return $http.post('/api/signup', {
+      email: credentials.email,
+      password: credentials.password
+    }).then(extractData);
+  };
+
+  var signin = function signin(credentials) {
+    return $http.post('/api/auth', {
+      email: credentials.email,
+      password: credentials.password
+    }).then(extractData);
+  };
+
+  return {
+    signup: signup,
+    signin: signin
+  };
 });
 
-appServices.factory('AppService', function AppService($http) {
-  var factory = {};
+appServices.factory('GatewayApi', function GatewayApi($http) {
+  var extractData = function extractData(httpResponse) {
+    return httpResponse.data;
+  };
 
-  factory.loadAdmInfo = function loadAdmInfo() {
-    return $http({
-      method: 'GET',
-      url: '/api/admin',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
+  // /api/admin
+  var getSettings = function getSettings() {
+    return $http.get('/api/admin')
+      .then(extractData);
+  };
+
+  var reboot = function reboot() {
+    return $http.post('/api/admin/reboot');
+  };
+
+  // /api/network
+  var getNetworkConfig = function getNetworkConfig() {
+    return $http.get('/api/network')
+      .then(extractData);
+  };
+
+  var saveNetworkConfig = function saveNetworkConfig(config) {
+    return $http.post('/api/network', {
+      hostname: config.hostname
     });
   };
 
-  factory.reboot = function reboot() {
-    return $http({
-      method: 'POST',
-      url: '/api/admin/reboot',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
+  // /api/devices
+  var allowDevice = function allowDevice(device) {
+    return $http.post('/api/devices', {
+      name: device.name,
+      mac: device.mac
     });
   };
 
-  factory.saveNetworkInfo = function saveNetworkInfo(info) {
-    return $http({
-      method: 'POST',
-      url: '/api/network',
-      data: info,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
+  var forgetDevice = function forgetDevice(device) {
+    return $http.delete('/api/devices/' + device.mac);
+  };
+
+  var getAllowedDevices = function getAllowedDevices() {
+    return $http.get('/api/devices')
+      .then(extractData);
+  };
+
+  var getNearbyDevices = function getNearbyDevices() {
+    return $http.get('/api/devices/bcast')
+      .then(extractData);
+  };
+
+  // /api/cloud
+  var getCloudConfig = function getCloudConfig() {
+    return $http.get('/api/cloud')
+      .then(extractData);
+  };
+
+  var saveCloudConfig = function saveCloudConfig(config) {
+    return $http.post('/api/cloud', {
+      servername: config.servername,
+      port: config.port
     });
   };
 
-  factory.loadNetworkInfo = function loadNetworkInfo() {
-    return $http({
-      method: 'GET',
-      url: '/api/network',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
-    });
-  };
+  return {
+    getSettings: getSettings,
+    reboot: reboot,
 
-  factory.addDevice = function addDevice(info) {
-    return $http({
-      method: 'POST',
-      url: '/api/devices',
-      data: { name: info.name, mac: info.mac },
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
-  };
+    getNetworkConfig: getNetworkConfig,
+    saveNetworkConfig: saveNetworkConfig,
 
-  factory.loadDevicesInfo = function loadDevicesInfo() {
-    return $http({
-      method: 'GET',
-      url: '/api/devices',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
-    });
-  };
+    allowDevice: allowDevice,
+    forgetDevice: forgetDevice,
+    getAllowedDevices: getAllowedDevices,
+    getNearbyDevices: getNearbyDevices,
 
-  factory.loadBcastDevicesInfo = function loadBcastDevicesInfo() {
-    return $http({
-      method: 'GET',
-      url: '/api/devices/bcast',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
-    });
+    getCloudConfig: getCloudConfig,
+    saveCloudConfig: saveCloudConfig
   };
-
-  factory.removeDevice = function removeDevice(info) {
-    return $http({
-      method: 'DELETE',
-      url: '/api/devices/' + info.mac,
-      data: info,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
-  };
-  factory.saveCloudConfig = function saveCloudConfig(info) {
-    return $http({
-      method: 'POST',
-      url: '/api/cloud',
-      data: info,
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    });
-  };
-
-  factory.loadCloudConfig = function loadCloudConfig() {
-    return $http({
-      method: 'GET',
-      url: '/api/cloud',
-      config: {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8;'
-        }
-      }
-    }).then(function onSuccess(result) {
-      return result.data;
-    });
-  };
-
-  return factory;
 });
 
 appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {

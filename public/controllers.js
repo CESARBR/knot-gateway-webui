@@ -33,6 +33,10 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
 });
 
 appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, SERVER_ERRORS) {
+  $scope.form = {
+    email: null,
+    password: null
+  };
   $scope.hideButton = false;
   $scope.$apiError = null;
 
@@ -67,7 +71,12 @@ appCtrls.controller('SigninController', function SigninController($rootScope, $s
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, $http, SignupService, SERVER_ERRORS) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, SERVER_ERRORS) {
+  $scope.form = {
+    email: null,
+    password: null,
+    passwordConfirmation: null
+  };
   $scope.hideButton = false;
   $scope.$apiError = null;
 
@@ -83,16 +92,12 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   }
 
   $scope.signup = function signup() {
-    var credentials = {
-      email: $scope.form.email,
-      password: $scope.form.password
-    };
     $scope.hideButton = true;
     hideApiError();
-    SignupService.signup(credentials)
+    IdentityApi.signup($scope.form)
       .then(function onSuccess(/* result */) {
         $scope.hideButton = false;
-        $state.go('app.devices');
+        $state.go('signin');
       }, function onError(err) {
         if (err.status === 400) {
           $state.go('cloud');
@@ -108,7 +113,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, AppService, SERVER_ERRORS) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, SERVER_ERRORS) {
   $scope.form = {
     servername: null,
     port: null
@@ -128,7 +133,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   }
 
   $scope.init = function init() {
-    AppService.loadCloudConfig()
+    GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
           $scope.form.servername = result.servername;
@@ -140,7 +145,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.save = function save() {
     $scope.hideButton = true;
     hideApiError();
-    AppService.saveCloudConfig($scope.form)
+    GatewayApi.saveCloudConfig($scope.form)
       .then(function onSuccess(/* result */) {
         $scope.hideButton = false;
         $state.go('signup');
@@ -151,7 +156,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   };
 });
 
-appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $location, $state, AppService, APP_EVENTS, SERVER_ERRORS) {
+appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $state, GatewayApi, APP_EVENTS, SERVER_ERRORS) {
   $scope.credentials = {};
   $scope.$apiError = null;
 
@@ -167,7 +172,7 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   }
 
   $scope.init = function init() {
-    AppService.loadAdmInfo()
+    GatewayApi.getSettings()
       .then(function onSuccess(result) {
         $scope.credentials = result.credentials;
       });
@@ -176,7 +181,7 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   $scope.reboot = function reboot() {
     $scope.hideButton = true;
     hideApiError();
-    AppService.reboot()
+    GatewayApi.reboot()
       .then(function onSuccess() {
         $scope.hideButton = false;
         $rootScope.$broadcast(APP_EVENTS.REBOOTING);
@@ -187,8 +192,10 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   };
 });
 
-appCtrls.controller('NetworkController', function NetworkController($rootScope, $scope, AppService, SERVER_ERRORS) {
-  $scope.form = {};
+appCtrls.controller('NetworkController', function NetworkController($scope, GatewayApi, SERVER_ERRORS) {
+  $scope.form = {
+    hostname: null
+  };
   $scope.hideButton = false;
   $scope.$apiError = null;
   $scope.successAlertVisible = false;
@@ -213,7 +220,7 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
   }
 
   $scope.init = function init() {
-    AppService.loadNetworkInfo()
+    GatewayApi.getNetworkConfig()
       .then(function onSuccess(result) {
         $scope.form.hostname = result.hostname !== '' ? result.hostname : null;
       });
@@ -224,7 +231,7 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
   $scope.save = function save() {
     $scope.hideButton = true;
     hideApiError();
-    AppService.saveNetworkInfo($scope.form)
+    GatewayApi.saveNetworkConfig($scope.form)
       .then(function onSuccess() {
         showSuccessAlert();
         $scope.hideButton = false;
@@ -235,7 +242,7 @@ appCtrls.controller('NetworkController', function NetworkController($rootScope, 
   };
 });
 
-appCtrls.controller('DevicesController', function DevicesController($rootScope, $scope, $location, $q, AppService, SERVER_ERRORS) {
+appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, SERVER_ERRORS) {
   $scope.disableButtons = false;
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
@@ -253,7 +260,7 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
   }
 
   function reloadDevices() {
-    var allowedPromise = AppService.loadDevicesInfo()
+    var allowedPromise = GatewayApi.getAllowedDevices()
       .then(function onSuccess(result) {
         $scope.allowedDevices = result;
       })
@@ -265,7 +272,7 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
         }
       });
 
-    var nearbyPromise = AppService.loadBcastDevicesInfo()
+    var nearbyPromise = GatewayApi.getNearbyDevices()
       .then(function onSuccess(result) {
         $scope.nearbyDevices = result;
       })
@@ -284,10 +291,10 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
     reloadDevices();
   };
 
-  $scope.add = function add(device) {
+  $scope.allow = function allow(device) {
     $scope.disableButtons = true;
     hideApiError();
-    AppService.addDevice(device)
+    GatewayApi.allowDevice(device)
       .catch(function onError(err) {
         if (err.status === 503) {
           showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
@@ -303,10 +310,10 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
       });
   };
 
-  $scope.remove = function remove(key) {
+  $scope.forget = function forget(device) {
     $scope.disableButtons = true;
     hideApiError();
-    AppService.removeDevice(key)
+    GatewayApi.forgetDevice(device)
       .catch(function onError(err) {
         if (err.status === 503) {
           showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
@@ -323,7 +330,7 @@ appCtrls.controller('DevicesController', function DevicesController($rootScope, 
   };
 });
 
-appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $location, $interval, $state, APP_EVENTS) {
+appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $interval, APP_EVENTS) {
   $scope.progress = function progress() {
     var promise;
     var MINUTE = 60000;

@@ -2,8 +2,9 @@
   // ES5
   "extends": "airbnb/legacy",
   "rules": {
-    // It is a common practice in AngularJS code, leave it as a warning
-    "no-param-reassign": 1,
-    "spaced-comment": ["error", "always", { "markers": ["global", ","]}]
+    // It is a common practice in AngularJS code to reassign $scope
+    "no-param-reassign": ["error", { "ignorePropertyModificationsFor": ["$scope"] }],
+    "spaced-comment": ["error", "always", { "markers": ["global", ","]}],
+    "new-cap": ["error", { "capIsNewExceptions": ["Router"]}]
   }
 }

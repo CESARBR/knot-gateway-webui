@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -9,7 +10,7 @@ var handlers = require('./handlers');
 var clouds = require('./models/cloud');
 var FogService = require('./services/fog').FogService;
 
-var publicRoot = __dirname + '/../www/'; // eslint-disable-line no-path-concat
+var publicRoot = path.resolve(__dirname, '../www');
 var app = express();
 var fogSvc = new FogService();
 
@@ -30,20 +31,20 @@ if (config.CLOUD_SERVER_URL && config.CLOUD_SERVER_PORT) {
     port: config.CLOUD_SERVER_PORT
   }, function onCloudSettingsSet(err) {
     if (err) {
-      console.error('Failed configuring the cloud server');
+      console.error('Failed configuring the cloud server'); // eslint-disable-line no-console
     } else {
       fogSvc.setParentAddress({
         host: config.CLOUD_SERVER_URL,
         port: config.CLOUD_SERVER_PORT
       }, function onParentAddressSet(errParentAddress) {
         if (errParentAddress) {
-          console.error('Failed configuring the cloud server');
+          console.error('Failed configuring the cloud server'); // eslint-disable-line no-console
         }
       });
     }
   });
 }
 
-app.listen(config.PORT, function () {
-  console.log('Listening on ' + config.PORT);
+app.listen(config.PORT, function onListening() {
+  console.log('Listening on ' + config.PORT); // eslint-disable-line no-console
 });

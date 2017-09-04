@@ -89,7 +89,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
 });
 
 app.run(function run(PermRoleStore, ROLES) {
-  PermRoleStore.defineRole(ROLES.ADMIN, ['Session', function (Session) {
+  PermRoleStore.defineRole(ROLES.ADMIN, ['Session', function isAdmin(Session) {
     return Session.isAdmin();
   }]);
 });

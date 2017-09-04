@@ -123,7 +123,7 @@ appServices.factory('AuthService', function AuthService($http, $q, Session) {
   };
 });
 
-appServices.factory('SignupService', function ($http) {
+appServices.factory('SignupService', function SignupService($http) {
   var signupFactory = {};
 
   signupFactory.signup = function signup(info) {
@@ -142,7 +142,7 @@ appServices.factory('SignupService', function ($http) {
   return signupFactory;
 });
 
-appServices.factory('AppService', function ($http) {
+appServices.factory('AppService', function AppService($http) {
   var factory = {};
 
   factory.loadAdmInfo = function loadAdmInfo() {

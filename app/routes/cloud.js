@@ -1,4 +1,4 @@
-var router = require('express').Router(); // eslint-disable-line new-cap
+var router = require('express').Router();
 var celebrate = require('celebrate');
 
 var cloudCtrl = require('../controllers/cloud');

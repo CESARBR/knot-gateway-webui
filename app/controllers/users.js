@@ -51,7 +51,7 @@ var create = function create(req, res, next) {
                               fogSvc.restart(function onRestart(restartErr) {
                                 if (restartErr) {
                                   // don't fail if fog daemon isn't restarted
-                                  console.error('Error restarting KNoT Fog: ', restartErr);
+                                  console.error('Error restarting KNoT Fog: ', restartErr); // eslint-disable-line no-console
                                 }
                               });
                               res.end();

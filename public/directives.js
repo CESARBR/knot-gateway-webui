@@ -10,7 +10,7 @@ appDirectives.directive('confirmClick', [
       link: function link(scope, element, attr) {
         var msg = attr.confirmClick || 'Are you sure?';
         element.bind('click', function onClick(event) {
-          if (!window.confirm(msg)) {
+          if (!window.confirm(msg)) { // eslint-disable-line no-alert
             event.stopImmediatePropagation();
             event.preventDefault();
           }

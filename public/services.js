@@ -4,97 +4,6 @@ require('ngstorage');
 
 appServices = angular.module('app.services', ['ngStorage']);
 
-appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
-  var request = function request(config) {
-    var sessionToken = Session.getSessionToken();
-
-    config.headers = config.headers || {};
-    if (sessionToken) {
-      config.headers.Authorization = 'Bearer ' + sessionToken;
-    }
-
-    return config;
-  };
-
-  var responseError = function responseError(response) {
-    if (response.status === 401) {
-      Session.destroy();
-      $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED);
-    }
-    return $q.reject(response);
-  };
-
-  return {
-    request: request,
-    responseError: responseError
-  };
-});
-
-appServices.factory('Session', function Session($window, $sessionStorage, ROLES) {
-  var currentUser;
-
-  var parseJwt = function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse($window.atob(base64));
-  };
-
-  var getUserFromToken = function getUserFromToken(token) {
-    return parseJwt(token);
-  };
-
-  var getAnonymousUser = function getAnonymousUser() {
-    return {
-      role: ROLES.ANONYMOUS
-    };
-  };
-
-  var clearCurrentUser = function clearCurrentUser() {
-    currentUser = getAnonymousUser();
-  };
-
-  var create = function create(token) {
-    $sessionStorage.token = token;
-    currentUser = getUserFromToken(token);
-  };
-
-  var destroy = function destroy() {
-    delete $sessionStorage.token;
-    clearCurrentUser();
-  };
-
-  var getSessionToken = function getSessionToken() {
-    return $sessionStorage.token;
-  };
-
-  var getCurrentUser = function getCurrentUser() {
-    return currentUser;
-  };
-
-  var isAdmin = function isAdmin() {
-    return getCurrentUser().role === ROLES.ADMIN;
-  };
-
-  // Init
-  var init = function init() {
-    if ($sessionStorage.token) {
-      create($sessionStorage.token);
-    } else {
-      destroy();
-    }
-  };
-
-  init();
-
-  return {
-    create: create,
-    destroy: destroy,
-    getSessionToken: getSessionToken,
-    getCurrentUser: getCurrentUser,
-    isAdmin: isAdmin
-  };
-});
-
 appServices.factory('AuthService', function AuthService($http, $q, Session) {
   var signin = function signin(credentials) {
     return $http({
@@ -279,4 +188,95 @@ appServices.factory('AppService', function AppService($http) {
   };
 
   return factory;
+});
+
+appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
+  var request = function request(config) {
+    var sessionToken = Session.getSessionToken();
+
+    config.headers = config.headers || {};
+    if (sessionToken) {
+      config.headers.Authorization = 'Bearer ' + sessionToken;
+    }
+
+    return config;
+  };
+
+  var responseError = function responseError(response) {
+    if (response.status === 401) {
+      Session.destroy();
+      $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED);
+    }
+    return $q.reject(response);
+  };
+
+  return {
+    request: request,
+    responseError: responseError
+  };
+});
+
+appServices.factory('Session', function Session($window, $sessionStorage, ROLES) {
+  var currentUser;
+
+  var parseJwt = function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse($window.atob(base64));
+  };
+
+  var getUserFromToken = function getUserFromToken(token) {
+    return parseJwt(token);
+  };
+
+  var getAnonymousUser = function getAnonymousUser() {
+    return {
+      role: ROLES.ANONYMOUS
+    };
+  };
+
+  var clearCurrentUser = function clearCurrentUser() {
+    currentUser = getAnonymousUser();
+  };
+
+  var create = function create(token) {
+    $sessionStorage.token = token;
+    currentUser = getUserFromToken(token);
+  };
+
+  var destroy = function destroy() {
+    delete $sessionStorage.token;
+    clearCurrentUser();
+  };
+
+  var getSessionToken = function getSessionToken() {
+    return $sessionStorage.token;
+  };
+
+  var getCurrentUser = function getCurrentUser() {
+    return currentUser;
+  };
+
+  var isAdmin = function isAdmin() {
+    return getCurrentUser().role === ROLES.ADMIN;
+  };
+
+  // Init
+  var init = function init() {
+    if ($sessionStorage.token) {
+      create($sessionStorage.token);
+    } else {
+      destroy();
+    }
+  };
+
+  init();
+
+  return {
+    create: create,
+    destroy: destroy,
+    getSessionToken: getSessionToken,
+    getCurrentUser: getCurrentUser,
+    isAdmin: isAdmin
+  };
 });

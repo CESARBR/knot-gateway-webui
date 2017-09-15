@@ -1,5 +1,5 @@
 <div>
-  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
 
@@ -13,7 +13,7 @@
     </div>
 
     <div class="panel-body">
-      <form name="networkForm" class="form-horizontal" ng-submit="save()" novalidate>
+      <form name="networkForm" class="form-horizontal" novalidate>
         <div class="form-group ng-class:{ 'has-error': networkForm.hostname.$invalid && !networkForm.hostname.$pristine }">
           <label class="control-label col-sm-2" for="hostname">Host name</label>
           <div class="col-sm-3">
@@ -23,7 +23,7 @@
 
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary" type="submit" ng-disabled="networkForm.$invalid" ng-hide="hideButton">Save</button>
+            <button class="btn btn-primary" api-click="save()" api-click-state="$api" ng-disabled="networkForm.$invalid" ng-hide="hideButton">Save</button>
             <div class="loader" ng-show="hideButton">Saving host name...</div>
           </div>
         </div>

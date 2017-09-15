@@ -1,5 +1,5 @@
 <div>
-  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="devices-unavailable">Devices service is unavailable. Try again later or check your configuration.</p>
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
@@ -21,7 +21,7 @@
           <tr ng-repeat="device in allowedDevices">
             <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="forget(device)" ng-disabled="disableButtons" aria-label="Forget Device">
+              <a class="btn btn-default pull-right" href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="disableButtons" aria-label="Forget Device">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </a>
             </td>
@@ -47,7 +47,7 @@
           <tr ng-repeat="device in nearbyDevices">
             <td>{{ device.name }}</td><td>{{ device.mac }}</td>
             <td>
-              <a class="btn btn-default pull-right" href="#" ng-click="allow(device)" ng-disabled="disableButtons" aria-label="Allow Device">
+              <a class="btn btn-default pull-right" href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="disableButtons" aria-label="Allow Device">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
               </a>
             </td>

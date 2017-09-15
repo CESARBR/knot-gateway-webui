@@ -32,105 +32,68 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
   });
 });
 
-appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, SERVER_ERRORS) {
+appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, $q, AuthService, AUTH_EVENTS) {
+  $scope.$api = {};
   $scope.form = {
     email: null,
     password: null
   };
   $scope.hideButton = false;
-  $scope.$apiError = null;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   $scope.signin = function signin() {
+    var promise;
     $scope.hideButton = true;
-    hideApiError();
-    AuthService.signin($scope.form)
+    promise = AuthService.signin($scope.form);
+    promise
       .then(function onSuccess() {
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.devices');
-      }, function onError(err) {
+      }, function onError() {
         $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
-        if (err.status === 401) {
-          showApiError(SERVER_ERRORS.INVALID_CREDENTIALS);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
-        }
       });
+
+    return promise;
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, SERVER_ERRORS) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi) {
+  $scope.$api = {};
   $scope.form = {
     email: null,
     password: null,
     passwordConfirmation: null
   };
   $scope.hideButton = false;
-  $scope.$apiError = null;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   $scope.signup = function signup() {
+    var promise;
+
     $scope.hideButton = true;
-    hideApiError();
-    IdentityApi.signup($scope.form)
-      .then(function onSuccess(/* result */) {
+    promise = IdentityApi.signup($scope.form);
+    promise
+      .then(function onSuccess() {
         $scope.hideButton = false;
         $state.go('signin');
-      }, function onError(err) {
-        if (err.status === 400) {
+      }, function onError(response) {
+        if (response.status === 400) {
           $state.go('cloud');
-        } else if (err.status === 409) {
-          showApiError(SERVER_ERRORS.EXISTING_USER);
-        } else if (err.status === 503) {
-          showApiError(SERVER_ERRORS.CLOUD_UNAVAILABLE);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
         }
         $scope.hideButton = false;
       });
+
+    return promise;
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, SERVER_ERRORS) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi) {
+  $scope.$api = {};
   $scope.form = {
     servername: null,
     port: null
   };
   $scope.hideButton = false;
-  $scope.$apiError = null;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   function init() {
     GatewayApi.getCloudConfig()
@@ -143,35 +106,27 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   }
 
   $scope.save = function save() {
+    var promise;
     $scope.hideButton = true;
-    hideApiError();
-    GatewayApi.saveCloudConfig($scope.form)
-      .then(function onSuccess(/* result */) {
+
+    promise = GatewayApi.saveCloudConfig($scope.form);
+    promise
+      .then(function onSuccess() {
         $scope.hideButton = false;
         $state.go('signup');
-      }, function onError(/* err */) {
+      }, function onError() {
         $scope.hideButton = false;
-        showApiError(SERVER_ERRORS.UNEXPECTED);
       });
+
+    return promise;
   };
 
   init();
 });
 
-appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $state, GatewayApi, APP_EVENTS, SERVER_ERRORS) {
+appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $state, GatewayApi, APP_EVENTS) {
+  $scope.$api = {};
   $scope.credentials = {};
-  $scope.$apiError = null;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   function init() {
     GatewayApi.getSettings()
@@ -181,39 +136,29 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   }
 
   $scope.reboot = function reboot() {
+    var promise;
     $scope.hideButton = true;
-    hideApiError();
-    GatewayApi.reboot()
+    promise = GatewayApi.reboot();
+    promise
       .then(function onSuccess() {
         $scope.hideButton = false;
         $rootScope.$broadcast(APP_EVENTS.REBOOTING);
       }, function onError() {
-        showApiError(SERVER_ERRORS.UNEXPECTED);
         $scope.hideButton = false;
       });
+    return promise;
   };
 
   init();
 });
 
-appCtrls.controller('NetworkController', function NetworkController($scope, GatewayApi, SERVER_ERRORS) {
+appCtrls.controller('NetworkController', function NetworkController($scope, GatewayApi) {
+  $scope.$api = {};
   $scope.form = {
     hostname: null
   };
   $scope.hideButton = false;
-  $scope.$apiError = null;
   $scope.successAlertVisible = false;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   function showSuccessAlert() {
     $scope.successAlertVisible = true;
@@ -233,64 +178,46 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   $scope.hideSuccessAlert = hideSuccessAlert;
 
   $scope.save = function save() {
+    var promise;
+
     $scope.hideButton = true;
-    hideApiError();
-    GatewayApi.saveNetworkConfig($scope.form)
+    promise = GatewayApi.saveNetworkConfig($scope.form);
+    promise
       .then(function onSuccess() {
         showSuccessAlert();
         $scope.hideButton = false;
       }, function onError() {
         $scope.hideButton = false;
-        showApiError(SERVER_ERRORS.UNEXPECTED);
       });
+
+    return promise;
   };
 
   init();
 });
 
-appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, SERVER_ERRORS) {
+appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, GatewayApiErrorService) {
+  $scope.$api = {};
   $scope.disableButtons = false;
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
-  $scope.$apiError = null;
-
-  function showApiError(errorType) {
-    if (!$scope.$apiError) {
-      $scope.$apiError = {};
-    }
-    $scope.$apiError[errorType] = true;
-  }
-
-  function hideApiError() {
-    $scope.$apiError = null;
-  }
 
   function reloadDevices() {
     var allowedPromise = GatewayApi.getAllowedDevices()
       .then(function onSuccess(result) {
         $scope.allowedDevices = result;
-      })
-      .catch(function onError(err) {
-        if (err.status === 503) {
-          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
-        }
       });
 
     var nearbyPromise = GatewayApi.getNearbyDevices()
       .then(function onSuccess(result) {
         $scope.nearbyDevices = result;
-      })
-      .catch(function onError(err) {
-        if (err.status === 503) {
-          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
-        }
       });
 
-    return $q.all([allowedPromise, nearbyPromise]);
+    var allPromise = $q.all([allowedPromise, nearbyPromise]);
+
+    GatewayApiErrorService.updateStateOnResponse($scope.$api, allPromise);
+
+    return allPromise;
   }
 
   function init() {
@@ -299,16 +226,8 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   $scope.allow = function allow(device) {
     $scope.disableButtons = true;
-    hideApiError();
-    GatewayApi.allowDevice(device)
-      .catch(function onError(err) {
-        if (err.status === 503) {
-          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
-        }
-      })
-      .finally(function onFulfilled() {
+    return GatewayApi.allowDevice(device)
+      .then(function onFulfilled() {
         return reloadDevices();
       })
       .finally(function onFulfilled() {
@@ -318,16 +237,8 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   $scope.forget = function forget(device) {
     $scope.disableButtons = true;
-    hideApiError();
-    GatewayApi.forgetDevice(device)
-      .catch(function onError(err) {
-        if (err.status === 503) {
-          showApiError(SERVER_ERRORS.DEVICES_UNAVAILABLE);
-        } else {
-          showApiError(SERVER_ERRORS.UNEXPECTED);
-        }
-      })
-      .finally(function onFulfilled() {
+    return GatewayApi.forgetDevice(device)
+      .then(function onFulfilled() {
         return reloadDevices();
       })
       .finally(function onFulfilled() {

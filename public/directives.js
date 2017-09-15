@@ -67,3 +67,26 @@ appDirectives.directive('hostname', function hostname() {
     link: link
   };
 });
+
+appDirectives.directive('apiClick', function apiClick($parse, GatewayApiErrorService) {
+  function compile(tElement, tAttributes) {
+    var action = $parse(tAttributes.apiClick);
+    return function postLink(scope, element) {
+      element.on('click', function onClick(event) {
+        var executeAction = function executeAction() {
+          var promise = action(scope.$parent, { $event: event });
+          GatewayApiErrorService.updateStateOnResponse(scope.state, promise);
+        };
+        scope.$apply(executeAction);
+      });
+    };
+  }
+
+  return {
+    restrict: 'A',
+    scope: {
+      state: '=apiClickState'
+    },
+    compile: compile
+  };
+});

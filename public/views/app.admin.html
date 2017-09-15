@@ -1,5 +1,5 @@
 <div>
-  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
 
@@ -51,7 +51,7 @@
     </div>
 
     <div class="panel-body">
-      <button class="btn btn-primary" ng-click="reboot()" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
+      <button class="btn btn-primary" api-click="reboot()" api-click-state="$api" ng-hide="hideButton" confirm-click="Do you want to reboot the gateway?">Reboot</button>
       <div class="loader" ng-show="hideButton">Rebooting...</div>
     </div>
   </div>

@@ -8,11 +8,11 @@
     <p>Please configure your cloud server address to continue</p>
   </div>
 
-  <div class="alert alert-danger" ng-show="$apiError" ng-messages="$apiError" role="alert">
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
 
-  <form name="cloudForm" ng-submit="save()" novalidate>
+  <form name="cloudForm" novalidate>
     <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
       <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.servername" hostname required>
     </div>
@@ -21,7 +21,7 @@
       <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" min="0" max="65535" required>
     </div>
 
-    <button class="btn btn-primary btn-block" type="submit" ng-disabled="cloudForm.$invalid" ng-hide="hideButton">Save</button>
+    <button class="btn btn-primary btn-block" api-click="save()" api-click-state="$api" ng-disabled="cloudForm.$invalid" ng-hide="hideButton">Save</button>
     <div class="loader text-center" ng-show="hideButton">Saving address...</div>
   </form>
 </div>

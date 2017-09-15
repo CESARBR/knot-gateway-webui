@@ -111,7 +111,7 @@ app.constant('APP_EVENTS', {
   REBOOTED: 'rebooted'
 });
 
-app.constant('SERVER_ERRORS', {
+app.constant('API_ERRORS', {
   INVALID_CREDENTIALS: 'invalid-credentials',
   EXISTING_USER: 'existing-user',
   CLOUD_UNAVAILABLE: 'cloud-unavailable',

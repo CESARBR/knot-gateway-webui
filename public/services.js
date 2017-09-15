@@ -128,6 +128,62 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 });
 
+appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(API_ERRORS) {
+  function parseErrorResponse(response) {
+    var error = API_ERRORS.UNEXPECTED;
+    switch (response.status) {
+      case 401:
+        error = API_ERRORS.INVALID_CREDENTIALS;
+        break;
+      case 409:
+        // Currently only being returned in this case
+        error = API_ERRORS.EXISTING_USER;
+        break;
+      case 503:
+        if (response.data.code === 'devices') {
+          error = API_ERRORS.DEVICES_UNAVAILABLE;
+        } else if (response.data.code === 'cloud') {
+          error = API_ERRORS.CLOUD_UNAVAILABLE;
+        }
+        break;
+      default:
+        error = API_ERRORS.UNEXPECTED;
+    }
+    return error;
+  }
+
+  function reset(state) {
+    state.$error = {};
+    state.$invalid = false;
+  }
+
+  function setError(state, error) {
+    state.$error[error] = true;
+    state.$invalid = true;
+  }
+
+  function applyError(state, response) {
+    var error = parseErrorResponse(response);
+    setError(state, error);
+  }
+
+  function updateStateOnResponse(state, promise) {
+    if (!promise || !promise.catch) {
+      return;
+    }
+
+    reset(state);
+
+    promise.catch(function onError(response) {
+      applyError(state, response);
+    });
+  }
+
+  return {
+    updateStateOnResponse: updateStateOnResponse
+  };
+});
+
 appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
   var request = function request(config) {
     var sessionToken = Session.getSessionToken();

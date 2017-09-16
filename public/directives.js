@@ -3,43 +3,41 @@ var isIPv6 = require('is-ipv6-node');
 
 var appDirectives = angular.module('app.directives', []);
 
-appDirectives.directive('confirmClick', [
-  function confirmClick() {
-    return {
-      priority: -1,
-      link: function link(scope, element, attr) {
-        var msg = attr.confirmClick || 'Are you sure?';
-        element.bind('click', function onClick(event) {
-          if (!window.confirm(msg)) { // eslint-disable-line no-alert
-            event.stopImmediatePropagation();
-            event.preventDefault();
-          }
-        });
-      }
-    };
-  }]);
-
-appDirectives.directive('compareTo', [
-  function compareTo() {
-    var link = function link(scope, element, attributes, ngModel) {
-      ngModel.$validators.compareTo = function $validatorsCompareTo(value) {
-        return value === scope.other;
-      };
-
-      scope.$watch('other', function onOtherChanged(/* value */) {
-        ngModel.$validate();
+appDirectives.directive('confirmClick', function confirmClick() {
+  return {
+    priority: -1,
+    link: function link(scope, element, attr) {
+      var msg = attr.confirmClick || 'Are you sure?';
+      element.bind('click', function onClick(event) {
+        if (!window.confirm(msg)) { // eslint-disable-line no-alert
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
       });
+    }
+  };
+});
+
+appDirectives.directive('compareTo', function compareTo() {
+  function link(scope, element, attributes, ngModel) {
+    ngModel.$validators.compareTo = function $validatorsCompareTo(value) {
+      return value === scope.other;
     };
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      scope: {
-        other: '=compareTo'
-      },
-      link: link
-    };
+
+    scope.$watch('other', function onOtherChanged(/* value */) {
+      ngModel.$validate();
+    });
   }
-]);
+
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    scope: {
+      other: '=compareTo'
+    },
+    link: link
+  };
+});
 
 appDirectives.directive('hostname', function hostname() {
   // Based on Joi hostname validator

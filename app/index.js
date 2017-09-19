@@ -21,13 +21,6 @@ app.use('/api', apiRoute.router);
 app.use('*', handlers.defaultHandler);
 app.use(handlers.errorHandler);
 
-// TODO: move this to another component, it should be the responsibility of this server
-fogSvc.setupDatabaseUri(config.DATABASE_URI, function onSetup(err) {
-  if (err) {
-    console.error('Failed setting fog\'s database URI');
-  }
-});
-
 mongoose.connect(config.DATABASE_URI);
 
 // Set cloud server

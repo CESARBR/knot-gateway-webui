@@ -4,7 +4,6 @@ var exec = require('child_process').exec;
 
 var FOG_DOTENV_FILE = require('../config').FOG_DOTENV_FILE;
 
-var DATABASE_URI_KEY = 'MONGODB_URI';
 var PARENT_CONNECTION_SERVER_HOST_KEY = 'PARENT_CONNECTION_SERVER';
 var PARENT_CONNECTION_SERVER_PORT_KEY = 'PARENT_CONNECTION_PORT';
 var PARENT_CONNECTION_CRED_UUID_KEY = 'PARENT_CONNECTION_UUID';
@@ -47,40 +46,7 @@ var setEnvVars = function setEnvVars(envVars, done) {
   });
 };
 
-var getEnvVars = function getEnvVars(keys, done) {
-  readEnvFile(function onRead(readErr, curVars) {
-    var envVars = {};
-    var foundKeys;
-
-    if (readErr) {
-      done(readErr);
-      return;
-    }
-
-    foundKeys = Object
-      .keys(curVars)
-      .filter(function onKey(key) {
-        return keys.indexOf(key) !== -1;
-      });
-    for (var key in foundKeys) { // eslint-disable-line guard-for-in,no-restricted-syntax,vars-on-top, max-len
-      envVars[key] = curVars[key];
-    }
-    done(null, envVars);
-  });
-};
-
-
 var FogService = function FogService() {
-};
-
-FogService.prototype.setupDatabaseUri = function setupDatabaseUri(uri, done) {
-  getEnvVars([DATABASE_URI_KEY], function onEnvVars(getVarsErr, envVars) {
-    var vars = {};
-    if (getVarsErr || !envVars[DATABASE_URI_KEY]) {
-      vars[DATABASE_URI_KEY] = uri;
-      setEnvVars(vars, done);
-    }
-  });
 };
 
 FogService.prototype.setParentAddress = function setParentAddress(address, done) {

@@ -12,15 +12,15 @@
 
   <form name="signupForm" novalidate>
     <div class="form-group ng-class:{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
-      <input type="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" required>
+      <input type="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" ng-disabled="$api.$pending" required>
     </div>
 
     <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
-      <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" minlength="6" required>
+      <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" ng-disabled="$api.$pending" minlength="6" required>
     </div>
 
     <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
-      <input type="password" name="password" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" compare-to="form.password" minlength="6" required>
+      <input type="password" name="password" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" ng-disabled="$api.$pending" compare-to="form.password" minlength="6" required>
     </div>
 
     <button class="btn btn-primary btn-block" api-click="signup()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="signupForm.$invalid || $api.$pending">Sign up</button>

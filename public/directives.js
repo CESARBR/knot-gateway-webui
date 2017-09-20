@@ -90,3 +90,18 @@ appDirectives.directive('apiClick', function apiClick($parse, GatewayApiErrorSer
     compile: compile
   };
 });
+
+appDirectives.directive('busyWhen', function busyWhen() {
+  function link(scope, element, attributes) {
+    scope.$watch(attributes.busyWhen, function onWhenChanged(value) {
+      scope.when = value;
+    });
+  }
+
+  return {
+    restrict: 'A',
+    transclude: true,
+    template: '<div class="spinner" ng-show="when"></div><span ng-hide="when" ng-transclude></span>',
+    link: link
+  };
+});

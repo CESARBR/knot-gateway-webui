@@ -21,7 +21,6 @@
       <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" min="0" max="65535" required>
     </div>
 
-    <button class="btn btn-primary btn-block" api-click="save()" api-click-state="$api" ng-disabled="cloudForm.$invalid" ng-hide="hideButton">Save</button>
-    <div class="loader text-center" ng-show="hideButton">Saving address...</div>
+    <button class="btn btn-primary btn-block" api-click="save()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="cloudForm.$invalid || $api.$pending">Save</button>
   </form>
 </div>

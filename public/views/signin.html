@@ -18,8 +18,7 @@
       <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" required>
     </div>
 
-    <button class="btn btn-primary btn-block" api-click="signin()" api-click-state="$api" ng-disabled="signinForm.$invalid" ng-hide="hideButton">Sign in</button>
-    <div class="loader text-center" ng-show="hideButton">Authenticating user...</div>
+    <button class="btn btn-primary btn-block" api-click="signin()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="signinForm.$invalid || $api.$pending">Sign in</button>
   </form>
 
   <hr />

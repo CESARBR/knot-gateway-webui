@@ -152,6 +152,10 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
     return error;
   }
 
+  function setPending(state, pending) {
+    state.$pending = pending;
+  }
+
   function reset(state) {
     state.$error = {};
     state.$invalid = false;
@@ -173,10 +177,15 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
     }
 
     reset(state);
+    setPending(state, true);
 
-    promise.catch(function onError(response) {
-      applyError(state, response);
-    });
+    promise
+      .catch(function onError(response) {
+        applyError(state, response);
+      })
+      .finally(function onFulfilled() {
+        setPending(state, false);
+      });
   }
 
   return {

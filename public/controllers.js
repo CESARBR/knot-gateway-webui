@@ -38,19 +38,14 @@ appCtrls.controller('SigninController', function SigninController($rootScope, $s
     email: null,
     password: null
   };
-  $scope.hideButton = false;
 
   $scope.signin = function signin() {
-    var promise;
-    $scope.hideButton = true;
-    promise = AuthService.signin($scope.form);
+    var promise = AuthService.signin($scope.form);
     promise
       .then(function onSuccess() {
-        $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.devices');
       }, function onError() {
-        $scope.hideButton = false;
         $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
       });
 
@@ -65,22 +60,16 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     password: null,
     passwordConfirmation: null
   };
-  $scope.hideButton = false;
 
   $scope.signup = function signup() {
-    var promise;
-
-    $scope.hideButton = true;
-    promise = IdentityApi.signup($scope.form);
+    var promise = IdentityApi.signup($scope.form);
     promise
       .then(function onSuccess() {
-        $scope.hideButton = false;
         $state.go('signin');
       }, function onError(response) {
         if (response.status === 400) {
           $state.go('cloud');
         }
-        $scope.hideButton = false;
       });
 
     return promise;
@@ -93,7 +82,6 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     servername: null,
     port: null
   };
-  $scope.hideButton = false;
 
   function init() {
     GatewayApi.getCloudConfig()
@@ -106,19 +94,11 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   }
 
   $scope.save = function save() {
-    var promise;
-    $scope.hideButton = true;
-
-    promise = GatewayApi.saveCloudConfig($scope.form);
-    promise
+    return GatewayApi
+      .saveCloudConfig($scope.form)
       .then(function onSuccess() {
-        $scope.hideButton = false;
         $state.go('signup');
-      }, function onError() {
-        $scope.hideButton = false;
       });
-
-    return promise;
   };
 
   init();
@@ -136,17 +116,10 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   }
 
   $scope.reboot = function reboot() {
-    var promise;
-    $scope.hideButton = true;
-    promise = GatewayApi.reboot();
-    promise
+    return GatewayApi.reboot()
       .then(function onSuccess() {
-        $scope.hideButton = false;
         $rootScope.$broadcast(APP_EVENTS.REBOOTING);
-      }, function onError() {
-        $scope.hideButton = false;
       });
-    return promise;
   };
 
   init();
@@ -157,7 +130,6 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   $scope.form = {
     hostname: null
   };
-  $scope.hideButton = false;
   $scope.successAlertVisible = false;
 
   function showSuccessAlert() {
@@ -178,19 +150,11 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   $scope.hideSuccessAlert = hideSuccessAlert;
 
   $scope.save = function save() {
-    var promise;
-
-    $scope.hideButton = true;
-    promise = GatewayApi.saveNetworkConfig($scope.form);
-    promise
+    return GatewayApi
+      .saveNetworkConfig($scope.form)
       .then(function onSuccess() {
         showSuccessAlert();
-        $scope.hideButton = false;
-      }, function onError() {
-        $scope.hideButton = false;
       });
-
-    return promise;
   };
 
   init();
@@ -198,7 +162,6 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
 
 appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, GatewayApiErrorService) {
   $scope.$api = {};
-  $scope.disableButtons = false;
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
 
@@ -225,24 +188,16 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   }
 
   $scope.allow = function allow(device) {
-    $scope.disableButtons = true;
     return GatewayApi.allowDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
-      })
-      .finally(function onFulfilled() {
-        $scope.disableButtons = false;
       });
   };
 
   $scope.forget = function forget(device) {
-    $scope.disableButtons = true;
     return GatewayApi.forgetDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
-      })
-      .finally(function onFulfilled() {
-        $scope.disableButtons = false;
       });
   };
 

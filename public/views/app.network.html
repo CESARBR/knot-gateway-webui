@@ -23,7 +23,7 @@
 
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary" api-click="save()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="networkForm.$invalid || $api.$pending">Save</button>
+            <button class="btn btn-primary" api-click="save()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="networkForm.$invalid || networkForm.$pristine || $api.$pending">Save</button>
           </div>
         </div>
       </form>

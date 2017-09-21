@@ -132,7 +132,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     $scope.$apiError = null;
   }
 
-  $scope.init = function init() {
+  function init() {
     GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
@@ -140,7 +140,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
           $scope.form.port = result.port;
         }
       });
-  };
+  }
 
   $scope.save = function save() {
     $scope.hideButton = true;
@@ -154,6 +154,8 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         showApiError(SERVER_ERRORS.UNEXPECTED);
       });
   };
+
+  init();
 });
 
 appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $state, GatewayApi, APP_EVENTS, SERVER_ERRORS) {
@@ -171,12 +173,12 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
     $scope.$apiError = null;
   }
 
-  $scope.init = function init() {
+  function init() {
     GatewayApi.getSettings()
       .then(function onSuccess(result) {
         $scope.credentials = result.credentials;
       });
-  };
+  }
 
   $scope.reboot = function reboot() {
     $scope.hideButton = true;
@@ -190,6 +192,8 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
         $scope.hideButton = false;
       });
   };
+
+  init();
 });
 
 appCtrls.controller('NetworkController', function NetworkController($scope, GatewayApi, SERVER_ERRORS) {
@@ -219,12 +223,12 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
     $scope.successAlertVisible = false;
   }
 
-  $scope.init = function init() {
+  function init() {
     GatewayApi.getNetworkConfig()
       .then(function onSuccess(result) {
         $scope.form.hostname = result.hostname !== '' ? result.hostname : null;
       });
-  };
+  }
 
   $scope.hideSuccessAlert = hideSuccessAlert;
 
@@ -240,6 +244,8 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
         showApiError(SERVER_ERRORS.UNEXPECTED);
       });
   };
+
+  init();
 });
 
 appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, SERVER_ERRORS) {
@@ -287,9 +293,9 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
     return $q.all([allowedPromise, nearbyPromise]);
   }
 
-  $scope.init = function init() {
+  function init() {
     reloadDevices();
-  };
+  }
 
   $scope.allow = function allow(device) {
     $scope.disableButtons = true;
@@ -328,10 +334,12 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
         $scope.disableButtons = false;
       });
   };
+
+  init();
 });
 
 appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $interval, APP_EVENTS) {
-  $scope.progress = function progress() {
+  function progress() {
     var promise;
     var MINUTE = 60000;
     $scope.countup = 0;
@@ -343,5 +351,7 @@ appCtrls.controller('RebootController', function RebootController($rootScope, $s
         $scope.countup += 1;
       }
     }, MINUTE / 100);
-  };
+  }
+
+  progress();
 });

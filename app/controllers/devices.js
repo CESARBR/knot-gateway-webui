@@ -12,14 +12,7 @@ var list = function list(req, res, next) {
 };
 
 var upsert = function upsert(req, res, next) {
-  var devicesSvc;
-
-  if (!req.body) {
-    res.sendStatus(400);
-    return;
-  }
-
-  devicesSvc = new DevicesService();
+  var devicesSvc = new DevicesService();
   devicesSvc.upsert(req.body, function onDevicesCreated(err, added) {
     if (err) {
       next(err);

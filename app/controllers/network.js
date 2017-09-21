@@ -12,13 +12,7 @@ var get = function get(req, res, next) {
 };
 
 var update = function update(req, res, next) {
-  var netSvc;
-  if (!req.body.hostname) {
-    res.sendStatus(400);
-    return;
-  }
-
-  netSvc = new NetworkService();
+  var netSvc = new NetworkService();
   netSvc.setHostName(req.body.hostname, function onHostNameSet(err) {
     if (err) {
       next(err);

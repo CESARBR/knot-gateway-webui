@@ -1,30 +1,30 @@
 var users = require('../models/users');
-var fogs = require('../models/fog');
-var clouds = require('../models/cloud');
+var gateway = require('../models/gateway');
+var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
 
 var create = function create(req, res, next) {
-  clouds.getCloudSettings(function onCloudSettingsSet(getCloudErr, cloud) {
+  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
     var cloudSvc;
     var credentials;
     if (getCloudErr) {
       next(getCloudErr);
-    } else if (!cloud) {
+    } else if (!cloudSettings) {
       res.status(400).json({ message: 'Cloud not configured' });
     } else {
       credentials = {
         email: req.body.email,
         password: crypto.createPasswordHash(req.body.password)
       };
-      cloudSvc = new CloudService(cloud.hostname, cloud.port);
+      cloudSvc = new CloudService(cloudSettings.hostname, cloudSettings.port);
       cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
         if (createUserErr) {
           next(createUserErr);
         } else {
-          cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gateway) {
+          cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gatewayDevice) { // eslint-disable-line max-len
             if (createGatewayErr) {
               next(createGatewayErr);
             } else {
@@ -34,17 +34,17 @@ var create = function create(req, res, next) {
                   next(setUserErr);
                 } else {
                   knotSvc = new KnotService();
-                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) { // eslint-disable-line max-len
+                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
                     if (setUserCredErr) {
                       next(setUserCredErr);
                     } else {
-                      fogs.setFogSettings(gateway, function onFogSet(setFogErr) {
+                      gateway.setGatewaySettings(gatewayDevice, function onGatewaySettingsSet(setGwErr) { // eslint-disable-line max-len
                         var fogSvc;
-                        if (setFogErr) {
-                          next(setFogErr);
+                        if (setGwErr) {
+                          next(setGwErr);
                         } else {
                           fogSvc = new FogService();
-                          fogSvc.setGatewayCredentials(gateway, function onGwCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
+                          fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
                             if (setGwCredErr) {
                               next(setGwCredErr);
                             } else {

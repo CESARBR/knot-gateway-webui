@@ -1,13 +1,13 @@
 var exec = require('child_process').exec;
 
 var users = require('../models/users');
-var fog = require('../models/fog');
+var gateway = require('../models/gateway');
 
 var get = function get(req, res, next) {
   var admSettings = { credentials: {} };
-  fog.getFogSettings(function onFogSettings(getFogErr, fogConfig) {
-    if (getFogErr) {
-      next(getFogErr);
+  gateway.getGatewaySettings(function onGatewaySettings(getGatewayErr, gatewaySettings) {
+    if (getGatewayErr) {
+      next(getGatewayErr);
     } else {
       users.getUserByUUID(req.user.uuid, function onUser(getUserErr, user) {
         if (getUserErr) {
@@ -15,7 +15,7 @@ var get = function get(req, res, next) {
         } else {
           admSettings.credentials = {
             user: user,
-            gateway: fogConfig
+            gateway: gatewaySettings
           };
           res.json(admSettings);
         }

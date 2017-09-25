@@ -2,6 +2,7 @@ var router = require('express').Router();
 
 var auth = require('./auth');
 
+var authRoute = require('./routes/auth');
 var meRoute = require('./routes/me');
 var adminRoute = require('./routes/admin');
 var networkRoute = require('./routes/network');
@@ -11,7 +12,7 @@ var cloudRoute = require('./routes/cloud');
 var signupRoute = require('./routes/signup');
 
 router.use(auth.initialize());
-router.use('/auth', auth.authenticate());
+router.use('/auth', authRoute.router);
 router.use('/me', auth.authorize(), meRoute.router);
 router.use('/admin', auth.authorize(), adminRoute.router);
 router.use('/network', auth.authorize(), networkRoute.router);

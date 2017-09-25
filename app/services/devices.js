@@ -22,9 +22,9 @@ var parseDbusError = function handleDbusError(err) { // eslint-disable-line vars
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
 
-DevicesService.prototype.list = function list(done) {
+function getAllowedDevices(done) {
   fs.readFile(DEVICES_FILE, 'utf8', function onRead(readErr, data) {
-    var obj;
+    var file;
 
     if (readErr) {
       done(readErr);
@@ -32,15 +32,16 @@ DevicesService.prototype.list = function list(done) {
     }
 
     try {
-      obj = JSON.parse(data);
-      done(null, obj);
+      file = JSON.parse(data);
+
+      done(null, file.keys);
     } catch (parseErr) {
       done(parseErr);
     }
   });
-};
+}
 
-DevicesService.prototype.listBroadcasting = function listBroadcasting(done) {
+function getNearbyDevices(done) {
   var sysbus = dbus.systemBus();
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
@@ -51,7 +52,7 @@ DevicesService.prototype.listBroadcasting = function listBroadcasting(done) {
     body: [],
     type: dbus.messageType.methodCall
   }, function onResult(dbusErr, res) {
-    var obj;
+    var devices;
     var devicesErr;
 
     if (dbusErr) {
@@ -61,24 +62,69 @@ DevicesService.prototype.listBroadcasting = function listBroadcasting(done) {
     }
 
     try {
-      obj = JSON.parse(res);
-      done(null, obj);
+      devices = JSON.parse(res);
+      done(null, devices);
     } catch (parseErr) {
       done(parseErr);
     }
   });
+}
+
+function setAllowed(devices, allowed) {
+  devices.forEach(function onEntry(device) {
+    device.allowed = allowed;
+  });
+}
+
+function mergeDevicesLists(allowedList, nearbyList) {
+  // allowed - nearby
+  allowedList.forEach(function onEntry(device) {
+    var deviceIdx = nearbyList.findIndex(function isSameDevice(nearbyDevice) {
+      return nearbyDevice.mac === device.mac;
+    });
+    if (deviceIdx !== -1) {
+      nearbyList.splice(deviceIdx, 1);
+    }
+  });
+
+  // allowed (union) nearby
+  return allowedList.concat(nearbyList);
+}
+
+DevicesService.prototype.list = function list(done) {
+  getAllowedDevices(function onAllowedDevices(allowedDevicesErr, allowedDevices) {
+    if (allowedDevicesErr) {
+      done(allowedDevicesErr);
+      return;
+    }
+
+    setAllowed(allowedDevices, true); // eslint-disable-line no-param-reassign
+
+    getNearbyDevices(function onNearbyDevices(nearbyDevicesErr, nearbyDevices) {
+      var devices;
+      if (nearbyDevicesErr) {
+        done(nearbyDevicesErr);
+        return;
+      }
+
+      setAllowed(nearbyDevices, false); // eslint-disable-line no-param-reassign
+
+      devices = mergeDevicesLists(allowedDevices, nearbyDevices);
+      done(null, devices);
+    });
+  });
 };
 
-DevicesService.prototype.upsert = function upsert(devices, done) {
+DevicesService.prototype.update = function update(device, done) {
   var sysbus = dbus.systemBus();
-  devices.key = '';
+  device.key = '';
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
     destination: 'org.cesar.knot.nrf',
     interface: 'org.cesar.knot.nrf0.Adapter',
     member: 'AddDevice',
     signature: 'sss',
-    body: [devices.mac, devices.key, devices.name],
+    body: [device.mac, device.key, device.name],
     type: dbus.messageType.methodCall
   }, function onUpsert(dbusErr, upserted) {
     var devicesErr;

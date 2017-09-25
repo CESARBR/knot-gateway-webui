@@ -6,7 +6,7 @@ var list = function list(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.json(deviceList.keys);
+      res.json(deviceList);
     }
   });
 };
@@ -37,20 +37,8 @@ var remove = function remove(req, res, next) {
   });
 };
 
-var listBcast = function listBcast(req, res, next) {
-  var devicesSvc = new DevicesService();
-  devicesSvc.listBroadcasting(function onDevicesReturned(err, deviceList) {
-    if (err) {
-      next(err);
-    } else {
-      res.json(deviceList);
-    }
-  });
-};
-
 module.exports = {
   list: list,
   upsert: upsert,
-  remove: remove,
-  listBcast: listBcast
+  remove: remove
 };

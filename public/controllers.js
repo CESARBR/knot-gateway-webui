@@ -170,21 +170,20 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   $scope.nearbyDevices = [];
 
   function reloadDevices() {
-    var allowedPromise = GatewayApi.getAllowedDevices()
-      .then(function onSuccess(result) {
-        $scope.allowedDevices = result;
+    var promise = GatewayApi.getDevices()
+      .then(function onSuccess(devices) {
+        $scope.allowedDevices = devices.filter(function isAllowed(device) {
+          return device.allowed;
+        });
+
+        $scope.nearbyDevices = devices.filter(function isNearby(device) {
+          return !device.allowed;
+        });
       });
 
-    var nearbyPromise = GatewayApi.getNearbyDevices()
-      .then(function onSuccess(result) {
-        $scope.nearbyDevices = result;
-      });
+    GatewayApiErrorService.updateStateOnResponse($scope.$api, promise);
 
-    var allPromise = $q.all([allowedPromise, nearbyPromise]);
-
-    GatewayApiErrorService.updateStateOnResponse($scope.$api, allPromise);
-
-    return allPromise;
+    return promise;
   }
 
   function init() {

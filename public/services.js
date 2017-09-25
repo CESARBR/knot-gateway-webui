@@ -89,13 +89,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     return $http.delete('/api/devices/' + device.mac);
   };
 
-  var getAllowedDevices = function getAllowedDevices() {
+  var getDevices = function getDevices() {
     return $http.get('/api/devices')
-      .then(extractData);
-  };
-
-  var getNearbyDevices = function getNearbyDevices() {
-    return $http.get('/api/devices/bcast')
       .then(extractData);
   };
 
@@ -128,8 +123,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     allowDevice: allowDevice,
     forgetDevice: forgetDevice,
-    getAllowedDevices: getAllowedDevices,
-    getNearbyDevices: getNearbyDevices,
+    getDevices: getDevices,
 
     getGatewayConfig: getGatewayConfig,
 

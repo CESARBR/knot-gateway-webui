@@ -109,9 +109,13 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   $scope.credentials = {};
 
   function init() {
-    GatewayApi.getSettings()
-      .then(function onSuccess(result) {
-        $scope.credentials = result.credentials;
+    GatewayApi.me()
+      .then(function onSuccess(user) {
+        $scope.credentials.user = user;
+      });
+    GatewayApi.getGatewayConfig()
+      .then(function onSuccess(gateway) {
+        $scope.credentials.gateway = gateway;
       });
   }
 

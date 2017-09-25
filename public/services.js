@@ -54,12 +54,13 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     return httpResponse.data;
   };
 
-  // /api/admin
-  var getSettings = function getSettings() {
-    return $http.get('/api/admin')
+  // /api/me
+  var me = function me() {
+    return $http.get('/api/me')
       .then(extractData);
   };
 
+  // /api/admin
   var reboot = function reboot() {
     return $http.post('/api/admin/reboot');
   };
@@ -98,6 +99,12 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
+  // /api/gateway
+  var getGatewayConfig = function getGatewayConfig() {
+    return $http.get('/api/gateway')
+      .then(extractData);
+  };
+
   // /api/cloud
   var getCloudConfig = function getCloudConfig() {
     return $http.get('/api/cloud')
@@ -112,7 +119,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   return {
-    getSettings: getSettings,
+    me: me,
+
     reboot: reboot,
 
     getNetworkConfig: getNetworkConfig,
@@ -122,6 +130,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     forgetDevice: forgetDevice,
     getAllowedDevices: getAllowedDevices,
     getNearbyDevices: getNearbyDevices,
+
+    getGatewayConfig: getGatewayConfig,
 
     getCloudConfig: getCloudConfig,
     saveCloudConfig: saveCloudConfig

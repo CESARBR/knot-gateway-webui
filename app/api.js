@@ -13,11 +13,11 @@ var signupRoute = require('./routes/signup');
 
 router.use(auth.initialize());
 router.use('/auth', authRoute.router);
-router.use('/me', auth.authorize(), meRoute.router);
-router.use('/admin', auth.authorize(), adminRoute.router);
-router.use('/network', auth.authorize(), networkRoute.router);
-router.use('/devices', auth.authorize(), devicesRoute.router);
-router.use('/gateway', auth.authorize(), gatewayRoute.router);
+router.use('/me', meRoute.router);
+router.use('/admin', adminRoute.router);
+router.use('/network', networkRoute.router);
+router.use('/devices', devicesRoute.router);
+router.use('/gateway', gatewayRoute.router);
 router.use('/cloud', cloudRoute.router);
 router.use('/signup', signupRoute.router);
 

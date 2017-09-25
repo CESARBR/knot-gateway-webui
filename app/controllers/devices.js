@@ -11,26 +11,18 @@ var list = function list(req, res, next) {
   });
 };
 
-var upsert = function upsert(req, res, next) {
+var update = function update(req, res, next) {
   var devicesSvc = new DevicesService();
-  devicesSvc.upsert(req.body, function onDevicesCreated(err, added) {
+  var device = {
+    mac: req.params.id,
+    name: req.body.name,
+    allowed: req.body.allowed
+  };
+  devicesSvc.update(device, function onDevicesCreated(err, updated) {
     if (err) {
       next(err);
-    } else if (!added) {
-      res.sendStatus(500); // TODO: verify in which case a device isn't added
-    } else {
-      res.end();
-    }
-  });
-};
-
-var remove = function remove(req, res, next) {
-  var devicesSvc = new DevicesService();
-  devicesSvc.remove(req.params.id, function onDevicesReturned(err, deleted) {
-    if (err) {
-      next(err);
-    } else if (!deleted) {
-      res.sendStatus(500); // TODO: verify in which case a device isn't removed
+    } else if (!updated) {
+      res.sendStatus(500); // TODO: verify in which case a device isn't updated
     } else {
       res.end();
     }
@@ -39,6 +31,5 @@ var remove = function remove(req, res, next) {
 
 module.exports = {
   list: list,
-  upsert: upsert,
-  remove: remove
+  update: update
 };

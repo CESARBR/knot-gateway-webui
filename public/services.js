@@ -78,15 +78,11 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   // /api/devices
-  var allowDevice = function allowDevice(device) {
-    return $http.post('/api/devices', {
+  var updateDevice = function updateDevice(device) {
+    return $http.put('/api/devices/' + device.mac, {
       name: device.name,
-      mac: device.mac
+      allowed: device.allowed
     });
-  };
-
-  var forgetDevice = function forgetDevice(device) {
-    return $http.delete('/api/devices/' + device.mac);
   };
 
   var getDevices = function getDevices() {
@@ -121,8 +117,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     getNetworkConfig: getNetworkConfig,
     saveNetworkConfig: saveNetworkConfig,
 
-    allowDevice: allowDevice,
-    forgetDevice: forgetDevice,
+    updateDevice: updateDevice,
     getDevices: getDevices,
 
     getGatewayConfig: getGatewayConfig,

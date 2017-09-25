@@ -5,8 +5,7 @@ var devicesCtrl = require('../controllers/devices');
 var devicesSchemas = require('../schemas/devices');
 
 router.get('/', devicesCtrl.list);
-router.post('/', celebrate({ body: devicesSchemas.upsert }), devicesCtrl.upsert);
-router.delete('/:id', celebrate({ params: devicesSchemas.remove }), devicesCtrl.remove);
+router.put('/:id', celebrate(devicesSchemas.update), devicesCtrl.update);
 
 module.exports = {
   router: router

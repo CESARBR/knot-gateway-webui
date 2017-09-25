@@ -191,14 +191,16 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   }
 
   $scope.allow = function allow(device) {
-    return GatewayApi.allowDevice(device)
+    device.allowed = true;
+    return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
       });
   };
 
   $scope.forget = function forget(device) {
-    return GatewayApi.forgetDevice(device)
+    device.allowed = false;
+    return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
       });

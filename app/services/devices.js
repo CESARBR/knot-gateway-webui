@@ -115,7 +115,7 @@ DevicesService.prototype.list = function list(done) {
   });
 };
 
-DevicesService.prototype.update = function update(device, done) {
+function addDevice(device, done) {
   var sysbus = dbus.systemBus();
   device.key = '';
   sysbus.invoke({
@@ -137,9 +137,9 @@ DevicesService.prototype.update = function update(device, done) {
 
     done(null, upserted); // TODO: verify in which case a device isn't added
   });
-};
+}
 
-DevicesService.prototype.remove = function remove(device, done) {
+function removeDevice(device, done) {
   var sysbus = dbus.systemBus();
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
@@ -160,6 +160,14 @@ DevicesService.prototype.remove = function remove(device, done) {
 
     done(null, removed); // TODO: verify in which case a device isn't removed
   });
+}
+
+DevicesService.prototype.update = function update(device, done) {
+  if (device.allowed) {
+    addDevice(device, done);
+  } else {
+    removeDevice(device, done);
+  }
 };
 
 module.exports = {

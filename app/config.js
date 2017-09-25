@@ -7,8 +7,6 @@ var FOG_DOTENV_FILE = process.env.FOG_DOTENV_FILE || '/usr/local/bin/knot-fog-so
 var DB_HOST = process.env.DB_HOST || 'localhost';
 var DB_PORT = process.env.DB_PORT || '27017';
 var DB_NAME = process.env.DB_NAME || 'knot_fog';
-var CLOUD_SERVER_URL = process.env.CLOUD_SERVER_URL;
-var CLOUD_SERVER_PORT = process.env.CLOUD_SERVER_PORT;
 
 // Server configuration
 var PORT = process.env.PORT || 8080;
@@ -23,8 +21,6 @@ module.exports = {
 
   // Database and cloud addresses
   DATABASE_URI: 'mongodb://' + DB_HOST + ':' + DB_PORT + '/' + DB_NAME,
-  CLOUD_SERVER_URL: CLOUD_SERVER_URL,
-  CLOUD_SERVER_PORT: CLOUD_SERVER_PORT,
 
   // Server configuration
   PORT: PORT,

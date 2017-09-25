@@ -14,7 +14,14 @@ var setCloudSettings = function setCloudSettings(settings, done) {
   Cloud.findOneAndUpdate({}, settings, { upsert: true }, done);
 };
 
+var existsCloudSettings = function existsCloudSettings(done) {
+  getCloudSettings(function onCloudSettings(err, settings) {
+    done(err, !!settings && settings.hostname && settings.port);
+  });
+};
+
 module.exports = {
   getCloudSettings: getCloudSettings,
-  setCloudSettings: setCloudSettings
+  setCloudSettings: setCloudSettings,
+  existsCloudSettings: existsCloudSettings
 };

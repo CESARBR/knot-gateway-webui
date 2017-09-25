@@ -14,7 +14,18 @@ var getGatewaySettings = function getGatewaySettings(done) {
   Gateway.findOne({}, done);
 };
 
+var existsGatewaySettings = function existsGatewaySettings(done) {
+  getGatewaySettings(function onGwSettings(err, settings) {
+    if (err) {
+      done(err);
+    } else {
+      done(null, !!settings && settings.uuid && settings.token);
+    }
+  });
+};
+
 module.exports = {
   setGatewaySettings: setGatewaySettings,
-  getGatewaySettings: getGatewaySettings
+  getGatewaySettings: getGatewaySettings,
+  existsGatewaySettings: existsGatewaySettings
 };

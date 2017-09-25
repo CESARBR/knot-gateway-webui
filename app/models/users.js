@@ -22,8 +22,15 @@ var getUserByEmail = function getUserByEmail(email, done) {
   User.findOne({ email: email }, done);
 };
 
+var existsUser = function existsUser(done) {
+  User.findOne({}, function onUser(err, user) {
+    done(err, !!user);
+  });
+};
+
 module.exports = {
   setUser: setUser,
   getUserByEmail: getUserByEmail,
-  getUserByUUID: getUserByUUID
+  getUserByUUID: getUserByUUID,
+  existsUser: existsUser
 };

@@ -1,6 +1,7 @@
 var UnauthorizedError = require('express-jwt').UnauthorizedError;
 var CloudServiceError = require('./services/cloud').CloudServiceError;
 var DevicesServiceError = require('./services/devices').DevicesServiceError;
+var StateServiceError = require('./services/state').StateServiceError;
 
 var defaultHandler = function defaultHandler(req, res) {
   res.redirect('/');
@@ -22,11 +23,18 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
       });
     } else if (err.isExistingUser) {
       res.status(409).json({
-        message: 'User exists'
+        message: 'User exists',
+        code: 'user'
       });
     } else {
       res.sendStatus(500);
     }
+  } else if (err instanceof StateServiceError) {
+    res.status(409).json({
+      message: err.message,
+      state: err.state,
+      code: 'state'
+    });
   } else if (err.isJoi) {
     res.status(422).json({
       message: 'Validation failed',

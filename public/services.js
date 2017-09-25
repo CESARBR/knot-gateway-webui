@@ -135,8 +135,9 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
         error = API_ERRORS.INVALID_CREDENTIALS;
         break;
       case 409:
-        // Currently only being returned in this case
-        error = API_ERRORS.EXISTING_USER;
+        if (response.data.code === 'user') {
+          error = API_ERRORS.EXISTING_USER;
+        }
         break;
       case 503:
         if (response.data.code === 'devices') {

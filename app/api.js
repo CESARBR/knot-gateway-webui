@@ -1,14 +1,14 @@
 var router = require('express').Router();
 
-var auth = require('../auth');
+var auth = require('./auth');
 
-var meRoute = require('./me');
-var adminRoute = require('./admin');
-var networkRoute = require('./network');
-var devicesRoute = require('./devices');
-var gatewayRoute = require('./gateway');
-var cloudRoute = require('./cloud');
-var signupRoute = require('./signup');
+var meRoute = require('./routes/me');
+var adminRoute = require('./routes/admin');
+var networkRoute = require('./routes/network');
+var devicesRoute = require('./routes/devices');
+var gatewayRoute = require('./routes/gateway');
+var cloudRoute = require('./routes/cloud');
+var signupRoute = require('./routes/signup');
 
 router.use(auth.initialize());
 router.use('/auth', auth.authenticate());

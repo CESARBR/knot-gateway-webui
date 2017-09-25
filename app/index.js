@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var config = require('./config');
-var apiRoute = require('./routes/api');
+var apiRoute = require('./api');
 var handlers = require('./handlers');
 
 var cloud = require('./models/cloud');

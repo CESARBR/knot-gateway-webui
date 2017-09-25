@@ -6,6 +6,16 @@ var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
 
+var me = function me(req, res, next) {
+  users.getUserByUUID(req.user.uuid, function onUser(err, user) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(user);
+    }
+  });
+};
+
 var create = function create(req, res, next) {
   cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
     var cloudSvc;
@@ -72,5 +82,6 @@ var create = function create(req, res, next) {
 };
 
 module.exports = {
+  me: me,
   create: create
 };

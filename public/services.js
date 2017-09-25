@@ -72,7 +72,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   var saveNetworkConfig = function saveNetworkConfig(config) {
-    return $http.post('/api/network', {
+    return $http.put('/api/network', {
       hostname: config.hostname
     });
   };
@@ -112,7 +112,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   var saveCloudConfig = function saveCloudConfig(config) {
-    return $http.post('/api/cloud', {
+    return $http.put('/api/cloud', {
       hostname: config.hostname,
       port: config.port
     });

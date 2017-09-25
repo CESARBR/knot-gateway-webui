@@ -19,7 +19,7 @@ var create = function create(req, res, next) {
         email: req.body.email,
         password: crypto.createPasswordHash(req.body.password)
       };
-      cloudSvc = new CloudService(cloud.servername, cloud.port);
+      cloudSvc = new CloudService(cloud.hostname, cloud.port);
       cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
         if (createUserErr) {
           next(createUserErr);

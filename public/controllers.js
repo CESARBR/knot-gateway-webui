@@ -79,7 +79,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi) {
   $scope.$api = {};
   $scope.form = {
-    servername: null,
+    hostname: null,
     port: null
   };
 
@@ -87,7 +87,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
-          $scope.form.servername = result.servername;
+          $scope.form.hostname = result.hostname;
           $scope.form.port = result.port;
         }
       });

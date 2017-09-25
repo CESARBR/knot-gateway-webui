@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var cloudSchema = new mongoose.Schema({
-  servername: String,
+  hostname: String,
   port: Number
 });
 var Cloud = mongoose.model('cloud', cloudSchema);

@@ -7,7 +7,7 @@ var config = require('./config');
 var apiRoute = require('./routes/api');
 var handlers = require('./handlers');
 
-var clouds = require('./models/cloud');
+var cloud = require('./models/cloud');
 var FogService = require('./services/fog').FogService;
 
 var publicRoot = path.resolve(__dirname, '../www');
@@ -26,8 +26,8 @@ mongoose.connect(config.DATABASE_URI);
 
 // Set cloud server
 if (config.CLOUD_SERVER_URL && config.CLOUD_SERVER_PORT) {
-  clouds.setCloudSettings({
-    servername: config.CLOUD_SERVER_URL,
+  cloud.setCloudSettings({
+    hostname: config.CLOUD_SERVER_URL,
     port: config.CLOUD_SERVER_PORT
   }, function onCloudSettingsSet(err) {
     if (err) {

@@ -51,7 +51,7 @@ var FogService = function FogService() {
 
 FogService.prototype.setParentAddress = function setParentAddress(address, done) {
   var vars = {};
-  vars[PARENT_CONNECTION_SERVER_HOST_KEY] = address.host;
+  vars[PARENT_CONNECTION_SERVER_HOST_KEY] = address.hostname;
   vars[PARENT_CONNECTION_SERVER_PORT_KEY] = address.port;
   setEnvVars(vars, done);
 };

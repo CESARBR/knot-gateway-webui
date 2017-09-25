@@ -106,7 +106,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
   var saveCloudConfig = function saveCloudConfig(config) {
     return $http.post('/api/cloud', {
-      servername: config.servername,
+      hostname: config.hostname,
       port: config.port
     });
   };

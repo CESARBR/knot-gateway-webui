@@ -1,7 +1,7 @@
 var joi = require('joi');
 
-var upsert = {
-  servername: joi
+var update = {
+  hostname: joi
     .string()
     .hostname()
     .required(),
@@ -12,5 +12,5 @@ var upsert = {
 };
 
 module.exports = {
-  upsert: upsert
+  update: update
 };

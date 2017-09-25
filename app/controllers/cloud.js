@@ -2,16 +2,16 @@ var cloud = require('../models/cloud');
 var FogService = require('../services/fog').FogService;
 
 var get = function get(req, res, next) {
-  cloud.getCloudSettings(function onCloudSettingsReturned(err, cloudSettings) {
+  cloud.getCloudSettings(function onCloudSettingsReturned(err, settings) {
     if (err) {
       next(err);
     } else {
-      res.json(cloudSettings);
+      res.json(settings);
     }
   });
 };
 
-var upsert = function upsert(req, res, next) {
+var update = function update(req, res, next) {
   cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
     var fogSvc;
     if (setCloudErr) {
@@ -19,7 +19,7 @@ var upsert = function upsert(req, res, next) {
     } else {
       fogSvc = new FogService();
       fogSvc.setParentAddress({
-        host: req.body.servername,
+        hostname: req.body.hostname,
         port: req.body.port
       }, function onParentAddressSet(setAddressErr) {
         if (setAddressErr) {
@@ -34,5 +34,5 @@ var upsert = function upsert(req, res, next) {
 
 module.exports = {
   get: get,
-  upsert: upsert
+  update: update
 };

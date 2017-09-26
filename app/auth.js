@@ -4,13 +4,14 @@ var LocalStrategy = require('passport-local');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var celebrate = require('celebrate');
+var config = require('config');
 
 var users = require('./models/users');
 var authSchemas = require('./schemas/auth');
 var crypto = require('./crypto');
 
-var TOKEN_SECRET = require('./config').TOKEN_SECRET;
-var TOKEN_EXPIRATION = require('./config').TOKEN_EXPIRATION;
+var TOKEN_SECRET = config.get('server.token.secret');
+var TOKEN_EXPIRATION = config.get('server.token.expiration');
 
 var initialize = function initialize() {
   return passport.initialize();

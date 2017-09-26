@@ -1,0 +1,11 @@
+{
+  "mongodb": {
+    "db": "knot_dev"
+  },
+  "server": {
+    "port": 8080,
+    "token": {
+      "secret": "devsecret"
+    }
+  }
+}

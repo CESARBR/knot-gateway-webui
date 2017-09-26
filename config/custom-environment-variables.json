@@ -1,0 +1,17 @@
+{
+  "knotd": {
+    "configFile": "KNOT_CONFIG_FILE"
+  },
+  "nrfd": {
+    "devicesFile": "NRFD_DEVICES_FILE"
+  },
+  "fog": {
+    "envFile": "FOG_ENV_FILE"
+  },
+  "server": {
+    "port": "PORT",
+    "token": {
+      "secret": "TOKEN_SECRET"
+    }
+  }
+}

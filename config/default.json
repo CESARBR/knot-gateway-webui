@@ -1,0 +1,21 @@
+{
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017
+  },
+  "knotd": {
+    "configFile": "/etc/knot/gatewayConfig.json"
+  },
+  "nrfd": {
+    "devicesFile": "/etc/knot/keys.json"
+  },
+  "fog": {
+    "envFile": "/usr/local/bin/knot-fog-source/.env"
+  },
+  "server": {
+    "token": {
+      "secret": null, // auto generated when not specified
+      "expiration": 7200 // 2h in seconds
+    }
+  }
+}

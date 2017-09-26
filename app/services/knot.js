@@ -1,6 +1,7 @@
 var fs = require('fs');
+var config = require('config');
 
-var KNOTD_CONFIGURATION_FILE = require('../config').KNOTD_CONFIGURATION_FILE;
+var KNOTD_CONFIGURATION_FILE = config.get('knotd.configFile');
 
 // KnotService is the KNoT Daemon (knotd)
 var KnotService = function KnotService() {

@@ -29,7 +29,7 @@ RUN npm_config_tmp=/tmp TMP=/tmp yarn
 
 # install configuration files
 RUN mkdir -p /etc/knot
-COPY ./app/config/gatewayConfig.json /app/config/keys.json /etc/knot/
+COPY ./config/gatewayConfig.json ./config/keys.json /etc/knot/
 RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-source/.env
 
 # install init script

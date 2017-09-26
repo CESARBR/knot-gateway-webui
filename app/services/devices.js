@@ -1,7 +1,8 @@
 var fs = require('fs');
 var dbus = require('dbus-native');
+var config = require('config');
 
-var DEVICES_FILE = require('../config').DEVICES_FILE;
+var DEVICES_FILE = config.get('nrfd.devicesFile');
 
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';

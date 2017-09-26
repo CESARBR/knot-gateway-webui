@@ -1,8 +1,9 @@
 var fs = require('fs');
+var config = require('config');
 var dotenv = require('dotenv');
 var exec = require('child_process').exec;
 
-var FOG_DOTENV_FILE = require('../config').FOG_DOTENV_FILE;
+var FOG_DOTENV_FILE = config.get('fog.envFile');
 
 var PARENT_CONNECTION_SERVER_HOST_KEY = 'PARENT_CONNECTION_SERVER';
 var PARENT_CONNECTION_SERVER_PORT_KEY = 'PARENT_CONNECTION_PORT';

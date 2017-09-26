@@ -30,6 +30,10 @@ function isAllowedTransition(from, to) {
   return _.includes(stateModel.STATE_TRANSITIONS[from], to);
 }
 
+function canTransitionToRebooting(from, done) {
+  done(null, isAllowedTransition(from, stateModel.STATES.REBOOTING));
+}
+
 function canTransitionToConfigurationCloud(from, done) {
   done(null, isAllowedTransition(from, stateModel.STATES.CONFIGURATION_CLOUD));
 }
@@ -60,6 +64,9 @@ function canTransitionToReady(from, done) {
 
 function canTransition(from, to, done) {
   switch (to) {
+    case stateModel.STATES.REBOOTING:
+      canTransitionToRebooting(from, done);
+      break;
     case stateModel.STATES.CONFIGURATION_CLOUD:
       canTransitionToConfigurationCloud(from, done);
       break;
@@ -93,6 +100,51 @@ StateService.prototype.setState = function setState(state, done) {
         stateModel.setState({ state: state }, done);
       }
     });
+  });
+};
+
+StateService.prototype.reset = function reset(done) {
+  canTransitionToReady(stateModel.STATES.REBOOTING, function onCanReady(readyErr, canReady) {
+    if (readyErr) {
+      done(readyErr);
+      return;
+    }
+
+    if (canReady) {
+      stateModel.setState({ state: stateModel.STATES.READY }, done);
+    } else {
+      canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
+        if (userErr) {
+          done(userErr);
+          return;
+        }
+
+        if (canUser) {
+          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
+        } else {
+          canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
+            if (cloudErr) {
+              done(cloudErr);
+              return;
+            }
+
+            if (canCloud) {
+              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+            } else {
+              stateModel.getState(function onState(getErr, state) {
+                var resetErr;
+                if (getErr) {
+                  resetErr = getErr;
+                } else {
+                  resetErr = new StateServiceError('Can\'t reset from current state', state);
+                }
+                done(resetErr);
+              });
+            }
+          });
+        }
+      });
+    }
   });
 };
 

@@ -104,9 +104,11 @@ app.constant('AUTH_EVENTS', {
   NOT_AUTHENTICATED: 'auth-not-authenticated'
 });
 
-app.constant('APP_EVENTS', {
+app.constant('API_STATES', {
   REBOOTING: 'rebooting',
-  REBOOTED: 'rebooted'
+  CONFIGURATION_CLOUD: 'configuration-cloud',
+  CONFIGURATION_USER: 'configuration-user',
+  READY: 'ready'
 });
 
 app.constant('API_ERRORS', {

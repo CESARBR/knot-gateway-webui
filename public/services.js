@@ -24,6 +24,45 @@ appServices.factory('AuthService', function AuthService(IdentityApi, Session) {
   };
 });
 
+appServices.factory('StateService', function StateService($q, GatewayApi, State, API_STATES) {
+  function loadState() {
+    return GatewayApi.getState()
+      .then(function onState(response) {
+        var state = response.state;
+        State.setState(state);
+        return state;
+      });
+  }
+
+  function changeState(state) {
+    var defer = $q.defer();
+
+    GatewayApi.setState(state)
+      .then(function onSuccess() {
+        defer.resolve(state);
+      }, function onFailure(response) {
+        if (state === API_STATES.REBOOTING && response.status === -1) {
+          // request aborted might mean that the gateway rebooted
+          // before it was able to respond
+          defer.resolve(state);
+        } else {
+          defer.reject(response);
+        }
+      });
+
+    defer.promise.then(function onStateChanged(newState) {
+      State.setState(newState);
+    });
+
+    return defer.promise;
+  }
+
+  return {
+    loadState: loadState,
+    changeState: changeState
+  };
+});
+
 appServices.factory('IdentityApi', function IdentityApi($http) {
   var extractData = function extractData(httpResponse) {
     return httpResponse.data;
@@ -60,9 +99,16 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
-  // /api/admin
-  var reboot = function reboot() {
-    return $http.post('/api/admin/reboot');
+  // /api/state
+  var getState = function getState() {
+    return $http.get('/api/state')
+      .then(extractData);
+  };
+
+  var setState = function setState(state) {
+    return $http.put('/api/state', {
+      state: state
+    }).then(extractData);
   };
 
   // /api/network
@@ -112,7 +158,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   return {
     me: me,
 
-    reboot: reboot,
+    getState: getState,
+    setState: setState,
 
     getNetworkConfig: getNetworkConfig,
     saveNetworkConfig: saveNetworkConfig,
@@ -172,7 +219,7 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
   }
 
   function updateStateOnResponse(state, promise) {
-    if (!promise || !promise.catch) {
+    if (!promise || !promise.catch || !promise.finally) {
       return;
     }
 
@@ -282,5 +329,25 @@ appServices.factory('Session', function Session($rootScope, $window, $sessionSto
     getSessionToken: getSessionToken,
     getCurrentUser: getCurrentUser,
     isAdmin: isAdmin
+  };
+});
+
+appServices.factory('State', function GatewayState($rootScope, API_STATES) {
+  var currentState = API_STATES.REBOOTING;
+
+  function getState() {
+    return currentState;
+  }
+
+  function setState(newState) {
+    if (newState !== currentState) {
+      currentState = newState;
+      $rootScope.$broadcast(currentState);
+    }
+  }
+
+  return {
+    getState: getState,
+    setState: setState
   };
 });

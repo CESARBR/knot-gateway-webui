@@ -5,7 +5,7 @@ require('angular-messages');
 
 appCtrls = angular.module('app.controllers', ['ngMessages', 'ui.router', 'app.services']);
 
-appCtrls.controller('AppController', function AppController($rootScope, $scope, $state, AuthService, AUTH_EVENTS, APP_EVENTS) {
+appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, API_STATES) {
   $scope.hideMenu = false;
 
   $scope.signout = function signout() {
@@ -16,14 +16,14 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
     $state.go('signin');
   });
 
-  $scope.$on(APP_EVENTS.REBOOTING, function onRebooting() {
+  $scope.$on(API_STATES.REBOOTING, function onRebooting() {
     $scope.hideMenu = true;
     $state.go('app.reboot');
   });
 
-  $scope.$on(APP_EVENTS.REBOOTED, function onRebooted() {
+  $scope.$on(API_STATES.READY, function onReady() {
     $scope.hideMenu = false;
-    $scope.signout();
+    $state.go('app.devices');
   });
 });
 
@@ -94,7 +94,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   init();
 });
 
-appCtrls.controller('AdminController', function AdminController($rootScope, $scope, $state, GatewayApi, APP_EVENTS) {
+appCtrls.controller('AdminController', function AdminController($scope, GatewayApi, StateService, API_STATES) {
   $scope.$api = {};
   $scope.credentials = {};
 
@@ -110,10 +110,7 @@ appCtrls.controller('AdminController', function AdminController($rootScope, $sco
   }
 
   $scope.reboot = function reboot() {
-    return GatewayApi.reboot()
-      .then(function onSuccess() {
-        $rootScope.$broadcast(APP_EVENTS.REBOOTING);
-      });
+    return StateService.changeState(API_STATES.REBOOTING);
   };
 
   init();
@@ -199,20 +196,22 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   init();
 });
 
-appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $interval, APP_EVENTS) {
-  function progress() {
-    var promise;
-    var MINUTE = 60000;
-    $scope.countup = 0;
-    promise = $interval(function onInterval() {
-      if ($scope.countup >= 100) {
-        $interval.cancel(promise);
-        $rootScope.$broadcast(APP_EVENTS.REBOOTED);
-      } else {
-        $scope.countup += 1;
-      }
-    }, MINUTE / 100);
+appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $interval, StateService) {
+  var waitPromise;
+
+  function waitReboot() {
+    var FIVE_SECONDS = 5000;
+
+    waitPromise = $interval(function onInterval() {
+      StateService.loadState(); // when successful, will trigger a state change
+    }, FIVE_SECONDS);
   }
 
-  progress();
+  $scope.$on('$destroy', function onDestroy() {
+    if (waitPromise) {
+      $interval.cancel(waitPromise);
+    }
+  });
+
+  waitReboot();
 });

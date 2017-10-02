@@ -57,7 +57,7 @@ Once it is running, it can be accessed at `http://localhost:8080`.
 To restart the application, run:
 
 ```
-docker exec -ti webui systemctl status knot-web
+docker exec -ti webui systemctl restart knot-web
 ```
 
 This will rebuild the application. While live reloading isn't supported, this can be an alternative.

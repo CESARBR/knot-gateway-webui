@@ -265,7 +265,7 @@ appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($q, Sess
   };
 });
 
-appServices.factory('Session', function Session($rootScope, $window, $sessionStorage, ROLES, AUTH_EVENTS) {
+appServices.factory('Session', function Session($rootScope, $window, $sessionStorage, ROLES, ROLES_PERMISSIONS, AUTH_EVENTS) {
   var currentUser;
 
   var parseJwt = function parseJwt(token) {
@@ -308,8 +308,10 @@ appServices.factory('Session', function Session($rootScope, $window, $sessionSto
     return currentUser;
   };
 
-  var isAdmin = function isAdmin() {
-    return getCurrentUser().role === ROLES.ADMIN;
+  var hasPermission = function hasPermission(permission) {
+    var role = getCurrentUser().role;
+    var permissions = ROLES_PERMISSIONS[role];
+    return permissions.indexOf(permission) !== -1;
   };
 
   // Init
@@ -328,7 +330,7 @@ appServices.factory('Session', function Session($rootScope, $window, $sessionSto
     destroy: destroy,
     getSessionToken: getSessionToken,
     getCurrentUser: getCurrentUser,
-    isAdmin: isAdmin
+    hasPermission: hasPermission
   };
 });
 

@@ -23,7 +23,7 @@ require('./controllers.js');
 app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
                              'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
-app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, ROLES) {
+app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PERMISSIONS) {
   $stateProvider
     .state('signin', {
       url: '/signin',
@@ -31,7 +31,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       controller: 'SigninController',
       data: {
         permissions: {
-          except: ROLES.ADMIN,
+          only: PERMISSIONS.NONE,
           redirectTo: 'app.devices'
         }
       }
@@ -52,7 +52,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
       controller: 'AppController',
       data: {
         permissions: {
-          only: ROLES.ADMIN,
+          only: PERMISSIONS.MANAGE,
           redirectTo: 'signin'
         }
       }
@@ -89,15 +89,31 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
   $httpProvider.interceptors.push('httpStateInterceptor');
 });
 
-app.run(function run(PermRoleStore, ROLES) {
-  PermRoleStore.defineRole(ROLES.ADMIN, ['Session', function isAdmin(Session) {
-    return Session.isAdmin();
-  }]);
+app.run(function run(PermPermissionStore, PERMISSIONS) {
+  var permissions = [PERMISSIONS.NONE, PERMISSIONS.MANAGE];
+
+  function setupPermissionRule(permission) {
+    PermPermissionStore.definePermission(permission, ['Session', function hasPermission(Session) {
+      return Session.hasPermission(permission);
+    }]);
+  }
+
+  permissions.forEach(setupPermissionRule);
 });
 
 app.constant('ROLES', {
   ANONYMOUS: 'anonymous',
   ADMIN: 'admin'
+});
+
+app.constant('PERMISSIONS', {
+  NONE: 'none',
+  MANAGE: 'manage'
+});
+
+app.constant('ROLES_PERMISSIONS', {
+  'anonymous': ['none'], // eslint-disable-line quote-props
+  'admin': ['manage'] // eslint-disable-line quote-props
 });
 
 app.constant('AUTH_EVENTS', {

@@ -36,15 +36,27 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
         }
       }
     })
-    .state('signup', {
-      url: '/signup',
-      template: require('./views/signup.html'),
-      controller: 'SignupController'
-    })
-    .state('cloud', {
+    .state('config.cloud', {
       url: '/cloud',
-      template: require('./views/cloud.html'),
-      controller: 'CloudController'
+      template: require('./views/config.cloud.html'),
+      controller: 'CloudController',
+      data: {
+        permissions: {
+          only: PERMISSIONS.CONFIGURE_CLOUD,
+          redirectTo: 'config.signup'
+        }
+      }
+    })
+    .state('config.signup', {
+      url: '/signup',
+      template: require('./views/config.signup.html'),
+      controller: 'SignupController',
+      data: {
+        permissions: {
+          only: PERMISSIONS.CONFIGURE_USER,
+          redirectTo: 'signin'
+        }
+      }
     })
     .state('app', {
       abstract: true,
@@ -53,7 +65,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
       data: {
         permissions: {
           only: PERMISSIONS.MANAGE,
-          redirectTo: 'signin'
+          redirectTo: 'config.cloud'
         }
       }
     })
@@ -85,11 +97,14 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
     $state.go('signin');
   });
 
+  // Wait for initial state loading from back-end before automatic resolving app state
+  $urlRouterProvider.deferIntercept();
+
   $httpProvider.interceptors.push('httpAuthInterceptor');
   $httpProvider.interceptors.push('httpStateInterceptor');
 });
 
-app.run(function run(PermPermissionStore, PERMISSIONS) {
+app.run(function run($urlRouter, StateService, PermPermissionStore, PERMISSIONS) {
   var usePermissions = [PERMISSIONS.NONE, PERMISSIONS.MANAGE];
 
   function setupUsePermissionRule(permission) {
@@ -113,6 +128,13 @@ app.run(function run(PermPermissionStore, PERMISSIONS) {
 
   usePermissions.forEach(setupUsePermissionRule);
   setupConfigurationPermissionRules();
+
+  StateService.loadState()
+  .finally(function onFulfilled() {
+    // Start router
+    $urlRouter.sync();
+    $urlRouter.listen();
+  });
 });
 
 app.constant('ROLES', {

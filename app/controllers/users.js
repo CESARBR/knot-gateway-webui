@@ -22,8 +22,6 @@ var create = function create(req, res, next) {
     var credentials;
     if (getCloudErr) {
       next(getCloudErr);
-    } else if (!cloudSettings) {
-      res.status(400).json({ message: 'Cloud not configured' });
     } else {
       credentials = {
         email: req.body.email,

@@ -27,11 +27,11 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
   });
 
   $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
-    $state.go('cloud');
+    $state.go('config.cloud');
   });
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
-    $state.go('signup');
+    $state.go('config.signup');
   });
 });
 
@@ -64,10 +64,6 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     promise
       .then(function onSuccess() {
         $state.go('signin');
-      }, function onError(response) {
-        if (response.status === 400) {
-          $state.go('cloud');
-        }
       });
 
     return promise;
@@ -95,7 +91,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     return GatewayApi
       .saveCloudConfig($scope.form)
       .then(function onSuccess() {
-        $state.go('signup');
+        $state.go('config.signup');
       });
   };
 

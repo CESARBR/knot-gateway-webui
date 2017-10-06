@@ -193,7 +193,7 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
   };
 });
 
-appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootScope, $q, Session, AUTH_EVENTS) {
+appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($q, Session) {
   var request = function request(config) {
     var sessionToken = Session.getSessionToken();
 
@@ -208,7 +208,6 @@ appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootSco
   var responseError = function responseError(response) {
     if (response.status === 401) {
       Session.destroy();
-      $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED);
     }
     return $q.reject(response);
   };
@@ -219,7 +218,7 @@ appServices.factory('httpAuthInterceptor', function httpAuthInterceptor($rootSco
   };
 });
 
-appServices.factory('Session', function Session($window, $sessionStorage, ROLES) {
+appServices.factory('Session', function Session($rootScope, $window, $sessionStorage, ROLES, AUTH_EVENTS) {
   var currentUser;
 
   var parseJwt = function parseJwt(token) {
@@ -245,11 +244,13 @@ appServices.factory('Session', function Session($window, $sessionStorage, ROLES)
   var create = function create(token) {
     $sessionStorage.token = token;
     currentUser = getUserFromToken(token);
+    $rootScope.$broadcast(AUTH_EVENTS.AUTHENTICATED);
   };
 
   var destroy = function destroy() {
     delete $sessionStorage.token;
     clearCurrentUser();
+    $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED);
   };
 
   var getSessionToken = function getSessionToken() {

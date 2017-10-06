@@ -100,9 +100,7 @@ app.constant('ROLES', {
 });
 
 app.constant('AUTH_EVENTS', {
-  SIGNIN_SUCCESS: 'auth-signin-success',
-  SIGNIN_FAILED: 'auth-signin-failed',
-  SIGNOUT_SUCESS: 'auth-signout-success',
+  AUTHENTICATED: 'auth-authenticated',
   NOT_AUTHENTICATED: 'auth-not-authenticated'
 });
 

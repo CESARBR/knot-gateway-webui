@@ -10,14 +10,9 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
 
   $scope.signout = function signout() {
     AuthService.signout();
-    $rootScope.$broadcast(AUTH_EVENTS.SIGNOUT_SUCCESS);
   };
 
   $scope.$on(AUTH_EVENTS.NOT_AUTHENTICATED, function onNotAuthenticated() {
-    $state.go('signin');
-  });
-
-  $scope.$on(AUTH_EVENTS.SIGNOUT_SUCCESS, function onSignoutSuccess() {
     $state.go('signin');
   });
 
@@ -32,7 +27,7 @@ appCtrls.controller('AppController', function AppController($rootScope, $scope, 
   });
 });
 
-appCtrls.controller('SigninController', function SigninController($rootScope, $scope, $state, $q, AuthService, AUTH_EVENTS) {
+appCtrls.controller('SigninController', function SigninController($scope, $state, AuthService) {
   $scope.$api = {};
   $scope.form = {
     email: null,
@@ -40,16 +35,11 @@ appCtrls.controller('SigninController', function SigninController($rootScope, $s
   };
 
   $scope.signin = function signin() {
-    var promise = AuthService.signin($scope.form);
-    promise
+    return AuthService
+      .signin($scope.form)
       .then(function onSuccess() {
-        $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_SUCCESS);
         $state.go('app.devices');
-      }, function onError() {
-        $rootScope.$broadcast(AUTH_EVENTS.SIGNIN_FAILED);
       });
-
-    return promise;
   };
 });
 

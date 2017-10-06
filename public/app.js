@@ -86,6 +86,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, RO
   });
 
   $httpProvider.interceptors.push('httpAuthInterceptor');
+  $httpProvider.interceptors.push('httpStateInterceptor');
 });
 
 app.run(function run(PermRoleStore, ROLES) {

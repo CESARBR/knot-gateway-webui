@@ -332,6 +332,19 @@ appServices.factory('Session', function Session($rootScope, $window, $sessionSto
   };
 });
 
+appServices.factory('httpStateInterceptor', function httpStateInterceptor($q, State) {
+  function responseError(response) {
+    if (response.status === 409 && response.data.code === 'state') {
+      State.setState(response.data.state);
+    }
+    return $q.reject(response);
+  }
+
+  return {
+    responseError: responseError
+  };
+});
+
 appServices.factory('State', function GatewayState($rootScope, API_STATES) {
   var currentState = API_STATES.REBOOTING;
 

@@ -25,6 +25,14 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
     $scope.hideMenu = false;
     $state.go('app.devices');
   });
+
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
+    $state.go('cloud');
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
+    $state.go('signup');
+  });
 });
 
 appCtrls.controller('SigninController', function SigninController($scope, $state, AuthService) {

@@ -90,15 +90,29 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
 });
 
 app.run(function run(PermPermissionStore, PERMISSIONS) {
-  var permissions = [PERMISSIONS.NONE, PERMISSIONS.MANAGE];
+  var usePermissions = [PERMISSIONS.NONE, PERMISSIONS.MANAGE];
 
-  function setupPermissionRule(permission) {
-    PermPermissionStore.definePermission(permission, ['Session', function hasPermission(Session) {
-      return Session.hasPermission(permission);
+  function setupUsePermissionRule(permission) {
+    PermPermissionStore.definePermission(permission, ['Session', 'State', function hasPermission(Session, State) {
+      return State.isUseState()
+        && Session.hasPermission(permission);
     }]);
   }
 
-  permissions.forEach(setupPermissionRule);
+  function setupConfigurationPermissionRules() {
+    PermPermissionStore.definePermission(PERMISSIONS.CONFIGURE_CLOUD, ['Session', 'State', function hasPermission(Session, State) {
+      return State.isCloudConfigurationState()
+        && Session.hasPermission(PERMISSIONS.CONFIGURE_CLOUD);
+    }]);
+
+    PermPermissionStore.definePermission(PERMISSIONS.CONFIGURE_USER, ['Session', 'State', function hasPermission(Session, State) {
+      return State.isUserConfigurationState()
+        && Session.hasPermission(PERMISSIONS.CONFIGURE_USER);
+    }]);
+  }
+
+  usePermissions.forEach(setupUsePermissionRule);
+  setupConfigurationPermissionRules();
 });
 
 app.constant('ROLES', {
@@ -108,12 +122,14 @@ app.constant('ROLES', {
 
 app.constant('PERMISSIONS', {
   NONE: 'none',
-  MANAGE: 'manage'
+  MANAGE: 'manage',
+  CONFIGURE_CLOUD: 'configure-cloud',
+  CONFIGURE_USER: 'configure-user'
 });
 
 app.constant('ROLES_PERMISSIONS', {
-  'anonymous': ['none'], // eslint-disable-line quote-props
-  'admin': ['manage'] // eslint-disable-line quote-props
+  'anonymous': ['none', 'configure-cloud', 'configure-user'], // eslint-disable-line quote-props
+  'admin': ['manage', 'configure-cloud', 'configure-user'] // eslint-disable-line quote-props
 });
 
 app.constant('AUTH_EVENTS', {

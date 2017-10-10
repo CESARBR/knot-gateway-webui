@@ -51,7 +51,7 @@ appCtrls.controller('SigninController', function SigninController($scope, $state
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, StateService, API_STATES) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, AuthService, StateService, API_STATES) {
   $scope.$api = {};
   $scope.form = {
     email: null,
@@ -66,7 +66,10 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
         return StateService.changeState(API_STATES.READY);
       })
       .then(function onStateChanged() {
-        $state.go('signin');
+        return AuthService.signin($scope.form);
+      })
+      .then(function onSignedIn() {
+        $state.go('app.devices');
       });
   };
 });

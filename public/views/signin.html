@@ -18,6 +18,6 @@
       <input type="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" ng-disabled="$api.$pending" required>
     </div>
 
-    <button class="btn btn-primary btn-block" api-click="signin()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="signinForm.$invalid || $api.$pending">Sign in</button>
+    <button class="btn btn-primary btn-block" api-click="signin()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="signinForm.$invalid || $api.$pending">Sign in</button>
   </form>
 </div>

@@ -23,6 +23,6 @@
       <input type="password" name="password" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" ng-disabled="$api.$pending" compare-to="form.password" minlength="6" required>
     </div>
 
-    <button class="btn btn-primary btn-block" api-click="signup()" api-click-state="$api" busy-when="$api.$pending" ng-disabled="signupForm.$invalid || $api.$pending">Sign up</button>
+    <button class="btn btn-primary btn-block" api-click="signup()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="signupForm.$invalid || $api.$pending">Sign up</button>
   </form>
 </div>

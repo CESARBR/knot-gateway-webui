@@ -1,26 +1,42 @@
-<div class="container container-landing">
-  <div class="logo-landing">
-    <img src="../img/knot_logo_green_background.png" alt="KNoT logo" class="img-rounded" />
-    <h2>KNoT Gateway</h2>
-  </div>
-
-  <div class="alert alert-warning" role="alert">
-    <p>Please configure your cloud server address to continue</p>
-  </div>
-
+<div>
   <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
 
-  <form name="cloudForm" novalidate>
-    <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
-      <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
-    </div>
+  <uib-progressbar value="0"></uib-progressbar>
 
-    <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
-      <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Step 1. Cloud service</h3>
     </div>
+    <div class="panel-body">
+      <p>Set the KNoT Cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
+      <form name="cloudForm" class="form-horizontal" novalidate>
+        <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
+          <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+          <div class="col-sm-6">
+            <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
+          </div>
+        </div>
 
-    <button class="btn btn-primary btn-block" api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="cloudForm.$invalid || cloudForm.$pristine || $api.$pending">Save</button>
-  </form>
+        <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
+          <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+          <div class="col-sm-6">
+            <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+          </div>
+        </div>
+      </form>
+
+      <nav>
+        <ul class="pager">
+          <li class="previous ng-class:{ disabled: $api.$pending }">
+            <a ui-sref="config.welcome">Previous</a>
+          </li>
+          <li class="next ng-class:{ disabled: cloudForm.$invalid || $api.$pending }">
+            <a href api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="cloudForm.$invalid || $api.$pending">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </div>

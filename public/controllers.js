@@ -52,11 +52,20 @@ appCtrls.controller('SigninController', function SigninController($scope, $state
 });
 
 appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, AuthService, StateService, API_STATES) {
-  $scope.$api = {};
+  $scope.$apiBack = {};
+  $scope.$apiSignup = {};
   $scope.form = {
     email: null,
     password: null,
     passwordConfirmation: null
+  };
+
+  $scope.back = function back() {
+    return StateService
+      .changeState(API_STATES.CONFIGURATION_CLOUD)
+      .then(function onStateChanged() {
+        $state.go('config.cloud');
+      });
   };
 
   $scope.signup = function signup() {

@@ -36,6 +36,26 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
         }
       }
     })
+    .state('config', {
+      abstract: true,
+      template: require('./views/config.html'),
+      data: {
+        permissions: {
+          only: [PERMISSIONS.CONFIGURE_CLOUD, PERMISSIONS.CONFIGURE_USER],
+          redirectTo: 'signin'
+        }
+      }
+    })
+    .state('config.welcome', {
+      url: '/welcome',
+      template: require('./views/config.welcome.html'),
+      data: {
+        permissions: {
+          only: PERMISSIONS.CONFIGURE_CLOUD,
+          redirectTo: 'config.signup'
+        }
+      }
+    })
     .state('config.cloud', {
       url: '/cloud',
       template: require('./views/config.cloud.html'),
@@ -65,7 +85,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
       data: {
         permissions: {
           only: PERMISSIONS.MANAGE,
-          redirectTo: 'config.cloud'
+          redirectTo: 'config.welcome'
         }
       }
     })

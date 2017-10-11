@@ -71,9 +71,15 @@ appDirectives.directive('hostname', function hostname() {
 appDirectives.directive('apiClick', function apiClick($parse, GatewayApiErrorService) {
   function compile(tElement, tAttributes) {
     var action = $parse(tAttributes.apiClick);
-    return function postLink(scope, element) {
+    return function postLink(scope, element, attributes) {
       element.on('click', function onClick(event) {
-        var executeAction = function executeAction() {
+        var executeAction;
+
+        if (attributes.disabled) {
+          return;
+        }
+
+        executeAction = function _executeAction() {
           var promise = action(scope.$parent, { $event: event });
           GatewayApiErrorService.updateStateOnResponse(scope.state, promise);
         };

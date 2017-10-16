@@ -51,7 +51,7 @@ appCtrls.controller('SigninController', function SigninController($scope, $state
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, StateService, API_STATES) {
   $scope.$api = {};
   $scope.form = {
     email: null,
@@ -60,17 +60,18 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   };
 
   $scope.signup = function signup() {
-    var promise = IdentityApi.signup($scope.form);
-    promise
-      .then(function onSuccess() {
+    return IdentityApi
+      .signup($scope.form)
+      .then(function onSignedUp() {
+        return StateService.changeState(API_STATES.READY);
+      })
+      .then(function onStateChanged() {
         $state.go('signin');
       });
-
-    return promise;
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, API_STATES) {
   $scope.$api = {};
   $scope.form = {
     hostname: null,
@@ -90,7 +91,10 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.save = function save() {
     return GatewayApi
       .saveCloudConfig($scope.form)
-      .then(function onSuccess() {
+      .then(function onCloudConfigSaved() {
+        return StateService.changeState(API_STATES.CONFIGURATION_USER);
+      })
+      .then(function onStateChanged() {
         $state.go('config.signup');
       });
   };

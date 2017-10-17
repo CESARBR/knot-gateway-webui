@@ -6,7 +6,7 @@ KNoT Gateway Web UI is part of the KNoT Project. It provides an interface to con
 
 This is a single page application built on top of the MEAN stack plus some other operating system dependencies (e.g. DBus), that are used to communicate with the gateway components.
 
-See the `public` folder for the frontend and the `app` folder for the backend.
+See the `public` folder for the front-end and the `app` folder for the back-end.
 
 # Building and running
 
@@ -19,7 +19,7 @@ To ease development, we provide a Docker container, but it still doesn't abstrac
 ```
 $ npm install
 $ npm run build
-$ node server.js
+$ npm start
 ```
 
 The application can be accessed at `http://<target-ip>:8080`.

@@ -23,88 +23,89 @@ require('./controllers.js');
 app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
                              'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
-app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PERMISSIONS) {
+app.config(function config($stateProvider, $urlRouterProvider, $httpProvider,
+  VIEW_STATES, PERMISSIONS) {
   $stateProvider
-    .state('signin', {
+    .state(VIEW_STATES.SIGNIN, {
       url: '/signin',
       template: require('./views/signin.html'),
       controller: 'SigninController',
       data: {
         permissions: {
           only: PERMISSIONS.NONE,
-          redirectTo: 'app.devices'
+          redirectTo: VIEW_STATES.APP_DEVICES
         }
       }
     })
-    .state('config', {
+    .state(VIEW_STATES.CONFIG, {
       abstract: true,
       template: require('./views/config.html'),
       data: {
         permissions: {
           only: [PERMISSIONS.CONFIGURE_CLOUD, PERMISSIONS.CONFIGURE_USER],
-          redirectTo: 'signin'
+          redirectTo: VIEW_STATES.SIGNIN
         }
       }
     })
-    .state('config.welcome', {
+    .state(VIEW_STATES.CONFIG_WELCOME, {
       url: '/welcome',
       template: require('./views/config.welcome.html'),
       data: {
         permissions: {
           only: PERMISSIONS.CONFIGURE_CLOUD,
-          redirectTo: 'config.signup'
+          redirectTo: VIEW_STATES.CONFIG_USER
         }
       }
     })
-    .state('config.cloud', {
+    .state(VIEW_STATES.CONFIG_CLOUD, {
       url: '/cloud',
       template: require('./views/config.cloud.html'),
       controller: 'CloudController',
       data: {
         permissions: {
           only: PERMISSIONS.CONFIGURE_CLOUD,
-          redirectTo: 'config.signup'
+          redirectTo: VIEW_STATES.CONFIG_USER
         }
       }
     })
-    .state('config.signup', {
+    .state(VIEW_STATES.CONFIG_USER, {
       url: '/signup',
       template: require('./views/config.signup.html'),
       controller: 'SignupController',
       data: {
         permissions: {
           only: PERMISSIONS.CONFIGURE_USER,
-          redirectTo: 'signin'
+          redirectTo: VIEW_STATES.SIGNIN
         }
       }
     })
-    .state('app', {
+    .state(VIEW_STATES.APP, {
       abstract: true,
       template: require('./views/app.html'),
       controller: 'AppController',
       data: {
         permissions: {
           only: PERMISSIONS.MANAGE,
-          redirectTo: 'config.welcome'
+          redirectTo: VIEW_STATES.CONFIG_WELCOME
         }
       }
     })
-    .state('app.admin', {
+    .state(VIEW_STATES.APP_ADMIN, {
       url: '/admin',
       template: require('./views/app.admin.html'),
       controller: 'AdminController'
     })
-    .state('app.network', {
+    .state(VIEW_STATES.APP_NETWORK, {
       url: '/network',
       template: require('./views/app.network.html'),
       controller: 'NetworkController'
     })
-    .state('app.devices', {
+    .state(VIEW_STATES.APP_DEVICES, {
       url: '/devices',
       template: require('./views/app.devices.html'),
       controller: 'DevicesController'
     })
-    .state('app.reboot', {
+    .state(VIEW_STATES.APP_REBOOT, {
       url: '/reboot',
       template: require('./views/app.reboot.html'),
       controller: 'RebootController'
@@ -114,7 +115,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider, PE
   // See https://github.com/Narzerus/angular-permission/wiki/Installation-guide-for-ui-router#known-issues
   $urlRouterProvider.otherwise(function otherwise($injector) {
     var $state = $injector.get('$state');
-    $state.go('signin');
+    $state.go(VIEW_STATES.SIGNIN);
   });
 
   // Wait for initial state loading from back-end before automatic resolving app state
@@ -177,6 +178,21 @@ app.constant('ROLES_PERMISSIONS', {
 app.constant('AUTH_EVENTS', {
   AUTHENTICATED: 'auth-authenticated',
   NOT_AUTHENTICATED: 'auth-not-authenticated'
+});
+
+app.constant('VIEW_STATES', {
+  SIGNIN: 'signin',
+
+  CONFIG: 'config',
+  CONFIG_WELCOME: 'config.welcome',
+  CONFIG_CLOUD: 'config.cloud',
+  CONFIG_USER: 'config.signup',
+
+  APP: 'app',
+  APP_ADMIN: 'app.admin',
+  APP_NETWORK: 'app.network',
+  APP_DEVICES: 'app.devices',
+  APP_REBOOT: 'app.reboot'
 });
 
 app.constant('API_STATES', {

@@ -5,7 +5,7 @@ require('angular-messages');
 
 appCtrls = angular.module('app.controllers', ['ngMessages', 'ui.router', 'app.services']);
 
-appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, API_STATES) {
+appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, VIEW_STATES, API_STATES) {
   $scope.hideMenu = false;
 
   $scope.signout = function signout() {
@@ -13,29 +13,29 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
   };
 
   $scope.$on(AUTH_EVENTS.NOT_AUTHENTICATED, function onNotAuthenticated() {
-    $state.go('signin');
+    $state.go(VIEW_STATES.SIGNIN);
   });
 
   $scope.$on(API_STATES.REBOOTING, function onRebooting() {
     $scope.hideMenu = true;
-    $state.go('app.reboot');
+    $state.go(VIEW_STATES.APP_REBOOT);
   });
 
   $scope.$on(API_STATES.READY, function onReady() {
     $scope.hideMenu = false;
-    $state.go('app.devices');
+    $state.go(VIEW_STATES.APP_DEVICES);
   });
 
   $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
-    $state.go('config.cloud');
+    $state.go(VIEW_STATES.CONFIG_CLOUD);
   });
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
-    $state.go('config.signup');
+    $state.go(VIEW_STATES.CONFIG_USER);
   });
 });
 
-appCtrls.controller('SigninController', function SigninController($scope, $state, AuthService) {
+appCtrls.controller('SigninController', function SigninController($scope, $state, AuthService, VIEW_STATES) {
   $scope.$api = {};
   $scope.form = {
     email: null,
@@ -46,12 +46,12 @@ appCtrls.controller('SigninController', function SigninController($scope, $state
     return AuthService
       .signin($scope.form)
       .then(function onSuccess() {
-        $state.go('app.devices');
+        $state.go(VIEW_STATES.APP_DEVICES);
       });
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, AuthService, StateService, API_STATES) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, AuthService, StateService, VIEW_STATES, API_STATES) {
   $scope.$apiBack = {};
   $scope.$apiSignup = {};
   $scope.form = {
@@ -64,7 +64,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     return StateService
       .changeState(API_STATES.CONFIGURATION_CLOUD)
       .then(function onStateChanged() {
-        $state.go('config.cloud');
+        $state.go(VIEW_STATES.CONFIG_CLOUD);
       });
   };
 
@@ -78,12 +78,12 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
         return AuthService.signin($scope.form);
       })
       .then(function onSignedIn() {
-        $state.go('app.devices');
+        $state.go(VIEW_STATES.APP_DEVICES);
       });
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, API_STATES) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES) {
   $scope.$api = {};
   $scope.form = {
     hostname: null,
@@ -107,7 +107,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         return StateService.changeState(API_STATES.CONFIGURATION_USER);
       })
       .then(function onStateChanged() {
-        $state.go('config.signup');
+        $state.go(VIEW_STATES.CONFIG_USER);
       });
   };
 

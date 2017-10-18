@@ -26,6 +26,11 @@ app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStor
 app.config(function config($stateProvider, $urlRouterProvider, $httpProvider,
   VIEW_STATES, PERMISSIONS) {
   $stateProvider
+    .state(VIEW_STATES.REBOOT, {
+      url: '/reboot',
+      template: require('./views/reboot.html'),
+      controller: 'RebootController'
+    })
     .state(VIEW_STATES.SIGNIN, {
       url: '/signin',
       template: require('./views/signin.html'),
@@ -104,11 +109,6 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider,
       url: '/devices',
       template: require('./views/app.devices.html'),
       controller: 'DevicesController'
-    })
-    .state(VIEW_STATES.APP_REBOOT, {
-      url: '/reboot',
-      template: require('./views/app.reboot.html'),
-      controller: 'RebootController'
     });
 
   // Hack needed by angular-permission
@@ -181,6 +181,7 @@ app.constant('AUTH_EVENTS', {
 });
 
 app.constant('VIEW_STATES', {
+  REBOOT: 'reboot',
   SIGNIN: 'signin',
 
   CONFIG: 'config',
@@ -191,8 +192,7 @@ app.constant('VIEW_STATES', {
   APP: 'app',
   APP_ADMIN: 'app.admin',
   APP_NETWORK: 'app.network',
-  APP_DEVICES: 'app.devices',
-  APP_REBOOT: 'app.reboot'
+  APP_DEVICES: 'app.devices'
 });
 
 app.constant('API_STATES', {

@@ -5,9 +5,39 @@ require('angular-messages');
 
 appCtrls = angular.module('app.controllers', ['ngMessages', 'ui.router', 'app.services']);
 
-appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, VIEW_STATES, API_STATES) {
-  $scope.hideMenu = false;
+appCtrls.controller('RebootController', function RebootController($scope, $state, $interval, StateService, VIEW_STATES, API_STATES) {
+  var waitPromise;
 
+  function waitReboot() {
+    var FIVE_SECONDS = 5000;
+
+    waitPromise = $interval(function onInterval() {
+      StateService.loadState(); // when successful, will trigger a state change
+    }, FIVE_SECONDS);
+  }
+
+  $scope.$on('$destroy', function onDestroy() {
+    if (waitPromise) {
+      $interval.cancel(waitPromise);
+    }
+  });
+
+  $scope.$on(API_STATES.READY, function onReady() {
+    $state.go(VIEW_STATES.SIGNIN);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
+    $state.go(VIEW_STATES.CONFIG_CLOUD);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
+    $state.go(VIEW_STATES.CONFIG_USER);
+  });
+
+  waitReboot();
+});
+
+appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, VIEW_STATES, API_STATES) {
   $scope.signout = function signout() {
     AuthService.signout();
   };
@@ -17,12 +47,10 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
   });
 
   $scope.$on(API_STATES.REBOOTING, function onRebooting() {
-    $scope.hideMenu = true;
-    $state.go(VIEW_STATES.APP_REBOOT);
+    $state.go(VIEW_STATES.REBOOT);
   });
 
   $scope.$on(API_STATES.READY, function onReady() {
-    $scope.hideMenu = false;
     $state.go(VIEW_STATES.APP_DEVICES);
   });
 
@@ -216,22 +244,3 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   init();
 });
 
-appCtrls.controller('RebootController', function RebootController($rootScope, $scope, $interval, StateService) {
-  var waitPromise;
-
-  function waitReboot() {
-    var FIVE_SECONDS = 5000;
-
-    waitPromise = $interval(function onInterval() {
-      StateService.loadState(); // when successful, will trigger a state change
-    }, FIVE_SECONDS);
-  }
-
-  $scope.$on('$destroy', function onDestroy() {
-    if (waitPromise) {
-      $interval.cancel(waitPromise);
-    }
-  });
-
-  waitReboot();
-});

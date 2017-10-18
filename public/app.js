@@ -45,6 +45,7 @@ app.config(function config($stateProvider, $urlRouterProvider, $httpProvider,
     .state(VIEW_STATES.CONFIG, {
       abstract: true,
       template: require('./views/config.html'),
+      controller: 'ConfigController',
       data: {
         permissions: {
           only: [PERMISSIONS.CONFIGURE_CLOUD, PERMISSIONS.CONFIGURE_USER],

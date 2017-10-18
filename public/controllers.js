@@ -37,6 +37,24 @@ appCtrls.controller('RebootController', function RebootController($scope, $state
   waitReboot();
 });
 
+appCtrls.controller('ConfigController', function ConfigController($scope, $state, VIEW_STATES, API_STATES) {
+  $scope.$on(API_STATES.REBOOTING, function onRebooting() {
+    $state.go(VIEW_STATES.REBOOT);
+  });
+
+  $scope.$on(API_STATES.READY, function onReady() {
+    $state.go(VIEW_STATES.SIGNIN);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
+    $state.go(VIEW_STATES.CONFIG_CLOUD);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
+    $state.go(VIEW_STATES.CONFIG_USER);
+  });
+});
+
 appCtrls.controller('AppController', function AppController($scope, $state, AuthService, AUTH_EVENTS, VIEW_STATES, API_STATES) {
   $scope.signout = function signout() {
     AuthService.signout();
@@ -51,7 +69,7 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
   });
 
   $scope.$on(API_STATES.READY, function onReady() {
-    $state.go(VIEW_STATES.APP_DEVICES);
+    $state.go(VIEW_STATES.SIGNIN);
   });
 
   $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
@@ -90,23 +108,17 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 
   $scope.back = function back() {
     return StateService
-      .changeState(API_STATES.CONFIGURATION_CLOUD)
-      .then(function onStateChanged() {
-        $state.go(VIEW_STATES.CONFIG_CLOUD);
-      });
+      .changeState(API_STATES.CONFIGURATION_CLOUD);
   };
 
   $scope.signup = function signup() {
     return IdentityApi
       .signup($scope.form)
       .then(function onSignedUp() {
-        return StateService.changeState(API_STATES.READY);
-      })
-      .then(function onStateChanged() {
         return AuthService.signin($scope.form);
       })
       .then(function onSignedIn() {
-        $state.go(VIEW_STATES.APP_DEVICES);
+        return StateService.changeState(API_STATES.READY);
       });
   };
 });
@@ -133,9 +145,6 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       .saveCloudConfig($scope.form)
       .then(function onCloudConfigSaved() {
         return StateService.changeState(API_STATES.CONFIGURATION_USER);
-      })
-      .then(function onStateChanged() {
-        $state.go(VIEW_STATES.CONFIG_USER);
       });
   };
 

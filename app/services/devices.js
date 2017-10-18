@@ -148,7 +148,7 @@ function removeDevice(device, done) {
     interface: 'org.cesar.knot.nrf0.Adapter',
     member: 'RemoveDevice',
     signature: 's',
-    body: [device],
+    body: [device.mac],
     type: dbus.messageType.methodCall
   }, function onRemove(dbusErr, removed) {
     var devicesErr;

@@ -6,28 +6,25 @@
 
   <div class="panel panel-default" ng-hide="allowedDevices.length === 0">
     <div class="panel-heading">
-      <h4 class="panel-title">Allowed devices</h4>
+      <h4 class="panel-title">My devices</h4>
     </div>
+  </div>
 
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Device Name</th>
-            <th>MAC Address</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="device in allowedDevices">
-            <td>{{ device.name }}</td><td>{{ device.mac }}</td>
-            <td>
-              <a class="btn btn-default pull-right" href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="device-grid" ng-hide="allowedDevices.length === 0">
+    <div class="device-grid-item" ng-repeat="device in allowedDevices">
+      <div class="device">
+        <div class="device-heading">
+          <h5>{{ device.name }}</h5>
+        </div>
+        <div class="device-body">
+          <small class="text-muted">{{ device.mac | uppercase }}</small>
+        </div>
+        <div class="device-footer">
+          <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -35,28 +32,27 @@
     <div class="panel-heading">
       <h4 class="panel-title">Nearby devices</h4>
     </div>
-    <div class="table-responsive" ng-hide="nearbyDevices.length === 0">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Device Name</th>
-            <th>MAC Address</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="device in nearbyDevices">
-            <td>{{ device.name }}</td><td>{{ device.mac }}</td>
-            <td>
-              <a class="btn btn-default pull-right" href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Allow Device">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  </div>
+
+  <div class="device-grid" ng-hide="nearbyDevices.length === 0">
+    <div class="device-grid-item" ng-repeat="device in nearbyDevices">
+      <div class="device">
+        <div class="device-heading">
+          <h5>{{ device.name }}</h5>
+        </div>
+        <div class="device-body">
+          <small class="text-muted">{{ device.mac | uppercase }}</small>
+        </div>
+        <div class="device-footer">
+          <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Allow Device">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="panel-body text-center" ng-show="nearbyDevices.length === 0">
-      No nearby devices found. Please refresh to try again.
-    </div>
+  </div>
+
+  <div class="panel-body text-center" ng-show="nearbyDevices.length === 0">
+    No nearby devices found. Please refresh to try again.
   </div>
 </div>

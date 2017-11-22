@@ -47,22 +47,53 @@ var list = function list(req, res, next) {
   });
 };
 
-var update = function update(req, res, next) {
+var add = function add(req, res, next) {
   var devicesSvc = new DevicesService();
   var device = {
     mac: req.params.id,
     name: req.body.name,
     allowed: req.body.allowed
   };
-  devicesSvc.update(device, function onDevicesCreated(err, updated) {
-    if (err) {
-      next(err);
+  devicesSvc.update(device, function onDevicesUpdated(devicesErr, updated) {
+    if (devicesErr) {
+      next(devicesErr);
     } else if (!updated) {
       res.sendStatus(500); // TODO: verify in which case a device isn't updated
     } else {
       res.end();
     }
   });
+};
+
+var remove = function remove(req, res, next) {
+  var fogSvc = new FogService();
+  users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
+    if (userErr) {
+      next(userErr);
+    } else {
+      fogSvc.removeDevice(user, req.params.id, function onDeviceRemoved(fogErr) {
+        if (fogErr) {
+          next(fogErr);
+        } else {
+          res.end();
+        }
+      });
+    }
+  });
+};
+
+var update = function update(req, res, next) {
+  // Currently there isn't a way to identify the device uniquely between
+  // fog and nrfd. When the device is being added, its ID is the MAC address,
+  // only known by nrfd. When the device is being removed, its ID is the
+  // device UUID, only known by the fog.
+  // For this reason, when `allowed` is true, we call `add()` on the device
+  // service (nrfd), and when is false, we call `remove()` on the fog service
+  if (req.body.allowed) {
+    add(req, res, next);
+  } else {
+    remove(req, res, next);
+  }
 };
 
 module.exports = {

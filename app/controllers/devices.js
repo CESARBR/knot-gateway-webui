@@ -1,12 +1,48 @@
+var users = require('../models/users');
 var DevicesService = require('../services/devices').DevicesService;
+var FogService = require('../services/fog').FogService;
+
+var isNotAllowed = function isNotAllowed(device) {
+  return !device.allowed;
+};
+
+var mapToDevice = function mapToDevice(fogDevice) {
+  return {
+    uuid: fogDevice.uuid,
+    allowed: true,
+    name: fogDevice.name,
+    online: fogDevice.online
+  };
+};
+
+var mergeDevices = function mergeDevices(radioDevices, fogDevices) {
+  var allowedDevices = fogDevices.map(mapToDevice);
+  var notAllowedDevices = radioDevices.filter(isNotAllowed);
+  return allowedDevices.concat(notAllowedDevices);
+};
 
 var list = function list(req, res, next) {
   var devicesSvc = new DevicesService();
-  devicesSvc.list(function onDevicesReturned(err, deviceList) {
-    if (err) {
-      next(err);
+  var fogSvc = new FogService();
+  users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
+    if (userErr) {
+      next(userErr);
     } else {
-      res.json(deviceList);
+      devicesSvc.list(function onDevicesReturned(deviceErr, radioDevices) {
+        if (deviceErr) {
+          next(deviceErr);
+        } else {
+          fogSvc.getDevices(user, function onFogDevicesReturned(fogErr, fogDevices) {
+            var devices;
+            if (fogErr) {
+              next(fogErr);
+            } else {
+              devices = mergeDevices(radioDevices, fogDevices);
+              res.json(devices);
+            }
+          });
+        }
+      });
     }
   });
 };

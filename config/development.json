@@ -2,6 +2,10 @@
   "mongodb": {
     "db": "knot_dev"
   },
+  "fog": {
+    "port" : 3000,
+    "host" : "172.19.0.4"
+  },
   "server": {
     "port": 8080,
     "token": {

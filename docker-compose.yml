@@ -4,6 +4,8 @@ services:
     build: .
     image: knot/webui
     container_name: webui
+    environment:
+      - NODE_ENV=dev
     security_opt:
       - seccomp=unconfined
     tmpfs:

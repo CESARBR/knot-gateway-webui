@@ -17,7 +17,7 @@
           <h5>{{ device.name }}</h5>
         </div>
         <div class="device-body">
-          <small class="text-muted">{{ device.mac | uppercase }}</small>
+          <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
         </div>
         <div class="device-footer">
           <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device">

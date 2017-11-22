@@ -124,6 +124,44 @@ FogService.prototype.cloneUser = function cloneUser(user, done) {
   });
 };
 
+FogService.prototype.getDevices = function getDevices(user, done) {
+  request({
+    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    qs: {
+      type: 'KNOTDevice',
+      owner: user.uuid
+    },
+    headers: {
+      meshblu_auth_uuid: user.uuid,
+      meshblu_auth_token: user.token
+    }
+  }, function onResponse(requestErr, response, body) {
+    var bodyJson;
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    try {
+      if (response.statusCode === 200) {
+        bodyJson = JSON.parse(body);
+        done(null, bodyJson.devices);
+      } else if (response.statusCode === 404) {
+        console.log('No devices for user:', user); // eslint-disable-line no-console
+        done(null, []);
+      } else {
+        fogErr = parseResponseError(response);
+        done(fogErr);
+      }
+    } catch (parseErr) {
+      done(parseErr);
+    }
+  });
+};
+
 module.exports = {
   FogService: FogService
 };

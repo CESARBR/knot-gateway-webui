@@ -125,7 +125,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
   // /api/devices
   var updateDevice = function updateDevice(device) {
-    return $http.put('/api/devices/' + device.mac, {
+    var id = device.allowed ? device.mac : device.uuid;
+    return $http.put('/api/devices/' + id, {
       name: device.name,
       allowed: device.allowed
     });

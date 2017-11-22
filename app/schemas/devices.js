@@ -8,12 +8,17 @@ var update = {
       .required(),
     allowed: joi
       .bool()
-      .required()
+      .required(),
+    uuid: joi
+      .string()
   },
   params: {
     id: joi
-      .string()
-      .regex(REGEX_MAC)
+      .alternatives()
+      .try(
+        joi.string().regex(REGEX_MAC),
+        joi.string().uuid()
+      )
       .required()
   }
 };

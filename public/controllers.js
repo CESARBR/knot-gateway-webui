@@ -208,7 +208,8 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   init();
 });
 
-appCtrls.controller('DevicesController', function DevicesController($scope, $q, GatewayApi, GatewayApiErrorService) {
+appCtrls.controller('DevicesController', function DevicesController($scope, $q, $interval, GatewayApi, GatewayApiErrorService) {
+  var refreshPromise;
   $scope.$api = {};
   $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
@@ -238,8 +239,17 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
     return promise;
   }
 
+  function startRefresh() {
+    refreshPromise = $interval(reloadDevices, 5000);
+  }
+
+  function stopRefresh() {
+    $interval.cancel(refreshPromise);
+  }
+
   function init() {
     reloadDevices();
+    startRefresh();
   }
 
   $scope.allow = function allow(device) {
@@ -257,6 +267,10 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
         return reloadDevices();
       });
   };
+
+  $scope.$on('$destroy', function onDestroy() {
+    stopRefresh();
+  });
 
   init();
 });

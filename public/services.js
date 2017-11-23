@@ -137,6 +137,11 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
+  var getDeviceDetail = function getDeviceDetail(device) {
+    return $http.get('/api/devices/' + device.uuid)
+      .then(extractData);
+  };
+
   // /api/gateway
   var getGatewayConfig = function getGatewayConfig() {
     return $http.get('/api/gateway')
@@ -167,6 +172,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     updateDevice: updateDevice,
     getDevices: getDevices,
+    getDeviceDetail: getDeviceDetail,
 
     getGatewayConfig: getGatewayConfig,
 

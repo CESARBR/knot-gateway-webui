@@ -216,13 +216,21 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   function reloadDevices() {
     var promise = GatewayApi.getDevices()
       .then(function onSuccess(devices) {
-        $scope.allowedDevices = devices.filter(function isAllowed(device) {
-          return device.allowed;
-        });
+        var allowedDevices = devices
+          .filter(function isAllowed(device) {
+            return device.allowed;
+          });
 
         $scope.nearbyDevices = devices.filter(function isNearby(device) {
           return !device.allowed;
         });
+
+        return $q.all(allowedDevices.map(function getDetail(device) {
+          return GatewayApi.getDeviceDetail(device);
+        }));
+      })
+      .then(function onSuccess(allowedDevices) {
+        $scope.allowedDevices = allowedDevices;
       });
 
     GatewayApiErrorService.updateStateOnResponse($scope.$api, promise);

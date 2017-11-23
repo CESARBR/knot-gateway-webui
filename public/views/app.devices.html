@@ -17,7 +17,12 @@
           <h5>{{ device.name }}</h5>
         </div>
         <div class="device-body">
-          <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
+          <p>
+            <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
+          </p>
+          <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema">
+            <small><b>{{ schema.name }}</b></small>: <small>{{ schema.data ? schema.data.value : '?' }}</small>
+          </p>
         </div>
         <div class="device-footer">
           <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device">

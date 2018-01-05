@@ -1,8 +1,11 @@
 var fs = require('fs');
+var request = require('request');
 var config = require('config');
 var dotenv = require('dotenv');
 var exec = require('child_process').exec;
 
+var FOG_HOST = config.get('fog.host');
+var FOG_PORT = config.get('fog.port');
 var FOG_DOTENV_FILE = config.get('fog.envFile');
 
 var PARENT_CONNECTION_SERVER_HOST_KEY = 'PARENT_CONNECTION_SERVER';
@@ -11,6 +14,28 @@ var PARENT_CONNECTION_CRED_UUID_KEY = 'PARENT_CONNECTION_UUID';
 var PARENT_CONNECTION_CRED_TOKEN_KEY = 'PARENT_CONNECTION_TOKEN';
 var GATEWAY_CRED_UUID_KEY = 'UUID';
 var GATEWAY_CRED_TOKEN_KEY = 'TOKEN';
+
+
+var FogServiceError = function FogServiceError(message) {
+  this.name = 'FogServiceError';
+  this.message = message;
+  this.stack = (new Error()).stack;
+};
+
+var parseRequestError = function parseRequestError(err) { // eslint-disable-line vars-on-top
+  if (err.code === 'ECONNREFUSED' || err.code === 'EHOSTUNREACH'
+    || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT') {
+    console.log('Error connecting to fog service:', err); // eslint-disable-line no-console
+    return new FogServiceError('Fog service is unavailable');
+  }
+
+  return err;
+};
+
+var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
+  console.log('Unknown error while communicating with fog service:', response); // eslint-disable-line no-console
+  return new FogServiceError('Unknown error');
+};
 
 var readEnvFile = function readEnvFile(done) {
   fs.readFile(FOG_DOTENV_FILE, function onRead(readErr, data) {
@@ -50,6 +75,9 @@ var setEnvVars = function setEnvVars(envVars, done) {
 var FogService = function FogService() {
 };
 
+FogServiceError.prototype = Object.create(Error.prototype);
+FogServiceError.prototype.constructor = FogServiceError;
+
 FogService.prototype.setParentAddress = function setParentAddress(address, done) {
   var vars = {};
   vars[PARENT_CONNECTION_SERVER_HOST_KEY] = address.hostname;
@@ -68,6 +96,32 @@ FogService.prototype.setGatewayCredentials = function setGatewayCredentials(cred
 
 FogService.prototype.restart = function restart(done) {
   exec('kill -15 `cat /tmp/knot-fog.pid`', done);
+};
+
+FogService.prototype.cloneUser = function cloneUser(user, done) {
+  request({
+    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    form: { type: 'clone', uuid: user.uuid, token: user.token }
+  }, function onResponse(requestErr, response) {
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    if (response.statusCode === 201) {
+      done(null);
+    } else {
+      fogErr = parseResponseError(response);
+      done(fogErr);
+    }
+  });
 };
 
 module.exports = {

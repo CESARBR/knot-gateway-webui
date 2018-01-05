@@ -10,7 +10,9 @@
     "devicesFile": "/etc/knot/keys.json"
   },
   "fog": {
-    "envFile": "/usr/local/bin/knot-fog-source/.env"
+    "envFile": "/usr/local/bin/knot-fog-source/.env",
+    "port" : 3000,
+    "host" : "localhost"
   },
   "server": {
     "token": {

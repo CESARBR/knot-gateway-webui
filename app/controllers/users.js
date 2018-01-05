@@ -52,17 +52,23 @@ var create = function create(req, res, next) {
                           next(setGwErr);
                         } else {
                           fogSvc = new FogService();
-                          fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
-                            if (setGwCredErr) {
-                              next(setGwCredErr);
+                          fogSvc.cloneUser(user, function onUserCloned(userCloneErr) {
+                            if (userCloneErr) {
+                              next(userCloneErr);
                             } else {
-                              fogSvc.restart(function onRestart(restartErr) {
-                                if (restartErr) {
-                                  // don't fail if fog daemon isn't restarted
-                                  console.error('Error restarting KNoT Fog: ', restartErr); // eslint-disable-line no-console
+                              fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
+                                if (setGwCredErr) {
+                                  next(setGwCredErr);
+                                } else {
+                                  fogSvc.restart(function onRestart(restartErr) {
+                                    if (restartErr) {
+                                      // don't fail if fog daemon isn't restarted
+                                      console.error('Error restarting KNoT Fog: ', restartErr); // eslint-disable-line no-console
+                                    }
+                                  });
+                                  res.end();
                                 }
                               });
-                              res.end();
                             }
                           });
                         }

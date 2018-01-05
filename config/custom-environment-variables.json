@@ -6,7 +6,9 @@
     "devicesFile": "NRFD_DEVICES_FILE"
   },
   "fog": {
-    "envFile": "FOG_ENV_FILE"
+    "envFile": "FOG_ENV_FILE",
+    "port" : "FOG_PORT",
+    "host" : "FOG_HOST"
   },
   "server": {
     "port": "PORT",

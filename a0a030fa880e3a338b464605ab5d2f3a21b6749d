@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8bfee84_d28aba1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-01-09T00:21:31Z",
+      "side": 1,
+      "message": "Try to make it clearer. Which device type is cloned? Also put a . in the end of the line.",
+      "revId": "a0a030fa880e3a338b464605ab5d2f3a21b6749d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62a3e79a_b82535f4",
+        "filename": "config/default.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-01-09T00:21:31Z",
+      "side": 1,
+      "message": "I believe that in the default the environment variables won\u0027t be loaded, thus the port would be the string FOG_PORT if no env var is the defined.\nIn the default we can use the target settings:\nport: 3000\nhost: \u0027localhost\u0027",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "a0a030fa880e3a338b464605ab5d2f3a21b6749d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

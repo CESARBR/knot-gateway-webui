@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b840e4ce_a70811bd",
+        "filename": "config/default.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-01-25T13:49:53Z",
+      "side": 1,
+      "message": "Make this a number, remove the \"\"",
+      "revId": "9d2bbbc64aee0494cd8dddb4e5bf9813bf4cc7d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

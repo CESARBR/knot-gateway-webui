@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85ab4592_938c4db4",
+        "filename": "app/services/fog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-01-26T21:56:02Z",
+      "side": 1,
+      "message": "This line also should be near `FogServiceError` definition. Put it after line 25.",
+      "revId": "01fd6d1dfed369455cfd51b8e96c4a0b4a305ec2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "01fd6d1dfed369455cfd51b8e96c4a0b4a305ec2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2dcbb94_47b7bec4",
+        "filename": "app/services/fog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-01-29T18:55:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ab4592_938c4db4",
+      "revId": "01fd6d1dfed369455cfd51b8e96c4a0b4a305ec2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

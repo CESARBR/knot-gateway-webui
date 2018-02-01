@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32bdcb0d_23c65fac",
+        "filename": "app/services/fog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1012786
+      },
+      "writtenOn": "2018-02-01T11:54:58Z",
+      "side": 1,
+      "message": "I think the message here should be something else, like: \"no device with this uuid\".",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 84
+      },
+      "revId": "ed0a022cfeb9333521200ffe2ce0c6eaa70f52ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7177f973_fa9f3b85",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012786
+      },
+      "writtenOn": "2018-02-01T11:40:59Z",
+      "side": 1,
+      "message": "Please put a comment here explaining the logic that rules devices list (nRFD x Fog).",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "e49180b867640e9ad69a13a69f8fccc8aeba3856",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ebd196f_5e7cabe6",
+        "filename": "public/services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012786
+      },
+      "writtenOn": "2018-02-01T11:40:59Z",
+      "side": 1,
+      "message": "Please put a comment here explaining this logic or let server-side decide what to use as id.",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 55
+      },
+      "revId": "e49180b867640e9ad69a13a69f8fccc8aeba3856",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

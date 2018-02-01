@@ -150,8 +150,71 @@ FogService.prototype.getDevices = function getDevices(user, done) {
         bodyJson = JSON.parse(body);
         done(null, bodyJson.devices);
       } else if (response.statusCode === 404) {
-        console.log('No devices for user:', user); // eslint-disable-line no-console
         done(null, []);
+      } else {
+        fogErr = parseResponseError(response);
+        done(fogErr);
+      }
+    } catch (parseErr) {
+      done(parseErr);
+    }
+  });
+};
+
+FogService.prototype.getDevice = function getDevice(user, uuid, done) {
+  request({
+    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/' + uuid,
+    headers: {
+      meshblu_auth_uuid: user.uuid,
+      meshblu_auth_token: user.token
+    }
+  }, function onResponse(requestErr, response, body) {
+    var bodyJson;
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    try {
+      if (response.statusCode === 200) {
+        bodyJson = JSON.parse(body);
+        done(null, bodyJson.devices[0]);
+      } else if (response.statusCode === 404) {
+        done(null);
+      } else {
+        fogErr = parseResponseError(response);
+        done(fogErr);
+      }
+    } catch (parseErr) {
+      done(parseErr);
+    }
+  });
+};
+
+FogService.prototype.getDeviceData = function getDeviceData(user, uuid, done) {
+  request({
+    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/data/' + uuid,
+    headers: {
+      meshblu_auth_uuid: user.uuid,
+      meshblu_auth_token: user.token
+    }
+  }, function onResponse(requestErr, response, body) {
+    var bodyJson;
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    try {
+      if (response.statusCode === 200) {
+        bodyJson = JSON.parse(body);
+        done(null, bodyJson.data);
       } else {
         fogErr = parseResponseError(response);
         done(fogErr);

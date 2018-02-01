@@ -1,6 +1,14 @@
 var joi = require('joi');
 var REGEX_MAC = /^([0-9A-Fa-f]{2}[:-]){7}([0-9A-Fa-f]{2})$/;
 
+var get = {
+  params: {
+    id: joi
+      .string()
+      .required()
+  }
+};
+
 var update = {
   body: {
     name: joi
@@ -25,5 +33,6 @@ var update = {
 
 
 module.exports = {
+  get: get,
   update: update
 };

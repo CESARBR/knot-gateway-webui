@@ -22,6 +22,30 @@
       "revId": "ed0a022cfeb9333521200ffe2ce0c6eaa70f52ef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a8c4efe_a9547b8e",
+        "filename": "app/services/fog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-02-01T13:21:17Z",
+      "side": 1,
+      "message": "Done. Remove the log, it was polluting the log and actually should be done in another point.",
+      "parentUuid": "32bdcb0d_23c65fac",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 84
+      },
+      "revId": "ed0a022cfeb9333521200ffe2ce0c6eaa70f52ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

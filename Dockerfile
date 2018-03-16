@@ -15,12 +15,13 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 # install build tools
 RUN apt-get update \
  && apt-get install -y \
-      git yarn nodejs python bzip2
+      git yarn nodejs python bzip2 \
+      pkg-config
 
 # install dependencies
 RUN apt-get install -y \
-      dbus connman \
-      mongodb
+      dbus libdbus-1-dev \
+      connman mongodb
 
 # install modules
 WORKDIR /usr/local/bin/knot-web-app
@@ -37,5 +38,14 @@ COPY ./docker-knot-web.service /lib/systemd/system/knot-web.service
 COPY ./docker-knot-web.sh /usr/local/bin/knot-web.sh
 RUN chmod +x /usr/local/bin/knot-web.sh
 RUN systemctl enable knot-web
+
+#install knotd mock dbus
+RUN mkdir /usr/local/bin/knot
+COPY ./knotd-mock/docker-knotd.service /lib/systemd/system/knotd.service
+COPY ./knotd-mock/index.js /usr/local/bin/knot/index.js
+COPY ./knotd-mock/knotd.sh /usr/local/bin/knotd
+COPY ./knotd-mock/knot.conf /etc/dbus-1/system.d/knot.conf
+RUN chmod +x /usr/local/bin/knotd
+RUN systemctl enable knotd
 
 CMD ["/bin/bash", "-c", "exec  /sbin/init --log-target=journal 3>&1"]

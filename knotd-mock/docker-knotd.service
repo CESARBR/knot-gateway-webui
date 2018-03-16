@@ -1,0 +1,12 @@
+[Unit]
+Description=KNoT Daemon
+Requires=dbus.service
+After=dbus.service
+
+[Service]
+ExecStart=/usr/local/bin/knotd
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

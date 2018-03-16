@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "d9b65b45_8ef21663",
+        "filename": "knotd-mock/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-16T20:31:00Z",
+      "side": 1,
+      "message": "Nice, this is the mock of a device. We need to implement as well the ObjectManager interface.\n\nMaybe the code can be a little bit larger than what I said earlier...",
+      "revId": "a2c877cce5ac35ec639387df3c5076e556598329",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f842460_f31adf48",
+        "filename": "knotd-mock/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-16T20:31:00Z",
+      "side": 1,
+      "message": "The path will be unique per device. Note the device name in the API: https://github.com/CESARBR/knot-service-source/blob/master/doc/knotd-api.txt.\n\nPlease verify with @krau which is the variable prefix he is using.",
+      "revId": "a2c877cce5ac35ec639387df3c5076e556598329",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25c0260_46e0f7d3",
+        "filename": "knotd-mock/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-16T20:31:00Z",
+      "side": 1,
+      "message": "Properties can be a class defining a device. Notice how you use it in the interface implementation below.",
+      "revId": "a2c877cce5ac35ec639387df3c5076e556598329",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcd0dbe4_0cdbf86d",
         "filename": "knotd-mock/index.js",
         "patchSetId": 1
@@ -13,6 +64,30 @@
       "writtenOn": "2018-03-16T17:53:00Z",
       "side": 1,
       "message": "This part can be changed to dbus.Define(Object)",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "a2c877cce5ac35ec639387df3c5076e556598329",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "884f1c01_75da7b1f",
+        "filename": "knotd-mock/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-16T20:31:00Z",
+      "side": 1,
+      "message": "Yeah, it is better than define it manually.",
+      "parentUuid": "fcd0dbe4_0cdbf86d",
       "range": {
         "startLine": 17,
         "startChar": 46,

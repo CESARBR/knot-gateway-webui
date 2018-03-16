@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcd0dbe4_0cdbf86d",
+        "filename": "knotd-mock/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-03-16T17:53:00Z",
+      "side": 1,
+      "message": "This part can be changed to dbus.Define(Object)",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "a2c877cce5ac35ec639387df3c5076e556598329",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

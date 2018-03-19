@@ -2,10 +2,6 @@ var users = require('../models/users');
 var DevicesService = require('../services/devices').DevicesService;
 var FogService = require('../services/fog').FogService;
 
-var isNotAllowed = function isNotAllowed(device) {
-  return !device.allowed;
-};
-
 var mapToDevice = function mapToDevice(fogDevice) {
   return {
     uuid: fogDevice.uuid,
@@ -42,34 +38,13 @@ var mapToDeviceWithData = function mapToDeviceWithData(fogDevice, fogDeviceData)
   return device;
 };
 
-var mergeDevices = function mergeDevices(radioDevices, fogDevices) {
-  var allowedDevices = fogDevices.map(mapToDevice);
-  var notAllowedDevices = radioDevices.filter(isNotAllowed);
-  return allowedDevices.concat(notAllowedDevices);
-};
-
 var list = function list(req, res, next) {
   var devicesSvc = new DevicesService();
-  var fogSvc = new FogService();
-  users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
-    if (userErr) {
-      next(userErr);
+  devicesSvc.list(function onDevicesReturned(listErr, devices) {
+    if (listErr) {
+      next(listErr);
     } else {
-      devicesSvc.list(function onDevicesReturned(deviceErr, radioDevices) {
-        if (deviceErr) {
-          next(deviceErr);
-        } else {
-          fogSvc.getDevices(user, function onFogDevicesReturned(fogErr, fogDevices) {
-            var devices;
-            if (fogErr) {
-              next(fogErr);
-            } else {
-              devices = mergeDevices(radioDevices, fogDevices);
-              res.json(devices);
-            }
-          });
-        }
-      });
+      res.json(devices);
     }
   });
 };

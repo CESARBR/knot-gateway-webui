@@ -5,7 +5,8 @@ var FogService = require('../services/fog').FogService;
 var mapToDevice = function mapToDevice(fogDevice) {
   return {
     uuid: fogDevice.uuid,
-    allowed: true,
+    id: fogDevice.id,
+    paired: true,
     name: fogDevice.name,
     online: fogDevice.online
   };

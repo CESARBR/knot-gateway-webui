@@ -1,5 +1,5 @@
 var dbusDeprecated = require('dbus-native');
-var DBus = require('dbus');
+var dbus = require('dbus');
 var _ = require('lodash');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
@@ -17,7 +17,7 @@ DevicesServiceError.prototype = Object.create(Error.prototype);
 DevicesServiceError.prototype.constructor = DevicesServiceError;
 
 
-var parseDbusError = function handleDbusError(err) { // eslint-disable-line vars-on-top, no-unused-vars, max-len
+var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-on-top, no-unused-vars, max-len
   // FIXME: The bellow console.log method call is raising TypeError
   // console.log('Unknown error while communicating with devices service:', err);
   return new DevicesServiceError('Devices service is unavailable');
@@ -33,14 +33,13 @@ function setKeysToLowerCase(obj) {
 
 function mapObjectsToDevices(objects) {
   return _.chain(objects)
-            .pickBy(function onPick(object) { return _.has(object, DEVICE_INTERFACE); })
-            .map(function onMap(object) { return object[DEVICE_INTERFACE]; })
-            .forEach(function onFor(object, i, array) { array[i] = setKeysToLowerCase(object); })
-            .value();
+    .pickBy(function onPick(object) { return _.has(object, DEVICE_INTERFACE); })
+    .map(function onMap(object) { return setKeysToLowerCase(object[DEVICE_INTERFACE]); })
+    .value();
 }
 
 DevicesService.prototype.list = function list(done) {
-  var bus = DBus.getBus('system');
+  var bus = dbus.getBus('system');
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (getInterfaceErr) {
@@ -55,7 +54,7 @@ DevicesService.prototype.list = function list(done) {
      * We're just interested in the properties of devices interface so we need to
      * filter the devices from the dbus's result
      */
-    iface.GetManagedObjects(null, function onManagedObject(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
+    iface.GetManagedObjects(function onManagedObject(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
       var devices = [];
       if (getManagedObjectsErr) {
         devicesErr = parseDbusError(getManagedObjectsErr);

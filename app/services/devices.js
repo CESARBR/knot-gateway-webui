@@ -1,8 +1,11 @@
-var fs = require('fs');
 var dbus = require('dbus-native');
-var config = require('config');
+var DBus = require('dbus');
+var _ = require('lodash');
 
-var DEVICES_FILE = config.get('nrfd.devicesFile');
+var SERVICE_NAME = 'br.org.cesar.knot';
+var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
+var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
+var OBJECT_PATH = '/';
 
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
@@ -23,96 +26,44 @@ var parseDbusError = function handleDbusError(err) { // eslint-disable-line vars
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
 
-function getAllowedDevices(done) {
-  fs.readFile(DEVICES_FILE, 'utf8', function onRead(readErr, data) {
-    var file;
-
-    if (readErr) {
-      done(readErr);
-      return;
-    }
-
-    try {
-      file = JSON.parse(data);
-
-      done(null, file.keys);
-    } catch (parseErr) {
-      done(parseErr);
-    }
-  });
+function setKeysToLowerCase(obj) {
+  return _.mapKeys(obj, function (v, k) { return k.toLowerCase(); });
 }
 
-function getNearbyDevices(done) {
-  var sysbus = dbus.systemBus();
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'GetBroadcastingDevices',
-    signature: '',
-    body: [],
-    type: dbus.messageType.methodCall
-  }, function onResult(dbusErr, res) {
-    var devices;
-    var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
-      done(devicesErr);
-      return;
-    }
-
-    try {
-      devices = JSON.parse(res);
-      done(null, devices);
-    } catch (parseErr) {
-      done(parseErr);
+function getDevices(done) {
+  var dbus = new DBus(); // eslint-disable-line no-shadow
+  var bus = dbus.getBus('system');
+  bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function (err, iface) {
+    if (err) {
+      done(err);
+    } else {
+      iface.GetManagedObjects(null, function (err2, result) { // eslint-disable-line new-cap
+        var devices = [];
+        _.pickBy(result, function (value, objPathKey) {
+          var device = _.pickBy(result[objPathKey], function (value2, ifaceKey) {
+            return _.startsWith(ifaceKey, DEVICE_INTERFACE);
+          });
+          if (!_.isEmpty(device)) {
+            devices.push(device[DEVICE_INTERFACE]);
+          }
+        });
+        devices.forEach(function (device, i) {
+          devices[i] = setKeysToLowerCase(device);
+        });
+        bus.disconnect();
+        done(null, devices);
+      });
     }
   });
-}
-
-function setAllowed(devices, allowed) {
-  devices.forEach(function onEntry(device) {
-    device.allowed = allowed;
-  });
-}
-
-function mergeDevicesLists(allowedList, nearbyList) {
-  // allowed - nearby
-  allowedList.forEach(function onEntry(device) {
-    var deviceIdx = nearbyList.findIndex(function isSameDevice(nearbyDevice) {
-      return nearbyDevice.mac === device.mac;
-    });
-    if (deviceIdx !== -1) {
-      nearbyList.splice(deviceIdx, 1);
-    }
-  });
-
-  // allowed (union) nearby
-  return allowedList.concat(nearbyList);
 }
 
 DevicesService.prototype.list = function list(done) {
-  getAllowedDevices(function onAllowedDevices(allowedDevicesErr, allowedDevices) {
-    if (allowedDevicesErr) {
-      done(allowedDevicesErr);
+  getDevices(function onDevices(devicesErr, devices) {
+    if (devicesErr) {
+      done(devicesErr);
       return;
     }
-
-    setAllowed(allowedDevices, true); // eslint-disable-line no-param-reassign
-
-    getNearbyDevices(function onNearbyDevices(nearbyDevicesErr, nearbyDevices) {
-      var devices;
-      if (nearbyDevicesErr) {
-        done(nearbyDevicesErr);
-        return;
-      }
-
-      setAllowed(nearbyDevices, false); // eslint-disable-line no-param-reassign
-
-      devices = mergeDevicesLists(allowedDevices, nearbyDevices);
-      done(null, devices);
-    });
+    done(null, devices);
   });
 };
 

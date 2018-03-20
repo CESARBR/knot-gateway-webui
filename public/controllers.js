@@ -216,11 +216,11 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
       .then(function onSuccess(devices) {
         var allowedDevices = devices
           .filter(function isAllowed(device) {
-            return device.allowed;
+            return device.paired;
           });
 
         $scope.nearbyDevices = devices.filter(function isNearby(device) {
-          return !device.allowed;
+          return !device.paired;
         });
 
         return $q.all(allowedDevices.map(function getDetail(device) {
@@ -250,7 +250,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   }
 
   $scope.allow = function allow(device) {
-    device.allowed = true;
+    device.paired = true;
     return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
@@ -258,7 +258,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   };
 
   $scope.forget = function forget(device) {
-    device.allowed = false;
+    device.paired = false;
     return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
@@ -271,4 +271,3 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   init();
 });
-

@@ -216,11 +216,11 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
       .then(function onSuccess(devices) {
         var allowedDevices = devices
           .filter(function isAllowed(device) {
-            return device.allowed;
+            return device.paired;
           });
 
         $scope.nearbyDevices = devices.filter(function isNearby(device) {
-          return !device.allowed;
+          return !device.paired;
         });
 
         return $q.all(allowedDevices.map(function getDetail(device) {
@@ -271,4 +271,3 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   init();
 });
-

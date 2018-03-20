@@ -46,7 +46,7 @@
           <h5>{{ device.name }}</h5>
         </div>
         <div class="device-body">
-          <small class="text-muted">{{ device.mac | uppercase }}</small>
+          <small class="text-muted">{{ device.id | uppercase }}</small>
         </div>
         <div class="device-footer">
           <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Allow Device">

@@ -216,11 +216,11 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
       .then(function onSuccess(devices) {
         var allowedDevices = devices
           .filter(function isAllowed(device) {
-            return device.allowed;
+            return device.paired;
           });
 
         $scope.nearbyDevices = devices.filter(function isNearby(device) {
-          return !device.allowed;
+          return !device.paired;
         });
 
         return $q.all(allowedDevices.map(function getDetail(device) {
@@ -228,7 +228,8 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
         }));
       })
       .then(function onSuccess(allowedDevices) {
-        $scope.allowedDevices = allowedDevices;
+        // FIXME: allowedDevices is coming an array in array
+        $scope.allowedDevices = allowedDevices[0];
       });
 
     GatewayApiErrorService.updateStateOnResponse($scope.$api, promise);
@@ -250,7 +251,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   }
 
   $scope.allow = function allow(device) {
-    device.allowed = true;
+    device.paired = true;
     return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();
@@ -271,4 +272,3 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   init();
 });
-

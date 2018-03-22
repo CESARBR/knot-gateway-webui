@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7265d1_d580c9e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-22T23:25:30Z",
+      "side": 1,
+      "message": "When writing commit titles, try to be more descriptive. The idea is that the reader shouldn\u0027t need to open the commit details to understand what has changed with that patch.\n\nImagine that you make several updates to the README file, each one adding a new section. Which one is better:\n\nUpdate README\nUpdate README\nUpdate README\n\nor\n\nAdd build instructions to README\nAdd install intructions to README\nRemove no longer valid deploy instructions from README\n\nIn this case, the message you wrote below is both descriptive and succinct to fit as the commit title.",
+      "revId": "70c020e5076434e7113a3404241cccf33cdefa1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf9e25ad_a28b4665",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-22T23:25:30Z",
+      "side": 1,
+      "message": "Change this to match the suggestion I made in the README",
+      "revId": "70c020e5076434e7113a3404241cccf33cdefa1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34e24714_a9c0bd93",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-03-22T23:25:30Z",
+      "side": 1,
+      "message": "Let\u0027s keep both.\n\nAbove we say that \"to check its status, run:\". `systemctl status` will provide this information (whether it is running, stopped, etc).\n\nAdd a paragraph telling that to view whole output log, the user should execute this line.",
+      "revId": "70c020e5076434e7113a3404241cccf33cdefa1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

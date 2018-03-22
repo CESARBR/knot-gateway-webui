@@ -47,7 +47,7 @@ docker-compose up -d
 It might take a few seconds for the application to be up. To check its status, run:
 
 ```
-docker exec -ti webui systemctl status knot-web
+docker exec -ti webui journalctl -u knot-web --no-pager -f
 ```
 
 Once it is running, it can be accessed at `http://localhost:8080`.

@@ -50,6 +50,11 @@ It might take a few seconds for the application to be up. To check its status, r
 docker exec -ti webui systemctl status knot-web
 ```
 
+To show the whole log output, you can run the bellow command:
+```
+docker exec -ti webui journalctl -u knot-web --no-pager -f
+```
+
 Once it is running, it can be accessed at `http://localhost:8080`.
 
 ### Restart

@@ -39,14 +39,10 @@ var mapToDeviceWithData = function mapToDeviceWithData(fogDevice, fogDeviceData)
   return device;
 };
 
-var list = function list(req, res, next) {
+var list = function list(req, res) {
   var devicesSvc = new DevicesService();
-  devicesSvc.list(function onDevicesReturned(listErr, devices) {
-    if (listErr) {
-      next(listErr);
-    } else {
-      res.json(devices);
-    }
+  devicesSvc.list(function onDevicesReturned(devices) {
+    res.json(devices);
   });
 };
 

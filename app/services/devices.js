@@ -6,6 +6,9 @@ var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
+var idPathMap = {};
+var devicesList = [];
+var bus = null;
 
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
@@ -25,7 +28,42 @@ var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-
 
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
+
 };
+
+function getBus() {
+  if (!bus) {
+    bus = DBus.getBus('system');
+  }
+  return bus;
+}
+
+function loadIdPath(objects) {
+  return _.chain(objects)
+            .pickBy(function onPick(object) { return _.has(object, DEVICE_INTERFACE); })
+            .mapValues(function onMapValues(iface) { return _.get(iface[DEVICE_INTERFACE], 'Id'); })
+            .invert()
+            .value();
+}
+
+function addIdPath(id, path) {
+  idPathMap[id] = path;
+}
+
+function removeIdPath(path) {
+  _.mapValues(idPathMap, function onMapValues(v, id) {
+    if (v === path) {
+      delete idPathMap[id];
+      devicesList = _.remove(devicesList, function onRemove(device) {
+        /**
+         * As the id is the hashmap's key, it returns the id as a string
+         * so we have to use the operator '!='
+         */
+        return device.id != id; // eslint-disable-line eqeqeq
+      });
+    }
+  });
+}
 
 function setKeysToLowerCase(obj) {
   return _.mapKeys(obj, function onMapKeys(v, k) { return k.toLowerCase(); });
@@ -38,8 +76,8 @@ function mapObjectsToDevices(objects) {
     .value();
 }
 
-DevicesService.prototype.list = function list(done) {
-  var bus = dbus.getBus('system');
+function loadDevices(done) {
+  bus = getBus();
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (getInterfaceErr) {
@@ -55,16 +93,20 @@ DevicesService.prototype.list = function list(done) {
      * filter the devices from the dbus's result
      */
     iface.GetManagedObjects(function onManagedObject(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
-      var devices = [];
       if (getManagedObjectsErr) {
         devicesErr = parseDbusError(getManagedObjectsErr);
         done(devicesErr);
         return;
       }
-      devices = mapObjectsToDevices(objects);
-      done(null, devices);
+      devicesList = mapObjectsToDevices(objects);
+      idPathMap = loadIdPath(objects);
+      done(null, devicesList);
     });
   });
+}
+
+DevicesService.prototype.list = function list(done) {
+  done(devicesList);
 };
 
 function addDevice(device, done) {
@@ -90,6 +132,35 @@ function addDevice(device, done) {
     done(null, upserted); // TODO: verify in which case a device isn't added
   });
 }
+
+DevicesService.monitorDevices = function monitorDevices(done) {
+  loadDevices(function onLoad(loadDevicesErr) {
+    if (loadDevicesErr) {
+      done(loadDevicesErr);
+    } else {
+      bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+        var devicesErr;
+        if (getInterfaceErr) {
+          devicesErr = parseDbusError(getInterfaceErr);
+          done(devicesErr);
+        } else {
+          iface.on('InterfacesAdded', function onIfaceAdded(objPath, interfaces) {
+            // Just one device a time when InterfacesAdded is called
+            var device = mapObjectsToDevices([interfaces])[0];
+            // The device can be undefined if the interface added is not DEVICE_INTERFACE
+            if (device) {
+              addIdPath(device.id, objPath);
+              devicesList.push(device);
+            }
+          });
+          iface.on('InterfacesRemoved', function onIfaceRemoved(objPath) {
+            removeIdPath(objPath);
+          });
+        }
+      });
+    }
+  });
+};
 
 function removeDevice(device, done) {
   var sysbus = dbusDeprecated.systemBus();

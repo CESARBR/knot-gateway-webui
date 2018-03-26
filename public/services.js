@@ -127,8 +127,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   var updateDevice = function updateDevice(device) {
     return $http.put('/api/devices/' + device.id, {
       name: device.name,
-      paired: device.paired,
-      uuid: device.uuid
+      paired: device.paired
     });
   };
 
@@ -138,7 +137,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   var getDeviceDetail = function getDeviceDetail(device) {
-    return $http.get('/api/devices/' + device.uuid)
+    return $http.get('/api/devices/' + device.id)
       .then(extractData);
   };
 

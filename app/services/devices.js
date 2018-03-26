@@ -1,4 +1,3 @@
-var dbusDeprecated = require('dbus-native');
 var dbus = require('dbus');
 var _ = require('lodash');
 
@@ -10,6 +9,10 @@ var idPathMap = {};
 var devicesList = [];
 var bus = null;
 
+var DEVICE_SERVICE_ERROR_CODE = {
+  DEVICE_NOT_FOUND: 404
+};
+
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
   this.message = message;
@@ -19,6 +22,11 @@ var DevicesServiceError = function DevicesServiceError(message) {
 DevicesServiceError.prototype = Object.create(Error.prototype);
 DevicesServiceError.prototype.constructor = DevicesServiceError;
 
+Object.defineProperty(DevicesServiceError.prototype, 'isNotFound', {
+  get: function isNotFound() {
+    return this.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND;
+  }
+});
 
 var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-on-top, no-unused-vars, max-len
   /**
@@ -30,6 +38,12 @@ var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-
   return new DevicesServiceError('Devices service is unavailable');
 };
 
+var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
+  if (response.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND) {
+    return new DevicesServiceError(response.message);
+  }
+  return new DevicesServiceError('Unknown error');
+};
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
@@ -120,6 +134,20 @@ DevicesService.prototype.list = function list(done) {
   done(null, devicesList);
 };
 
+DevicesService.prototype.getDevice = function getDevice(id, done) {
+  var device = devicesList.find(function onFind(dev) { return dev.id === id; });
+  var deviceErr;
+  if (device) {
+    done(null, device);
+  } else {
+    deviceErr = parseResponseError({
+      code: DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND,
+      message: 'No device found with ' + device.id
+    });
+    done(deviceErr);
+  }
+};
+
 DevicesService.prototype.pair = function pair(device, done) {
   var objPath = idPathMap[device.id];
   bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(getInterfaceErr, iface) { // eslint-disable-line max-len
@@ -167,33 +195,25 @@ DevicesService.monitorDevices = function monitorDevices(done) {
   });
 };
 
-function removeDeviceDeprecated(device, done) {
-  var sysbus = dbusDeprecated.systemBus();
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'RemoveDevice',
-    signature: 's',
-    body: [device.mac],
-    type: dbusDeprecated.messageType.methodCall
-  }, function onRemove(dbusErr, removed) {
+DevicesService.prototype.forget = function forget(device, done) {
+  var objPath = idPathMap[device.id];
+  bus = getBus();
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
+    if (getInterfaceErr) {
+      devicesErr = parseDbusError(getInterfaceErr);
       done(devicesErr);
-      return;
+    } else {
+      iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
+        if (forgetErr) {
+          devicesErr = parseDbusError(forgetErr);
+          done(devicesErr);
+          return;
+        }
+        done();
+      });
     }
-
-    done(null, removed); // TODO: verify in which case a device isn't removed
   });
-}
-
-DevicesService.prototype.update = function update(device, done) {
-  if (!device.paired) {
-    removeDeviceDeprecated(device, done);
-  }
 };
 
 module.exports = {

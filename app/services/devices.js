@@ -1,4 +1,3 @@
-var dbus = require('dbus-native');
 var DBus = require('dbus');
 var _ = require('lodash');
 
@@ -6,6 +5,9 @@ var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
+var mapDevicesToPath = {};
+var dbus = null;
+var bus = null;
 
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
@@ -24,6 +26,12 @@ var parseDbusError = function handleDbusError(err) { // eslint-disable-line vars
 
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
+  if (!dbus) {
+    dbus = new DBus(); // eslint-disable-line no-shadow
+  }
+  if (!bus) {
+    bus = dbus.getBus('system');
+  }
 };
 
 function setKeysToLowerCase(obj) {
@@ -31,8 +39,6 @@ function setKeysToLowerCase(obj) {
 }
 
 function getDevices(done) {
-  var dbus = new DBus(); // eslint-disable-line no-shadow
-  var bus = dbus.getBus('system');
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onIface(dbusErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (dbusErr) {
@@ -58,6 +64,7 @@ function getDevices(done) {
           });
           if (!_.isEmpty(device)) {
             devices.push(device[DEVICE_INTERFACE]);
+            mapDevicesToPath[device[DEVICE_INTERFACE].Id] = objPathKey;
           }
         });
         devices.forEach(function onFor(device, i) {
@@ -102,6 +109,35 @@ function addDevice(device, done) {
     done(null, upserted); // TODO: verify in which case a device isn't added
   });
 }
+
+DevicesService.prototype.monitorDevices = function monitorDevices(done) {
+  this.list(function onList(errList) {
+    if (errList) {
+      done(errList);
+    } else {
+      bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onIface(err, iface) { // eslint-disable-line new-cap, max-len
+        var devicesErr;
+        if (err) {
+          devicesErr = parseDbusError(err);
+          done(devicesErr);
+        } else {
+          iface.on('InterfacesAdded', function onIfaceAdded(objPath, interfaces) {
+            if (interfaces[DEVICE_INTERFACE]) {
+              mapDevicesToPath[interfaces[DEVICE_INTERFACE].Id] = objPath;
+            }
+          });
+          iface.on('InterfacesRemoved', function onIfaceRemoved(objPath) {
+            _.mapValues(mapDevicesToPath, function onMapValues(v, k) {
+              if (v === objPath) {
+                delete mapDevicesToPath[k];
+              }
+            });
+          });
+        }
+      });
+    }
+  });
+};
 
 function removeDevice(device, done) {
   var sysbus = dbus.systemBus();

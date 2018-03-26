@@ -138,7 +138,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   var getDeviceDetail = function getDeviceDetail(device) {
-    return $http.get('/api/devices/' + device.uuid)
+    return $http.get('/api/devices/' + device.id)
       .then(extractData);
   };
 

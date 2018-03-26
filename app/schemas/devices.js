@@ -1,32 +1,28 @@
 var joi = require('joi');
-var REGEX_MAC = /^([0-9A-Fa-f]{2}[:-]){7}([0-9A-Fa-f]{2})$/;
 
 var get = {
   params: {
     id: joi
       .string()
+      .hex()
       .required()
   }
 };
 
 var update = {
   body: {
-    name: joi
-      .string()
-      .required(),
-    allowed: joi
+    paired: joi
       .bool()
       .required(),
     uuid: joi
       .string()
+      .allow('')
+      .optional()
   },
   params: {
     id: joi
-      .alternatives()
-      .try(
-        joi.string().regex(REGEX_MAC),
-        joi.string().uuid()
-      )
+      .string()
+      .hex()
       .required()
   }
 };

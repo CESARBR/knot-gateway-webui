@@ -87,26 +87,22 @@ DevicesService.prototype.list = function list(done) {
 };
 
 function addDevice(device, done) {
-  var sysbus = dbus.systemBus();
-  device.key = '';
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'AddDevice',
-    signature: 'sss',
-    body: [device.mac, device.key, device.name],
-    type: dbus.messageType.methodCall
-  }, function onUpsert(dbusErr, upserted) {
+  var objPath = mapDevicesToPath[device.id];
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(err, iface) {
     var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
+    if (err) {
+      devicesErr = parseDbusError(err);
       done(devicesErr);
-      return;
+    } else {
+      iface.Pair(null, function onPair(errPair, result) { // eslint-disable-line new-cap
+        if (errPair) {
+          devicesErr = parseDbusError(errPair);
+          done(devicesErr);
+        } else {
+          done(null, result);
+        }
+      });
     }
-
-    done(null, upserted); // TODO: verify in which case a device isn't added
   });
 }
 
@@ -163,7 +159,7 @@ function removeDevice(device, done) {
 }
 
 DevicesService.prototype.update = function update(device, done) {
-  if (device.allowed) {
+  if (device.paired) {
     addDevice(device, done);
   } else {
     removeDevice(device, done);

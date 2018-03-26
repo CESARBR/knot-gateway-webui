@@ -95,15 +95,27 @@ var add = function add(req, res, next) {
 
 var remove = function remove(req, res, next) {
   var fogSvc = new FogService();
+  var devicesSvc = new DevicesService();
+  var device = {
+    id: req.params.id,
+    uuid: req.body.uuid,
+    paired: req.body.paired
+  };
   users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
     if (userErr) {
       next(userErr);
     } else {
-      fogSvc.removeDevice(user, req.params.id, function onDeviceRemoved(fogErr) {
+      fogSvc.removeDevice(user, device.uuid, function onDeviceRemoved(fogErr) {
         if (fogErr) {
           next(fogErr);
         } else {
-          res.end();
+          devicesSvc.update(device, function onDevicesUpdated(devicesErr) {
+            if (devicesErr) {
+              next(devicesErr);
+            } else {
+              res.end();
+            }
+          });
         }
       });
     }

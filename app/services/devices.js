@@ -137,25 +137,22 @@ DevicesService.prototype.monitorDevices = function monitorDevices(done) {
 };
 
 function removeDevice(device, done) {
-  var sysbus = dbus.systemBus();
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'RemoveDevice',
-    signature: 's',
-    body: [device.mac],
-    type: dbus.messageType.methodCall
-  }, function onRemove(dbusErr, removed) {
+  var objPath = mapDevicesToPath[device.id];
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(err, iface) {
     var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
+    if (err) {
+      devicesErr = parseDbusError(err);
       done(devicesErr);
-      return;
+    } else {
+      iface.Forget(null, function onForget(errPair, result) { // eslint-disable-line new-cap
+        if (errPair) {
+          devicesErr = parseDbusError(err);
+          done(devicesErr);
+        } else {
+          done(null, result);
+        }
+      });
     }
-
-    done(null, removed); // TODO: verify in which case a device isn't removed
   });
 }
 

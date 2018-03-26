@@ -259,7 +259,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   };
 
   $scope.forget = function forget(device) {
-    device.allowed = false;
+    device.paired = false;
     return GatewayApi.updateDevice(device)
       .then(function onFulfilled() {
         return reloadDevices();

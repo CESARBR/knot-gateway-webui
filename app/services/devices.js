@@ -6,6 +6,8 @@ var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
+var idPathMap = {};
+var devicesList = [];
 
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
@@ -19,6 +21,7 @@ DevicesServiceError.prototype.constructor = DevicesServiceError;
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
+
 
 function setKeysToLowerCase(obj) {
   return _.mapKeys(obj, function onMapKeys(v, k) { return k.toLowerCase(); });
@@ -38,7 +41,43 @@ function mapObjectsToDevices(objects) {
     .value();
 }
 
-DevicesService.prototype.list = function list(done) {
+function mapObjectsToIdPath(objects) {
+  return _.chain(objects)
+    .pickBy(function onPick(object) { return _.has(object, DEVICE_INTERFACE); })
+    .mapValues(function onMapValues(iface) { return _.get(iface[DEVICE_INTERFACE], 'Id'); })
+    .invert()
+    .value();
+}
+
+function mapInterfaceToDevice(interface) {
+  var object = [interface];
+  return mapObjectsToDevices(object)[0];
+}
+
+function createDevices(objects) {
+  devicesList = mapObjectsToDevices(objects);
+
+  idPathMap = mapObjectsToIdPath(objects);
+}
+
+function addDevice(device, path) {
+  idPathMap[device.id] = path;
+  devicesList.push(device);
+}
+
+function removeDevice(path) {
+  var deviceId = _.findKey(idPathMap, function onFind(value) {
+    return value === path;
+  });
+  if (deviceId) {
+    delete idPathMap[deviceId];
+    _.remove(devicesList, function onRemove(device) {
+      return device.id === deviceId;
+    });
+  }
+}
+
+function loadDevices(done) {
   var bus = dbus.getBus();
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
@@ -48,19 +87,22 @@ DevicesService.prototype.list = function list(done) {
       return;
     }
     iface.GetManagedObjects(function onManagedObject(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
-      var devices = [];
       if (getManagedObjectsErr) {
         devicesErr = dbus.parseDbusError(getManagedObjectsErr, DevicesServiceError, 'Devices service is unavailable');
         done(devicesErr);
         return;
       }
-      devices = mapObjectsToDevices(objects);
-      done(null, devices);
+      createDevices(objects);
+      done(null);
     });
   });
+}
+
+DevicesService.prototype.list = function list(done) {
+  done(null, devicesList);
 };
 
-function addDevice(device, done) {
+function addDeviceDeprecated(device, done) {
   var sysbus = dbusDeprecated.systemBus();
   device.key = '';
   sysbus.invoke({
@@ -84,7 +126,36 @@ function addDevice(device, done) {
   });
 }
 
-function removeDevice(device, done) {
+DevicesService.monitorDevices = function monitorDevices(done) {
+  var bus = dbus.getBus();
+
+  loadDevices(function onLoad(loadDevicesErr) {
+    if (loadDevicesErr) {
+      done(loadDevicesErr);
+    } else {
+      bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+        var devicesErr;
+        if (getInterfaceErr) {
+          devicesErr = dbus.parseDbusError(getInterfaceErr);
+          done(devicesErr);
+        } else {
+          iface.on('InterfacesAdded', function onInterfaceAdded(objPath, addedInterface) {
+            var device = mapInterfaceToDevice(addedInterface);
+            // The device can be undefined if the interface added is not DEVICE_INTERFACE
+            if (device) {
+              addDevice(device, objPath);
+            }
+          });
+          iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {
+            removeDevice(objPath);
+          });
+        }
+      });
+    }
+  });
+};
+
+function removeDeviceDeprecated(device, done) {
   var sysbus = dbusDeprecated.systemBus();
   sysbus.invoke({
     path: '/org/cesar/knot/nrf0',
@@ -109,9 +180,9 @@ function removeDevice(device, done) {
 
 DevicesService.prototype.update = function update(device, done) {
   if (device.allowed) {
-    addDevice(device, done);
+    addDeviceDeprecated(device, done);
   } else {
-    removeDevice(device, done);
+    removeDeviceDeprecated(device, done);
   }
 };
 

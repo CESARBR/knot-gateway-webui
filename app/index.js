@@ -8,10 +8,12 @@ var apiRoute = require('./api');
 var handlers = require('./handlers');
 
 var StateService = require('./services/state').StateService;
+var DevicesService = require('./services/devices').DevicesService;
 
 var databaseUri;
 var port;
 var stateSvc;
+var devSvc;
 var publicRoot = path.resolve(__dirname, '../www');
 var app = express();
 
@@ -29,6 +31,13 @@ databaseUri = 'mongodb://' +
   config.get('mongodb.db');
 mongoose.connect(databaseUri);
 
+devSvc = new DevicesService();
+devSvc.monitorDevices(function onMonitorDevices(err) {
+  if (err) {
+    console.error(err); // eslint-disable-line no-console
+    return;
+  }
+});
 stateSvc = new StateService();
 stateSvc.reset(function onReset(err) {
   if (err) {

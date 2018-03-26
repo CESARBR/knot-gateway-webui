@@ -8,6 +8,7 @@ var apiRoute = require('./api');
 var handlers = require('./handlers');
 
 var StateService = require('./services/state').StateService;
+var DevicesService = require('./services/devices').DevicesService;
 
 var databaseUri;
 var port;
@@ -35,6 +36,12 @@ stateSvc.reset(function onReset(err) {
     console.error('Failed to reset gateway state'); // eslint-disable-line no-console
     return;
   }
+  DevicesService.monitorDevices(function onMonitorDevices(MonitorDevicesErr) {
+    if (MonitorDevicesErr) {
+      console.error(MonitorDevicesErr); // eslint-disable-line no-console
+      return;
+    }
+  });
 
   port = config.get('server.port');
   app.listen(port, function onListening() {

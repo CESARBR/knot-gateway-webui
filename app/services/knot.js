@@ -1,30 +1,30 @@
-var fs = require('fs');
-var config = require('config');
+var dbus = require('dbus');
 
-var KNOTD_CONFIGURATION_FILE = config.get('knotd.configFile');
+var SERVICE_NAME = 'br.org.cesar.knot';
+var INTERFACE_NAME = 'br.org.cesar.knot.Settings1';
+var OBJECT_PATH = '/';
 
 // KnotService is the KNoT Daemon (knotd)
 var KnotService = function KnotService() {
 };
 
 KnotService.prototype.setUserCredentials = function setUserCredentials(settings, done) {
-  fs.readFile(KNOTD_CONFIGURATION_FILE, 'utf8', function onReadConfigurationFile(readErr, data) {
-    var currentConfig;
+  var bus = dbus.getBus('system');
 
-    if (readErr) {
-      done(readErr);
+  bus.getInterface(SERVICE_NAME, OBJECT_PATH, INTERFACE_NAME, function onInterfaceGet(err, iface) {
+    if (err) {
+      done(err);
       return;
     }
-
-    try {
-      currentConfig = JSON.parse(data);
-      currentConfig.cloud.uuid = settings.uuid;
-      currentConfig.cloud.token = settings.token;
-
-      fs.writeFile(KNOTD_CONFIGURATION_FILE, JSON.stringify(currentConfig), 'utf8', done);
-    } catch (parseErr) {
-      done(parseErr);
-    }
+    iface.setProperty('Uuid', settings.uuid, function onUuidPropertySet(setUuidPropertyErr) {
+      if (setUuidPropertyErr) {
+        done(setUuidPropertyErr);
+        return;
+      }
+      iface.setProperty('Token', settings.token, function onTokenPropertySet(setTokenPropertyErr) {
+        done(setTokenPropertyErr);
+      });
+    });
   });
 };
 

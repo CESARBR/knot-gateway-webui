@@ -3,7 +3,8 @@ FROM solita/ubuntu-systemd:latest
 # configure apt for non standard packages
 RUN apt-get update \
  && apt-get install -y \
-      curl apt-transport-https
+      curl apt-transport-https \
+      pkg-config
 
 # add node 6.x repo
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
@@ -19,8 +20,8 @@ RUN apt-get update \
 
 # install dependencies
 RUN apt-get install -y \
-      dbus connman \
-      mongodb
+      dbus libdbus-1-dev \
+      connman mongodb
 
 # install modules
 WORKDIR /usr/local/bin/knot-web-app

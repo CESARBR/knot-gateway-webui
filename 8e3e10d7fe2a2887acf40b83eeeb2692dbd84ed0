@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5ce5124_bf008e01",
+        "filename": "app/services/knot.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-05T22:59:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1352331e_3455d7f6",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "8e3e10d7fe2a2887acf40b83eeeb2692dbd84ed0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a54b7ac2_f8d20163",
         "filename": "app/services/knot.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-05T20:25:44Z",
       "side": 1,
       "message": "And also here",
+      "range": {
+        "startLine": 22,
+        "startChar": 57,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "8e3e10d7fe2a2887acf40b83eeeb2692dbd84ed0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a93d9c00_0eab61ce",
+        "filename": "app/services/knot.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-05T22:59:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a54b7ac2_f8d20163",
       "range": {
         "startLine": 22,
         "startChar": 57,

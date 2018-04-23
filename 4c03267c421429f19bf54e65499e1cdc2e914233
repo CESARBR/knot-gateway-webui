@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3fb38473_5318d4aa",
+        "filename": "app/services/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-04-23T13:48:02Z",
+      "side": 1,
+      "message": "As when are going to be doing many calls to list a device. I thought that we can put this variable globally. So we don\u0027t need to be allocating and reallocating memory space for Dbus object.\nBesides this, in my tests the library raises an exception if it already get a bus and try to get another one. Maybe with your bellow comment that doesn\u0027t happen.\nI\u0027m going to evaluate if I can put it locally.",
+      "parentUuid": "f8402a7a_413e3e8e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100af32a_fdffaaa1",
         "filename": "app/services/devices.js",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2018-04-20T16:48:18Z",
       "side": 1,
       "message": "I think you don\u0027t need create this instance anymore (https://github.com/Shouqun/node-dbus#deprecated-new-dbus).\n\nInstead, you just could call `DBus.getBus()` method.\n\ne.g.\n`var bus \u003d DBus.getBus(\u0027system\u0027);`",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d577b0_7c13ccd4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-04-23T13:48:02Z",
+      "side": 1,
+      "message": "Cool! I didn\u0027t see that it was deprecated, I made this code based on examples on his repository and they were using this way.",
+      "parentUuid": "100af32a_fdffaaa1",
       "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

@@ -1,0 +1,10 @@
+version: '2'
+services:
+  cloud:
+    build: .
+    ports:
+      - '3000:3000'
+  database:
+    image: mongo
+    expose:
+      - '27017'

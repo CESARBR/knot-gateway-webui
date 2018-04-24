@@ -4,14 +4,14 @@
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
 
-  <div class="panel panel-default" ng-hide="allowedDevices.length === 0">
+  <div class="panel panel-default" ng-hide="myDevices.length === 0">
     <div class="panel-heading">
       <h4 class="panel-title">My devices</h4>
     </div>
   </div>
 
-  <div class="device-grid" ng-hide="allowedDevices.length === 0">
-    <div class="device-grid-item" ng-repeat="device in allowedDevices">
+  <div class="device-grid" ng-hide="myDevices.length === 0">
+    <div class="device-grid-item" ng-repeat="device in myDevices">
       <div class="device">
         <div class="device-heading">
           <h5>{{ device.name }}</h5>
@@ -20,6 +20,18 @@
           <p>
             <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
           </p>
+          <div ng-if="device.online && !device.allowed">
+            <p>
+              <small>Registering
+                <span class="loader__dot">.</span>
+                <span class="loader__dot">.</span>
+                <span class="loader__dot">.</span>
+              </small>
+            </p>
+            <p>
+              <small class="text-muted">{{ device.mac | uppercase }}</small>
+            </p>
+          </div>
           <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema">
             <small><b>{{ schema.name }}</b></small>: <small>{{ schema.data ? schema.data.value : '?' }}</small>
           </p>

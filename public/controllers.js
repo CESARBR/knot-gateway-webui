@@ -208,27 +208,30 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
 appCtrls.controller('DevicesController', function DevicesController($scope, $q, $interval, GatewayApi, GatewayApiErrorService) {
   var refreshPromise;
   $scope.$api = {};
-  $scope.allowedDevices = [];
   $scope.nearbyDevices = [];
+  $scope.myDevices = [];
 
   function reloadDevices() {
     var promise = GatewayApi.getDevices()
       .then(function onSuccess(devices) {
-        var allowedDevices = devices
-          .filter(function isAllowed(device) {
-            return device.allowed;
+        var pairedDevices = devices
+          .filter(function isPaired(device) {
+            return device.paired;
           });
 
         $scope.nearbyDevices = devices.filter(function isNearby(device) {
-          return !device.allowed;
+          return !device.allowed && !device.paired;
         });
 
-        return $q.all(allowedDevices.map(function getDetail(device) {
-          return GatewayApi.getDeviceDetail(device);
+        return $q.all(pairedDevices.map(function getDetail(device) {
+          if (device.allowed) {
+            return GatewayApi.getDeviceDetail(device);
+          }
+          return device;
         }));
       })
-      .then(function onSuccess(allowedDevices) {
-        $scope.allowedDevices = allowedDevices;
+      .then(function onSuccess(myDevices) {
+        $scope.myDevices = myDevices;
       });
 
     GatewayApiErrorService.updateStateOnResponse($scope.$api, promise);
@@ -271,4 +274,3 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
 
   init();
 });
-

@@ -1,8 +1,0 @@
-{
-  "mongodb": {
-    "db": "knot_web"
-  },
-  "server": {
-    "port": 80
-  }
-}

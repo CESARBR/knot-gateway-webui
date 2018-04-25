@@ -1,7 +1,5 @@
 [Unit]
 Description=KNoT Web
-Requires=mongodb.service
-After=mongodb.service
 
 [Service]
 ExecStart=/usr/local/bin/knot-web.sh

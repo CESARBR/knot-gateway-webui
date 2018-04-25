@@ -19,10 +19,10 @@ To ease development, we provide a Docker container, but it still doesn't abstrac
 ```
 $ npm install
 $ npm run build
-$ npm start
+$ NODE_ENV=production npm start
 ```
 
-The application can be accessed at `http://<target-ip>:8080`.
+The application can be accessed at `http://<target-ip>`.
 
 ## Development environment
 
@@ -74,3 +74,12 @@ To bring the application down, run:
 ```
 docker-compose down
 ```
+
+### Usage and configuration
+
+In the first use, the application requires the configuration of a KNoT cloud server. You have a few
+options:
+
+1. Use the cloud server that is brought up with the application at cloud:3000.
+2. Use the knot-test.cesar.org.br:3000 server.
+3. Bring your own server using the instructions from the [source](http://github.com/CESARBR/knot-cloud-source).

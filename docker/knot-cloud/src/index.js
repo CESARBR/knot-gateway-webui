@@ -5,6 +5,7 @@ import MongoDeviceGateway from 'data/MongoDeviceGateway';
 import CreateDevice from 'domain/interactor/CreateDevice';
 import RemoveDevice from 'domain/interactor/RemoveDevice';
 import GetDevice from 'domain/interactor/GetDevice';
+import ListDevices from 'domain/interactor/ListDevices';
 import DeviceService from 'domain/service/DeviceService';
 import CloudApi from 'web/CloudApi';
 import HapiServer from 'web/HapiServer';
@@ -19,7 +20,8 @@ const deviceGateway = new MongoDeviceGateway(connection);
 const createDevice = new CreateDevice(deviceGateway);
 const removeDevice = new RemoveDevice(deviceGateway);
 const getDevice = new GetDevice(deviceGateway);
-const deviceService = new DeviceService(createDevice, removeDevice, getDevice);
+const listDevices = new ListDevices(deviceGateway);
+const deviceService = new DeviceService(createDevice, removeDevice, getDevice, listDevices);
 const cloudApi = new CloudApi(deviceService);
 const server = new HapiServer(cloudApi);
 

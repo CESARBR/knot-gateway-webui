@@ -33,6 +33,11 @@ class MongoConnection {
     return Model.findOne(query).exec();
   }
 
+  async find(name, schema, query) {
+    const Model = this.connection.model(name, schema);
+    return Model.find(query).exec();
+  }
+
   getDatabaseUri() {
     return `mongodb://${this.host}:${this.port}/${this.databaseName}`;
   }

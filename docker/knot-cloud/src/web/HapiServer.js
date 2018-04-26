@@ -1,4 +1,5 @@
 import hapi from 'hapi';
+import hapiQs from 'hapi-qs';
 
 import EntityExistsError from 'domain/interactor/EntityExistsError';
 
@@ -14,6 +15,10 @@ class HapiServer {
         stripTrailingSlash: true,
         isCaseSensitive: false,
       },
+    });
+
+    server.register({
+      plugin: hapiQs,
     });
 
     const routes = await this.createRoutes();
@@ -47,6 +52,11 @@ class HapiServer {
         method: 'GET',
         path: '/data/{id}',
         handler: this.getDeviceDataHandler.bind(this),
+      },
+      {
+        method: 'POST',
+        path: '/devices/user',
+        handler: this.createUserHandler.bind(this),
       },
     ];
   }
@@ -91,6 +101,15 @@ class HapiServer {
     try {
       const data = await this.cloudApi.getDeviceData(request.params.id);
       return h.response(data).code(200);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
+  async createUserHandler(request, h) {
+    try {
+      const user = await this.cloudApi.createUser(request.payload);
+      return h.response(user).code(201);
     } catch (err) {
       return this.handleError(err, h);
     }

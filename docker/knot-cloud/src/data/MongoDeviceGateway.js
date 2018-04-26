@@ -22,6 +22,10 @@ class MongoDeviceGateway {
   async get(uuid) {
     return this.connection.findOne(DEVICE_NAME, DeviceSchema, { uuid });
   }
+
+  async list(query) {
+    return this.connection.find(DEVICE_NAME, DeviceSchema, query);
+  }
 }
 
 export default MongoDeviceGateway;

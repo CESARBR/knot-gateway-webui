@@ -28,6 +28,11 @@ class HapiServer {
         path: '/devices',
         handler: this.createDeviceHandler.bind(this),
       },
+      {
+        method: 'DELETE',
+        path: '/devices/{id}',
+        handler: this.removeDeviceHandler.bind(this),
+      },
     ];
   }
 
@@ -35,6 +40,15 @@ class HapiServer {
     try {
       const device = await this.cloudApi.createDevice(request.payload);
       return h.response(device).code(201);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
+  async removeDeviceHandler(request, h) {
+    try {
+      await this.cloudApi.removeDevice(request.params.id);
+      return h.response().code(200);
     } catch (err) {
       return this.handleError(err, h);
     }

@@ -3,6 +3,7 @@ import config from 'config';
 import MongoConnection from 'data/MongoConnection';
 import MongoDeviceGateway from 'data/MongoDeviceGateway';
 import CreateDevice from 'domain/interactor/CreateDevice';
+import RemoveDevice from 'domain/interactor/RemoveDevice';
 import DeviceService from 'domain/service/DeviceService';
 import CloudApi from 'web/CloudApi';
 import HapiServer from 'web/HapiServer';
@@ -15,7 +16,8 @@ const PORT = config.get('server.port');
 const connection = new MongoConnection(DB_HOST, DB_PORT, DB_NAME);
 const deviceGateway = new MongoDeviceGateway(connection);
 const createDevice = new CreateDevice(deviceGateway);
-const deviceService = new DeviceService(createDevice);
+const removeDevice = new RemoveDevice(deviceGateway);
+const deviceService = new DeviceService(createDevice, removeDevice);
 const cloudApi = new CloudApi(deviceService);
 const server = new HapiServer(cloudApi);
 

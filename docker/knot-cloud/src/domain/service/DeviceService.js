@@ -1,9 +1,10 @@
 class DeviceService {
-  constructor(createDevice, removeDevice, getDevice, listDevices) {
+  constructor(createDevice, removeDevice, getDevice, listDevices, getDeviceData) {
     this.createDevice = createDevice;
     this.removeDevice = removeDevice;
     this.getDevice = getDevice;
     this.listDevices = listDevices;
+    this.getDeviceData = getDeviceData;
   }
 
   async create(device) {
@@ -20,6 +21,10 @@ class DeviceService {
 
   async list(filter) {
     return this.listDevices.execute(filter);
+  }
+
+  async getData(uuid) {
+    return this.getDeviceData.execute(uuid);
   }
 }
 

@@ -23,12 +23,12 @@ var update = function update(req, res, next) {
     if (errSetState) {
       next(errSetState);
     } else if (state === STATES.REBOOTING) {
+      res.json(req.body);
       systemSvc = new SystemService();
       systemSvc.reboot(function onReboot(errReboot) {
+        // don't fail if machine isn't restarted
         if (errReboot) {
-          next(errReboot);
-        } else {
-          res.json(req.body);
+          console.error('Failed to reboot', errReboot); // eslint-disable-line no-console
         }
       });
     } else {

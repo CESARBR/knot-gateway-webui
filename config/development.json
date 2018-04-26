@@ -1,10 +1,12 @@
 {
   "mongodb": {
-    "db": "knot_dev"
+    "host": "database",
+    "port": 27017,
+    "db": "knot_web_dev"
   },
   "fog": {
     "port" : 3000,
-    "host" : "172.19.0.4"
+    "host" : "fog"
   },
   "server": {
     "port": 8080,

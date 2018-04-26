@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": 3000
+  },
+  "db": {
+    "host": "database",
+    "port": 27017,
+    "database": "knot_cloud"
+  }
+}

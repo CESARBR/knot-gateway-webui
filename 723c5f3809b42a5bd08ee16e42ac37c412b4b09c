@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e3269b9_058bae23",
+        "filename": "docker/knot-cloud/src/data/DeviceSchema.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-27T02:58:52Z",
+      "side": 1,
+      "message": "Isn\u0027t better set this type to UUID, as in TapSchema on Kegerator? This can ensure if the `uuid` is valid when it\u0027s not takes the default value.",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 16
+      },
+      "revId": "723c5f3809b42a5bd08ee16e42ac37c412b4b09c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf4c6ee0_b7d7dd25",
+        "filename": "docker/knot-cloud/src/data/MongoConnection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-27T02:58:52Z",
+      "side": 1,
+      "message": "When I read this, sounds like a database instance being passed. What do you think?",
+      "range": {
+        "startLine": 4,
+        "startChar": 26,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "723c5f3809b42a5bd08ee16e42ac37c412b4b09c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

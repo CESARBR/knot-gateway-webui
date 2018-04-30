@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "017f946f_46c92a81",
+        "filename": "app/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "Call it `devicesSvc`.",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b1a28bf_d21c3d31",
+        "filename": "app/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "put this after resetting the state. If one this things fails, the whole system must fail.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afc035da_54b067ba",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "`mapDevicesToPath` sounds like an action. I would call it simply `deviceMap`.",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c754a9de_ed76e048",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "Deprecated",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "527fa544_fc04c807",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "Create a function (outside the class) that makes this. Every time we need a bus, we get it by using this function.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c6e3a4a_be1569a1",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "Once this method is changing \"static\" variables (`mapDevicesToPath`), let\u0027s make it static too: DeviceService.monitorDevices. Ideally DevicesService should be used as a singleton, but our current architecture doesn\u0027t allow it.\n\nI suggested earlier to put `getDevices` code into `list`, but with the changes in this patch, it is better to have `getDevices` and call it here instead of `list`, and `list` will return the device list in `mapDevicesToPath` instead of fetching data through D-Bus.\n\nIn this way, as `getDevices` will be called only once (by `monitorDevices`) and it will load/populate a device list, I would call it `loadDevices`.",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdcfb6d6_9c7de2b6",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T20:59:20Z",
+      "side": 1,
+      "message": "Create methods to add and remove the devices from the device map containing this logic.",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaef0322_3d8e8798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "D-Bus API",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb850ec7_710eb4af",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "listErr",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b4951ed_cd8936e1",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "Did this run without problems in the RPi?\n\nThere is an issue when the system doesn\u0027t have X described here: https://github.com/Shouqun/node-dbus#note-on-systems-without-x11\n\nIf it doesn\u0027t run, we should put the code showed in the note above in the server startup (index.js).",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "047c016f_a468a2cd",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "To make it clearer, rename `dbus` to `dbusDeprecated` (it will be removed in the following patches) and use `dbus` here.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af26514c_36e8c393",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "As Joao mentioned in the other patch, this is deprecated.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "979d0bf3_d4d4eff3",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "Let\u0027s try to follow the pattern \u003cfunction name\u003eErr in when naming the error.\n\nAlso you can name the callback `onInterface`. I use `iface` when naming the variable because the linter (or node, I\u0027m not sure now) complains about using `interface`.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7399526_5be8eef2",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "If we `return;` after `done(devicesErr)`, we can avoid the `else`, avoiding to indent one extra level.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90194217_db17a951",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "Why are you passing `null` as the first argument? Shouldn\u0027t it be the callback?\n\nChange the error name as suggested. The name of the callback can be onManagedObjects (suggesting the return of the managed objects) or like you did but keeping the plural, onGetManagedObject*s*.\n\nAlso instead of `result` which is too generic, you can use `objects` which is what `GetManagedObjects` is returning.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cd845de_9c361ffe",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "You need to `return;` after this call, otherwise in case of error it will continue.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3dd03a6_c6394725",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "This can be extracted to a method. Its name could be `mapObjectToDevice`. A few suggestions:\n- you don\u0027t need these nested `pickBy`. You can use lohdash\u0027s `has` instead. See `filterDevices`: https://github.com/figueredo/dbus-objmgr/blob/master/node/client/index.js.\n- You can chain multiple lodash function. For instance:\n\n```\n  _.chain(objects)\n    .pickBy(...) // Will filter those that `has` DEVICE_INTERFACE\n    .get(DEVICE_INTERFACE) // Will select the DEVICE_INTERFACE property on the filtered results\n    .mapKeys(...) // Will map the keys to lower case\n    .value()\n```\n\nThis way you don\u0027t need auxiliar variables, such as `devices` that you created and it is clearer that you are transforming the input.\n\nYou can either chain everything like this or create multiple methods like you did (`setKeysToLowerCase`). The latter allows us to remove the comments, but can be harder to put in a chain.",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d512e30_27dd09ff",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:21:45Z",
+      "side": 1,
+      "message": "Now that `list` doesn\u0027t do anything more than `getDevices`, you can move `getDevices` code to this method.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

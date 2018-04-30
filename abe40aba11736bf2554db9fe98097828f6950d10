@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41bdf46b_0c362746",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-30T18:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffd9bb6a_e2c7de57",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e5c95e5_3be51b4c",
         "filename": "app/services/knot.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "aa07efa2_d65a9895",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-30T18:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e5c95e5_3be51b4c",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c6f5811_ab11dd3d",
         "filename": "app/services/knot.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-04-30T15:27:41Z",
       "side": 1,
       "message": "This might cause the method to always return success.",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e27f98f0_db59b7ec",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-04-30T18:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c6f5811_ab11dd3d",
       "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

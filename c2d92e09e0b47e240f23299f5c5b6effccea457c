@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "53163d5e_7d1e8af4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T21:50:12Z",
+      "side": 1,
+      "message": "Now I got it that this maps device id to object path. I think we\u0027ll need both, a device list and an id to object path map (id -\u003e path). Do you agree?\n\n`list` will return the device list.\n`add`/`remove`: will map id to object path and pass down to knotd.\n\nA few suggestions for names:`deviceIdToPathMap`, `deviceIdPathMap`, `idPathMap`.",
+      "parentUuid": "afc035da_54b067ba",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c754a9de_ed76e048",
         "filename": "app/services/devices.js",
         "patchSetId": 1

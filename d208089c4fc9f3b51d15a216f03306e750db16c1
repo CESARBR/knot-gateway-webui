@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b43ce2d_7d5e450d",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:36:43Z",
+      "side": 1,
+      "message": "What has changed so this is happening? If the fix is in the front-end, fix in this patch, otherwise in the backend patch (405684)",
+      "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55712e9d_3032d39e",
+        "filename": "public/services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T19:36:43Z",
+      "side": 1,
+      "message": "Should it be `device.paired`?",
+      "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

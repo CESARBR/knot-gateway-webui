@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "61e3b75e_cb7899e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T21:36:24Z",
+      "side": 1,
+      "message": "ObjectManager",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25d6683_0df54fc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T21:36:24Z",
+      "side": 1,
+      "message": "D-Bus",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017f946f_46c92a81",
         "filename": "app/index.js",
         "patchSetId": 1

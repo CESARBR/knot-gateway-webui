@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd9bb6a_e2c7de57",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T15:27:41Z",
+      "side": 1,
+      "message": "Remember to verify err before calling iface.setProperty.",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e5c95e5_3be51b4c",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T15:27:41Z",
+      "side": 1,
+      "message": "Having `done` being called here and above, will result in `done` being called multiple times (two in case both setProperty fails plus the one below).\n\nTo avoid this, make a chain of calls, first you set `Uuid` and if successful, you set `Token`. Only call `done()` after both have been successfully set, and call `done(\u003cfname\u003eerr)` everytime an error occurs. Also don\u0027t forget to `return` after it, e.g.:\n\n```\n  firstOperation(..., function onFirstOperation(firstOperationErr) {\n  if (firstOperationErr) {\n    done(firstOperationErr);\n    return;\n  }\n\n  secondOperation(..., function onSecondOperation(...) {\n    if (...) {\n      ... // similar to above\n    }\n\n    done();\n  }\n}\n```\n\nMind the callback function name, it helps us finding an error quickly in a call stack trace.",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c6f5811_ab11dd3d",
+        "filename": "app/services/knot.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-04-30T15:27:41Z",
+      "side": 1,
+      "message": "This might cause the method to always return success.",
+      "revId": "abe40aba11736bf2554db9fe98097828f6950d10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

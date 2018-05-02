@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "ebcc5ada_9fedcb20",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "I didn\u0027t have problems with that",
+      "parentUuid": "9b4951ed_cd8936e1",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "047c016f_a468a2cd",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "602f9b86_83e6117f",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "047c016f_a468a2cd",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af26514c_36e8c393",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -81,6 +117,24 @@
       "writtenOn": "2018-04-30T19:21:45Z",
       "side": 1,
       "message": "As Joao mentioned in the other patch, this is deprecated.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d91e76da_f2ef27f4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af26514c_36e8c393",
       "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "4882f826_6045aa1a",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7399526_5be8eef2",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90194217_db17a951",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "ee8da9f8_8062d27d",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "The first argument is the argument to dbus method. As the function GetManagedObjects doesn\u0027t have any argument I just passed null",
+      "parentUuid": "90194217_db17a951",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd845de_9c361ffe",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -149,6 +239,24 @@
       "writtenOn": "2018-04-30T19:21:45Z",
       "side": 1,
       "message": "You need to `return;` after this call, otherwise in case of error it will continue.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5206dd70_cb4db181",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd845de_9c361ffe",
       "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -178,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "85c3b427_51cbe1da",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "This get doesn\u0027t work for me. The returned object after pickBy was:\n```\n{ \u0027/dev_222\u0027: \n   { \u0027br.org.cesar.knot.Device1\u0027: \n      { Name: \u0027dummy0\u0027,\n        UUID: \u0027738e4c1f-518b-49cc-a2eb-fa06b8cc9bf2\u0027,\n        Id: 222,\n        Online: false,\n        Paired: false,\n        Registered: false },\n     \u0027org.freedesktop.DBus.Properties\u0027: {} } }\n\n```\nI need this inner object. And for that I made this:\n```\nfunction mapObjectToDevice(objects) {\n  return _.chain(objects)\n            .pickBy(function (object) { return _.has(object, DEVICE_INTERFACE); })\n            .map(function (object) { return object[DEVICE_INTERFACE]; })\n            .forEach(function (object, i, array) { array[i] \u003d setKeysToLowerCase(object); })\n            .value();\n}\n```",
+      "parentUuid": "a3dd03a6_c6394725",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d512e30_27dd09ff",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -189,6 +321,24 @@
       "writtenOn": "2018-04-30T19:21:45Z",
       "side": 1,
       "message": "Now that `list` doesn\u0027t do anything more than `getDevices`, you can move `getDevices` code to this method.",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bf4b89d_3f4b03bc",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-02T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d512e30_27dd09ff",
       "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

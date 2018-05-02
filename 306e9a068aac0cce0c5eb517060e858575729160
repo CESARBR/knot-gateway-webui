@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da084d8d_b41a9f0e",
+        "filename": "docker/knot-cloud/src/web/HapiServer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-02T16:24:49Z",
+      "side": 1,
+      "message": "Should not `EntityNotFoundError` be treated here too?",
+      "revId": "306e9a068aac0cce0c5eb517060e858575729160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

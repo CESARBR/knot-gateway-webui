@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d871672_12e76077",
+        "filename": "docker/knot-cloud/src/domain/interactor/GetDeviceData.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-02T15:37:26Z",
+      "side": 1,
+      "message": "[] is already returned from Mongoose find query that finds no matches.",
+      "revId": "c1eae8aa754ad49b16c8a124c0d622ad2f052e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

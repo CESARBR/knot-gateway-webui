@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68456eac_ce92f961",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T17:38:59Z",
+      "side": 1,
+      "message": "I don\u0027t remember if $q works like this, but in some promise libraries, if you return the value it will work like if you created a promise. Do you know or could test this in this case?\n\nThe change would be to instead of `return `$q(... resolve(device));`, simply `return device;`.",
+      "range": {
+        "startLine": 230,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 13
+      },
+      "revId": "cf467509f58b88af19d20799f992eabb58d13e5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

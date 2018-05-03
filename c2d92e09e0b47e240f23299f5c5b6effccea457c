@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "af18e808_0c1ad382",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T19:54:21Z",
+      "side": 1,
+      "message": "The idea of monitoring the devices is not to need to call `list` (GetManagedObjects). We call it once to start and then just updated the device list. Then, when the user calls `list`, it returns the data we already have.",
+      "parentUuid": "ea68e480_4ba1050c",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c754a9de_ed76e048",
         "filename": "app/services/devices.js",
         "patchSetId": 1
@@ -312,6 +330,24 @@
       "side": 1,
       "message": "If I make it static how can I call it on `index.js`? Is it will be called when I call `new DeviceService()`?",
       "parentUuid": "6c6e3a4a_be1569a1",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b218a6e_41063131",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T19:54:21Z",
+      "side": 1,
+      "message": "DevicesService.monitorDevices();",
+      "parentUuid": "28ed43d6_c93b510e",
       "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

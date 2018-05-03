@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "79943aa8_e7f99746",
+        "filename": "app/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "017f946f_46c92a81",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b1a28bf_d21c3d31",
         "filename": "app/index.js",
         "patchSetId": 1
@@ -76,6 +94,30 @@
       "writtenOn": "2018-04-30T20:59:20Z",
       "side": 1,
       "message": "put this after resetting the state. If one this things fails, the whole system must fail.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcb65f8a_380ca3cd",
+        "filename": "app/index.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b1a28bf_d21c3d31",
       "range": {
         "startLine": 34,
         "startChar": 0,
@@ -123,6 +165,42 @@
     },
     {
       "key": {
+        "uuid": "370ae9dd_26ddff01",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afc035da_54b067ba",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea68e480_4ba1050c",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "I don\u0027t see any case where we need the others device properties because if we need any other thing we just need call list again and filter what property we want from that device.\nUnless we don\u0027t expose the method list... So it makes sense we have a list. But we will have to monitor the signal `propertyChanged`",
+      "parentUuid": "53163d5e_7d1e8af4",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c754a9de_ed76e048",
         "filename": "app/services/devices.js",
         "patchSetId": 1
@@ -140,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "1d10e851_fe193e40",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c754a9de_ed76e048",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "527fa544_fc04c807",
         "filename": "app/services/devices.js",
         "patchSetId": 1
@@ -151,6 +247,30 @@
       "writtenOn": "2018-04-30T20:59:20Z",
       "side": 1,
       "message": "Create a function (outside the class) that makes this. Every time we need a bus, we get it by using this function.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8352aee_fcb38b43",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527fa544_fc04c807",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -191,6 +311,30 @@
       "writtenOn": "2018-04-30T20:59:20Z",
       "side": 1,
       "message": "Create methods to add and remove the devices from the device map containing this logic.",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ac7cab4_33b65f85",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T17:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdcfb6d6_9c7de2b6",
       "range": {
         "startLine": 125,
         "startChar": 12,

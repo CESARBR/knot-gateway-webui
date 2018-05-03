@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e11499c_da8af2b9",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-03T22:11:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c7cc174_de07b188",
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9a5bee1_2687917c",
         "filename": "app/services/knot.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5c821bc2_3bb84dd6",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-03T22:11:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9a5bee1_2687917c",
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a55c8e69_abe41a4b",
         "filename": "app/services/knot.js",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2018-05-03T16:42:16Z",
       "side": 1,
       "message": "You can replace this with `done(setTokenPropertyErr)`. If `setTokenPropertyErr` is `undefined` will work like `done()`.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 15
+      },
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4c0d43_6e5ed8b6",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-03T22:11:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a55c8e69_abe41a4b",
       "range": {
         "startLine": 26,
         "startChar": 8,

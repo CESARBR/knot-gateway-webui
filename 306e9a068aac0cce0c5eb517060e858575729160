@@ -16,6 +16,24 @@
       "revId": "306e9a068aac0cce0c5eb517060e858575729160",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7687bb87_9186c059",
+        "filename": "docker/knot-cloud/src/web/HapiServer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T20:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da084d8d_b41a9f0e",
+      "revId": "306e9a068aac0cce0c5eb517060e858575729160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

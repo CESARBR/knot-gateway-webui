@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c7cc174_de07b188",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T16:42:16Z",
+      "side": 1,
+      "message": "Let\u0027s use `dbus` as it is the name of the package (and it\u0027s not a class or something similar).",
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9a5bee1_2687917c",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T16:42:16Z",
+      "side": 1,
+      "message": "Add names to the callbacks, e.g. `function onTokenPropertySet(setTokenPropertyErr)`. This will help us to find an error, when it happens.\n\nDo the same in the functions above.",
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a55c8e69_abe41a4b",
+        "filename": "app/services/knot.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-03T16:42:16Z",
+      "side": 1,
+      "message": "You can replace this with `done(setTokenPropertyErr)`. If `setTokenPropertyErr` is `undefined` will work like `done()`.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 15
+      },
+      "revId": "89671d09a0e4e28f4ca743720263bcb2535a62ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

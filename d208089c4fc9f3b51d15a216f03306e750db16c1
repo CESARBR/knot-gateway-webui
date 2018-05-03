@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dafc9054_9260fae5",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T16:28:06Z",
+      "side": 1,
+      "message": "It is strange... because locally I had to put this way. But in the raspberry It works without change this line.",
+      "parentUuid": "7b43ce2d_7d5e450d",
+      "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55712e9d_3032d39e",
         "filename": "public/services.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-30T19:36:43Z",
       "side": 1,
       "message": "Should it be `device.paired`?",
+      "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904780a9_3b04ffe5",
+        "filename": "public/services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T16:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55712e9d_3032d39e",
       "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

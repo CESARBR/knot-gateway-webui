@@ -300,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "28ed43d6_c93b510e",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-03T18:03:59Z",
+      "side": 1,
+      "message": "If I make it static how can I call it on `index.js`? Is it will be called when I call `new DeviceService()`?",
+      "parentUuid": "6c6e3a4a_be1569a1",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdcfb6d6_9c7de2b6",
         "filename": "app/services/devices.js",
         "patchSetId": 1

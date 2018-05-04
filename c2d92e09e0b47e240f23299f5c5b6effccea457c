@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "139f4a8f_3632987e",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T15:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af18e808_0c1ad382",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c754a9de_ed76e048",
         "filename": "app/services/devices.js",
         "patchSetId": 1
@@ -348,6 +366,24 @@
       "side": 1,
       "message": "DevicesService.monitorDevices();",
       "parentUuid": "28ed43d6_c93b510e",
+      "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7f960a2_7db9fb96",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T15:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b218a6e_41063131",
       "revId": "c2d92e09e0b47e240f23299f5c5b6effccea457c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

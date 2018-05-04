@@ -3,6 +3,7 @@ var _ = require('lodash');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
+var PROPERTIES_INTERFACE = 'org.freedesktop.DBus.Properties';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
 var idPathMap = {};
@@ -69,6 +70,25 @@ function mapInterfaceToDevice(interface) {
   return mapObjectsToDevices(object)[0];
 }
 
+function monitorDeviceProperties(device, objPath, done) {
+  var bus = dbus.getBus();
+  bus.getInterface(SERVICE_NAME, objPath, PROPERTIES_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+    var devicesErr;
+    if (getInterfaceErr) {
+      devicesErr = dbus.parseDbusError(getInterfaceErr);
+      done(devicesErr);
+      return;
+    }
+    iface.on('PropertiesChanged', function onPropertiesChanged(changedInterface, properties) {
+      var changedProperties;
+      if (changedInterface === DEVICE_INTERFACE) {
+        changedProperties = setKeysToLowerCase(properties);
+        _.merge(device, changedProperties);
+      }
+    });
+  });
+}
+
 function createDevices(objects) {
   devicesList = mapObjectsToDevices(objects);
 
@@ -111,6 +131,9 @@ function loadDevices(done) {
         return;
       }
       createDevices(objects);
+      devicesList.forEach(function onForEach(device) {
+        monitorDeviceProperties(device, idPathMap[device.id], done);
+      });
       done(null);
     });
   });

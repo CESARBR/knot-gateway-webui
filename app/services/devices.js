@@ -121,29 +121,25 @@ DevicesService.prototype.list = function list(done) {
   done(null, devicesList);
 };
 
-function addDeviceDeprecated(device, done) {
-  var sysbus = dbusDeprecated.systemBus();
-  device.key = '';
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'AddDevice',
-    signature: 'sss',
-    body: [device.mac, device.key, device.name],
-    type: dbusDeprecated.messageType.methodCall
-  }, function onUpsert(dbusErr, upserted) {
+DevicesService.prototype.pair = function pair(device, done) {
+  var objPath = idPathMap[device.id];
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
-      done(devicesErr);
+    if (getInterfaceErr) {
+      devicesErr = parseDbusError(getInterfaceErr);
+      done(getInterfaceErr);
       return;
     }
-
-    done(null, upserted); // TODO: verify in which case a device isn't added
+    iface.Pair(function onPair(pairErr) { // eslint-disable-line new-cap
+      if (pairErr) {
+        devicesErr = parseDbusError(pairErr);
+        done(devicesErr);
+        return;
+      }
+      done();
+    });
   });
-}
+};
 
 DevicesService.monitorDevices = function monitorDevices(done) {
   loadDevices(function onLoad(loadDevicesErr) {
@@ -197,9 +193,7 @@ function removeDeviceDeprecated(device, done) {
 }
 
 DevicesService.prototype.update = function update(device, done) {
-  if (device.allowed) {
-    addDeviceDeprecated(device, done);
-  } else {
+  if (!device.paired) {
     removeDeviceDeprecated(device, done);
   }
 };

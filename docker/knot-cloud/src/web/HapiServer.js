@@ -44,6 +44,11 @@ class HapiServer {
         path: '/devices',
         handler: this.listDevicesHandler.bind(this),
       },
+      {
+        method: 'GET',
+        path: '/data/{id}',
+        handler: this.getDeviceDataHandler.bind(this),
+      },
     ];
   }
 
@@ -78,6 +83,15 @@ class HapiServer {
     try {
       const devices = await this.cloudApi.listDevices(request.query);
       return h.response(devices).code(200);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
+  async getDeviceDataHandler(request, h) {
+    try {
+      const data = await this.cloudApi.getDeviceData(request.params.id);
+      return h.response(data).code(200);
     } catch (err) {
       return this.handleError(err, h);
     }

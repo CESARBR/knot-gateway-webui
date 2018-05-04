@@ -14,6 +14,10 @@ class CloudApi {
   async getDevice(uuid) {
     return this.deviceService.get(uuid);
   }
+
+  async listDevices(filter) {
+    return this.deviceService.list(filter);
+  }
 }
 
 export default CloudApi;

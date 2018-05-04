@@ -3,15 +3,17 @@ import config from 'config';
 import MongoConnection from 'data/MongoConnection';
 import MongoDeviceGateway from 'data/MongoDeviceGateway';
 import MongoDeviceDataGateway from 'data/MongoDeviceDataGateway';
+import MongoUserGateway from 'data/MongoUserGateway';
 import CreateDevice from 'domain/interactor/CreateDevice';
 import RemoveDevice from 'domain/interactor/RemoveDevice';
 import GetDevice from 'domain/interactor/GetDevice';
 import ListDevices from 'domain/interactor/ListDevices';
 import GetDeviceData from 'domain/interactor/GetDeviceData';
 import DeviceService from 'domain/service/DeviceService';
+import CreateUser from 'domain/interactor/CreateUser';
+import UserService from 'domain/service/UserService';
 import CloudApi from 'web/CloudApi';
 import HapiServer from 'web/HapiServer';
-
 
 const DB_HOST = config.get('db.host');
 const DB_PORT = config.get('db.port');
@@ -33,7 +35,10 @@ const deviceService = new DeviceService(
   listDevices,
   getDeviceData,
 );
-const cloudApi = new CloudApi(deviceService);
+const userGateway = new MongoUserGateway(connection);
+const createUser = new CreateUser(userGateway);
+const userService = new UserService(createUser);
+const cloudApi = new CloudApi(deviceService, userService);
 const server = new HapiServer(cloudApi);
 
 async function start() {

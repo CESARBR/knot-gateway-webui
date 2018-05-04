@@ -23,6 +23,11 @@ class MongoConnection {
     return model.save();
   }
 
+  async deleteOne(name, schema, query) {
+    const Model = this.connection.model(name, schema);
+    return Model.deleteOne(query).exec();
+  }
+
   getDatabaseUri() {
     return `mongodb://${this.host}:${this.port}/${this.databaseName}`;
   }

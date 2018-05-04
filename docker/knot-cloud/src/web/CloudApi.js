@@ -10,6 +10,10 @@ class CloudApi {
   async removeDevice(uuid) {
     await this.deviceService.remove(uuid);
   }
+
+  async getDevice(uuid) {
+    return this.deviceService.get(uuid);
+  }
 }
 
 export default CloudApi;

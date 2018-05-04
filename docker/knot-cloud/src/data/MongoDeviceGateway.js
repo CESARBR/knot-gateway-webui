@@ -14,6 +14,10 @@ class MongoDeviceGateway {
   async create(device) {
     return this.connection.save(DEVICE_NAME, DeviceSchema, device);
   }
+
+  async remove(uuid) {
+    await this.connection.deleteOne(DEVICE_NAME, DeviceSchema, { uuid });
+  }
 }
 
 export default MongoDeviceGateway;

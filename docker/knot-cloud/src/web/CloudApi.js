@@ -1,6 +1,7 @@
 class CloudApi {
-  constructor(deviceService) {
+  constructor(deviceService, userService) {
     this.deviceService = deviceService;
+    this.userService = userService;
   }
 
   async createDevice(device) {
@@ -21,6 +22,10 @@ class CloudApi {
 
   async getDeviceData(uuid) {
     return this.deviceService.getData(uuid);
+  }
+
+  async createUser(user) {
+    return this.userService.create(user);
   }
 }
 

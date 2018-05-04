@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8942b219_74768e5a",
+        "filename": "docker/knot-cloud/src/data/DeviceSchema.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-04T12:26:30Z",
+      "side": 1,
+      "message": "At least apparently, I didn\u0027t have problem with this in Kegerator. I will make more tests in the future.\n\nYou can keep without using it.",
+      "parentUuid": "90703d99_e64af238",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 16
+      },
+      "revId": "723c5f3809b42a5bd08ee16e42ac37c412b4b09c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf4c6ee0_b7d7dd25",
         "filename": "docker/knot-cloud/src/data/MongoConnection.js",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yeah, makes sense. I\u0027m renaming it to databaseName.",
       "parentUuid": "bf4c6ee0_b7d7dd25",
+      "range": {
+        "startLine": 4,
+        "startChar": 26,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "723c5f3809b42a5bd08ee16e42ac37c412b4b09c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7ceeaa0_73154ccb",
+        "filename": "docker/knot-cloud/src/data/MongoConnection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-04T12:26:30Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "1ac379b2_fe7b5ea3",
       "range": {
         "startLine": 4,
         "startChar": 26,

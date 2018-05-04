@@ -22,6 +22,30 @@
       "revId": "cf467509f58b88af19d20799f992eabb58d13e5c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6cee39f_014bb5d7",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-04T00:24:14Z",
+      "side": 1,
+      "message": "True, that makes sense, so I did new tests and you are right. \n\nI remember using it to solve some problem, but I think it was solved on the way. Thanks!",
+      "parentUuid": "68456eac_ce92f961",
+      "range": {
+        "startLine": 230,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 13
+      },
+      "revId": "cf467509f58b88af19d20799f992eabb58d13e5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

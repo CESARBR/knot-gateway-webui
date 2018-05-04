@@ -20,8 +20,7 @@ RUN apt-get update \
 
 # install dependencies
 RUN apt-get install -y \
-      dbus libdbus-1-dev \
-      connman mongodb
+      dbus libdbus-1-dev
 
 # install modules
 WORKDIR /usr/local/bin/knot-web-app

@@ -1,11 +1,13 @@
-version: '2'
+version: '3'
 services:
   webui:
     build: .
     image: knot/webui
     container_name: webui
+    depends_on:
+      - 'database'
     environment:
-      - NODE_ENV=dev
+      - NODE_ENV=development
     security_opt:
       - seccomp=unconfined
     tmpfs:
@@ -18,3 +20,21 @@ services:
       - .:/usr/local/bin/knot-web-app
       - /usr/local/bin/knot-web-app/node_modules
       - /usr/local/bin/knot-web-app/www
+  fog:
+    build: ./docker/knot-cloud
+    depends_on:
+      - 'database'
+    environment:
+      - DB_NAME=knot_fog
+    expose:
+      - '3000'
+  cloud:
+    build: ./docker/knot-cloud
+    depends_on:
+      - 'database'
+    expose:
+      - '3000'
+  database:
+    image: mongo
+    expose:
+      - '27017'

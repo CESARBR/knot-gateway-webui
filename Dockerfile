@@ -34,8 +34,8 @@ COPY ./config/gatewayConfig.json ./config/keys.json /etc/knot/
 RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-source/.env
 
 # install init script
-COPY ./docker-knot-web.service /lib/systemd/system/knot-web.service
-COPY ./docker-knot-web.sh /usr/local/bin/knot-web.sh
+COPY ./docker/knot-web/knot-web.service /lib/systemd/system/knot-web.service
+COPY ./docker/knot-web/knot-web.sh /usr/local/bin/knot-web.sh
 RUN chmod +x /usr/local/bin/knot-web.sh
 RUN systemctl enable knot-web
 

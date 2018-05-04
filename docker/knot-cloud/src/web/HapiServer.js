@@ -1,4 +1,5 @@
 import hapi from 'hapi';
+import hapiQs from 'hapi-qs';
 
 import EntityExistsError from 'domain/interactor/EntityExistsError';
 import EntityNotFoundError from 'domain/interactor/EntityNotFoundError';
@@ -15,6 +16,10 @@ class HapiServer {
         stripTrailingSlash: true,
         isCaseSensitive: false,
       },
+    });
+
+    server.register({
+      plugin: hapiQs,
     });
 
     const routes = await this.createRoutes();
@@ -49,6 +54,11 @@ class HapiServer {
         path: '/data/{id}',
         handler: this.getDeviceDataHandler.bind(this),
       },
+      {
+        method: 'POST',
+        path: '/devices/user',
+        handler: this.createUserHandler.bind(this),
+      },
     ];
   }
 
@@ -57,6 +67,14 @@ class HapiServer {
       const device = await this.cloudApi.createDevice(request.payload);
       return h.response(device).code(201);
     } catch (err) {
+      // POST /devices return 403 (Forbidden) instead of 409 (Conflict)
+      // when a conflict occurs
+      if (err instanceof EntityExistsError) {
+        const errorObj = {
+          message: err.message,
+        };
+        return h.response(errorObj).code(403);
+      }
       return this.handleError(err, h);
     }
   }
@@ -97,12 +115,21 @@ class HapiServer {
     }
   }
 
+  async createUserHandler(request, h) {
+    try {
+      const user = await this.cloudApi.createUser(request.payload);
+      return h.response(user).code(201);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
   handleError(err, h) {
     const errorObj = {
       message: err.message,
     };
     if (err instanceof EntityExistsError) {
-      return h.response(errorObj).code(403);
+      return h.response(errorObj).code(409);
     }
     if (err instanceof EntityNotFoundError) {
       return h.response(errorObj).code(404);

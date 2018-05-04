@@ -16,6 +16,24 @@
       "revId": "c1eae8aa754ad49b16c8a124c0d622ad2f052e39",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9c50d8c_ee63ae14",
+        "filename": "docker/knot-cloud/src/domain/interactor/GetDeviceData.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-04T21:00:04Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "9d871672_12e76077",
+      "revId": "c1eae8aa754ad49b16c8a124c0d622ad2f052e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

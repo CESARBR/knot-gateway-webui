@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8de7393f_db147eef",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bba3c48a_cce2e62a",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 79
+      },
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d25b1cc_33a178a0",
         "filename": "app/controllers/devices.js",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9914b888_58ffc704",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d25b1cc_33a178a0",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ea4f99a_53d2cf22",
         "filename": "app/controllers/devices.js",
         "patchSetId": 7
@@ -53,6 +95,30 @@
       "writtenOn": "2018-04-30T22:02:06Z",
       "side": 1,
       "message": "This comment can be removed now.",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 77
+      },
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff64ef8d_8ac61bd7",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ea4f99a_53d2cf22",
       "range": {
         "startLine": 126,
         "startChar": 2,
@@ -122,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "9387c00a_c13b09a9",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "The device can be in state of registering. In this state he doesn\u0027t have the uuid yet. But I don\u0027t know if the fog service will get the device as soon as the device is in `My devices`.What do you think? May I removed it?",
+      "parentUuid": "6de71e25_8ba76d26",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2bc6604_85302a36",
         "filename": "app/schemas/devices.js",
         "patchSetId": 7
@@ -133,6 +217,24 @@
       "writtenOn": "2018-04-30T22:02:06Z",
       "side": 1,
       "message": "Any reason to remove the `uuid()` specifier?",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25658095_b029d3ff",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "I think that I removed it because I thought we just have to interact with knotd. But now I figured out that function `get` interact with fog. So I\u0027m gonna to add it back.\nDoes joi have a validation for int64?",
+      "parentUuid": "a2bc6604_85302a36",
       "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -256,6 +358,30 @@
       "writtenOn": "2018-04-30T22:02:06Z",
       "side": 1,
       "message": "Let\u0027s change the DevicesService to mimic knotd. Instead of an update that device if we are adding or removing, let\u0027s have a pair() and a forget().\n\nThe removeDevice above would be this forget().",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 2
+      },
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5815ceb_219aad97",
+        "filename": "app/services/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-04T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbcca59_62969378",
       "range": {
         "startLine": 159,
         "startChar": 0,

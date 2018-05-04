@@ -1,0 +1,11 @@
+{
+  "extends": ["airbnb"],
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
+  "rules": {
+    "class-methods-use-this": "off"
+  }
+}

@@ -110,29 +110,25 @@ DevicesService.prototype.list = function list(done) {
   done(devicesList);
 };
 
-function addDevice(device, done) {
-  var sysbus = dbusDeprecated.systemBus();
-  device.key = '';
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'AddDevice',
-    signature: 'sss',
-    body: [device.mac, device.key, device.name],
-    type: dbusDeprecated.messageType.methodCall
-  }, function onUpsert(dbusErr, upserted) {
+DevicesService.pair = function pair(device, done) {
+  var objPath = idPathMap[device.id];
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
-
-    if (dbusErr) {
-      devicesErr = parseDbusError(dbusErr);
-      done(devicesErr);
+    if (getInterfaceErr) {
+      devicesErr = parseDbusError(getInterfaceErr);
+      done(getInterfaceErr);
       return;
     }
-
-    done(null, upserted); // TODO: verify in which case a device isn't added
+    iface.Pair(null, function onPair(pairErr) { // eslint-disable-line new-cap
+      if (pairErr) {
+        devicesErr = parseDbusError(pairErr);
+        done(devicesErr);
+        return;
+      }
+      return;
+    });
   });
-}
+};
 
 DevicesService.monitorDevices = function monitorDevices(done) {
   loadDevices(function onLoad(loadDevicesErr) {
@@ -145,7 +141,7 @@ DevicesService.monitorDevices = function monitorDevices(done) {
           devicesErr = parseDbusError(getInterfaceErr);
           done(devicesErr);
         } else {
-          iface.on('InterfacesAdded', function onIfaceAdded(objPath, interfaces) {
+          iface.on('InterfacesAdded', function onInterfacesAdded(objPath, interfaces) {
             // Just one device a time when InterfacesAdded is called
             var device = mapObjectsToDevices([interfaces])[0];
             // The device can be undefined if the interface added is not DEVICE_INTERFACE
@@ -154,7 +150,7 @@ DevicesService.monitorDevices = function monitorDevices(done) {
               devicesList.push(device);
             }
           });
-          iface.on('InterfacesRemoved', function onIfaceRemoved(objPath) {
+          iface.on('InterfacesRemoved', function onInterfacesRemoved(objPath) {
             removeIdPath(objPath);
           });
         }
@@ -187,8 +183,8 @@ function removeDevice(device, done) {
 }
 
 DevicesService.prototype.update = function update(device, done) {
-  if (device.allowed) {
-    addDevice(device, done);
+  if (device.paired) {
+    DevicesService.pair(device, done);
   } else {
     removeDevice(device, done);
   }

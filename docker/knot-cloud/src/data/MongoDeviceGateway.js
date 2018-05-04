@@ -18,6 +18,10 @@ class MongoDeviceGateway {
   async remove(uuid) {
     await this.connection.deleteOne(DEVICE_NAME, DeviceSchema, { uuid });
   }
+
+  async get(uuid) {
+    return this.connection.findOne(DEVICE_NAME, DeviceSchema, { uuid });
+  }
 }
 
 export default MongoDeviceGateway;

@@ -3,6 +3,7 @@ var _ = require('lodash');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
+var PROPERTIES_INTERFACE = 'org.freedesktop.DBus.Properties';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
 var idPathMap = {};
@@ -69,6 +70,33 @@ function mapInterfaceToDevice(interface) {
   return mapObjectsToDevices(object)[0];
 }
 
+function monitorDeviceProperties(device, objPath, done) {
+  var bus = dbus.getBus();
+  bus.getInterface(SERVICE_NAME, objPath, PROPERTIES_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+    var devicesErr;
+    if (getInterfaceErr) {
+      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
+      done(devicesErr);
+      return;
+    }
+    iface.on('PropertiesChanged', function onPropertiesChanged(changedInterface, properties) {
+      var changedProperties;
+      if (changedInterface === DEVICE_INTERFACE) {
+        changedProperties = setKeysToLowerCase(properties);
+        _.merge(device, changedProperties);
+      }
+    });
+    done();
+  });
+}
+
+function onDeviceMonitored(err) {
+  if (err) {
+    console.error(err); // eslint-disable-line no-console
+    return;
+  }
+}
+
 function createDevices(objects) {
   devicesList = mapObjectsToDevices(objects);
 
@@ -111,6 +139,9 @@ function loadDevices(done) {
         return;
       }
       createDevices(objects);
+      devicesList.forEach(function onForEach(device) {
+        monitorDeviceProperties(device, idPathMap[device.id], onDeviceMonitored);
+      });
       done(null);
     });
   });
@@ -175,11 +206,13 @@ DevicesService.monitorDevices = function monitorDevices(done) {
             // The device can be undefined if the interface added is not DEVICE_INTERFACE
             if (device) {
               addDevice(device, objPath);
+              monitorDeviceProperties(device, objPath, onDeviceMonitored);
             }
           });
           iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {
             removeDevice(objPath);
           });
+          done();
         }
       });
     }

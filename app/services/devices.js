@@ -3,6 +3,7 @@ var _ = require('lodash');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
+var PROPERTIES_INTERFACE = 'org.freedesktop.DBus.Properties';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
 var idPathMap = {};
@@ -154,6 +155,25 @@ DevicesService.prototype.pair = function pair(device, done) {
   });
 };
 
+function monitorDeviceProperties(device, objPath, done) {
+  var bus = dbus.getBus();
+  bus.getInterface(SERVICE_NAME, objPath, PROPERTIES_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+    var devicesErr;
+    if (getInterfaceErr) {
+      devicesErr = dbus.parseDbusError(getInterfaceErr);
+      done(devicesErr);
+      return;
+    }
+    iface.on('PropertiesChanged', function onPropertiesChanged(changedInterface, properties) {
+      var changedProperties;
+      if (changedInterface === DEVICE_INTERFACE) {
+        changedProperties = setKeysToLowerCase(properties);
+        _.merge(device, changedProperties);
+      }
+    });
+  });
+}
+
 DevicesService.monitorDevices = function monitorDevices(done) {
   var bus = dbus.getBus();
 
@@ -172,6 +192,7 @@ DevicesService.monitorDevices = function monitorDevices(done) {
             // The device can be undefined if the interface added is not DEVICE_INTERFACE
             if (device) {
               addDevice(device, objPath);
+              monitorDeviceProperties(device, objPath, done);
             }
           });
           iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {

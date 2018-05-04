@@ -20,6 +20,7 @@ services:
       - .:/usr/local/bin/knot-web-app
       - /usr/local/bin/knot-web-app/node_modules
       - /usr/local/bin/knot-web-app/www
+      - /var/run/docker.sock:/var/run/docker.sock:ro
   fog:
     build: ./docker/knot-cloud
     depends_on:

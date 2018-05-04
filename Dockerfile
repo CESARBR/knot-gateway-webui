@@ -20,7 +20,12 @@ RUN apt-get update \
 
 # install dependencies
 RUN apt-get install -y \
-      dbus libdbus-1-dev
+      dbus libdbus-1-dev docker.io
+
+# Replace reboot with a command to restart the container
+RUN rm /sbin/reboot
+RUN echo "#!/bin/sh\ndocker restart webui" > /sbin/reboot
+RUN chmod +x /sbin/reboot
 
 # install modules
 WORKDIR /usr/local/bin/knot-web-app

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41b55ec0_4a89a23c",
+        "filename": "docker/knot-cloud/src/domain/service/UserService.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-04T21:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33962558_b1a8d3df",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 19
+      },
+      "revId": "2e57653cd068387d977142fa9de576700295e899",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb1d714_f4a4ae37",
         "filename": "docker/knot-cloud/src/domain/service/UserService.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-27T12:51:04Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "2e57653cd068387d977142fa9de576700295e899",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27fbd173_ec33f70d",
+        "filename": "docker/knot-cloud/src/domain/service/UserService.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-04T21:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdb1d714_f4a4ae37",
       "range": {
         "startLine": 7,
         "startChar": 16,

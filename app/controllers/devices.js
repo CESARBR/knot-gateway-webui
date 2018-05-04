@@ -77,18 +77,15 @@ var get = function get(req, res, next) {
   });
 };
 
-var add = function add(req, res, next) {
+var pair = function pair(req, res, next) {
   var devicesSvc = new DevicesService();
   var device = {
-    mac: req.params.id,
-    name: req.body.name,
-    allowed: req.body.allowed
+    id: req.params.id,
+    paired: req.body.paired
   };
-  devicesSvc.update(device, function onDevicesUpdated(devicesErr, updated) {
+  devicesSvc.pair(device, function onDevicesUpdated(devicesErr) {
     if (devicesErr) {
       next(devicesErr);
-    } else if (!updated) {
-      res.sendStatus(500); // TODO: verify in which case a device isn't updated
     } else {
       res.end();
     }
@@ -119,8 +116,8 @@ var update = function update(req, res, next) {
   // device UUID, only known by the fog.
   // For this reason, when `allowed` is true, we call `add()` on the device
   // service (nrfd), and when is false, we call `remove()` on the fog service
-  if (req.body.allowed) {
-    add(req, res, next);
+  if (req.body.paired) {
+    pair(req, res, next);
   } else {
     remove(req, res, next);
   }

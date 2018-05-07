@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18938727_db15c40e",
+        "filename": "app/services/knot.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-07T14:08:18Z",
+      "side": 1,
+      "message": "Remove this, it warns us to add names to functions.",
+      "revId": "8e2a94a2bffcdd9878fa73b4b39283877e4b0788",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38c4b369_7769859a",
+        "filename": "app/services/knot.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-07T14:08:18Z",
+      "side": 1,
+      "message": "You\u0027ll need to define a name for this function too.",
+      "revId": "8e2a94a2bffcdd9878fa73b4b39283877e4b0788",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

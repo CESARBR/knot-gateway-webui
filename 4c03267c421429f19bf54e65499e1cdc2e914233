@@ -206,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "62855a4d_22efd810",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "We won\u0027t use uuid anymore, we\u0027ll interact with the backend using the id, which exists in all states.",
+      "parentUuid": "9387c00a_c13b09a9",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2bc6604_85302a36",
         "filename": "app/schemas/devices.js",
         "patchSetId": 7
@@ -235,6 +253,24 @@
       "side": 1,
       "message": "I think that I removed it because I thought we just have to interact with knotd. But now I figured out that function `get` interact with fog. So I\u0027m gonna to add it back.\nDoes joi have a validation for int64?",
       "parentUuid": "a2bc6604_85302a36",
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d56b7a2b_2af394bd",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "Let\u0027s deal with it as a string.",
+      "parentUuid": "25658095_b029d3ff",
       "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "023d6d62_9db274ea",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "I think we only have `name` and `uuid` in the body of update because of joi\u0027s validation, right? We aren\u0027t updating none of these values. Remove these fields and if needed, update the frontend to send only `paired`.",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e44e0d_4414a6d5",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "we have no more alternatives. It will be a `string()` (either an hex or a big number string).",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 7
+      },
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849c783c_e9b6515a",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "Leave it as a normal method.",
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "718c08ea_8e3c03c8",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "if `Forget` doesn\u0027t receive an argument, remove this.",
+      "range": {
+        "startLine": 169,
+        "startChar": 19,
+        "endLine": 169,
+        "endChar": 23
+      },
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feb6d939_66c697cb",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "Remember to `return;` after `done()` and to call `done()` when `Forget` succeeds.",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 173,
+        "endChar": 9
+      },
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14136882_9c518981",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T22:14:18Z",
+      "side": 1,
+      "message": "`update()` now dies.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 2
+      },
+      "revId": "4f81e727faeba309581deefbb976922e856b0bd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

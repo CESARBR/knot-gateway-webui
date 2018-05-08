@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "865eedae_c9659fff",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "Use dbus as it is the name of the package and it isn\u0027t a class name or something similar.",
+      "revId": "1bcc6092c6b160940e1f1d225cf789ab5148a1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a5e034d_a41de1f6",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "Please change this to match the var name.",
+      "range": {
+        "startLine": 20,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "1bcc6092c6b160940e1f1d225cf789ab5148a1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1bea1ae_ab5b09eb",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "Remove these extra indentation here and below. It is enough to indent one level (two spaces)",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "1bcc6092c6b160940e1f1d225cf789ab5148a1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0df2da24_a835ae26",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "See my comments in the previous patch",
+      "revId": "1bcc6092c6b160940e1f1d225cf789ab5148a1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d433762_a3bcf2d4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "See my comments in a previous version of this patch about the `null` and the callback name.",
+      "revId": "1bcc6092c6b160940e1f1d225cf789ab5148a1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

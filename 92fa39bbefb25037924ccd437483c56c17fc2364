@@ -228,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "57a8a6d4_2893dfa1",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "I see... Oddly this works in both ways, passing the null or not passing it. As the function doesn\u0027t receive anything, let\u0027s remove this `null`. It gives the idea that it receives an argument and you passing `null` to it instead of it not having any argument.",
+      "parentUuid": "ee8da9f8_8062d27d",
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd845de_9c361ffe",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -298,6 +316,30 @@
       "side": 1,
       "message": "This get doesn\u0027t work for me. The returned object after pickBy was:\n```\n{ \u0027/dev_222\u0027: \n   { \u0027br.org.cesar.knot.Device1\u0027: \n      { Name: \u0027dummy0\u0027,\n        UUID: \u0027738e4c1f-518b-49cc-a2eb-fa06b8cc9bf2\u0027,\n        Id: 222,\n        Online: false,\n        Paired: false,\n        Registered: false },\n     \u0027org.freedesktop.DBus.Properties\u0027: {} } }\n\n```\nI need this inner object. And for that I made this:\n```\nfunction mapObjectToDevice(objects) {\n  return _.chain(objects)\n            .pickBy(function (object) { return _.has(object, DEVICE_INTERFACE); })\n            .map(function (object) { return object[DEVICE_INTERFACE]; })\n            .forEach(function (object, i, array) { array[i] \u003d setKeysToLowerCase(object); })\n            .value();\n}\n```",
       "parentUuid": "a3dd03a6_c6394725",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "92fa39bbefb25037924ccd437483c56c17fc2364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13fda01a_566447d8",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:18:09Z",
+      "side": 1,
+      "message": "Yeah, I didn\u0027t test it, it was just you could get the idea.\n\nThe way you did is ok, but I\u0027d change the `forEach` part. Changing the array like you are doing in the `forEach` can be dangerous (we should avoid changing the collection while iterating in it) and it is not the most straightforward way of doing what you want. You want to map an object into another and you are doing it using a `forEach`, why not use `map`? Could you call `setKeysToLowerCase` in the previous `map`? Something like:\n\n   .map((object) \u003d\u003e setKeysToLowerCase(object[DEVICE_INTERFACE]))",
+      "parentUuid": "85c3b427_51cbe1da",
       "range": {
         "startLine": 56,
         "startChar": 8,

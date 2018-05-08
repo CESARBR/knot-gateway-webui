@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b86d4a18_ae187ce0",
+        "filename": "app/services/devices.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:16:40Z",
+      "side": 1,
+      "message": "Move this comment to `mapObjectsToDevices`, it will make more sense there.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "2182a56214dd3c9e898c476c19370db1e6017aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

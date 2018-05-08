@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "49c149ca_69d8fcee",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:51:41Z",
+      "side": 1,
+      "message": "Try to understand what is happening in both cases, why is it different locally and in the RPi instead of putting a FIXME. \n\nUltimately, we should make it work in the RPi, so this isn\u0027t correct, is it?",
+      "parentUuid": "dafc9054_9260fae5",
+      "revId": "d208089c4fc9f3b51d15a216f03306e750db16c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55712e9d_3032d39e",
         "filename": "public/services.js",
         "patchSetId": 1

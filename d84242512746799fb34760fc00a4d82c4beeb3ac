@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2fe64de_c6c027f4",
+        "filename": "public/services.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T18:51:41Z",
+      "side": 1,
+      "message": "We can now remove this comment :)",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 32
+      },
+      "revId": "d84242512746799fb34760fc00a4d82c4beeb3ac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

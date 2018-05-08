@@ -1,0 +1,273 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a7fca5b_4fc704a0",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Don\u0027t make this change, keep `list()` returning an usual callback, one in which the first argument is an error and the other is an optional result.\n\nIf we keep this pattern we don\u0027t need to be looking at the code we call every time to understand what is being returned. Also, it becomes easier to use `util.promisify` in the future.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b3e9092_1e3beb46",
+        "filename": "app/index.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "monitorDevicesErr",
+      "range": {
+        "startLine": 39,
+        "startChar": 58,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d5939f5_ec4827a7",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Remove the extra line",
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86f02389_f24a3c11",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "load gives the idea that you are fetching more data from somewhere else. In this method you are mapping one value into another. Which other name you think fits in this method?",
+      "range": {
+        "startLine": 41,
+        "startChar": 9,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7b36f13_c8325794",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Remove the extra indentation.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 12
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "339bb988_1e24b467",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "In this function besides removing the entry from `idPathMap` you are also removing it from the `devicesList`, so this name is misleading. One also expects it to be the analogous of `addIdPath`.\n\nYou could have two methods to deal with both collections, something like `addDevice()`/`removeDevice()`",
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4015a758_d42d7d88",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "We should avoid changing the collection we are iterating. Depending on the operation or library we are using, this can leads to hard to track bugs.",
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd482d17_009dcd3c",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "This isn\u0027t doing what you want: https://lodash.com/docs/4.17.10#remove",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 40
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb7ea40a_4d4c976e",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Similar to `addDevice()`/`removeDevice()` I suggested, we could have one function to deal with creating both of these lists. `createDevices()`?",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 38
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11637cf3_3bd9a305",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "We are not using this return, right? We could consider that `load` will store the result somewhere (the `devicesList`) and not returning any data.",
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f670e9e_27c091cd",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "`done(null, devicesList)`, let\u0027s keep the `done(err, result)` pattern.",
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf350803_a03856da",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Create a `mapObjectToDevice`. The code will be clearer (no `[interface]` nor `[0]`) and you won\u0027t need the comment anymore.",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 62
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4197552c_55cee676",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "The `addDevice()` I suggested would deal handle these.",
+      "range": {
+        "startLine": 152,
+        "startChar": 14,
+        "endLine": 153,
+        "endChar": 39
+      },
+      "revId": "fa8b85ce8e6bdd145d96563720eaa9fb96f70e2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

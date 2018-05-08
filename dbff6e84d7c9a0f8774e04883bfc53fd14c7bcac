@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "313ba9a6_fecad6c7",
+        "filename": "app/index.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "monitorDevicesErr",
+      "range": {
+        "startLine": 39,
+        "startChar": 58,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebc6315_22bb1c25",
+        "filename": "app/services/devices.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Remove the empty line.",
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38553c54_0a10e545",
+        "filename": "app/services/devices.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "With this name, one might think that this is the analogous operation of `addIdPath`, but `removeIdPath` is also removing the device from the devicesList.",
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b5a4374_91e0db49",
+        "filename": "app/services/devices.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "It isn\u0027t good to change the collection while iterating in it . Depending on the situation and on the function/library used to do it, it can generated hard to find bugs. Also it is counterintuitive to use map to find a value.\n\nYou can use lodash\u0027s `remove()` to remove the (id, path) item from `idPathMap`. It will return the removed elements, from which you can get the `id` that will be used to remove the element from the `devicesList`.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef2dc18_a6e79ab4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "I think this is not what you want. `remove()` already changes the `devicesList` and it returns the _removed_ elements.",
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1290bf2f_b0e7e8e4",
+        "filename": "app/services/devices.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-08T21:56:13Z",
+      "side": 1,
+      "message": "Although in this implementation it won\u0027t raise an error, keep the callback pattern that returns an error as the first argument.\n\nThe reasons to do it:\n- It is a common pattern in node to have a callback in the form of (err, result). If we use this pattern, we don\u0027t need to look into the function code to understand what comes in the callback\n- It allows us to change the implementation of list without changing the code that uses it\n- It allows us to transform callbacks into promises later using util.promisify without making customizations (https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original)",
+      "revId": "dbff6e84d7c9a0f8774e04883bfc53fd14c7bcac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

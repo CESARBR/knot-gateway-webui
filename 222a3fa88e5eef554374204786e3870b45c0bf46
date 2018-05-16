@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30afce45_3e0a6362",
+        "filename": "public/controllers.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-16T21:17:10Z",
+      "side": 1,
+      "message": "After reviewing Ramon\u0027s code and knotd implementation I noticed that this property will change to `registered`. Our backend will mirror knotd API properties (in lower case). See https://github.com/CESARBR/knot-service-source/blob/master/doc/knotd-api.txt",
+      "range": {
+        "startLine": 223,
+        "startChar": 25,
+        "endLine": 223,
+        "endChar": 32
+      },
+      "revId": "222a3fa88e5eef554374204786e3870b45c0bf46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

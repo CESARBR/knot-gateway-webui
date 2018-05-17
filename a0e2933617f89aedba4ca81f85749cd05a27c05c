@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaf9b6b9_ff71b04c",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:26:40Z",
+      "side": 1,
+      "message": "This should appear only in \"Monitor D-Bus signal from ObjectManager interface\". Can you verify if the patches are correctly rebased, one on top of the other?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 1
+      },
+      "revId": "a0e2933617f89aedba4ca81f85749cd05a27c05c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "403421d8_cb8d3be0",
+        "filename": "app/services/devices.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:26:40Z",
+      "side": 1,
+      "message": "Put this logic inside of `mapObjectToDevice`. `object` gives the idea that it is the object and not an array.\n\nAlso this logic of creating an array is specific of `mapObjectToDevice` implementation. It only exists because `mapObjectToDevice` is reusing `mapObjectsToDevice`, so it should be hidden inside of it.\n\nAlso move `mapObjectToDevice` to this patch because this is where it is used for the first time.",
+      "revId": "a0e2933617f89aedba4ca81f85749cd05a27c05c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

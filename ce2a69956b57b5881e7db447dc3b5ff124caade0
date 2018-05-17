@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad0b2dbc_b5185fae",
+        "filename": "app/index.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:17:16Z",
+      "side": 1,
+      "message": "You forgot to fix this name, use `monitorDevicesErr`",
+      "range": {
+        "startLine": 39,
+        "startChar": 58,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "ce2a69956b57b5881e7db447dc3b5ff124caade0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04c8f9fd_ae1bc712",
+        "filename": "app/services/devices.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:17:16Z",
+      "side": 1,
+      "message": "You can use `_.find()` here. Its clearer (\u0027find\u0027 says that you looking for something) and avoids iterating over the whole collection.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "ce2a69956b57b5881e7db447dc3b5ff124caade0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "768b74d8_854e9d5c",
+        "filename": "app/services/devices.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:17:16Z",
+      "side": 1,
+      "message": "What if `deviceId` isn\u0027t found?",
+      "revId": "ce2a69956b57b5881e7db447dc3b5ff124caade0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960b1c97_3d965478",
+        "filename": "app/services/devices.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-17T20:17:16Z",
+      "side": 1,
+      "message": "I thought you could continue using `_.remove` here, wasn\u0027t it working? When I said it wasn\u0027t doing what you wanted it was because of the way you were using it. Did you understand what was happening?",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 34
+      },
+      "revId": "ce2a69956b57b5881e7db447dc3b5ff124caade0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

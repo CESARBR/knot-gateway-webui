@@ -348,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "645f190a_117002c0",
+        "filename": "app/services/devices.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-05-18T18:14:12Z",
+      "side": 1,
+      "message": "Nice, I got it.",
+      "parentUuid": "1f6b3001_e134527d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "4c03267c421429f19bf54e65499e1cdc2e914233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100af32a_fdffaaa1",
         "filename": "app/services/devices.js",
         "patchSetId": 7

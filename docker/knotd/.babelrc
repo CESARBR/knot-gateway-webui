@@ -1,5 +1,11 @@
 {
-  "presets": ["env"],
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
   "plugins": [
     ["module-resolver", {
       "root": ["./src"]

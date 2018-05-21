@@ -6,8 +6,8 @@ RUN apt-get update \
       curl apt-transport-https \
       pkg-config
 
-# add node 6.x repo
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+# add node 9.x repo
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 
 # add yarn repo
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -27,6 +27,28 @@ RUN rm /sbin/reboot
 RUN echo "#!/bin/sh\ndocker restart webui" > /sbin/reboot
 RUN chmod +x /sbin/reboot
 
+# knotd mock
+# install modules
+WORKDIR /usr/local/bin/knotd
+COPY ./docker/knotd/package.json .
+RUN npm_config_tmp=/tmp TMP=/tmp yarn
+
+# install app
+COPY ./docker/knotd/.babelrc ./.babelrc
+COPY ./docker/knotd/src ./src
+RUN npm_config_tmp=/tmp TMP=/tmp yarn build
+RUN rm -rf ./src
+
+# install configuration files
+COPY ./docker/knotd/br.org.cesar.knot.conf /etc/dbus-1/system.d
+
+# install init script
+COPY ./docker/knotd/knotd.service /lib/systemd/system/knotd.service
+COPY ./docker/knotd/knotd.sh /usr/local/bin/knotd.sh
+RUN chmod +x /usr/local/bin/knotd.sh
+RUN systemctl enable knotd
+
+# knot-web
 # install modules
 WORKDIR /usr/local/bin/knot-web-app
 COPY package.json .

@@ -27,6 +27,26 @@ RUN rm /sbin/reboot
 RUN echo "#!/bin/sh\ndocker restart webui" > /sbin/reboot
 RUN chmod +x /sbin/reboot
 
+# knotd mock
+# install modules
+WORKDIR /usr/local/bin/knotd
+COPY ./docker/knotd/package.json .
+RUN npm_config_tmp=/tmp TMP=/tmp yarn
+
+# install app
+COPY ./docker/knotd/.babelrc ./.babelrc
+COPY ./docker/knotd/src ./src
+
+# install configuration files
+COPY ./docker/knotd/br.org.cesar.knot.conf /etc/dbus-1/system.d
+
+# install init script
+COPY ./docker/knotd/knotd.service /lib/systemd/system/knotd.service
+COPY ./docker/knotd/knotd.sh /usr/local/bin/knotd.sh
+RUN chmod +x /usr/local/bin/knotd.sh
+RUN systemctl enable knotd
+
+# knot-web
 # install modules
 WORKDIR /usr/local/bin/knot-web-app
 COPY package.json .

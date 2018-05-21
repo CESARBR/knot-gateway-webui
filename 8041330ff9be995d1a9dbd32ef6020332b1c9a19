@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2f9f66_d54a9c2b",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-21T17:13:16Z",
+      "side": 1,
+      "message": "Get is an irregular verb: https://simple.wiktionary.org/wiki/get\n\nInstead, we could keep the same pattern as the variable name: `onServiceDevice` and `onFogDevice` below. What do you think?",
+      "range": {
+        "startLine": 60,
+        "startChar": 59,
+        "endLine": 60,
+        "endChar": 65
+      },
+      "revId": "8041330ff9be995d1a9dbd32ef6020332b1c9a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bfef660_da30055c",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-21T17:13:16Z",
+      "side": 1,
+      "message": "Invert these calls. You need to get the user only when you are interacting with the fog.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 26
+      },
+      "revId": "8041330ff9be995d1a9dbd32ef6020332b1c9a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f44e5446_a16a979f",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-21T17:13:16Z",
+      "side": 1,
+      "message": "If the device isn\u0027t found we should return 404. What will happen here is that the error will be passed on to the `next()` handler and will reach handlers.js:errorHandler(). This handler won\u0027t identify the error and will return 500.\n\nThis is why I said that the error sent by the `DevicesService.getDevice` should be identifiable so that here or in the errorHandler() you can translate it to 404.\n\nA few options:\n- Return a null device when the device doesn\u0027t exist and here you verify if serviceDevice is null.\n- Add an error code to DevicesServiceError so that you can distinguish it in errorHandler and send a 404 instead of 503\n- Create a specific error for this case (NotFoundError)\n\nDo you have another suggestion? How do you think we should proceed?",
+      "range": {
+        "startLine": 61,
+        "startChar": 12,
+        "endLine": 61,
+        "endChar": 24
+      },
+      "revId": "8041330ff9be995d1a9dbd32ef6020332b1c9a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94f074ce_65b90aad",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-21T17:13:16Z",
+      "side": 1,
+      "message": "If the fogDevice doesn\u0027t exist, we should return the serviceDevice, otherwise we are telling that this device doesn\u0027t exist while it exist but it isn\u0027t registered yet.",
+      "range": {
+        "startLine": 67,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 34
+      },
+      "revId": "8041330ff9be995d1a9dbd32ef6020332b1c9a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b82edfbb_71166e2d",
+        "filename": "app/schemas/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-21T17:13:16Z",
+      "side": 1,
+      "message": "Did you verify if we are using `uuid`? Could we remove it?",
+      "revId": "8041330ff9be995d1a9dbd32ef6020332b1c9a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

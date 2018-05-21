@@ -1,0 +1,8 @@
+[Unit]
+Description=KNoT Daemon
+
+[Service]
+ExecStart=/usr/local/bin/knotd.sh
+
+[Install]
+WantedBy=multi-user.target

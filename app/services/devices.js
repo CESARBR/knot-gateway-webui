@@ -1,5 +1,4 @@
 var dbus = require('../dbus');
-var dbusDeprecated = require('dbus-native');
 var _ = require('lodash');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
@@ -154,33 +153,27 @@ DevicesService.monitorDevices = function monitorDevices(done) {
   });
 };
 
-function removeDeviceDeprecated(device, done) {
-  var sysbus = dbusDeprecated.systemBus();
-  sysbus.invoke({
-    path: '/org/cesar/knot/nrf0',
-    destination: 'org.cesar.knot.nrf',
-    interface: 'org.cesar.knot.nrf0.Adapter',
-    member: 'RemoveDevice',
-    signature: 's',
-    body: [device.mac],
-    type: dbusDeprecated.messageType.methodCall
-  }, function onRemove(dbusErr, removed) {
+DevicesService.prototype.forget = function forget(device, done) {
+  var objPath = idPathMap[device.id];
+  var bus = dbus.getBus();
+
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
 
-    if (dbusErr) {
-      devicesErr = dbus.parseDbusError(dbusErr, DevicesServiceError, 'Devices service is unavailable');
+    if (getInterfaceErr) {
+      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
       done(devicesErr);
-      return;
+    } else {
+      iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
+        if (forgetErr) {
+          devicesErr = dbus.parseDbusError(forgetErr, DevicesServiceError, 'Devices service Forget error');
+          done(devicesErr);
+          return;
+        }
+        done();
+      });
     }
-
-    done(null, removed); // TODO: verify in which case a device isn't removed
   });
-}
-
-DevicesService.prototype.update = function update(device, done) {
-  if (!device.paired) {
-    removeDeviceDeprecated(device, done);
-  }
 };
 
 module.exports = {

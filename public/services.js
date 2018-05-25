@@ -126,9 +126,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   // /api/devices
   var updateDevice = function updateDevice(device) {
     return $http.put('/api/devices/' + device.id, {
-      name: device.name,
-      paired: device.paired,
-      uuid: device.uuid
+      paired: device.paired
     });
   };
 

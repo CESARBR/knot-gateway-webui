@@ -9,6 +9,10 @@ var idPathMap = {};
 var devicesList = [];
 var bus = null;
 
+var DEVICE_SERVICE_ERROR_CODE = {
+  DEVICE_NOT_FOUND: 404
+};
+
 var DevicesServiceError = function DevicesServiceError(message) {
   this.name = 'DevicesServiceError';
   this.message = message;
@@ -18,6 +22,11 @@ var DevicesServiceError = function DevicesServiceError(message) {
 DevicesServiceError.prototype = Object.create(Error.prototype);
 DevicesServiceError.prototype.constructor = DevicesServiceError;
 
+Object.defineProperty(DevicesServiceError.prototype, 'isNotFound', {
+  get: function isNotFound() {
+    return this.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND;
+  }
+});
 
 var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-on-top, no-unused-vars, max-len
   /**
@@ -29,6 +38,12 @@ var parseDbusError = function parseDbusError(err) { // eslint-disable-line vars-
   return new DevicesServiceError('Devices service is unavailable');
 };
 
+var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
+  if (response.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND) {
+    return new DevicesServiceError(response.message);
+  }
+  return new DevicesServiceError('Unknown error');
+};
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
@@ -117,6 +132,20 @@ function loadDevices(done) {
 
 DevicesService.prototype.list = function list(done) {
   done(null, devicesList);
+};
+
+DevicesService.prototype.getDevice = function getDevice(id, done) {
+  var device = devicesList.find(function onFind(dev) { return dev.id === id; });
+  var deviceErr;
+  if (device) {
+    done(null, device);
+  } else {
+    deviceErr = parseResponseError({
+      code: DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND,
+      message: 'No device found with ' + device.id
+    });
+    done(deviceErr);
+  }
 };
 
 DevicesService.prototype.pair = function pair(device, done) {

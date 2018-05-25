@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff8c96a_d94dcf14",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "Besides these properties, the device also has the `registered` property that is coming from knotd (in the fog there isn\u0027t this property). I was thinking that we should merge the `fogDevice` with the `serviceDevice`, having the `serviceDevice` as the base now.\n\nThis method existed because when the device was paired and registered, we didn\u0027t communicate with the nrfd anymore. See my comments below.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c08c7b_554b604b",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "I think we could receive `serviceDevice` as well and it would be the base device. In this way, we wouldn\u0027t need `mapToDevice` anymore as `uuid`, `id`, `name` and `online` all are `serviceDevice` properties. Code would be something like:\n\n```\nvar device \u003d serviceDevice;\nif (fogDevice.schema) {\n  device.schema \u003d fogDevice.schema\n    ...\n```",
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd8f869a_38cacefd",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "De",
+      "range": {
+        "startLine": 56,
+        "startChar": 56,
+        "endLine": 56,
+        "endChar": 58
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ff316b6_108481a8",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "`next(getDeviceErr)`. On error we leave the error handler to make the decision about how to respond (which error code to use; which body to send, if any; etc)",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56963e6c_2262dc4d",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "fogErr2",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 29
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7372596_120a088e",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "We need to work with both fogDevice and serviceDevice",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 72
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "040d1d34_c590e921",
+        "filename": "app/services/devices.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "Nice solution!",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d357a49_7f4cac9a",
+        "filename": "public/services.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-25T00:27:19Z",
+      "side": 1,
+      "message": "We can remove this now.",
+      "revId": "c80d170da73e81acb462a5ada8ad265987eba967",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

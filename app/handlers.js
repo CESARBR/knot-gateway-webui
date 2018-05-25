@@ -12,10 +12,15 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
   if (err instanceof UnauthorizedError) {
     res.sendStatus(401);
   } else if (err instanceof DevicesServiceError) {
-    res.status(503).json({
-      message: err.message,
-      code: 'devices'
-    });
+    if (err.isNotFound) {
+      res.status(404).json({
+        message: err.message,
+        code: 'devices'
+      });
+    } else {
+      console.error(err); // eslint-disable-line no-console
+      res.sendStatus(500);
+    }
   } else if (err instanceof CloudServiceError) {
     if (err.isUnavailable) {
       res.status(503).json({

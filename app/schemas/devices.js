@@ -4,6 +4,7 @@ var get = {
   params: {
     id: joi
       .string()
+      .hex()
       .required()
   }
 };

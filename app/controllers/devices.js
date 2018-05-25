@@ -2,16 +2,6 @@ var users = require('../models/users');
 var DevicesService = require('../services/devices').DevicesService;
 var FogService = require('../services/fog').FogService;
 
-var mapToDevice = function mapToDevice(fogDevice) {
-  return {
-    uuid: fogDevice.uuid,
-    id: fogDevice.id,
-    paired: true,
-    name: fogDevice.name,
-    online: fogDevice.online
-  };
-};
-
 var findSchemaData = function findSchemaData(schema, deviceDataList) {
   return deviceDataList.find(function isSameSensor(data) {
     // loose comparison, it can be an integer as string
@@ -29,8 +19,8 @@ var mapToSchemaWithData = function mapToSchemaWithData(deviceData, schema) {
   return schema;
 };
 
-var mapToDeviceWithData = function mapToDeviceWithData(fogDevice, fogDeviceData) {
-  var device = mapToDevice(fogDevice);
+var mapToDeviceWithData = function mapToDeviceWithData(serviceDevice, fogDevice, fogDeviceData) {
+  var device = serviceDevice;
   if (fogDevice.schema) {
     device.schema = fogDevice.schema
       .map(mapToSchemaWithData
@@ -52,23 +42,32 @@ var list = function list(req, res, next) {
 
 var get = function get(req, res, next) {
   var fogSvc = new FogService();
-  users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
-    if (userErr) {
-      next(userErr);
+  var devicesSvc = new DevicesService();
+  devicesSvc.getDevice(req.params.id, function onServiceDevice(getDeviceErr, serviceDevice) {
+    if (getDeviceErr) {
+      next(getDeviceErr);
+    } else if (!serviceDevice.registered) {
+      res.json(serviceDevice);
     } else {
-      fogSvc.getDevice(user, req.params.id, function onDeviceReturned(fogErr, fogDevice) {
-        if (fogErr) {
-          next(fogErr);
-        } else if (!fogDevice) {
-          res.sendStatus(404);
+      users.getUserByUUID(req.user.uuid, function onUser(userErr, user) {
+        if (userErr) {
+          next(userErr);
         } else {
-          fogSvc.getDeviceData(user, req.params.id, function onDeviceDataReturned(fogErr2, fogDeviceData) { // eslint-disable-line max-len
-            var device;
-            if (fogErr2) {
+          fogSvc.getDevice(user, serviceDevice.uuid, function onFogDevice(fogErr, fogDevice) {
+            if (fogErr) {
               next(fogErr);
+            } else if (!fogDevice) {
+              res.json(serviceDevice);
             } else {
-              device = mapToDeviceWithData(fogDevice, fogDeviceData);
-              res.json(device);
+              fogSvc.getDeviceData(user, serviceDevice.uuid, function onFogDeviceData(fogErr2, fogDeviceData) { // eslint-disable-line max-len
+                var device;
+                if (fogErr2) {
+                  next(fogErr2);
+                } else {
+                  device = mapToDeviceWithData(serviceDevice, fogDevice, fogDeviceData);
+                  res.json(device);
+                }
+              });
             }
           });
         }

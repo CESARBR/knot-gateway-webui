@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3a439599_afd9351d",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-30T17:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38268d2_d1bceddf",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 37
+      },
+      "revId": "262a5ece6246277dfc5b5bba8a9c0e9d989a5720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "955e14b8_29c0a4c9",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ba8db8ef_c58c5d2d",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-30T17:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "955e14b8_29c0a4c9",
+      "range": {
+        "startLine": 142,
+        "startChar": 63,
+        "endLine": 142,
+        "endChar": 72
+      },
+      "revId": "262a5ece6246277dfc5b5bba8a9c0e9d989a5720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0849a6a_32fad9a0",
         "filename": "app/services/devices.js",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2018-05-08T22:21:08Z",
       "side": 1,
       "message": "`changedProperties`\n\nYou could make this only if the condition below is true.",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 27
+      },
+      "revId": "262a5ece6246277dfc5b5bba8a9c0e9d989a5720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6dc7e66_56034cca",
+        "filename": "app/services/devices.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-30T17:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0849a6a_32fad9a0",
       "range": {
         "startLine": 143,
         "startChar": 10,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44548092_83a83b60",
+        "filename": "app/dbus.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T13:34:36Z",
+      "side": 1,
+      "message": "`ErrorType`",
+      "range": {
+        "startLine": 11,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "5f70073dcd4e3170e071111c3c38c22e825efa55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

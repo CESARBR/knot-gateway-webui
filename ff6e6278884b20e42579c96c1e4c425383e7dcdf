@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1ecd3732_0609b625",
+        "filename": "app/services/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-05-31T21:05:53Z",
+      "side": 1,
+      "message": "Won\u0027t fail because the error comes from dbus.dbusParseError",
+      "parentUuid": "ae8c5f28_4459376d",
+      "revId": "ff6e6278884b20e42579c96c1e4c425383e7dcdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46458dee_9810fc92",
         "filename": "app/services/devices.js",
         "patchSetId": 10

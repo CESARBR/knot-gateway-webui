@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "abb54171_f46577ad",
+        "filename": "app/services/devices.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T13:44:52Z",
+      "side": 1,
+      "message": "We shouldn\u0027t insert a new, but we should replace the current. We don\u0027t need to handle knotd restarts for now, this won\u0027t happen. In our tests, we should restart both, if needed.",
+      "parentUuid": "28f913eb_fb2a8e52",
+      "revId": "3ff5f3621a63b7d37fc9c16e70910f5179cc3a3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3bcd90c4_6556b2a2",
         "filename": "app/services/devices.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-30T17:42:57Z",
       "side": 1,
       "message": "This call should be called in loadDevices too.\nIf the webui is killed for some reason it should monitor the properties of devices already paired",
+      "revId": "3ff5f3621a63b7d37fc9c16e70910f5179cc3a3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f421a4e3_f656d0a9",
+        "filename": "app/services/devices.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T13:44:52Z",
+      "side": 1,
+      "message": "Yeah, add it to the load flow",
+      "parentUuid": "3bcd90c4_6556b2a2",
       "revId": "3ff5f3621a63b7d37fc9c16e70910f5179cc3a3d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true

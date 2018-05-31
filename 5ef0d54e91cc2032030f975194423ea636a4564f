@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d73e15_54fc0963",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T19:48:47Z",
+      "side": 1,
+      "message": "You need to call `done` after this `iface.on`, otherwise the caller won\u0027t be notified.",
+      "revId": "5ef0d54e91cc2032030f975194423ea636a4564f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93841c3f_73fad4f8",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T19:48:47Z",
+      "side": 1,
+      "message": "This might cause problems, done will be called multiple times. See the comments in the next `monitorDeviceProperties` call.",
+      "range": {
+        "startLine": 135,
+        "startChar": 62,
+        "endLine": 135,
+        "endChar": 66
+      },
+      "revId": "5ef0d54e91cc2032030f975194423ea636a4564f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5935703b_a734e683",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T19:48:47Z",
+      "side": 1,
+      "message": "This is a different flow than the `monitorDevices`\u0027, so `done` isn\u0027t the most appropriate callback. This way, the caller will only be notified when an `InterfacesAdded` event happens (and will be notified multiple times), which is not what it is expecting. The caller wants to know whether the monitoring was successfully \"installed\".\n\nCreate an error logger function to catch the result of `monitorDeviceProperties` and log the error in case it happens to use here and in the previous `monitorDeviceProperties` call.",
+      "revId": "5ef0d54e91cc2032030f975194423ea636a4564f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c841b42_46849748",
+        "filename": "app/services/devices.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T19:48:47Z",
+      "side": 1,
+      "message": "You need to call `done` after this `iface.on` otherwise the caller won\u0027t be notified.",
+      "revId": "5ef0d54e91cc2032030f975194423ea636a4564f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

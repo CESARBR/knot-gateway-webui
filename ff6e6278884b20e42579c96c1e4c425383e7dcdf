@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c69a1d8b_10c52e0e",
+        "filename": "app/services/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T21:00:11Z",
+      "side": 1,
+      "message": "This is actually monitor device properties\u0027 callback. What about onDeviceMonitored?",
+      "range": {
+        "startLine": 93,
+        "startChar": 9,
+        "endLine": 93,
+        "endChar": 26
+      },
+      "revId": "ff6e6278884b20e42579c96c1e4c425383e7dcdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae8c5f28_4459376d",
+        "filename": "app/services/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T21:00:11Z",
+      "side": 1,
+      "message": "This might crash as it comes from dbus, right? Replace it with a message like \u0027Failed to monitor device\u0027s properties\u0027",
+      "revId": "ff6e6278884b20e42579c96c1e4c425383e7dcdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46458dee_9810fc92",
+        "filename": "app/services/devices.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T21:00:11Z",
+      "side": 1,
+      "message": "Remove this, otherwise we\u0027ll receive a lot of these. Leave only the error logging.",
+      "revId": "ff6e6278884b20e42579c96c1e4c425383e7dcdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

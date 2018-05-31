@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e4707aa_79ebbd39",
+        "filename": "app/services/knot.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-05-31T13:37:18Z",
+      "side": 1,
+      "message": "The proper spelling is KNoT, use it when writing texts (user messages, comments, etc). It is ok to write it in another way when naming method, variables, etc. Fix the other usages in this file.",
+      "range": {
+        "startLine": 26,
+        "startChar": 62,
+        "endLine": 26,
+        "endChar": 66
+      },
+      "revId": "0511c008633013ae25fdd602322c78d55e0d8987",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

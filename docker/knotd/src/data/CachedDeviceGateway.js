@@ -6,6 +6,10 @@ class CachedDeviceGateway {
     this.cache = [];
   }
 
+  async exists(id) {
+    return _.findIndex(this.cache, { id }) !== -1 || this.deviceGateway.exists(id);
+  }
+
   async get(id) {
     const cached = _.chain(this.cache)
       .find({ id })

@@ -35,6 +35,11 @@ class HapiServer {
         handler: this.createDeviceHandler.bind(this),
       },
       {
+        method: 'PUT',
+        path: '/devices/{id}',
+        handler: this.updateDeviceHandler.bind(this),
+      },
+      {
         method: 'DELETE',
         path: '/devices/{id}',
         handler: this.removeDeviceHandler.bind(this),
@@ -75,6 +80,15 @@ class HapiServer {
         };
         return h.response(errorObj).code(403);
       }
+      return this.handleError(err, h);
+    }
+  }
+
+  async updateDeviceHandler(request, h) {
+    try {
+      const device = await this.cloudApi.updateDevice(request.params.id, request.payload);
+      return h.response(device).code(200);
+    } catch (err) {
       return this.handleError(err, h);
     }
   }

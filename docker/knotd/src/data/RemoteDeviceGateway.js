@@ -7,6 +7,19 @@ class RemoteDeviceGateway {
     this.port = port;
   }
 
+  async exists(id) {
+    try {
+      const url = `${this.getBaseUrl()}/devices?type=KNOTDevice&id=${id}`;
+      const devices = await request.get({ url, json: true });
+      return !!(devices[0]);
+    } catch (err) {
+      if (err.statusCode === 404) {
+        return false;
+      }
+      throw err;
+    }
+  }
+
   async get(id) {
     try {
       const url = `${this.getBaseUrl()}/devices?type=KNOTDevice&id=${id}`;

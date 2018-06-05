@@ -13,6 +13,7 @@ import InMemoryDeviceGateway from 'data/InMemoryDeviceGateway';
 import RemoteDeviceGateway from 'data/RemoteDeviceGateway';
 import CachedDeviceGateway from 'data/CachedDeviceGateway';
 import GetDevice from 'domain/interactor/GetDevice';
+import PairDevice from 'domain/interactor/PairDevice';
 import DeviceController from 'daemon/devices/DeviceController';
 import DBusDeviceInterfaceFactory from 'daemon/devices/DBusDeviceInterfaceFactory';
 import DeviceViewFactory from 'daemon/devices/DeviceViewFactory';
@@ -48,7 +49,8 @@ const localDeviceGateway = new InMemoryDeviceGateway();
 const remoteDeviceGateway = new RemoteDeviceGateway(FOG_HOST, FOG_PORT);
 const cachedDeviceGateway = new CachedDeviceGateway(remoteDeviceGateway);
 const getDevice = new GetDevice(localDeviceGateway, cachedDeviceGateway);
-const deviceController = new DeviceController(getDevice); // eslint-disable-line
+const pairDevice = new PairDevice(localDeviceGateway, remoteDeviceGateway);
+const deviceController = new DeviceController(getDevice, pairDevice); // eslint-disable-line
 
 const dbusDeviceInterfaceFactory = new DBusDeviceInterfaceFactory(SERVICE_NAME);
 const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line

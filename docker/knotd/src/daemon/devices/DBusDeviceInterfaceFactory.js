@@ -49,6 +49,13 @@ class DBusDeviceInterfaceFactory {
       controller.isRegistered.bind(controller, id),
     );
 
+    builder.addMethod(
+      'Pair',
+      [],
+      [],
+      controller.pair.bind(controller, id),
+    );
+
     return builder.build();
   }
 

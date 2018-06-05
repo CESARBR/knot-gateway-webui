@@ -36,6 +36,7 @@ RUN npm_config_tmp=/tmp TMP=/tmp yarn
 # install app
 COPY ./docker/knotd/.babelrc ./.babelrc
 COPY ./docker/knotd/src ./src
+COPY ./docker/knotd/config ./config
 
 # install configuration files
 COPY ./docker/knotd/br.org.cesar.knot.conf /etc/dbus-1/system.d

@@ -1,4 +1,5 @@
 import dbus from 'dbus';
+import config from 'config';
 
 import InMemorySettingsGateway from 'data/InMemorySettingsGateway';
 import GetGatewayUuid from 'domain/interactor/GetGatewayUuid';
@@ -8,8 +9,19 @@ import SetGatewayToken from 'domain/interactor/SetGatewayToken';
 import SettingsController from 'daemon/settings/SettingsController';
 import DBusSettingsInterfaceFactory from 'daemon/settings/DBusSettingsInterfaceFactory';
 
+import InMemoryDeviceGateway from 'data/InMemoryDeviceGateway';
+import RemoteDeviceGateway from 'data/RemoteDeviceGateway';
+import CachedDeviceGateway from 'data/CachedDeviceGateway';
+import GetDevice from 'domain/interactor/GetDevice';
+import DeviceController from 'daemon/devices/DeviceController';
+import DBusDeviceInterfaceFactory from 'daemon/devices/DBusDeviceInterfaceFactory';
+import DeviceViewFactory from 'daemon/devices/DeviceViewFactory';
+
 const SERVICE_NAME = 'br.org.cesar.knot';
 const ROOT_OBJECT_PATH = '/';
+
+const FOG_HOST = config.get('fog.host');
+const FOG_PORT = config.get('fog.port');
 
 // Required by the dbus package to get the system bus
 process.env.DISPLAY = ':0';
@@ -31,3 +43,15 @@ const settingsController = new SettingsController(
 );
 const settingsFactory = new DBusSettingsInterfaceFactory();
 settingsFactory.create(SERVICE_NAME, rootObject, settingsController);
+
+const localDeviceGateway = new InMemoryDeviceGateway();
+const remoteDeviceGateway = new RemoteDeviceGateway(FOG_HOST, FOG_PORT);
+const cachedDeviceGateway = new CachedDeviceGateway(remoteDeviceGateway);
+const getDevice = new GetDevice(localDeviceGateway, cachedDeviceGateway);
+const deviceController = new DeviceController(getDevice); // eslint-disable-line
+
+const dbusDeviceInterfaceFactory = new DBusDeviceInterfaceFactory(SERVICE_NAME);
+const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line
+  service,
+  dbusDeviceInterfaceFactory,
+);

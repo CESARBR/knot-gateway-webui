@@ -17,6 +17,11 @@ class CachedDeviceGateway {
       .value();
     return cached || this.deviceGateway.get(id);
   }
+
+  async remove(id) {
+    _.remove(this.cache, { id });
+    return this.deviceGateway.remove(id);
+  }
 }
 
 export default CachedDeviceGateway;

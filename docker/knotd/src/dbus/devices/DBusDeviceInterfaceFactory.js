@@ -56,6 +56,13 @@ class DBusDeviceInterfaceFactory {
       controller.pair.bind(controller, id),
     );
 
+    builder.addMethod(
+      'Forget',
+      [],
+      [],
+      controller.forget.bind(controller, id),
+    );
+
     return builder.build();
   }
 

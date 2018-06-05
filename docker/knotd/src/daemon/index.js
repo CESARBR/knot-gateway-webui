@@ -16,6 +16,7 @@ import GetDevice from 'domain/interactor/GetDevice';
 import PairDevice from 'domain/interactor/PairDevice';
 import ForgetDevice from 'domain/interactor/ForgetDevice';
 import ConnectDevice from 'domain/interactor/ConnectDevice';
+import DisconnectDevice from 'domain/interactor/DisconnectDevice';
 import DeviceController from 'daemon/devices/DeviceController';
 import DBusDeviceInterfaceFactory from 'daemon/devices/DBusDeviceInterfaceFactory';
 import DBusTestDeviceInterfaceFactory from 'daemon/devices/DBusTestDeviceInterfaceFactory';
@@ -55,11 +56,13 @@ const getDevice = new GetDevice(localDeviceGateway, cachedDeviceGateway);
 const pairDevice = new PairDevice(localDeviceGateway, remoteDeviceGateway);
 const forgetDevice = new ForgetDevice(localDeviceGateway, remoteDeviceGateway);
 const connectDevice = new ConnectDevice(localDeviceGateway, remoteDeviceGateway);
+const disconnectDevice = new DisconnectDevice(localDeviceGateway, remoteDeviceGateway);
 const deviceController = new DeviceController( // eslint-disable-line
   getDevice,
   pairDevice,
   forgetDevice,
   connectDevice,
+  disconnectDevice,
 );
 
 const dbusDeviceInterfaceFactory = new DBusDeviceInterfaceFactory(SERVICE_NAME);

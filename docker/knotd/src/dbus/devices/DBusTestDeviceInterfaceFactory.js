@@ -20,6 +20,13 @@ class DBusTestDeviceInterfaceFactory {
       controller.connect.bind(controller, id),
     );
 
+    builder.addMethod(
+      'Disconnect',
+      [],
+      [],
+      controller.disconnect.bind(controller, id),
+    );
+
     return builder.build();
   }
 

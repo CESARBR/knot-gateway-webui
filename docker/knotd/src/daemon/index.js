@@ -15,8 +15,10 @@ import CachedDeviceGateway from 'data/CachedDeviceGateway';
 import GetDevice from 'domain/interactor/GetDevice';
 import PairDevice from 'domain/interactor/PairDevice';
 import ForgetDevice from 'domain/interactor/ForgetDevice';
+import ConnectDevice from 'domain/interactor/ConnectDevice';
 import DeviceController from 'daemon/devices/DeviceController';
 import DBusDeviceInterfaceFactory from 'daemon/devices/DBusDeviceInterfaceFactory';
+import DBusTestDeviceInterfaceFactory from 'daemon/devices/DBusTestDeviceInterfaceFactory';
 import DeviceViewFactory from 'daemon/devices/DeviceViewFactory';
 
 const SERVICE_NAME = 'br.org.cesar.knot';
@@ -52,10 +54,18 @@ const cachedDeviceGateway = new CachedDeviceGateway(remoteDeviceGateway);
 const getDevice = new GetDevice(localDeviceGateway, cachedDeviceGateway);
 const pairDevice = new PairDevice(localDeviceGateway, remoteDeviceGateway);
 const forgetDevice = new ForgetDevice(localDeviceGateway, remoteDeviceGateway);
-const deviceController = new DeviceController(getDevice, pairDevice, forgetDevice); // eslint-disable-line
+const connectDevice = new ConnectDevice(localDeviceGateway, remoteDeviceGateway);
+const deviceController = new DeviceController( // eslint-disable-line
+  getDevice,
+  pairDevice,
+  forgetDevice,
+  connectDevice,
+);
 
 const dbusDeviceInterfaceFactory = new DBusDeviceInterfaceFactory(SERVICE_NAME);
+const dbusTestDeviceInterfaceFactory = new DBusTestDeviceInterfaceFactory(SERVICE_NAME);
 const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line
   service,
   dbusDeviceInterfaceFactory,
+  dbusTestDeviceInterfaceFactory,
 );

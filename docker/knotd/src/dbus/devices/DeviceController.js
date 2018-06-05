@@ -1,9 +1,10 @@
 import { Subject } from 'rxjs';
 
 class DeviceController {
-  constructor(getDevice, pairDevice) {
+  constructor(getDevice, pairDevice, forgetDevice) {
     this.getDevice = getDevice;
     this.pairDevice = pairDevice;
+    this.forgetDevice = forgetDevice;
     this.propertiesChangedSource = new Subject();
   }
 
@@ -33,6 +34,11 @@ class DeviceController {
 
   async pair(id) {
     const changes = await this.pairDevice.execute(id);
+    this.propertiesChangedSource.next({ id, changes });
+  }
+
+  async forget(id) {
+    const changes = await this.forgetDevice.execute(id);
     this.propertiesChangedSource.next({ id, changes });
   }
 }

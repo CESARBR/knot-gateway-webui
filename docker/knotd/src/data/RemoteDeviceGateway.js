@@ -33,6 +33,22 @@ class RemoteDeviceGateway {
     }
   }
 
+  async remove(id) {
+    try {
+      const device = await this.get(id);
+      if (device) {
+        const url = `${this.getBaseUrl()}/devices/${device.uuid}`;
+        await request.delete(url);
+      }
+      return device;
+    } catch (err) {
+      if (err.statusCode === 400) {
+        return undefined;
+      }
+      throw err;
+    }
+  }
+
   getBaseUrl() {
     return `http://${this.host}:${this.port}`;
   }

@@ -8,6 +8,10 @@ class CloudApi {
     return this.deviceService.create(device);
   }
 
+  async updateDevice(uuid, device) {
+    return this.deviceService.update(uuid, device);
+  }
+
   async removeDevice(uuid) {
     await this.deviceService.remove(uuid);
   }

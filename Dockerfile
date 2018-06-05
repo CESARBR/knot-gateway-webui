@@ -40,6 +40,7 @@ RUN npm_config_tmp=/tmp TMP=/tmp yarn build
 RUN rm -rf ./src
 
 # install configuration files
+COPY ./docker/knotd/config ./config
 COPY ./docker/knotd/br.org.cesar.knot.conf /etc/dbus-1/system.d
 
 # install init script

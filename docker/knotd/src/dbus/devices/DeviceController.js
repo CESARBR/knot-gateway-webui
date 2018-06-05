@@ -1,8 +1,9 @@
 import { Subject } from 'rxjs';
 
 class DeviceController {
-  constructor(getDevice) {
+  constructor(getDevice, pairDevice) {
     this.getDevice = getDevice;
+    this.pairDevice = pairDevice;
     this.propertiesChangedSource = new Subject();
   }
 
@@ -28,6 +29,11 @@ class DeviceController {
 
   get propertiesChanged$() {
     return this.propertiesChangedSource.asObservable();
+  }
+
+  async pair(id) {
+    const changes = await this.pairDevice.execute(id);
+    this.propertiesChangedSource.next({ id, changes });
   }
 }
 

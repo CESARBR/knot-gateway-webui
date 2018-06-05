@@ -33,6 +33,12 @@ class RemoteDeviceGateway {
     }
   }
 
+  async update(device) {
+    const remoteDevice = this.mapToRemote(device);
+    const url = `${this.getBaseUrl()}/devices/${device.uuid}`;
+    await request.put({ url, json: true }).form(remoteDevice);
+  }
+
   async remove(id) {
     try {
       const device = await this.get(id);
@@ -51,6 +57,10 @@ class RemoteDeviceGateway {
 
   getBaseUrl() {
     return `http://${this.host}:${this.port}`;
+  }
+
+  mapToRemote(device) {
+    return _.pick(device, ['id', 'name', 'uuid', 'schema', 'online']);
   }
 
   mapFromRemote(remoteDevice) {

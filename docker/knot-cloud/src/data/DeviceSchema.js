@@ -17,6 +17,6 @@ const DeviceSchema = mongoose.Schema({
     default: false,
     required: true,
   },
-}, { strict: false });
+}, { strict: false, id: false });
 
 export default DeviceSchema;

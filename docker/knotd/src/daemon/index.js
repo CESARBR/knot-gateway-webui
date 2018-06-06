@@ -23,6 +23,9 @@ import DBusDeviceInterfaceFactory from 'daemon/devices/DBusDeviceInterfaceFactor
 import DBusTestDeviceInterfaceFactory from 'daemon/devices/DBusTestDeviceInterfaceFactory';
 import DeviceViewFactory from 'daemon/devices/DeviceViewFactory';
 
+import SendPresence from 'domain/interactor/SendPresence';
+import AdapterController from 'daemon/adapter/AdapterController';
+
 const SERVICE_NAME = 'br.org.cesar.knot';
 const ROOT_OBJECT_PATH = '/';
 
@@ -59,7 +62,7 @@ const forgetDevice = new ForgetDevice(localDeviceGateway, remoteDeviceGateway);
 const connectDevice = new ConnectDevice(localDeviceGateway, remoteDeviceGateway);
 const disconnectDevice = new DisconnectDevice(localDeviceGateway, remoteDeviceGateway);
 const registerDevice = new RegisterDevice(localDeviceGateway, remoteDeviceGateway);
-const deviceController = new DeviceController( // eslint-disable-line
+const deviceController = new DeviceController(
   getDevice,
   pairDevice,
   forgetDevice,
@@ -75,3 +78,6 @@ const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line
   dbusDeviceInterfaceFactory,
   dbusTestDeviceInterfaceFactory,
 );
+
+const sendPresence = new SendPresence(localDeviceGateway, remoteDeviceGateway);
+const adapterController = new AdapterController(sendPresence, deviceController); // eslint-disable-line

@@ -12,6 +12,11 @@ class InMemoryDeviceGateway {
       .value();
   }
 
+  async create(device) {
+    this.devices.push(_.cloneDeep(device));
+    return device;
+  }
+
   async update(device) {
     _.remove(this.devices, { id: device.id });
     this.devices.push(_.cloneDeep(device));

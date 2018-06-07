@@ -26,6 +26,9 @@ import DeviceViewFactory from 'dbus/devices/DeviceViewFactory';
 import SendPresence from 'domain/interactor/SendPresence';
 import TurnOffDevice from 'domain/interactor/TurnOffDevice';
 import AdapterController from 'dbus/adapter/AdapterController';
+import DBusTestAdapterInterfaceFactory from 'dbus/adapter/DBusTestAdapterInterfaceFactory';
+import DBusObjectManagerInterfaceFactory from 'dbus/adapter/DBusObjectManagerInterfaceFactory';
+import AdapterViewFactory from 'dbus/adapter/AdapterViewFactory';
 
 const SERVICE_NAME = 'br.org.cesar.knot';
 const ROOT_OBJECT_PATH = '/';
@@ -74,7 +77,7 @@ const deviceController = new DeviceController(
 
 const dbusDeviceInterfaceFactory = new DBusDeviceInterfaceFactory(SERVICE_NAME);
 const dbusTestDeviceInterfaceFactory = new DBusTestDeviceInterfaceFactory(SERVICE_NAME);
-const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line
+const deviceViewFactory = new DeviceViewFactory(
   service,
   dbusDeviceInterfaceFactory,
   dbusTestDeviceInterfaceFactory,
@@ -83,3 +86,11 @@ const deviceViewFactory = new DeviceViewFactory( // eslint-disable-line
 const sendPresence = new SendPresence(localDeviceGateway, remoteDeviceGateway);
 const turnOff = new TurnOffDevice(localDeviceGateway);
 const adapterController = new AdapterController(sendPresence, turnOff, deviceController); // eslint-disable-line
+
+const dbusTestAdapterInterfaceFactory = new DBusTestAdapterInterfaceFactory(SERVICE_NAME);
+const dbusObjectManagerInterfaceFactory = new DBusObjectManagerInterfaceFactory(SERVICE_NAME);
+const adapterViewFactory = new AdapterViewFactory( // eslint-disable-line
+  dbusTestAdapterInterfaceFactory,
+  dbusObjectManagerInterfaceFactory,
+  deviceViewFactory,
+);

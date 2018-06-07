@@ -40,7 +40,7 @@ class DeviceView {
 
   async onPropertiesChanged(domainChanges) {
     const changes = this.mapFromDomainProperties(domainChanges);
-    this.emitPropertiesChanged(this.dbusObject, DEVICE_INTERFACE_NAME, changes);
+    this.dbusObject.emitPropertiesChanged(DEVICE_INTERFACE_NAME, changes);
   }
 
   mapFromDomainProperties(changes) {
@@ -49,19 +49,6 @@ class DeviceView {
       .mapValues((propertyValue, propertyName) =>
         propertyValue || PROPERTY_DEFAULT_VALUE_MAP[propertyName])
       .value();
-  }
-
-  emitPropertiesChanged(dbusObject, interfaceName, changes) {
-    const propertiesInterface = this.getPropertiesInterface(dbusObject);
-    propertiesInterface.emitSignal(
-      'PropertiesChanged',
-      interfaceName,
-      changes,
-    );
-  }
-
-  getPropertiesInterface(dbusObject) {
-    return _.find(dbusObject.interfaces, { name: 'org.freedesktop.DBus.Properties' });
   }
 }
 

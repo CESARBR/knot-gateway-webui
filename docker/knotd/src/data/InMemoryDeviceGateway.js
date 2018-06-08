@@ -12,6 +12,10 @@ class InMemoryDeviceGateway {
       .value();
   }
 
+  async list() {
+    return _.cloneDeep(this.devices);
+  }
+
   async create(device) {
     this.devices.push(_.cloneDeep(device));
     return device;

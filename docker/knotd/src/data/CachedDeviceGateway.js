@@ -18,6 +18,12 @@ class CachedDeviceGateway {
     return cached || this.deviceGateway.get(id);
   }
 
+  async list() {
+    const devices = await this.deviceGateway.list();
+    this.cache = _.unionBy(devices, this.cache, 'id');
+    return _.cloneDeep(this.cache);
+  }
+
   async create(device) {
     const newDevice = await this.deviceGateway.create(device);
     this.cache.push(newDevice);

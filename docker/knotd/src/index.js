@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import dbus from 'dbus';
 import config from 'config';
 
@@ -25,10 +26,12 @@ import DeviceViewFactory from 'dbus/devices/DeviceViewFactory';
 
 import SendPresence from 'domain/interactor/SendPresence';
 import TurnOffDevice from 'domain/interactor/TurnOffDevice';
+import LoadDevices from 'domain/interactor/LoadDevices';
 import AdapterController from 'dbus/adapter/AdapterController';
 import DBusTestAdapterInterfaceFactory from 'dbus/adapter/DBusTestAdapterInterfaceFactory';
 import DBusObjectManagerInterfaceFactory from 'dbus/adapter/DBusObjectManagerInterfaceFactory';
 import AdapterViewFactory from 'dbus/adapter/AdapterViewFactory';
+
 
 const SERVICE_NAME = 'br.org.cesar.knot';
 const ROOT_OBJECT_PATH = '/';
@@ -85,12 +88,34 @@ const deviceViewFactory = new DeviceViewFactory(
 
 const sendPresence = new SendPresence(localDeviceGateway, remoteDeviceGateway);
 const turnOff = new TurnOffDevice(localDeviceGateway);
-const adapterController = new AdapterController(sendPresence, turnOff, deviceController); // eslint-disable-line
+const loadDevices = new LoadDevices(localDeviceGateway, remoteDeviceGateway);
+const adapterController = new AdapterController(
+  sendPresence,
+  turnOff,
+  loadDevices,
+  deviceController,
+);
 
 const dbusTestAdapterInterfaceFactory = new DBusTestAdapterInterfaceFactory(SERVICE_NAME);
 const dbusObjectManagerInterfaceFactory = new DBusObjectManagerInterfaceFactory(SERVICE_NAME);
-const adapterViewFactory = new AdapterViewFactory( // eslint-disable-line
+const adapterViewFactory = new AdapterViewFactory(
   dbusTestAdapterInterfaceFactory,
   dbusObjectManagerInterfaceFactory,
   deviceViewFactory,
 );
+
+async function start() {
+  try {
+    const adapterView = await adapterViewFactory.create(
+      rootObject,
+      adapterController,
+      deviceController,
+    );
+    adapterView.onStart();
+    console.log('knotd started');
+  } catch (e) {
+    console.error('knotd failed to start:', e.message);
+  }
+}
+
+start();

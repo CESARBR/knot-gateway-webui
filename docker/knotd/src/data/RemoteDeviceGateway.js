@@ -33,6 +33,19 @@ class RemoteDeviceGateway {
     }
   }
 
+  async list() {
+    try {
+      const url = `${this.getBaseUrl()}/devices?type=KNOTDevice`;
+      const devices = await request.get({ url, json: true });
+      return devices.map(this.mapFromRemote.bind(this));
+    } catch (err) {
+      if (err.statusCode === 404) {
+        return [];
+      }
+      throw err;
+    }
+  }
+
   async create(device) {
     const url = `${this.getBaseUrl()}/devices`;
     return this.mapFromRemote(await request.post({ url, json: true }).form(device));

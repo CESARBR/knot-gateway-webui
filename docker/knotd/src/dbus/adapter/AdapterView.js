@@ -33,6 +33,10 @@ class AdapterView {
       .subscribe(this.onDeviceRemoved.bind(this));
   }
 
+  async onStart() {
+    await this.adapterController.loadDevices();
+  }
+
   async onDestroy() {
     this.deviceAddedSubscription.unsubscribe();
     this.deviceRemovedSubscription.unsubscribe();

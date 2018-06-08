@@ -1,9 +1,10 @@
 import { Subject } from 'rxjs';
 
 class AdapterController {
-  constructor(sendPresenceInteractor, turnOffInteractor) {
+  constructor(sendPresenceInteractor, turnOffInteractor, loadDevicesInteractor) {
     this.sendPresenceInteractor = sendPresenceInteractor;
     this.turnOffInteractor = turnOffInteractor;
+    this.loadDevicesInteractor = loadDevicesInteractor;
     this.deviceAddedSource = new Subject();
     this.deviceRemovedSource = new Subject();
   }
@@ -26,6 +27,13 @@ class AdapterController {
     if (removed) {
       this.deviceRemovedSource.next(id);
     }
+  }
+
+  async loadDevices() {
+    const devices = await this.loadDevicesInteractor.execute();
+    devices.forEach((device) => {
+      this.deviceAddedSource.next(device);
+    });
   }
 }
 

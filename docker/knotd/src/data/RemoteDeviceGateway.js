@@ -33,6 +33,11 @@ class RemoteDeviceGateway {
     }
   }
 
+  async create(device) {
+    const url = `${this.getBaseUrl()}/devices`;
+    return this.mapFromRemote(await request.post({ url, json: true }).form(device));
+  }
+
   async update(device) {
     const remoteDevice = this.mapToRemote(device);
     const url = `${this.getBaseUrl()}/devices/${device.uuid}`;

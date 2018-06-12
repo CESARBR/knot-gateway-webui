@@ -29,6 +29,18 @@ class DBusTestAdapterInterfaceFactory {
       controller.sendPresence.bind(controller),
     );
 
+    builder.addMethod(
+      'TurnOff',
+      [
+        {
+          type: 's',
+          name: 'id',
+        },
+      ],
+      [],
+      controller.turnOff.bind(controller),
+    );
+
     return builder.build();
   }
 

@@ -18,6 +18,12 @@ class CachedDeviceGateway {
     return cached || this.deviceGateway.get(id);
   }
 
+  async create(device) {
+    const newDevice = await this.deviceGateway.create(device);
+    this.cache.push(newDevice);
+    return _.cloneDeep(newDevice);
+  }
+
   async update(device) {
     const updatedDevice = await this.deviceGateway.update(device);
     _.remove(this.cache, { id: device.id });

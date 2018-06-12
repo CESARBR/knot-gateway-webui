@@ -27,6 +27,13 @@ class DBusTestDeviceInterfaceFactory {
       controller.disconnect.bind(controller, id),
     );
 
+    builder.addMethod(
+      'Register',
+      [],
+      [],
+      controller.register.bind(controller, id),
+    );
+
     return builder.build();
   }
 

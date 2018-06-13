@@ -23,8 +23,8 @@ class RemoteDeviceGateway {
   async get(id) {
     try {
       const url = `${this.getBaseUrl()}/devices?type=KNOTDevice&id=${id}`;
-      const devices = await request.get({ url, json: true });
-      return this.mapFromRemote(devices[0]);
+      const response = await request.get({ url, json: true });
+      return this.mapFromRemote(response.devices[0]);
     } catch (err) {
       if (err.statusCode === 404) {
         return undefined;
@@ -36,8 +36,8 @@ class RemoteDeviceGateway {
   async list() {
     try {
       const url = `${this.getBaseUrl()}/devices?type=KNOTDevice`;
-      const devices = await request.get({ url, json: true });
-      return devices.map(this.mapFromRemote.bind(this));
+      const response = await request.get({ url, json: true });
+      return response.devices.map(this.mapFromRemote.bind(this));
     } catch (err) {
       if (err.statusCode === 404) {
         return [];

@@ -110,7 +110,8 @@ class HapiServer {
   async getDeviceHandler(request, h) {
     try {
       const device = await this.cloudApi.getDevice(request.params.id);
-      return h.response(device).code(200);
+      const resultObject = { devices: [device] };
+      return h.response(resultObject).code(200);
     } catch (err) {
       return this.handleError(err, h);
     }
@@ -122,7 +123,8 @@ class HapiServer {
       if (!devices.length) {
         return h.response().code(404);
       }
-      return h.response(devices).code(200);
+      const resultObject = { devices };
+      return h.response(resultObject).code(200);
     } catch (err) {
       return this.handleError(err, h);
     }
@@ -131,7 +133,8 @@ class HapiServer {
   async getDeviceDataHandler(request, h) {
     try {
       const data = await this.cloudApi.getDeviceData(request.params.id);
-      return h.response(data).code(200);
+      const resultObject = { data: data || [] };
+      return h.response(resultObject).code(200);
     } catch (err) {
       return this.handleError(err, h);
     }

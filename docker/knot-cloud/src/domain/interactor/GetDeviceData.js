@@ -4,10 +4,7 @@ class GetDeviceData {
   }
 
   async execute(uuid) {
-    const data = await this.deviceDataGateway.list({ uuid });
-    return {
-      data,
-    };
+    return this.deviceDataGateway.list({ uuid });
   }
 }
 

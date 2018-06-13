@@ -1,6 +1,25 @@
+var joi = require('joi');
 var users = require('../models/users');
 var DevicesService = require('../services/devices').DevicesService;
 var FogService = require('../services/fog').FogService;
+
+var schemas = joi.array().items({
+  sensor_id: joi
+    .number()
+    .required(),
+  value_type: joi
+    .number()
+    .required(),
+  unit: joi
+    .number()
+    .required(),
+  type_id: joi
+    .number()
+    .required(),
+  name: joi
+    .string()
+    .required()
+});
 
 var findSchemaData = function findSchemaData(schema, deviceDataList) {
   return deviceDataList.find(function isSameSensor(data) {
@@ -21,11 +40,16 @@ var mapToSchemaWithData = function mapToSchemaWithData(deviceData, schema) {
 
 var mapToDeviceWithData = function mapToDeviceWithData(serviceDevice, fogDevice, fogDeviceData) {
   var device = serviceDevice;
-  if (fogDevice.schema) {
+  // only fills the schema if it exists and is in valid format in the cloud
+  var result = joi.validate(fogDevice.schema, schemas);
+  if (!result.error) {
     device.schema = fogDevice.schema
       .map(mapToSchemaWithData
         .bind(null, fogDeviceData));
+  } else {
+    console.error(result.error); // eslint-disable-line no-console
   }
+
   return device;
 };
 

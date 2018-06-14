@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56faf870_d57ef00e",
+        "filename": "app/controllers/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-06-14T14:10:45Z",
+      "side": 1,
+      "message": "Add an else that prints the error so that we can track when it happens (use console.error)",
+      "revId": "0832ea708c9b98eeb28edc7a3c737b0aab30ca74",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

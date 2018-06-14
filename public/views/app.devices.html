@@ -37,7 +37,7 @@
           </p>
         </div>
         <div class="device-footer">
-          <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device">
+          <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Forget Device" data-toggle="tooltip" title="Remove the device">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </a>
         </div>
@@ -61,7 +61,7 @@
           <small class="text-muted">{{ device.id | uppercase }}</small>
         </div>
         <div class="device-footer">
-          <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Allow Device">
+          <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Allow Device" data-toggle="tooltip" title="Add new device">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
           </a>
         </div>

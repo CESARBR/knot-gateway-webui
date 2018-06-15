@@ -49,6 +49,22 @@ COPY ./docker/knotd/knotd.sh /usr/local/bin/knotd.sh
 RUN chmod +x /usr/local/bin/knotd.sh
 RUN systemctl enable knotd
 
+# devices
+# install modules
+WORKDIR /usr/local/bin/devices
+COPY ./docker/devices/package.json .
+RUN npm_config_tmp=/tmp TMP=/tmp yarn
+
+# install app
+COPY ./docker/devices/.babelrc ./.babelrc
+COPY ./docker/devices/src ./src
+RUN npm_config_tmp=/tmp TMP=/tmp yarn build
+RUN rm -rf ./src
+
+# install script
+COPY ./docker/devices/devices.sh /usr/local/bin/devices.sh
+RUN chmod +x /usr/local/bin/devices.sh
+
 # knot-web
 # install modules
 WORKDIR /usr/local/bin/knot-web-app

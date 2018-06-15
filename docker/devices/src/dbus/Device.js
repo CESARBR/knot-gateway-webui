@@ -1,9 +1,13 @@
 import { promisify } from 'util';
 
 class Device {
-  constructor(deviceInterface) {
+  constructor(deviceInterface, testDeviceInterface) {
     this.pair = promisify(deviceInterface.Pair.bind(deviceInterface));
     this.forget = promisify(deviceInterface.Forget.bind(deviceInterface));
+    this.connect = promisify(
+      testDeviceInterface.Connect
+        .bind(testDeviceInterface)
+    );
   }
 }
 

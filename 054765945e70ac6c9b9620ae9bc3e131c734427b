@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40ab6947_ba8d6b16",
+        "filename": "public/views/app.devices.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-06-15T19:22:31Z",
+      "side": 1,
+      "message": "Could be \"Remove device\" to match \"Add device\" below. Could you change  the aria-label to match this title?",
+      "range": {
+        "startLine": 40,
+        "startChar": 163,
+        "endLine": 40,
+        "endChar": 166
+      },
+      "revId": "054765945e70ac6c9b9620ae9bc3e131c734427b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e12c87cf_fa7acb02",
+        "filename": "public/views/app.devices.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-06-15T19:22:31Z",
+      "side": 1,
+      "message": "Could you change this label to match the title? This is an accessibility attribute and  I think it should have the same text as the tooltip as they both serve the same purpose, to inform the user that doesn\u0027t understand or can\u0027t see the icon.",
+      "range": {
+        "startLine": 64,
+        "startChar": 111,
+        "endLine": 64,
+        "endChar": 123
+      },
+      "revId": "054765945e70ac6c9b9620ae9bc3e131c734427b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6921f4_c4475e6a",
+        "filename": "public/views/app.devices.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-06-15T19:22:31Z",
+      "side": 1,
+      "message": "new might confuse the user, I believe that simply \"Add device\" is enough.",
+      "range": {
+        "startLine": 64,
+        "startChar": 158,
+        "endLine": 64,
+        "endChar": 161
+      },
+      "revId": "054765945e70ac6c9b9620ae9bc3e131c734427b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

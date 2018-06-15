@@ -12,6 +12,10 @@ class Device {
       testDeviceInterface.Disconnect
         .bind(testDeviceInterface)
     );
+    this.register = promisify(
+      testDeviceInterface.Register
+        .bind(testDeviceInterface)
+    );
   }
 }
 

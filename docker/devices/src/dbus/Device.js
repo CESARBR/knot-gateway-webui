@@ -8,6 +8,10 @@ class Device {
       testDeviceInterface.Connect
         .bind(testDeviceInterface)
     );
+    this.disconnect = promisify(
+      testDeviceInterface.Disconnect
+        .bind(testDeviceInterface)
+    );
   }
 }
 

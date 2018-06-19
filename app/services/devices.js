@@ -93,7 +93,6 @@ function monitorDeviceProperties(device, objPath, done) {
 function onDeviceMonitored(err) {
   if (err) {
     console.error(err); // eslint-disable-line no-console
-    return;
   }
 }
 

@@ -48,7 +48,8 @@ if (!TOKEN_SECRET) {
 }
 
 // Configure passport
-passport.use(new LocalStrategy({ usernameField: 'email' },
+passport.use(new LocalStrategy(
+  { usernameField: 'email' },
   function onRequest(email, password, done) {
     users.getUserByEmail(email, function onUserReturned(err, user) {
       if (err) {

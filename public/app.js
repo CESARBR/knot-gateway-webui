@@ -24,8 +24,13 @@ require('./controllers.js');
 app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
                              'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
-app.config(function config($stateProvider, $urlRouterProvider, $httpProvider,
-  VIEW_STATES, PERMISSIONS) {
+app.config(function config(
+  $stateProvider,
+  $urlRouterProvider,
+  $httpProvider,
+  VIEW_STATES,
+  PERMISSIONS
+) {
   $stateProvider
     .state(VIEW_STATES.REBOOT, {
       url: '/reboot',
@@ -153,11 +158,11 @@ app.run(function run($urlRouter, StateService, PermPermissionStore, PERMISSIONS)
   setupConfigurationPermissionRules();
 
   StateService.loadState()
-  .finally(function onFulfilled() {
-    // Start router
-    $urlRouter.sync();
-    $urlRouter.listen();
-  });
+    .finally(function onFulfilled() {
+      // Start router
+      $urlRouter.sync();
+      $urlRouter.listen();
+    });
 });
 
 app.constant('ROLES', {

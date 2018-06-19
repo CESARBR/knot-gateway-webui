@@ -17,7 +17,8 @@ var createPasswordHash = function createPasswordHash(password) {
     saltBuffer,
     ITERATION_COUNT,
     KEY_LENGTH,
-    HASH_ALGORITHM);
+    HASH_ALGORITHM
+  );
 
   var salt = saltBuffer.toString(OUTPUT_ENCODING);
   var passwordHash = passwordHashBuffer.toString(OUTPUT_ENCODING);
@@ -36,7 +37,8 @@ var isPasswordValid = function isPasswordValid(password, hash) {
     saltBuffer,
     ITERATION_COUNT,
     KEY_LENGTH,
-    HASH_ALGORITHM);
+    HASH_ALGORITHM
+  );
 
   var newPasswordHash = newPasswordHashBuffer.toString(OUTPUT_ENCODING);
   return newPasswordHash === passwordHash;

@@ -39,7 +39,6 @@ stateSvc.reset(function onReset(err) {
   DevicesService.monitorDevices(function onMonitorDevices(monitorDevicesErr) {
     if (monitorDevicesErr) {
       console.error(monitorDevicesErr); // eslint-disable-line no-console
-      return;
     }
   });
 

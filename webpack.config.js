@@ -1,7 +1,6 @@
-var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
@@ -10,23 +9,28 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './www'),
-    filename: 'app.bundle.js'
+    filename: '[name].bundle.js'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   module: {
-    loaders: [
-      { test: /\.less$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'less-loader'] }) },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
-      { test: /\.html$/, loader: 'html-loader?name=views/[name].[ext]' },
-      { test: /\.(jpe?g|png|gif|svg|eot|woff2?|ttf|svg)$/i, loader: 'url-loader?limit=100000' }
+    rules: [
+      { test: /public.*\.js$/, use: 'ng-annotate-loader' },
+      { test: /\.less$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'] },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
+      { test: /\.html$/, use: 'html-loader?name=views/[name].[ext]' },
+      { test: /\.(jpe?g|png|gif|svg|eot|woff2?|ttf|svg)$/i, use: 'url-loader?limit=100000' }
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', filename: 'vendors.bundle.js' }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, './public/index.html'),
       inject: 'body'
     }),
-    new ExtractTextPlugin({ filename: '[name].css', allChunks: true })
+    new MiniCssExtractPlugin({ filename: '[name].css', chunkFilename: '[id].css' })
   ]
 };

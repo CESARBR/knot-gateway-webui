@@ -1,5 +1,5 @@
 var router = require('express').Router();
-var celebrate = require('celebrate');
+var celebrate = require('celebrate').celebrate;
 
 var state = require('../state');
 var auth = require('../auth');

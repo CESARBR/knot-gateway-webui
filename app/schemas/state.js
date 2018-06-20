@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var joi = require('joi');
+var joi = require('celebrate').Joi;
 
 var state = require('../models/state');
 

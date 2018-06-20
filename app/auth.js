@@ -3,7 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
-var celebrate = require('celebrate');
+var celebrate = require('celebrate').celebrate;
 var config = require('config');
 
 var users = require('./models/users');

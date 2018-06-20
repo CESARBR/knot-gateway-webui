@@ -1,4 +1,4 @@
-var joi = require('joi');
+var joi = require('celebrate').Joi;
 
 var create = {
   email: joi.string().email().required(),

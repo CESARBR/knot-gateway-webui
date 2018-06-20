@@ -1,4 +1,4 @@
-var joi = require('joi');
+var joi = require('celebrate').Joi;
 
 var auth = {
   email: joi.string().email().required(),

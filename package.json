@@ -1,15 +1,13 @@
 {
-  "name": "gateway",
+  "name": "knot-gateway-webui",
   "version": "1.0.0",
-  "description": "",
-  "main": "app",
+  "description": "Gateway configuration web interface",
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build": "webpack --mode=production",
     "start": "node app",
     "lint": "eslint ."
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

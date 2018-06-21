@@ -6,16 +6,22 @@ var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
 var PROPERTIES_INTERFACE = 'org.freedesktop.DBus.Properties';
 var DEVICE_INTERFACE = 'br.org.cesar.knot.Device1';
 var OBJECT_PATH = '/';
+var ALREADY_EXISTS_ERROR_NAME = 'br.org.cesar.knot.AlreadyExists';
+var NOT_PAIRED_ERROR_NAME = 'br.org.cesar.knot.NotPaired';
+var IN_PROGRESS_ERROR_NAME = 'br.org.cesar.knot.InProgress';
 var idPathMap = {};
 var devicesList = [];
 
 var DEVICE_SERVICE_ERROR_CODE = {
-  DEVICE_NOT_FOUND: 404
+  NOT_FOUND: 'not-found',
+  IN_PROGRESS: 'in-progress',
+  INVALID_OPERATION: 'invalid-operation'
 };
 
-var DevicesServiceError = function DevicesServiceError(message) {
+var DevicesServiceError = function DevicesServiceError(message, code) {
   this.name = 'DevicesServiceError';
   this.message = message;
+  this.code = code;
   this.stack = (new Error()).stack;
 };
 
@@ -24,20 +30,43 @@ DevicesServiceError.prototype.constructor = DevicesServiceError;
 
 Object.defineProperty(DevicesServiceError.prototype, 'isNotFound', {
   get: function isNotFound() {
-    return this.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND;
+    return this.code === DEVICE_SERVICE_ERROR_CODE.NOT_FOUND;
   }
 });
 
-var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
-  if (response.code === DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND) {
-    return new DevicesServiceError(response.message);
+Object.defineProperty(DevicesServiceError.prototype, 'isInProgress', {
+  get: function isInProgress() {
+    return this.code === DEVICE_SERVICE_ERROR_CODE.IN_PROGRESS;
   }
-  return new DevicesServiceError('Unknown error');
-};
+});
+
+Object.defineProperty(DevicesServiceError.prototype, 'isInvalidOperation', {
+  get: function isInvalidOperation() {
+    return this.code === DEVICE_SERVICE_ERROR_CODE.INVALID_OPERATION;
+  }
+});
+
+Object.defineProperty(DevicesServiceError.prototype, 'isUnexpected', {
+  get: function isUnexpected() {
+    return !this.code;
+  }
+});
+
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
 };
 
+var parseDbusError = function parseDbusError(err, message) { // eslint-disable-line vars-on-top
+  var code;
+  if (err.dbusName === ALREADY_EXISTS_ERROR_NAME
+    || err.dbusName === NOT_PAIRED_ERROR_NAME) {
+    code = DEVICE_SERVICE_ERROR_CODE.INVALID_OPERATION;
+  } else if (err.dbusName === IN_PROGRESS_ERROR_NAME) {
+    code = DEVICE_SERVICE_ERROR_CODE.IN_PROGRESS;
+  }
+  console.log('Error communicating with devices service', err); // eslint-disable-line no-console
+  return new DevicesServiceError(message || err.message, code);
+};
 
 function setKeysToLowerCase(obj) {
   return _.mapKeys(obj, function onMapKeys(v, k) { return k.toLowerCase(); });
@@ -75,7 +104,7 @@ function monitorDeviceProperties(device, objPath, done) {
   bus.getInterface(SERVICE_NAME, objPath, PROPERTIES_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
     var devicesErr;
     if (getInterfaceErr) {
-      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
+      devicesErr = parseDbusError(getInterfaceErr, 'Devices service is unavailable');
       done(devicesErr);
       return;
     }
@@ -92,7 +121,7 @@ function monitorDeviceProperties(device, objPath, done) {
 
 function onDeviceMonitored(err) {
   if (err) {
-    console.error(err); // eslint-disable-line no-console
+    console.error('Error while monitoring device', err); // eslint-disable-line no-console
   }
 }
 
@@ -127,13 +156,13 @@ function loadDevices(done) {
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (getInterfaceErr) {
-      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
+      devicesErr = parseDbusError(getInterfaceErr, 'Devices service is unavailable');
       done(devicesErr);
       return;
     }
-    iface.GetManagedObjects(function onManagedObject(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
+    iface.GetManagedObjects(function onManagedObjects(getManagedObjectsErr, objects) { // eslint-disable-line new-cap, max-len
       if (getManagedObjectsErr) {
-        devicesErr = dbus.parseDbusError(getManagedObjectsErr, DevicesServiceError, 'Devices service is unavailable');
+        devicesErr = parseDbusError(getManagedObjectsErr, 'Devices service is unavailable');
         done(devicesErr);
         return;
       }
@@ -151,35 +180,47 @@ DevicesService.prototype.list = function list(done) {
 };
 
 DevicesService.prototype.getDevice = function getDevice(id, done) {
+  var err;
+
   var device = devicesList.find(function onFind(dev) { return dev.id === id; });
-  var deviceErr;
-  if (device) {
-    done(null, device);
-  } else {
-    deviceErr = parseResponseError({
-      code: DEVICE_SERVICE_ERROR_CODE.DEVICE_NOT_FOUND,
-      message: 'No device found with ' + device.id
-    });
-    done(deviceErr);
+
+  if (!device) {
+    err = new DevicesServiceError(
+      'No device found with ' + device.id,
+      DEVICE_SERVICE_ERROR_CODE.NOT_FOUND
+    );
+    done(err);
+    return;
   }
+
+  done(null, device);
 };
 
 DevicesService.prototype.pair = function pair(device, done) {
+  var err;
   var objPath = idPathMap[device.id];
   var bus = dbus.getBus();
 
-  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(getInterfaceErr, iface) { // eslint-disable-line max-len
-    var devicesErr;
+  if (!objPath) {
+    err = new DevicesServiceError(
+      'No device found with ' + device.id,
+      DEVICE_SERVICE_ERROR_CODE.NOT_FOUND
+    );
+    done(err);
+    return;
+  }
 
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onIface(getInterfaceErr, iface) { // eslint-disable-line max-len
     if (getInterfaceErr) {
-      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
-      done(devicesErr);
+      err = parseDbusError(getInterfaceErr, 'Devices service is unavailable');
+      done(err);
       return;
     }
+
     iface.Pair(function onPair(pairErr) { // eslint-disable-line new-cap
       if (pairErr) {
-        devicesErr = dbus.parseDbusError(pairErr, DevicesServiceError, 'Devices service Pair error');
-        done(devicesErr);
+        err = parseDbusError(pairErr);
+        done(err);
         return;
       }
       done();
@@ -197,7 +238,7 @@ DevicesService.monitorDevices = function monitorDevices(done) {
       bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
         var devicesErr;
         if (getInterfaceErr) {
-          devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
+          devicesErr = parseDbusError(getInterfaceErr, 'Devices service is unavailable');
           done(devicesErr);
         } else {
           iface.on('InterfacesAdded', function onInterfaceAdded(objPath, addedInterface) {
@@ -219,25 +260,34 @@ DevicesService.monitorDevices = function monitorDevices(done) {
 };
 
 DevicesService.prototype.forget = function forget(device, done) {
+  var err;
   var objPath = idPathMap[device.id];
   var bus = dbus.getBus();
 
-  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
-    var devicesErr;
+  if (!objPath) {
+    err = new DevicesServiceError(
+      'No device found with ' + device.id,
+      DEVICE_SERVICE_ERROR_CODE.NOT_FOUND
+    );
+    done(err);
+    return;
+  }
 
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     if (getInterfaceErr) {
-      devicesErr = dbus.parseDbusError(getInterfaceErr, DevicesServiceError, 'Devices service is unavailable');
-      done(devicesErr);
-    } else {
-      iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
-        if (forgetErr) {
-          devicesErr = dbus.parseDbusError(forgetErr, DevicesServiceError, 'Devices service Forget error');
-          done(devicesErr);
-          return;
-        }
-        done();
-      });
+      err = parseDbusError(getInterfaceErr, 'Devices service is unavailable');
+      done(err);
+      return;
     }
+
+    iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
+      if (forgetErr) {
+        err = parseDbusError(forgetErr);
+        done(err);
+        return;
+      }
+      done();
+    });
   });
 };
 

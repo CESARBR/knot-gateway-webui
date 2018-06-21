@@ -1,5 +1,10 @@
 import { Subject } from 'rxjs';
 
+import NotFoundError from 'domain/interactor/NotFoundError';
+import InvalidOperationError from 'domain/interactor/InvalidOperationError';
+import AlreadyExists from 'dbus/devices/AlreadyExists';
+import NotAvailable from 'dbus/devices/NotAvailable';
+
 class DeviceController {
   constructor(
     getDevice,
@@ -43,13 +48,30 @@ class DeviceController {
   }
 
   async pair(id) {
-    const changes = await this.pairDevice.execute(id);
-    this.propertiesChangedSource.next({ id, changes });
+    try {
+      const changes = await this.pairDevice.execute(id);
+      this.propertiesChangedSource.next({ id, changes });
+    } catch (err) {
+      if (err instanceof InvalidOperationError) {
+        throw new AlreadyExists(err.message);
+      } else if (err instanceof NotFoundError) {
+        throw new NotAvailable(err.message);
+      }
+      throw err;
+    }
   }
 
   async forget(id) {
-    const changes = await this.forgetDevice.execute(id);
-    this.propertiesChangedSource.next({ id, changes });
+    try {
+      const changes = await this.forgetDevice.execute(id);
+      this.propertiesChangedSource.next({ id, changes });
+    } catch (err) {
+      console.log(typeof err);
+      if (err instanceof InvalidOperationError || err instanceof NotFoundError) {
+        throw new NotAvailable(err.message);
+      }
+      throw err;
+    }
   }
 
   async connect(id) {

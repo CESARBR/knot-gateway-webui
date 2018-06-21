@@ -22,7 +22,7 @@
     "eslint-plugin-react": "^7.4.0"
   },
   "dependencies": {
-    "dbus": "^1.0.3",
+    "dbus": "figueredo/node-dbus#fix-method-callback",
     "yargs": "^11.0.0"
   }
 }

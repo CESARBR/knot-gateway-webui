@@ -108,7 +108,14 @@ var pair = function pair(req, res, next) {
   };
   devicesSvc.pair(device, function onDevicesUpdated(devicesErr) {
     if (devicesErr) {
-      next(devicesErr);
+      if (devicesErr.isInvalidOperation) {
+        // pair() returns invalid operation error when the device is already
+        // paired. Instead of returning an error, we terminate the request
+        // telling that the resource wasn't modified
+        res.sendStatus(304);
+      } else {
+        next(devicesErr);
+      }
     } else {
       res.end();
     }
@@ -123,7 +130,14 @@ var forget = function forget(req, res, next) {
   };
   devicesSvc.forget(device, function onForget(devicesErr) {
     if (devicesErr) {
-      next(devicesErr);
+      if (devicesErr.isInvalidOperation) {
+        // forget() returns invalid operation error when the device isn't paired.
+        // Instead of returning an error, we terminate the request telling that
+        // the resource wasn't modified
+        res.sendStatus(304);
+      } else {
+        next(devicesErr);
+      }
     } else {
       res.end();
     }

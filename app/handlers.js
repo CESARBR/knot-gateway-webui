@@ -13,12 +13,10 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
     res.sendStatus(401);
   } else if (err instanceof DevicesServiceError) {
     if (err.isNotFound) {
-      res.status(404).json({
-        message: err.message,
-        code: 'devices'
-      });
+      res.status(404).json({ message: err.message });
+    } else if (err.isInProgress) {
+      res.status(403).json({ message: err.message });
     } else {
-      console.error(err); // eslint-disable-line no-console
       res.sendStatus(500);
     }
   } else if (err instanceof CloudServiceError) {

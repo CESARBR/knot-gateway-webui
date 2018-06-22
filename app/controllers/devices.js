@@ -1,7 +1,10 @@
 var joi = require('joi');
+var util = require('util');
+
 var users = require('../models/users');
 var DevicesService = require('../services/devices').DevicesService;
 var FogService = require('../services/fog').FogService;
+var logger = require('../logger');
 
 var schemas = joi.array().items({
   sensor_id: joi
@@ -47,7 +50,8 @@ var mapToDeviceWithData = function mapToDeviceWithData(serviceDevice, fogDevice,
       .map(mapToSchemaWithData
         .bind(null, fogDeviceData));
   } else {
-    console.error(result.error); // eslint-disable-line no-console
+    logger.error('Device \'' + fogDevice.uuid + '\' has an invalid schema');
+    logger.debug(util.inspect(result.error));
   }
 
   return device;

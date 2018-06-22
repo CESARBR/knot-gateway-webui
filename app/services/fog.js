@@ -3,6 +3,9 @@ var request = require('request');
 var config = require('config');
 var dotenv = require('dotenv');
 var exec = require('child_process').exec;
+var util = require('util');
+
+var logger = require('../logger');
 
 var FOG_HOST = config.get('fog.host');
 var FOG_PORT = config.get('fog.port');
@@ -14,7 +17,6 @@ var PARENT_CONNECTION_CRED_UUID_KEY = 'PARENT_CONNECTION_UUID';
 var PARENT_CONNECTION_CRED_TOKEN_KEY = 'PARENT_CONNECTION_TOKEN';
 var GATEWAY_CRED_UUID_KEY = 'UUID';
 var GATEWAY_CRED_TOKEN_KEY = 'TOKEN';
-
 
 var FogServiceError = function FogServiceError(message) {
   this.name = 'FogServiceError';
@@ -28,7 +30,8 @@ FogServiceError.prototype.constructor = FogServiceError;
 var parseRequestError = function parseRequestError(err) { // eslint-disable-line vars-on-top
   if (err.code === 'ECONNREFUSED' || err.code === 'EHOSTUNREACH'
     || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT') {
-    console.log('Error connecting to fog service:', err); // eslint-disable-line no-console
+    logger.warning('Error connecting to fog service');
+    logger.debug(util.inspect(err));
     return new FogServiceError('Fog service is unavailable');
   }
 
@@ -36,7 +39,8 @@ var parseRequestError = function parseRequestError(err) { // eslint-disable-line
 };
 
 var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
-  console.log('Unknown error while communicating with fog service:', response); // eslint-disable-line no-console
+  logger.warning('Unknown error while communicating with fog service');
+  logger.debug(util.inspect(response));
   return new FogServiceError('Unknown error');
 };
 

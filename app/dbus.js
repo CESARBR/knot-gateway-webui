@@ -1,13 +1,4 @@
 var dbus = require('dbus');
-var bus = null;
+var bus = dbus.getBus('system');
 
-function getBus() {
-  if (!bus) {
-    bus = dbus.getBus('system');
-  }
-  return bus;
-}
-
-module.exports = {
-  getBus: getBus
-};
+module.exports = bus;

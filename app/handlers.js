@@ -1,8 +1,11 @@
+var util = require('util');
+
 var UnauthorizedError = require('express-jwt').UnauthorizedError;
 var CloudServiceError = require('./services/cloud').CloudServiceError;
 var DevicesServiceError = require('./services/devices').DevicesServiceError;
 var StateServiceError = require('./services/state').StateServiceError;
 var KnotServiceError = require('./services/knot').KnotServiceError;
+var logger = require('./logger');
 
 var defaultHandler = function defaultHandler(req, res) {
   res.redirect('/');
@@ -50,7 +53,17 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
       code: 'knot'
     });
   } else {
-    console.error(err); // eslint-disable-line no-console
+    logger.error('Unexpected error in ' + req.method + ' ' + req.originalUrl);
+    if (req.body) {
+      logger.debug('Body: ' + util.inspect(req.body));
+    }
+    if (req.cookies) {
+      logger.debug('Cookies: ' + util.inspect(req.cookies));
+    }
+    if (req.headers) {
+      logger.debug('Headers: ' + util.inspect(req.headers));
+    }
+    logger.debug(util.inspect(err));
     res.sendStatus(500);
   }
 };

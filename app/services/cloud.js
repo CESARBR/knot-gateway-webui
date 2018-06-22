@@ -1,4 +1,7 @@
 var request = require('request');
+var util = require('util');
+
+var logger = require('../logger');
 
 var CLOUD_SERVICE_ERROR_CODE = {
   USER_EXISTS: 'user-exists',
@@ -33,7 +36,8 @@ Object.defineProperty(CloudServiceError.prototype, 'isExistingUser', {
 var parseRequestError = function parseRequestError(err) { // eslint-disable-line vars-on-top
   if (err.code === 'ECONNREFUSED' || err.code === 'EHOSTUNREACH'
     || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT') {
-    console.log('Error connecting to cloud service:', err); // eslint-disable-line no-console
+    logger.warn('Error connecting to cloud service');
+    logger.debug(util.inspect(err));
     return new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE);
   }
 
@@ -44,7 +48,8 @@ var parseResponseError = function parseResponseError(response) { // eslint-disab
   if (response.statusCode === 409) {
     return new CloudServiceError('User exists', CLOUD_SERVICE_ERROR_CODE.USER_EXISTS);
   }
-  console.log('Unknown error while communicating with cloud service:', response); // eslint-disable-line no-console
+  logger.warn('Unknown error while communicating with cloud service');
+  logger.debug(util.inspect(response));
   return new CloudServiceError('Unknown error', CLOUD_SERVICE_ERROR_CODE.UNKNOWN);
 };
 

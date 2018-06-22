@@ -11,7 +11,7 @@ var apiRoute = require('./api');
 var handlers = require('./handlers');
 
 var StateService = require('./services/state').StateService;
-var DevicesService = require('./services/devices').DevicesService;
+var devicesService = require('./services/devices').devicesService;
 
 var databaseUri;
 var port;
@@ -44,7 +44,7 @@ mongoose.connect(databaseUri)
         logger.error('Failed to reset the gateway state. Stopping...');
         return;
       }
-      DevicesService.monitorDevices(function onMonitorDevices(monitorDevicesErr) {
+      devicesService.monitorDevices(function onMonitorDevices(monitorDevicesErr) {
         if (monitorDevicesErr) {
           logger.error('Error trying to monitor devices');
           logger.debug(util.inspect(monitorDevicesErr));

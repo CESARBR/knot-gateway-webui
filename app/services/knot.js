@@ -1,6 +1,6 @@
 var util = require('util');
 
-var dbus = require('../dbus');
+var bus = require('../dbus');
 var logger = require('../logger');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
@@ -28,8 +28,6 @@ var parseDbusError = function parseDbusError(err, msg) { // eslint-disable-line 
 };
 
 KnotService.prototype.setUserCredentials = function setUserCredentials(settings, done) {
-  var bus = dbus.getBus();
-
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, INTERFACE_NAME, function onInterfaceGet(getInterfaceErr, iface) { // eslint-disable-line max-len
     var err;
     if (getInterfaceErr) {

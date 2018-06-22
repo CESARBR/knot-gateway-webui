@@ -1,4 +1,4 @@
-var dbus = require('../dbus');
+var bus = require('../dbus');
 var _ = require('lodash');
 var util = require('util');
 
@@ -104,7 +104,6 @@ function mapInterfaceToDevice(interface) {
 }
 
 function monitorDeviceProperties(device, objPath, done) {
-  var bus = dbus.getBus();
   bus.getInterface(SERVICE_NAME, objPath, PROPERTIES_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
     var devicesErr;
     if (getInterfaceErr) {
@@ -157,7 +156,6 @@ function addDevice(device, path) {
 }
 
 function loadDevices(done) {
-  var bus = dbus.getBus();
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (getInterfaceErr) {
@@ -204,7 +202,6 @@ DevicesService.prototype.getDevice = function getDevice(id, done) {
 DevicesService.prototype.pair = function pair(device, done) {
   var err;
   var objPath = idPathMap[device.id];
-  var bus = dbus.getBus();
 
   if (!objPath) {
     err = new DevicesServiceError(
@@ -234,8 +231,6 @@ DevicesService.prototype.pair = function pair(device, done) {
 };
 
 DevicesService.monitorDevices = function monitorDevices(done) {
-  var bus = dbus.getBus();
-
   loadDevices(function onLoad(loadDevicesErr) {
     if (loadDevicesErr) {
       done(loadDevicesErr);
@@ -267,7 +262,6 @@ DevicesService.monitorDevices = function monitorDevices(done) {
 DevicesService.prototype.forget = function forget(device, done) {
   var err;
   var objPath = idPathMap[device.id];
-  var bus = dbus.getBus();
 
   if (!objPath) {
     err = new DevicesServiceError(

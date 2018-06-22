@@ -13,5 +13,10 @@
     "token": {
       "secret": "devsecret"
     }
+  },
+  "log": {
+    "console": true,
+    "syslog": false,
+    "level": "debug"
   }
 }

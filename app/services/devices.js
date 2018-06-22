@@ -1,5 +1,8 @@
 var dbus = require('../dbus');
 var _ = require('lodash');
+var util = require('util');
+
+var logger = require('../logger');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager';
@@ -64,7 +67,8 @@ var parseDbusError = function parseDbusError(err, message) { // eslint-disable-l
   } else if (err.dbusName === IN_PROGRESS_ERROR_NAME) {
     code = DEVICE_SERVICE_ERROR_CODE.IN_PROGRESS;
   }
-  console.log('Error communicating with devices service', err); // eslint-disable-line no-console
+  logger.warn('Error communicating with devices service');
+  logger.debug(util.inspect(err));
   return new DevicesServiceError(message || err.message, code);
 };
 
@@ -121,7 +125,8 @@ function monitorDeviceProperties(device, objPath, done) {
 
 function onDeviceMonitored(err) {
   if (err) {
-    console.error('Error while monitoring device', err); // eslint-disable-line no-console
+    logger.error('Error while monitoring a device');
+    logger.debug(util.inspect(err));
   }
 }
 

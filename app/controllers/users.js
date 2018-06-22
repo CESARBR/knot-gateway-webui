@@ -1,3 +1,5 @@
+var util = require('util');
+
 var users = require('../models/users');
 var gateway = require('../models/gateway');
 var cloud = require('../models/cloud');
@@ -5,6 +7,7 @@ var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
+var logger = require('../logger');
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -62,8 +65,8 @@ var create = function create(req, res, next) {
                                 } else {
                                   fogSvc.restart(function onRestart(restartErr) {
                                     if (restartErr) {
-                                      // don't fail if fog daemon isn't restarted
-                                      console.error('Error restarting KNoT Fog: ', restartErr); // eslint-disable-line no-console
+                                      logger.warn('Failed to restart the fog');
+                                      logger.debug(util.inspect(restartErr));
                                     }
                                   });
                                   res.end();

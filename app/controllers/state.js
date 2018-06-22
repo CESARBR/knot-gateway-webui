@@ -1,5 +1,8 @@
+var util = require('util');
+
 var SystemService = require('../services/system').SystemService;
 var StateService = require('../services/state').StateService;
+var logger = require('../logger');
 var STATES = require('../models/state').STATES;
 
 var get = function get(req, res, next) {
@@ -28,7 +31,8 @@ var update = function update(req, res, next) {
       systemSvc.reboot(function onReboot(errReboot) {
         // don't fail if machine isn't restarted
         if (errReboot) {
-          console.error('Failed to reboot', errReboot); // eslint-disable-line no-console
+          logger.warn('Failed to reboot');
+          logger.debug(util.inspect(errReboot));
         }
       });
     } else {

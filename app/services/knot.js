@@ -1,4 +1,7 @@
+var util = require('util');
+
 var dbus = require('../dbus');
+var logger = require('../logger');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
 var INTERFACE_NAME = 'br.org.cesar.knot.Settings1';
@@ -19,7 +22,8 @@ var KnotService = function KnotService() { // eslint-disable-line vars-on-top
 };
 
 var parseDbusError = function parseDbusError(err, msg) { // eslint-disable-line vars-on-top
-  console.log('Unknown error while communicating with KNoT service:', err); // eslint-disable-line no-console, max-len
+  logger.warn('Unknown error while communicating with KNoT service');
+  logger.debug(util.inspect(err));
   return new KnotServiceError(msg);
 };
 

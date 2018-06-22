@@ -21,5 +21,10 @@
       "secret": null, // auto generated when not specified
       "expiration": 7200 // 2h in seconds
     }
+  },
+  "log": {
+    "console": false,
+    "syslog": true,
+    "level": "info"
   }
 }

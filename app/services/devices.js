@@ -1,7 +1,7 @@
-var bus = require('../dbus');
 var _ = require('lodash');
 var util = require('util');
 
+var bus = require('../dbus');
 var logger = require('../logger');
 
 var SERVICE_NAME = 'br.org.cesar.knot';
@@ -12,8 +12,6 @@ var OBJECT_PATH = '/';
 var ALREADY_EXISTS_ERROR_NAME = 'br.org.cesar.knot.AlreadyExists';
 var NOT_PAIRED_ERROR_NAME = 'br.org.cesar.knot.NotPaired';
 var IN_PROGRESS_ERROR_NAME = 'br.org.cesar.knot.InProgress';
-var idPathMap = {};
-var devicesList = [];
 
 var DEVICE_SERVICE_ERROR_CODE = {
   NOT_FOUND: 'not-found',
@@ -57,6 +55,8 @@ Object.defineProperty(DevicesServiceError.prototype, 'isUnexpected', {
 
 
 var DevicesService = function DevicesService() { // eslint-disable-line vars-on-top
+  this.idPathMap = {};
+  this.devicesList = [];
 };
 
 var parseDbusError = function parseDbusError(err, message) { // eslint-disable-line vars-on-top
@@ -129,33 +129,34 @@ function onDeviceMonitored(err) {
   }
 }
 
-function createDevices(objects) {
-  devicesList = mapObjectsToDevices(objects);
+DevicesService.prototype.createDevices = function createDevices(objects) {
+  this.devicesList = mapObjectsToDevices(objects);
 
-  idPathMap = mapObjectsToIdPath(objects);
-}
+  this.idPathMap = mapObjectsToIdPath(objects);
+};
 
-function removeDevice(path) {
-  var deviceId = _.findKey(idPathMap, function onFind(value) {
+DevicesService.prototype.removeDevice = function removeDevice(path) {
+  var deviceId = _.findKey(this.idPathMap, function onFind(value) {
     return value === path;
   });
   if (deviceId) {
-    delete idPathMap[deviceId];
-    _.remove(devicesList, function onRemove(device) {
+    delete this.idPathMap[deviceId];
+    _.remove(this.devicesList, function onRemove(device) {
       return device.id === deviceId;
     });
   }
-}
+};
 
-function addDevice(device, path) {
-  if (_.has(idPathMap, device.id)) { // Remove old device with same id
-    removeDevice(idPathMap[device.id]);
+DevicesService.prototype.addDevice = function addDevice(device, path) {
+  if (_.has(this.idPathMap, device.id)) {
+    // Remove old device with same id
+    this.removeDevice(this.idPathMap[device.id]);
   }
-  idPathMap[device.id] = path;
-  devicesList.push(device);
-}
+  this.idPathMap[device.id] = path;
+  this.devicesList.push(device);
+};
 
-function loadDevices(done) {
+DevicesService.prototype.loadDevices = function loadDevices(done) {
   bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
     var devicesErr;
     if (getInterfaceErr) {
@@ -169,23 +170,23 @@ function loadDevices(done) {
         done(devicesErr);
         return;
       }
-      createDevices(objects);
-      devicesList.forEach(function onForEach(device) {
-        monitorDeviceProperties(device, idPathMap[device.id], onDeviceMonitored);
+      this.createDevices(objects);
+      this.devicesList.forEach(function onForEach(device) {
+        monitorDeviceProperties(device, this.idPathMap[device.id], onDeviceMonitored);
       });
       done(null);
     });
   });
-}
+};
 
 DevicesService.prototype.list = function list(done) {
-  done(null, devicesList);
+  done(null, this.devicesList);
 };
 
 DevicesService.prototype.getDevice = function getDevice(id, done) {
   var err;
 
-  var device = devicesList.find(function onFind(dev) { return dev.id === id; });
+  var device = this.devicesList.find(function onFind(dev) { return dev.id === id; });
 
   if (!device) {
     err = new DevicesServiceError(
@@ -201,7 +202,7 @@ DevicesService.prototype.getDevice = function getDevice(id, done) {
 
 DevicesService.prototype.pair = function pair(device, done) {
   var err;
-  var objPath = idPathMap[device.id];
+  var objPath = this.idPathMap[device.id];
 
   if (!objPath) {
     err = new DevicesServiceError(
@@ -230,8 +231,8 @@ DevicesService.prototype.pair = function pair(device, done) {
   });
 };
 
-DevicesService.monitorDevices = function monitorDevices(done) {
-  loadDevices(function onLoad(loadDevicesErr) {
+DevicesService.prototype.monitorDevices = function monitorDevices(done) {
+  this.loadDevices(function onLoad(loadDevicesErr) {
     if (loadDevicesErr) {
       done(loadDevicesErr);
     } else {
@@ -245,12 +246,12 @@ DevicesService.monitorDevices = function monitorDevices(done) {
             var device = mapInterfaceToDevice(addedInterface);
             // The device can be undefined if the interface added is not DEVICE_INTERFACE
             if (device) {
-              addDevice(device, objPath);
+              this.addDevice(device, objPath);
               monitorDeviceProperties(device, objPath, onDeviceMonitored);
             }
           });
           iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {
-            removeDevice(objPath);
+            this.removeDevice(objPath);
           });
           done();
         }
@@ -261,7 +262,7 @@ DevicesService.monitorDevices = function monitorDevices(done) {
 
 DevicesService.prototype.forget = function forget(device, done) {
   var err;
-  var objPath = idPathMap[device.id];
+  var objPath = this.idPathMap[device.id];
 
   if (!objPath) {
     err = new DevicesServiceError(
@@ -290,7 +291,9 @@ DevicesService.prototype.forget = function forget(device, done) {
   });
 };
 
+var devicesService = new DevicesService(); // eslint-disable-line vars-on-top
+
 module.exports = {
-  DevicesService: DevicesService,
+  devicesService: devicesService,
   DevicesServiceError: DevicesServiceError
 };

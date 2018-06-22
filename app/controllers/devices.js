@@ -2,8 +2,8 @@ var joi = require('joi');
 var util = require('util');
 
 var users = require('../models/users');
-var DevicesService = require('../services/devices').DevicesService;
 var FogService = require('../services/fog').FogService;
+var devicesService = require('../services/devices').devicesService;
 var logger = require('../logger');
 
 var schemas = joi.array().items({
@@ -58,8 +58,7 @@ var mapToDeviceWithData = function mapToDeviceWithData(serviceDevice, fogDevice,
 };
 
 var list = function list(req, res, next) {
-  var devicesSvc = new DevicesService();
-  devicesSvc.list(function onDevicesReturned(listErr, devices) {
+  devicesService.list(function onDevicesReturned(listErr, devices) {
     if (listErr) {
       next(listErr);
     } else {
@@ -70,8 +69,7 @@ var list = function list(req, res, next) {
 
 var get = function get(req, res, next) {
   var fogSvc = new FogService();
-  var devicesSvc = new DevicesService();
-  devicesSvc.getDevice(req.params.id, function onServiceDevice(getDeviceErr, serviceDevice) {
+  devicesService.getDevice(req.params.id, function onServiceDevice(getDeviceErr, serviceDevice) {
     if (getDeviceErr) {
       next(getDeviceErr);
     } else if (!serviceDevice.registered) {
@@ -105,12 +103,11 @@ var get = function get(req, res, next) {
 };
 
 var pair = function pair(req, res, next) {
-  var devicesSvc = new DevicesService();
   var device = {
     id: req.params.id,
     paired: req.body.paired
   };
-  devicesSvc.pair(device, function onDevicesUpdated(devicesErr) {
+  devicesService.pair(device, function onDevicesUpdated(devicesErr) {
     if (devicesErr) {
       if (devicesErr.isInvalidOperation) {
         // pair() returns invalid operation error when the device is already
@@ -127,12 +124,11 @@ var pair = function pair(req, res, next) {
 };
 
 var forget = function forget(req, res, next) {
-  var devicesSvc = new DevicesService();
   var device = {
     id: req.params.id,
     paired: req.body.paired
   };
-  devicesSvc.forget(device, function onForget(devicesErr) {
+  devicesService.forget(device, function onForget(devicesErr) {
     if (devicesErr) {
       if (devicesErr.isInvalidOperation) {
         // forget() returns invalid operation error when the device isn't paired.

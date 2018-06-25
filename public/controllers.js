@@ -234,6 +234,11 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
         $scope.myDevices = myDevices;
       });
 
+    promise.catch(function onFailure() {
+      $scope.myDevices = [];
+      $scope.nearbyDevices = [];
+    });
+
     GatewayApiErrorService.updateStateOnResponse($scope.$api, promise);
 
     return promise;

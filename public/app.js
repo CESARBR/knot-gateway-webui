@@ -210,6 +210,7 @@ app.constant('API_STATES', {
 });
 
 app.constant('API_ERRORS', {
+  FORBIDDEN: 'forbidden',
   INVALID_CREDENTIALS: 'invalid-credentials',
   EXISTING_USER: 'existing-user',
   CLOUD_UNAVAILABLE: 'cloud-unavailable',

@@ -186,6 +186,9 @@ appServices.factory('GatewayApiErrorService', function GatewayApiErrorService(AP
       case 401:
         error = API_ERRORS.INVALID_CREDENTIALS;
         break;
+      case 403:
+        error = API_ERRORS.FORBIDDEN;
+        break;
       case 409:
         if (response.data.code === 'user') {
           error = API_ERRORS.EXISTING_USER;

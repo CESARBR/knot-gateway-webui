@@ -19,6 +19,11 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
       res.status(404).json({ message: err.message });
     } else if (err.isInProgress) {
       res.status(403).json({ message: err.message });
+    } else if (err.isUnavailable) {
+      res.status(503).json({
+        message: err.message,
+        code: 'devices'
+      });
     } else {
       res.sendStatus(500);
     }

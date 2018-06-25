@@ -2,6 +2,7 @@
   <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="devices-unavailable">Devices service is unavailable. Try again later or check your configuration.</p>
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+    <p ng-message="forbidden">Operation in progress.</p>
   </div>
 
   <div class="panel panel-default" ng-hide="myDevices.length === 0">

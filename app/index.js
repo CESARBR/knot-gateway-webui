@@ -44,16 +44,17 @@ mongoose.connect(databaseUri)
         logger.error('Failed to reset the gateway state. Stopping...');
         return;
       }
-      devicesService.monitorDevices(function onMonitorDevices(monitorDevicesErr) {
-        if (monitorDevicesErr) {
-          logger.error('Error trying to monitor devices');
-          logger.debug(util.inspect(monitorDevicesErr));
+      devicesService.start(function onStarted(startErr) {
+        if (startErr) {
+          logger.error('Failed to start the devices service. Stopping...');
+          logger.debug(util.inspect(startErr));
+          return;
         }
-      });
 
-      port = config.get('server.port');
-      app.listen(port, function onListening() {
-        logger.info('Listening on ' + port);
+        port = config.get('server.port');
+        app.listen(port, function onListening() {
+          logger.info('Listening on ' + port);
+        });
       });
     });
   }, function onDatabaseConnectionFailure(err) {

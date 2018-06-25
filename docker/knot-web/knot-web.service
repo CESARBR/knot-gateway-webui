@@ -1,6 +1,5 @@
 [Unit]
 Description=KNoT Web
-Requires=knotd.service
 
 [Service]
 ExecStart=/usr/local/bin/knot-web.sh

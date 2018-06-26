@@ -19,6 +19,9 @@
         </div>
         <div class="device-body">
           <p>
+            <small class="text-muted">{{ device.id | uppercase }}</small>
+          </p>
+          <p>
             <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
           </p>
           <div ng-if="device.online && !device.registered">
@@ -28,9 +31,6 @@
                 <span class="loader__dot">.</span>
                 <span class="loader__dot">.</span>
               </small>
-            </p>
-            <p>
-              <small class="text-muted">{{ device.id | uppercase }}</small>
             </p>
           </div>
           <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema">

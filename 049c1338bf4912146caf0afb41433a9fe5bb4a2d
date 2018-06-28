@@ -16,6 +16,24 @@
       "revId": "049c1338bf4912146caf0afb41433a9fe5bb4a2d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86a511_077be5c3",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-06-28T21:47:31Z",
+      "side": 1,
+      "message": "Because in the callbacks `this` will point to the context passed to it (which I believe is `null` by default, not sure) instead of the parent scope context (the `this` object).\n\nTake a look at https://medium.com/@denny.headrick/this-bind-this-a-javascript-story-313ff84a12c8",
+      "parentUuid": "b09669c5_4941de2a",
+      "revId": "049c1338bf4912146caf0afb41433a9fe5bb4a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

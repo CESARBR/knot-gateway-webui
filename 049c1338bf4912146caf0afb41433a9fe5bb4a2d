@@ -34,6 +34,24 @@
       "revId": "049c1338bf4912146caf0afb41433a9fe5bb4a2d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590872fa_4ccfb948",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-06-28T22:21:58Z",
+      "side": 1,
+      "message": "Nice, I got it.",
+      "parentUuid": "9c86a511_077be5c3",
+      "revId": "049c1338bf4912146caf0afb41433a9fe5bb4a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

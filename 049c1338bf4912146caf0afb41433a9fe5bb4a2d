@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b09669c5_4941de2a",
+        "filename": "app/services/devices.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-06-28T19:41:00Z",
+      "side": 1,
+      "message": "Just for the knowledge. Why not use `this` directly in the lines below?",
+      "revId": "049c1338bf4912146caf0afb41433a9fe5bb4a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

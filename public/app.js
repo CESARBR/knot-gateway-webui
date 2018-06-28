@@ -9,6 +9,9 @@ require('angular-ui-bootstrap');
 require('angular-permission');
 require('ngstorage');
 
+// Assets
+require('./img/favicons');
+
 // Styles
 require('./styles/bootstrap/bootstrap.less');
 require('./styles/devices.less');

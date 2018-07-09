@@ -26,5 +26,9 @@
     "console": false,
     "syslog": true,
     "level": "info"
+  },
+  "runAs": {
+    "user": "knot",
+    "group": "knot"
   }
 }

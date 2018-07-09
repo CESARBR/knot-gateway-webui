@@ -52,8 +52,21 @@ mongoose.connect(databaseUri)
         }
 
         port = config.get('server.port');
-        app.listen(port, function onListening() {
+        app.listen(port, function onListening(listenErr) {
+          if (listenErr) {
+            logger.error('Unable to listen on port' + port + '. Stopping...');
+            return;
+          }
+
           logger.info('Listening on ' + port);
+
+          if (process.env.NODE_ENV === 'production') {
+            /* Run server process as a special user after binding port 80 as root */
+            process.setgid(config.get('runAs.group'));
+            process.setuid(config.get('runAs.user'));
+
+            logger.info('KNoT Web UI server process is now running as a special user');
+          }
         });
       });
     });

@@ -26,5 +26,9 @@
     "console": false,
     "syslog": true,
     "level": "info"
+  },
+  "owner": {
+    "user": "knot",
+    "group": "knot"
   }
 }

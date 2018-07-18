@@ -245,7 +245,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
   }
 
   function startRefresh() {
-    refreshPromise = $interval(reloadDevices, 5000);
+    refreshPromise = $interval(reloadDevices, 2000);
   }
 
   function stopRefresh() {

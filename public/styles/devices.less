@@ -12,8 +12,10 @@
 
 .device-grid-item {
   flex: 0 0 100%;
+  max-width: 100%;
   @media all and (min-width: @screen-sm) {
     flex: 0 1 33.3%;
+    max-width: 33.3%;
   }
   border: 10px solid transparent;
 }
@@ -33,15 +35,26 @@
 }
 
 .device-heading {
+  margin-bottom: 10px;
+}
+
+.device-heading > h5 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 10px;
+  height: 20px;
 }
 
 .device-body {
   flex: 1;
   margin-bottom: 10px;
+}
+
+.device-body p {
+  font-size: 85%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .device-footer {

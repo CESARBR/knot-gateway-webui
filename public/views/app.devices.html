@@ -18,27 +18,24 @@
           <h5>{{ device.name }}</h5>
         </div>
         <div class="device-body">
-          <p>
-            <small class="text-muted">{{ device.id | uppercase }}</small>
+          <p class="text-muted">
+            {{ device.id | uppercase }}
           </p>
-          <p>
-            <small ng-class="{ 'text-muted': !device.online }">{{ device.online ? 'Online' : 'Offline' }}</small>
+          <p ng-class="{ 'text-muted': !device.online }">
+            {{ device.online ? 'Online' : 'Offline' }}
           </p>
-          <div ng-if="device.online && !device.registered">
-            <p>
-              <small>Registering
-                <span class="loader__dot">.</span>
-                <span class="loader__dot">.</span>
-                <span class="loader__dot">.</span>
-              </small>
-            </p>
-          </div>
-          <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema">
-            <small><b>{{ schema.name }}</b></small>: <small>{{ schema.data ? schema.data.value : '?' }}</small>
+          <p ng-if="device.online && !device.registered">
+            Registering<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>
+          </p>
+          <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema"
+            data-toggle="tooltip"
+            ng-attr-title="{{ schema.name + ': ' + (schema.data ? schema.data.value : '?') }}">
+            <b>{{ schema.name }}</b>: {{ schema.data ? schema.data.value : '?' }}
           </p>
         </div>
         <div class="device-footer">
-          <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Remove device" data-toggle="tooltip" title="Remove device">
+          <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending"
+            aria-label="Remove device" data-toggle="tooltip" title="Remove device">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </a>
         </div>
@@ -62,7 +59,8 @@
           <small class="text-muted">{{ device.id | uppercase }}</small>
         </div>
         <div class="device-footer">
-          <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending" aria-label="Add device" data-toggle="tooltip" title="Add device">
+          <a href="#" api-click="allow(device)" api-click-state="$api" ng-disabled="$api.$pending"
+            aria-label="Add device" data-toggle="tooltip" title="Add device">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
           </a>
         </div>

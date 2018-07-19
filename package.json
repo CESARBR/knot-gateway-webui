@@ -15,7 +15,7 @@
     "celebrate": "^8.0.0",
     "config": "^1.30.0",
     "connect": "^3.6.6",
-    "dbus": "figueredo/node-dbus#fix-method-callback",
+    "dbus": "CESARBR/node-dbus#fix-method-callback",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",

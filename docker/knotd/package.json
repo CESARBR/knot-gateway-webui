@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "config": "^1.30.0",
-    "dbus": "figueredo/node-dbus#fix-method-callback",
+    "dbus": "CESARBR/node-dbus#fix-method-callback",
     "lodash": "^4.17.10",
     "lodash-joins": "^2.0.3",
     "request": "^2.87.0",

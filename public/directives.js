@@ -3,6 +3,22 @@ var isIPv6 = require('is-ipv6-node');
 
 var appDirectives = angular.module('app.directives', []);
 
+appDirectives.directive('keyPress', function keyPress() {
+  return {
+    restrict: 'A',
+    link: function link() {
+      angular.element(document).bind('keypress', function onKeyPress(event) {
+        var linkElement = angular.element(document.querySelector('.next a'));
+        if (event.which === 13) {
+          if (linkElement.attr('disabled') !== 'disabled') {
+            linkElement.triggerHandler('click');
+          }
+        }
+      });
+    }
+  };
+});
+
 appDirectives.directive('confirmClick', function confirmClick() {
   return {
     priority: -1,

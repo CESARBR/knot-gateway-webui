@@ -1,6 +1,9 @@
 var joi = require('celebrate').Joi;
 
 var update = {
+  platform: joi
+    .string()
+    .required(),
   hostname: joi
     .string()
     .hostname()

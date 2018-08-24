@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var cloudSchema = new mongoose.Schema({
+  platform: String,
   hostname: String,
   port: Number
 });
@@ -16,7 +17,7 @@ var setCloudSettings = function setCloudSettings(settings, done) {
 
 var existsCloudSettings = function existsCloudSettings(done) {
   getCloudSettings(function onCloudSettings(err, settings) {
-    done(err, !!settings && settings.hostname && settings.port);
+    done(err, !!settings && settings.platform && settings.hostname && settings.port);
   });
 };
 

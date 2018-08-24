@@ -16,7 +16,7 @@ var update = function update(req, res, next) {
     var fogSvc;
     if (setCloudErr) {
       next(setCloudErr);
-    } else {
+    } else if (req.body.type === 'MESHBLU') {
       fogSvc = new FogService();
       fogSvc.setParentAddress({
         hostname: req.body.hostname,
@@ -28,6 +28,8 @@ var update = function update(req, res, next) {
           res.end();
         }
       });
+    } else {
+      res.end();
     }
   });
 };

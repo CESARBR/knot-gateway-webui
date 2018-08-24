@@ -30,7 +30,7 @@ var create = function create(req, res, next) {
         email: req.body.email,
         password: crypto.createPasswordHash(req.body.password)
       };
-      cloudSvc = new CloudService(cloudSettings.hostname, cloudSettings.port);
+      cloudSvc = new CloudService(cloudSettings.platform, cloudSettings.hostname, cloudSettings.port); // eslint-disable-line max-len
       cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
         if (createUserErr) {
           next(createUserErr);

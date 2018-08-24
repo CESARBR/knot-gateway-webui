@@ -123,6 +123,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES) {
   $scope.$api = {};
   $scope.form = {
+    platform: 'MESHBLU',
     hostname: null,
     port: null
   };

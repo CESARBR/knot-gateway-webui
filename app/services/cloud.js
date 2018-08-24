@@ -54,9 +54,10 @@ var parseResponseError = function parseResponseError(response) { // eslint-disab
 };
 
 
-var CloudService = function CloudService(host, port) { // eslint-disable-line vars-on-top
+var CloudService = function CloudService(host, port, platform) { // eslint-disable-line vars-on-top
   this.host = host;
   this.port = port;
+  this.platform = platform;
 };
 
 CloudService.prototype.createGateway = function createGateway(owner, done) {

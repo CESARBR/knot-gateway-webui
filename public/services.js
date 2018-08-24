@@ -154,6 +154,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
   var saveCloudConfig = function saveCloudConfig(config) {
     return $http.put('/api/cloud', {
+      platform: config.platform,
       hostname: config.hostname,
       port: config.port
     });

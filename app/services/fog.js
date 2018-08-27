@@ -102,6 +102,32 @@ FogService.prototype.restart = function restart(done) {
   exec('kill -15 `cat /tmp/knot-fog.pid`', done);
 };
 
+FogService.prototype.createDevice = function createDevice(properties, done) {
+  request({
+    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    form: properties
+  }, function onResponse(requestErr, response) {
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    if (response.statusCode === 201) {
+      done(null, JSON.parse(response.body));
+    } else {
+      fogErr = parseResponseError(response);
+      done(fogErr);
+    }
+  });
+};
+
 FogService.prototype.cloneUser = function cloneUser(user, done) {
   request({
     url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',

@@ -19,59 +19,46 @@ var me = function me(req, res, next) {
   });
 };
 
-var create = function create(req, res, next) {
-  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
-    var cloudSvc;
-    var credentials;
-    if (getCloudErr) {
-      next(getCloudErr);
+var signupMeshblu = function signupMeshblu(credentials, cloudSvc, done) {
+  var fogSvc;
+  cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
+    if (createUserErr) {
+      done(createUserErr);
     } else {
-      credentials = {
-        email: req.body.email,
-        password: crypto.createPasswordHash(req.body.password)
-      };
-      cloudSvc = new CloudService(cloudSettings.platform, cloudSettings.hostname, cloudSettings.port); // eslint-disable-line max-len
-      cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
-        if (createUserErr) {
-          next(createUserErr);
+      cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gatewayDevice) { // eslint-disable-line max-len
+        if (createGatewayErr) {
+          done(createGatewayErr);
         } else {
-          cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gatewayDevice) { // eslint-disable-line max-len
-            if (createGatewayErr) {
-              next(createGatewayErr);
+          users.setUser(user, function onUserSet(setUserErr) {
+            var knotSvc;
+            if (setUserErr) {
+              done(setUserErr);
             } else {
-              users.setUser(user, function onUserSet(setUserErr) {
-                var knotSvc;
-                if (setUserErr) {
-                  next(setUserErr);
+              knotSvc = new KnotService();
+              knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
+                if (setUserCredErr) {
+                  done(setUserCredErr);
                 } else {
-                  knotSvc = new KnotService();
-                  knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
-                    if (setUserCredErr) {
-                      next(setUserCredErr);
+                  gateway.setGatewaySettings(gatewayDevice, function onGatewaySettingsSet(setGwErr) { // eslint-disable-line max-len
+                    if (setGwErr) {
+                      done(setGwErr);
                     } else {
-                      gateway.setGatewaySettings(gatewayDevice, function onGatewaySettingsSet(setGwErr) { // eslint-disable-line max-len
-                        var fogSvc;
-                        if (setGwErr) {
-                          next(setGwErr);
+                      fogSvc = new FogService();
+                      fogSvc.cloneUser(user, function onUserCloned(userCloneErr) {
+                        if (userCloneErr) {
+                          done(userCloneErr);
                         } else {
-                          fogSvc = new FogService();
-                          fogSvc.cloneUser(user, function onUserCloned(userCloneErr) {
-                            if (userCloneErr) {
-                              next(userCloneErr);
+                          fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
+                            if (setGwCredErr) {
+                              done(setGwCredErr);
                             } else {
-                              fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
-                                if (setGwCredErr) {
-                                  next(setGwCredErr);
-                                } else {
-                                  fogSvc.restart(function onRestart(restartErr) {
-                                    if (restartErr) {
-                                      logger.warn('Failed to restart the fog');
-                                      logger.debug(util.inspect(restartErr));
-                                    }
-                                  });
-                                  res.end();
+                              fogSvc.restart(function onRestart(restartErr) {
+                                if (restartErr) {
+                                  logger.warn('Failed to restart the fog');
+                                  logger.debug(util.inspect(restartErr));
                                 }
                               });
+                              done();
                             }
                           });
                         }
@@ -84,6 +71,67 @@ var create = function create(req, res, next) {
           });
         }
       });
+    }
+  });
+};
+
+var signupFiware = function signupFiware(credentials, done) {
+  var fogSvc = new FogService();
+  fogSvc.createDevice({ }, function onDeviceCreated(createDeviceErr, deviceCreated) {
+    var knotSvc = new KnotService();
+    var user;
+    if (createDeviceErr) {
+      done(createDeviceErr);
+    } else {
+      user = credentials;
+      user.uuid = deviceCreated.uuid;
+      user.token = deviceCreated.token;
+      users.setUser(credentials, function onUserSet(setUserErr) {
+        if (setUserErr) {
+          done(setUserErr);
+        } else {
+          knotSvc.setUserCredentials(deviceCreated, function onUserCredentialsSet(setUserCredErr) {
+            if (setUserCredErr) {
+              done(setUserCredErr);
+            } else {
+              done();
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+var create = function create(req, res, next) {
+  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
+    var cloudSvc;
+    var credentials;
+    if (getCloudErr) {
+      next(getCloudErr);
+    } else {
+      credentials = {
+        email: req.body.email,
+        password: crypto.createPasswordHash(req.body.password)
+      };
+      cloudSvc = new CloudService(cloudSettings.platform, cloudSettings.hostname, cloudSettings.port); // eslint-disable-line max-len
+      if (cloudSvc.platform === 'MESHBLU') {
+        signupMeshblu(credentials, cloudSvc, function onSignup(signupErr) {
+          if (signupErr) {
+            next(signupErr);
+          } else {
+            res.end();
+          }
+        });
+      } else if (cloudSvc.platform === 'FIWARE') {
+        signupFiware(credentials, function onSignup(signupErr) {
+          if (signupErr) {
+            next(signupErr);
+          } else {
+            res.end();
+          }
+        });
+      }
     }
   });
 };

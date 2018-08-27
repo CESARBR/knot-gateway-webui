@@ -1,8 +1,10 @@
 var joi = require('celebrate').Joi;
+var cloudsSupported = ['MESHBLU', 'FIWARE'];
 
 var update = {
   type: joi
     .string()
+    .valid(cloudsSupported)
     .required(),
   hostname: joi
     .string()

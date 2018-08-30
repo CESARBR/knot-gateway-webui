@@ -1,0 +1,45 @@
+@import "~bootstrap/less/variables.less";
+
+.cloud-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.cloud-grid-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  @media all and (min-width: @screen-sm) {
+    flex: 0 1 33.3%;
+    max-width: 33.3%;
+  }
+  border: 10px solid transparent;
+}
+
+.cloud {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  padding: 15px;
+}
+
+.selected{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #62a943;
+  padding: 15px;
+}
+
+.cloud:hover {
+  background-color: #f5f5f5;
+}

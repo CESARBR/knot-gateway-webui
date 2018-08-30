@@ -120,12 +120,27 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   };
 });
 
-appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES) {
+appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES, CLOUD_PLATFORMS) {
   $scope.$api = {};
   $scope.form = {
-    platform: 'MESHBLU',
+    platform: null,
     hostname: null,
     port: null
+  };
+  $scope.cloudPlatforms = [
+    { name: 'MESHBLU', src: CLOUD_PLATFORMS.MESHBLU, selected: false },
+    { name: 'FIWARE', src: CLOUD_PLATFORMS.FIWARE, selected: false }
+  ];
+
+  $scope.selectPlatform = function selectPlatform(platform) {
+    $scope.form.platform = platform;
+    $scope.cloudPlatforms.forEach(function onCloudPlatform(element) {
+      if (element.name === $scope.form.platform) {
+        element.selected = true;
+      } else {
+        element.selected = false;
+      }
+    });
   };
 
   function init() {
@@ -134,6 +149,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         if (result) {
           $scope.form.hostname = result.hostname;
           $scope.form.port = result.port;
+          $scope.selectPlatform(result.platform);
         }
       });
   }

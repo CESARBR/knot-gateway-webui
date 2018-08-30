@@ -123,9 +123,24 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES) {
   $scope.$api = {};
   $scope.form = {
-    platform: 'MESHBLU',
+    platform: null,
     hostname: null,
     port: null
+  };
+  $scope.cloudPlatforms = [
+    { name: 'MESHBLU', src: '/meshblu.png', style: {} },
+    { name: 'FIWARE', src: '/fiware.png', style: {} }
+  ];
+
+  $scope.selectPlatform = function selectPlatform(platform) {
+    $scope.form.platform = platform;
+    $scope.cloudPlatforms.forEach(function onFor(element) {
+      if (element.name === $scope.form.platform) {
+        element.style = { 'background-color': '#62a943' };
+      } else {
+        element.style = {};
+      }
+    });
   };
 
   function init() {
@@ -134,6 +149,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         if (result) {
           $scope.form.hostname = result.hostname;
           $scope.form.port = result.port;
+          $scope.selectPlatform(result.platform);
         }
       });
   }

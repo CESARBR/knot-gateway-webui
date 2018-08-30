@@ -11,10 +11,12 @@ require('ngstorage');
 
 // Assets
 require('./img/favicons');
+require('./img/clouds');
 
 // Styles
 require('./styles/bootstrap/bootstrap.less');
 require('./styles/devices.less');
+require('./styles/clouds.less');
 require('./styles/app.css');
 require('./styles/landing.css');
 require('./styles/main.css');

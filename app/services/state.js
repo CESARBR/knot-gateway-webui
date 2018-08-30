@@ -51,10 +51,24 @@ function canTransitionToReady(from, done) {
     gatewayModel.existsGatewaySettings(function onExistsGwSettings(existsGwErr, existsGw) {
       if (existsGwErr) {
         done(existsGwErr);
-      } else if (!existsGw) {
-        done(null, false);
       } else {
-        userModel.existsUser(done);
+        cloudModel.getCloudSettings(function onCloudSettings(cloudSettingsErr, cloudSettings) {
+          if (cloudSettingsErr) {
+            done(cloudSettingsErr);
+          } else if (cloudSettings) {
+            if (cloudSettings.platform === 'MESHBLU') {
+              if (!existsGw) {
+                done(null, false);
+              } else {
+                userModel.existsUser(done);
+              }
+            } else if (cloudSettings.platform === 'FIWARE') {
+              userModel.existsUser(done);
+            }
+          } else {
+            done(null, false);
+          }
+        });
       }
     });
   } else {

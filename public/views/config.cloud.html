@@ -10,8 +10,16 @@
       <h3 class="panel-title">Step 1. Cloud service</h3>
     </div>
     <div class="panel-body">
-      <p>Set the KNoT Cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
-      <form name="cloudForm" class="form-horizontal" novalidate>
+      <p>Select your cloud platform</p>
+      <div class="cloud-grid">
+        <div class="cloud-grid-item" ng-repeat="cloud in cloudPlatforms">
+          <div class="cloud" ng-class="{'selected': cloud.selected}" ng-click="selectPlatform(cloud.name)">
+            <img ng-src={{cloud.src}} width=100% alt="{{cloud.name}}">
+          </div>
+        </div>
+      </div>
+      <p ng-hide="!form.platform">Set the KNoT Cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
+      <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
         <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
           <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
           <div class="col-sm-6">

@@ -11,10 +11,12 @@ require('ngstorage');
 
 // Assets
 require('./img/favicons');
+require('./img/clouds');
 
 // Styles
 require('./styles/bootstrap/bootstrap.less');
 require('./styles/devices.less');
+require('./styles/clouds.less');
 require('./styles/app.css');
 require('./styles/landing.css');
 require('./styles/main.css');
@@ -188,6 +190,11 @@ app.constant('ROLES_PERMISSIONS', {
 app.constant('AUTH_EVENTS', {
   AUTHENTICATED: 'auth-authenticated',
   NOT_AUTHENTICATED: 'auth-not-authenticated'
+});
+
+app.constant('CLOUD_PLATFORMS', {
+  MESHBLU: '/meshblu.png',
+  FIWARE: '/fiware.png'
 });
 
 app.constant('VIEW_STATES', {

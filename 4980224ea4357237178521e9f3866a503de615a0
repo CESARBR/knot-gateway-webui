@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29e7a4ab_178609fa",
+        "filename": "app/models/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-08-31T18:42:21Z",
+      "side": 1,
+      "message": "In the CloudService constructor you are passing the `platform` attribute as the last argument. I think you should follow the same order from now on.",
+      "revId": "4980224ea4357237178521e9f3866a503de615a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

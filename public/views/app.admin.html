@@ -4,7 +4,7 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-6">
+    <div ng-class="{'col-sm-6': platformName==='MESHBLU', 'col-sm-12': platformName==='FIWARE'}">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">User credentials</h4>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="platformName === 'MESHBLU'">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">Gateway credentials</h4>

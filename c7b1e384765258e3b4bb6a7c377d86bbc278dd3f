@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26c38efa_095342c7",
+        "filename": "app/services/state.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-08-31T18:59:33Z",
+      "side": 1,
+      "message": "Rename to `cloudSettingsErr`.",
+      "range": {
+        "startLine": 55,
+        "startChar": 61,
+        "endLine": 55,
+        "endChar": 77
+      },
+      "revId": "c7b1e384765258e3b4bb6a7c377d86bbc278dd3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -165,7 +165,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   init();
 });
 
-appCtrls.controller('AdminController', function AdminController($scope, GatewayApi, StateService, API_STATES) {
+appCtrls.controller('AdminController', function AdminController($scope, GatewayApi, StateService, API_STATES, CLOUD_PLATFORMS) {
   $scope.$api = {};
   $scope.credentials = {};
 
@@ -177,6 +177,15 @@ appCtrls.controller('AdminController', function AdminController($scope, GatewayA
     GatewayApi.getGatewayConfig()
       .then(function onSuccess(gateway) {
         $scope.credentials.gateway = gateway;
+      });
+    GatewayApi.getCloudConfig()
+      .then(function onCloudConfig(config) {
+        if (config.platform === 'MESHBLU') {
+          $scope.platformSrcImg = CLOUD_PLATFORMS.MESHBLU;
+        } else if (config.platform === 'FIWARE') {
+          $scope.platformSrcImg = CLOUD_PLATFORMS.FIWARE;
+        }
+        $scope.platformName = config.platform;
       });
   }
 

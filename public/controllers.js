@@ -178,6 +178,10 @@ appCtrls.controller('AdminController', function AdminController($scope, GatewayA
       .then(function onSuccess(gateway) {
         $scope.credentials.gateway = gateway;
       });
+    GatewayApi.getCloudConfig()
+      .then(function onCloudConfig(config) {
+        $scope.shouldShowGatewayCred = config.platform === 'MESHBLU';
+      });
   }
 
   $scope.reboot = function reboot() {

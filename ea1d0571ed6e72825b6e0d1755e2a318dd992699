@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e0a53b_169641c4",
+        "filename": "app/schemas/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-08-31T18:48:23Z",
+      "side": 1,
+      "message": "Rename to supportedPlatforms.",
+      "revId": "ea1d0571ed6e72825b6e0d1755e2a318dd992699",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

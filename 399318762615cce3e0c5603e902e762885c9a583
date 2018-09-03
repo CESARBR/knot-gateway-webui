@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "842c78de_bb3dc45c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-09-03T14:30:24Z",
+      "side": 1,
+      "message": "I think this could be something like: [...] and in case the fiware platform is selected, it shows only the user credentials.",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "399318762615cce3e0c5603e902e762885c9a583",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "revId": "a76dd93aab102766e7e4ed0812e48a088cf750a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7deb0752_0885828d",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:10:13Z",
+      "side": 1,
+      "message": "In the upcoming commits I see this being used only to get the platform (but you already have it at hand in the same method). Did you intend to use elsewhere?",
+      "revId": "a76dd93aab102766e7e4ed0812e48a088cf750a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

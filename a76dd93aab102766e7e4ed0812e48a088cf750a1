@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8940c8eb_92be5048",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T17:30:29Z",
+      "side": 1,
+      "message": "Break the line instead of disabling max-len. We are currently only disabling max-len due to callback specification being too long.",
+      "revId": "a76dd93aab102766e7e4ed0812e48a088cf750a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

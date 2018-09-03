@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab217f1_cac640e0",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:14:52Z",
+      "side": 1,
+      "message": "We\u0027ll need to update the connector configuration in this point. As it isn\u0027t available yet, put a placeholder comment here",
+      "revId": "9ebb837ce6ddd1c6bd23241869b06bfe906d0a13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf1094e5_3f978e47",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:14:52Z",
+      "side": 1,
+      "message": "CloudService is only used in the Meshblu case, you could create it in the if below. I see that you are using it to get the platform in the line below, but you already have the platform in the cloudSettings object in this line. Did you intend to do anything else with this attribute in CloudService?",
+      "revId": "9ebb837ce6ddd1c6bd23241869b06bfe906d0a13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

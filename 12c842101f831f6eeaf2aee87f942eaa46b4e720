@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91b5df60_dd0f9966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:56:48Z",
+      "side": 1,
+      "message": "FIWARE",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "12c842101f831f6eeaf2aee87f942eaa46b4e720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f42d0efe_79230919",
+        "filename": "public/controllers.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:56:48Z",
+      "side": 1,
+      "message": "This could be the computed property instead of the platform name.",
+      "revId": "12c842101f831f6eeaf2aee87f942eaa46b4e720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "351ac42c_6d966346",
+        "filename": "public/views/app.admin.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:56:48Z",
+      "side": 1,
+      "message": "Move this logic to the controller. Export a method/property that can be used here. Could be something like `shouldShowGatewayCredentials`",
+      "revId": "12c842101f831f6eeaf2aee87f942eaa46b4e720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b145d54_69c27eec",
+        "filename": "public/controllers.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-09-03T15:39:54Z",
+      "side": 1,
+      "message": "I think you could rename to `onCloudPlatform`.",
+      "range": {
+        "startLine": 137,
+        "startChar": 43,
+        "endLine": 137,
+        "endChar": 48
+      },
+      "revId": "96a0365cdbb859ae98e51bfd81250b621b3a6dfb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

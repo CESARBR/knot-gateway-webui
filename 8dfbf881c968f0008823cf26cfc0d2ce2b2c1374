@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abf840_ccbb1504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:54:06Z",
+      "side": 1,
+      "message": "FIWARE",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "8dfbf881c968f0008823cf26cfc0d2ce2b2c1374",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "517668a6_37a1be4c",
+        "filename": "public/styles/clouds.less",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:54:06Z",
+      "side": 1,
+      "message": "I find this color too strong in this selection, what do you think of #ddd?",
+      "revId": "8dfbf881c968f0008823cf26cfc0d2ce2b2c1374",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3b880c9_ba7cf4a7",
+        "filename": "public/styles/clouds.less",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:54:06Z",
+      "side": 1,
+      "message": "The only change between `selected` and `cloud` classes is the background. You could define it as a \"composed class\":\n\n```\n.cloud {\n   ...\n}\n\n.cloud.selected {\n  background-color: #62a943\n}\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 1
+      },
+      "revId": "8dfbf881c968f0008823cf26cfc0d2ce2b2c1374",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "555945c0_15bf757c",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:54:06Z",
+      "side": 1,
+      "message": "What do you think of centralizing the items in the grid?",
+      "revId": "8dfbf881c968f0008823cf26cfc0d2ce2b2c1374",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec254ab2_f6c9ac1e",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-03T22:54:06Z",
+      "side": 1,
+      "message": "Following the suggestion in the .less file, you could define the classes in this div as follows:\n\n```\n\u003cdiv class\u003d\"cloud\" ng-class\"{\u0027selected\u0027: cloud.selected}\" ...\u003e\n```",
+      "revId": "8dfbf881c968f0008823cf26cfc0d2ce2b2c1374",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

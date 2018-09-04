@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73ec1a06_4142bedb",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-09-04T11:59:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6671c78_a2f1ef72",
+      "range": {
+        "startLine": 119,
+        "startChar": 54,
+        "endLine": 119,
+        "endChar": 72
+      },
+      "revId": "1b530786c625852f2c30aa213e89f7853a97a82d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "521bd8d1_30cc0ea9",
         "filename": "app/controllers/users.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-03T14:03:49Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 127,
+        "startChar": 43,
+        "endLine": 127,
+        "endChar": 61
+      },
+      "revId": "1b530786c625852f2c30aa213e89f7853a97a82d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f12ef805_7d1fb353",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-09-04T11:59:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "521bd8d1_30cc0ea9",
       "range": {
         "startLine": 127,
         "startChar": 43,

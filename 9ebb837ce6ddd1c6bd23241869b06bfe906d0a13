@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc421585_b1d754ea",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-09-04T11:59:10Z",
+      "side": 1,
+      "message": "I was thinking in put the connector configuration in cloud route. Not at signup route.",
+      "parentUuid": "9ab217f1_cac640e0",
+      "revId": "9ebb837ce6ddd1c6bd23241869b06bfe906d0a13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf1094e5_3f978e47",
         "filename": "app/controllers/users.js",
         "patchSetId": 2

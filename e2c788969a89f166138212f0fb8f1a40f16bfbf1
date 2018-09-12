@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a540c5d4_7e9069da",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-12T23:09:41Z",
+      "side": 1,
+      "message": "You can remove the cloud part. `selected` is a different class and `cloud.selected` is the composition of both classes. Please verify if selected isn\u0027t a name used by bootstrap. If so, check if it has a good layout and use it, or renamed this class to avoid the clash otherwise.",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "e2c788969a89f166138212f0fb8f1a40f16bfbf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

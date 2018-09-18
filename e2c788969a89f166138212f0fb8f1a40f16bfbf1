@@ -22,6 +22,30 @@
       "revId": "e2c788969a89f166138212f0fb8f1a40f16bfbf1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "598a78c6_55ac8013",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-09-18T13:55:23Z",
+      "side": 1,
+      "message": "I misread this, it is correct :)",
+      "parentUuid": "a540c5d4_7e9069da",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "e2c788969a89f166138212f0fb8f1a40f16bfbf1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

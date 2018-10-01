@@ -7,6 +7,7 @@ var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
+var ConnectorService = require('../services/connector').ConnectorService;
 var logger = require('../logger');
 
 var me = function me(req, res, next) {
@@ -91,10 +92,15 @@ var signupFiware = function signupFiware(credentials, done) {
           done(setUserErr);
         } else {
           knotSvc.setUserCredentials(deviceCreated, function onUserCredentialsSet(setUserCredErr) {
+            var connectorSvc = new ConnectorService();
             if (setUserCredErr) {
               done(setUserCredErr);
             } else {
-              // TODO: Update connector configuration
+              connectorSvc.setFogConfig(user, function onFogConfigSet(setFogConfigErr) {
+                if (setFogConfigErr) {
+                  done(setFogConfigErr);
+                }
+              });
               done();
             }
           });

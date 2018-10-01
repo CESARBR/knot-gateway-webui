@@ -13,24 +13,63 @@
       <p>Select your cloud platform</p>
       <div class="cloud-grid">
         <div class="cloud-grid-item" ng-repeat="cloud in cloudPlatforms">
-          <div class="cloud" ng-class="{'selected': cloud.selected}" ng-click="selectPlatform(cloud.name)">
-            <img ng-src={{cloud.src}} width=100% alt="{{cloud.name}}">
-          </div>
+          <a href ng-click="selectPlatform(cloud.name)">
+            <div class="cloud" ng-class="{'selected': cloud.selected}">
+              <img ng-src={{cloud.src}} width=100% alt="{{cloud.name}}">
+            </div>
+          </a>
         </div>
       </div>
       <p ng-hide="!form.platform">Set the KNoT Cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
+      <br>
       <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
-        <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
-          <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
-          <div class="col-sm-6">
-            <input type="text" id="hostname" name="hostname" class="form-control" placeholder="Host name" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
+        <div ng-if="form.platform === 'MESHBLU'">
+          <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
+            <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+            <div class="col-sm-6">
+              <input type="text" id="hostname" name="hostname" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
+            </div>
           </div>
-        </div>
 
-        <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
-          <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
-          <div class="col-sm-6">
-            <input type="number" id="port" name="port" class="form-control" placeholder="Port" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
+            <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+            <div class="col-sm-6">
+              <input type="number" id="port" name="port" class="form-control" placeholder="3000" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+            </div>
+          </div>
+
+        </div>
+        <div ng-if="form.platform === 'FIWARE'">
+          <p class="text-center">IoT Agent configuration</p>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.iota.hostname.$invalid && !cloudForm.iota.hostname.$pristine }">
+            <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+            <div class="col-sm-6">
+              <input type="text" id="hostname-iota" name="hostname-iota" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.iota.hostname" ng-disabled="$api.$pending" hostname required>
+            </div>
+          </div>
+
+          <div class="form-group ng-class:{ 'has-error': cloudForm.iota.port.$invalid && !cloudForm.iota.port.$pristine }">
+            <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+            <div class="col-sm-6">
+              <input type="number" id="port-iota" name="port-iota" class="form-control" placeholder="4041" ng-model="form.iota.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+            </div>
+          </div>
+
+          <hr>
+          <p class="text-center">Orion configuration</p>
+
+          <div class="form-group ng-class:{ 'has-error': cloudForm.orion.hostname.$invalid && !cloudForm.orion.hostname.$pristine }">
+            <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+            <div class="col-sm-6">
+              <input type="text" id="hostname-orion" name="hostname-orion" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.orion.hostname" ng-disabled="$api.$pending" hostname required>
+            </div>
+          </div>
+
+          <div class="form-group ng-class:{ 'has-error': cloudForm.orion.port.$invalid && !cloudForm.orion.port.$pristine }">
+            <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+            <div class="col-sm-6">
+              <input type="number" id="port-orion" name="port-orion" class="form-control" placeholder="1026" ng-model="form.orion.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+            </div>
           </div>
         </div>
       </form>

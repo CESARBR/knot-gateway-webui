@@ -1,0 +1,32 @@
+{
+  "fog": {
+    "host": "localhost",
+    "port": 3000,
+    "uuid": "425a1292-e034-43da-a5ba-70db1c390000",
+    "token": "917d5f4f8e2001f080f2211f02796611d3f7b1e7"
+  },
+  "cloudType": "FIWARE",
+  "cloud": {
+    "iota": {
+      "hostname": "localhost",
+      "port": 4041
+    },
+    "orion": {
+      "hostname": "localhost",
+      "port": 1026
+    },
+    "service": {
+      "name": "knot",
+      "resource": "/iot/d"
+    }
+  },
+  "runAs": {
+    "user": "knot",
+    "group": "knot"
+  },
+  "log": {
+    "console": true,
+    "syslog": false,
+    "level": "info"
+  }
+}

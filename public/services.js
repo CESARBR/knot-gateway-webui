@@ -153,11 +153,19 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   var saveCloudConfig = function saveCloudConfig(config) {
-    return $http.put('/api/cloud', {
-      platform: config.platform,
-      hostname: config.hostname,
-      port: config.port
-    });
+    var body = {
+      platform: config.platform
+    };
+
+    if (config.platform === 'MESHBLU') {
+      body.hostname = config.hostname;
+      body.port = config.port;
+    } else if (config.platform === 'FIWARE') {
+      body.iota = config.iota;
+      body.orion = config.orion;
+    }
+
+    return $http.put('/api/cloud', body);
   };
 
   return {

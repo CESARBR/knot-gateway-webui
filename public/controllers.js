@@ -122,11 +122,8 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES, CLOUD_PLATFORMS) {
   $scope.$api = {};
-  $scope.form = {
-    platform: null,
-    hostname: null,
-    port: null
-  };
+  $scope.form = {};
+
   $scope.cloudPlatforms = [
     { name: 'MESHBLU', src: CLOUD_PLATFORMS.MESHBLU, selected: false },
     { name: 'FIWARE', src: CLOUD_PLATFORMS.FIWARE, selected: false }
@@ -147,8 +144,13 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
-          $scope.form.hostname = result.hostname;
-          $scope.form.port = result.port;
+          if (result.platform === 'MESHBLU') {
+            $scope.form.hostname = result.hostname;
+            $scope.form.port = result.port;
+          } else if (result.platform === 'FIWARE') {
+            $scope.form.iota = result.iota;
+            $scope.form.orion = result.orion;
+          }
           $scope.selectPlatform(result.platform);
         }
       });

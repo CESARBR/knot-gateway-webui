@@ -75,6 +75,8 @@ RUN npm_config_tmp=/tmp TMP=/tmp yarn
 RUN mkdir -p /etc/knot
 COPY ./config/gatewayConfig.json ./config/keys.json /etc/knot/
 RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-source/.env
+RUN mkdir -p /usr/local/bin/knot-fog-connector && mkdir -p /usr/local/bin/knot-fog-connector/config
+COPY ./config/connectorConfig.json /usr/local/bin/knot-fog-connector/config/default.json
 
 # install init script
 COPY ./docker/knot-web/knot-web.service /lib/systemd/system/knot-web.service

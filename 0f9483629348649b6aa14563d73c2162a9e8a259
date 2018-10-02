@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3e5c8ec_6196f541",
+        "filename": "app/models/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-10-02T12:10:48Z",
+      "side": 0,
+      "message": "Should I do these verifications?",
+      "range": {
+        "startLine": 20,
+        "startChar": 24,
+        "endLine": 20,
+        "endChar": 83
+      },
+      "revId": "0f9483629348649b6aa14563d73c2162a9e8a259",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

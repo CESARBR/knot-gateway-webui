@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c22a34c_a7bc96e9",
+        "filename": "config/connectorConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-10-03T21:31:52Z",
+      "side": 1,
+      "message": "Create this file in a different location. Put it into ./docker/knot-fog-connector.",
+      "revId": "e6ca7012ec6d8491ecf6b31fc48833133b56832d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a248a79a_346d354f",
+        "filename": "config/connectorConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-10-03T21:31:52Z",
+      "side": 1,
+      "message": "Replace tabs with 2 spaces",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1
+      },
+      "revId": "e6ca7012ec6d8491ecf6b31fc48833133b56832d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

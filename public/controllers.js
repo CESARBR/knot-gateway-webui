@@ -30,6 +30,10 @@ appCtrls.controller('RebootController', function RebootController($scope, $state
     $state.go(VIEW_STATES.CONFIG_CLOUD);
   });
 
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD_SECURITY, function onConfigurationCloudSecurity() {
+    $state.go(VIEW_STATES.CONFIG_CLOUD_SECURITY);
+  });
+
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
   });
@@ -48,6 +52,10 @@ appCtrls.controller('ConfigController', function ConfigController($scope, $state
 
   $scope.$on(API_STATES.CONFIGURATION_CLOUD, function onConfigurationCloud() {
     $state.go(VIEW_STATES.CONFIG_CLOUD);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD_SECURITY, function onConfigurationCloudSecurity() {
+    $state.go(VIEW_STATES.CONFIG_CLOUD_SECURITY);
   });
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
@@ -76,6 +84,10 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
     $state.go(VIEW_STATES.CONFIG_CLOUD);
   });
 
+  $scope.$on(API_STATES.CONFIGURATION_CLOUD_SECURITY, function onConfigurationCloudSecurity() {
+    $state.go(VIEW_STATES.CONFIG_CLOUD_SECURITY);
+  });
+
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
   });
@@ -97,7 +109,7 @@ appCtrls.controller('SigninController', function SigninController($scope, $state
   };
 });
 
-appCtrls.controller('SignupController', function SignupController($scope, $state, IdentityApi, AuthService, StateService, VIEW_STATES, API_STATES) {
+appCtrls.controller('SignupController', function SignupController($scope, $state, GatewayApi, IdentityApi, AuthService, StateService, VIEW_STATES, API_STATES) {
   $scope.$apiBack = {};
   $scope.$apiSignup = {};
   $scope.form = {
@@ -107,8 +119,13 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   };
 
   $scope.back = function back() {
-    return StateService
-      .changeState(API_STATES.CONFIGURATION_CLOUD);
+    GatewayApi.getCloudConfig()
+      .then(function onSuccess(result) {
+        if (!result.disableSecurity && result.platform === 'FIWARE') {
+          return StateService.changeState(API_STATES.CONFIGURATION_CLOUD_SECURITY);
+        }
+        return StateService.changeState(API_STATES.CONFIGURATION_CLOUD);
+      });
   };
 
   $scope.signup = function signup() {
@@ -122,7 +139,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
 
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES, CLOUD_PLATFORMS) {
   $scope.$api = {};
-  $scope.form = {};
+  $scope.form = { disableSecurity: false };
 
   $scope.cloudPlatforms = [
     { name: 'MESHBLU', src: CLOUD_PLATFORMS.MESHBLU, selected: false },
@@ -144,6 +161,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
+          $scope.form.disableSecurity = result.disableSecurity;
           if (result.platform === 'MESHBLU') {
             $scope.form.hostname = result.hostname;
             $scope.form.port = result.port;
@@ -160,6 +178,49 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     return GatewayApi
       .saveCloudConfig($scope.form)
       .then(function onCloudConfigSaved() {
+        if ($scope.form.platform === 'FIWARE' && !$scope.form.disableSecurity) {
+          return StateService.changeState(API_STATES.CONFIGURATION_CLOUD_SECURITY);
+        }
+        return StateService.changeState(API_STATES.CONFIGURATION_USER);
+      });
+  };
+
+  init();
+});
+
+appCtrls.controller('CloudSecurityController', function CloudSecurityController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES) {
+  $scope.$apiBack = {};
+  $scope.$api = {};
+  $scope.form = {};
+
+  $scope.back = function back() {
+    return StateService
+      .changeState(API_STATES.CONFIGURATION_CLOUD);
+  };
+
+  function init() {
+    GatewayApi.getCloudSecurityConfig()
+      .then(function onSuccess(result) {
+        if (result) {
+          $scope.form.hostname = result.hostname;
+          $scope.form.port = result.port;
+          $scope.form.clientId = result.clientId;
+          $scope.form.clientSecret = result.clientSecret;
+          $scope.form.callbackUrl = result.callbackUrl;
+          $scope.form.code = result.code;
+        }
+      });
+  }
+
+  $scope.save = function save() {
+    GatewayApi.getCloudConfig()
+      .then(function onSuccess(result) {
+        $scope.platform = result.platform;
+      })
+      .then(function onSuccess() {
+        return GatewayApi.saveCloudSecurityConfig($scope.form, $scope.platform);
+      })
+      .then(function onCloudSecurityConfigSaved() {
         return StateService.changeState(API_STATES.CONFIGURATION_USER);
       });
   };

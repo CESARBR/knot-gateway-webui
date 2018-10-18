@@ -15,9 +15,13 @@
       "hostname": "localhost",
       "port": 1026
     },
-    "service": {
-      "name": "knot",
-      "resource": "/iot/d"
+    "security": {
+      "hostname": "localhost",
+      "port": 5000,
+      "clientId": "f00077e0-36c1-46bc-9278-ed5edc0aa8fe",
+      "clientSecret": "2a33e70e-aa75-4fa8-ad29-b08f63912067",
+      "redirectUri": "https://client.example.com",
+      "code": "SplxlOBeZQQYbYS6WxSbIA"
     }
   },
   "runAs": {

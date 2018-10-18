@@ -152,9 +152,16 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
+  // /api/cloud/security
+  var getCloudSecurityConfig = function getCloudSecurityConfig() {
+    return $http.get('/api/cloud/security')
+      .then(extractData);
+  };
+
   var saveCloudConfig = function saveCloudConfig(config) {
     var body = {
-      platform: config.platform
+      platform: config.platform,
+      disableSecurity: config.disableSecurity
     };
 
     if (config.platform === 'MESHBLU') {
@@ -167,6 +174,14 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     return $http.put('/api/cloud', body);
   };
+
+  var saveCloudSecurityConfig = function saveCloudSecurityConfig(config, platform) {
+    var body = config;
+    body.platform = platform;
+
+    return $http.put('/api/cloud/security', body);
+  };
+
 
   return {
     me: me,
@@ -184,7 +199,9 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     getGatewayConfig: getGatewayConfig,
 
     getCloudConfig: getCloudConfig,
-    saveCloudConfig: saveCloudConfig
+    getCloudSecurityConfig: getCloudSecurityConfig,
+    saveCloudConfig: saveCloudConfig,
+    saveCloudSecurityConfig: saveCloudSecurityConfig
   };
 });
 
@@ -382,6 +399,10 @@ appServices.factory('State', function GatewayState($rootScope, API_STATES) {
     return currentState === API_STATES.CONFIGURATION_CLOUD;
   }
 
+  function isCloudConfigurationSecurityState() {
+    return currentState === API_STATES.CONFIGURATION_CLOUD_SECURITY;
+  }
+
   function isUserConfigurationState() {
     return currentState === API_STATES.CONFIGURATION_USER;
   }
@@ -394,6 +415,7 @@ appServices.factory('State', function GatewayState($rootScope, API_STATES) {
     getState: getState,
     setState: setState,
     isCloudConfigurationState: isCloudConfigurationState,
+    isCloudConfigurationSecurityState: isCloudConfigurationSecurityState,
     isUserConfigurationState: isUserConfigurationState,
     isUseState: isUseState
   };

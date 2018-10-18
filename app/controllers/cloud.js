@@ -12,6 +12,16 @@ var get = function get(req, res, next) {
   });
 };
 
+var getSecurity = function getSecurity(req, res, next) {
+  cloud.getCloudSecuritySettings(function onCloudSecuritySettingsReturned(err, settings) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(settings);
+    }
+  });
+};
+
 var update = function update(req, res, next) {
   cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
     var fogSvc;
@@ -35,6 +45,7 @@ var update = function update(req, res, next) {
       connectorSvc = new ConnectorService();
       connectorSvc.setCloudConfig({
         platform: req.body.platform,
+        disableSecurity: req.body.disableSecurity,
         iota: req.body.iota,
         orion: req.body.orion
       }, function onCloudConfigSet(setCloudConfigErr) {
@@ -50,7 +61,29 @@ var update = function update(req, res, next) {
   });
 };
 
+var updateSecurity = function updateSecurity(req, res, next) {
+  var connectorSvc;
+
+  cloud.setCloudSecuritySettings(req.body, function onCloudSecuritySettingsSet(setCloudErr) {
+    if (setCloudErr) {
+      next(setCloudErr);
+    } else {
+      connectorSvc = new ConnectorService();
+      connectorSvc.setCloudSecurityConfig(req.body,
+        function onCloudSecurityConfigSet(setCloudSecurityConfigErr) {
+          if (setCloudSecurityConfigErr) {
+            next(setCloudSecurityConfigErr);
+          } else {
+            res.end();
+          }
+        });
+    }
+  });
+};
+
 module.exports = {
   get: get,
-  update: update
+  getSecurity: getSecurity,
+  update: update,
+  updateSecurity: updateSecurity
 };

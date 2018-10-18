@@ -52,7 +52,15 @@ function skipWhen(states, conditionalHandler) {
 module.exports = {
   onlyWhenReady: onlyWhen([STATES.READY]),
   onlyWhenConfigurationCloud: onlyWhen([STATES.CONFIGURATION_CLOUD]),
+  onlyWhenConfigurationCloudSecurity: onlyWhen([
+    STATES.CONFIGURATION_CLOUD,
+    STATES.CONFIGURATION_CLOUD_SECURITY
+  ]),
   onlyWhenConfigurationUser: onlyWhen([STATES.CONFIGURATION_USER]),
   exceptWhenConfigurationCloud: exceptWhen([STATES.CONFIGURATION_CLOUD]),
-  skipWhenConfiguration: _.curry(skipWhen)([STATES.CONFIGURATION_CLOUD, STATES.CONFIGURATION_USER])
+  skipWhenConfiguration: _.curry(skipWhen)([
+    STATES.CONFIGURATION_CLOUD,
+    STATES.CONFIGURATION_CLOUD_SECURITY,
+    STATES.CONFIGURATION_USER
+  ])
 };

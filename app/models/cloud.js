@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var options = { discriminatorKey: 'type' };
 
 var settingsSchema = new mongoose.Schema({
-  platform: String
+  platform: String,
+  disableSecurity: Boolean
 }, options);
 
 var meshbluSettingsSchema = new mongoose.Schema({
@@ -22,13 +23,29 @@ var fiwareSettingsSchema = new mongoose.Schema({
   }
 }, options);
 
+var securitySettingsSchema = new mongoose.Schema({
+  platform: String,
+  hostname: String,
+  port: Number,
+  clientId: String,
+  clientSecret: String,
+  callbackUrl: String,
+  code: String
+});
+
 var Settings = mongoose.model('Settings', settingsSchema);
 var MeshbluSettings = Settings.discriminator('MeshbluSettings', meshbluSettingsSchema);
 var FiwareSettings = Settings.discriminator('FiwareSettings', fiwareSettingsSchema);
+var SecuritySettings = mongoose.model('security', securitySettingsSchema);
 
 var getCloudSettings = function getCloudSettings(done) {
   Settings.findOne({}, done);
 };
+
+var getCloudSecuritySettings = function getCloudSecuSettings(done) {
+  SecuritySettings.findOne({}, done);
+};
+
 
 var setCloudSettings = function setCloudSettings(settings, done) {
   Settings.deleteOne({}, function onOlderStateRemoved(err) {
@@ -43,6 +60,10 @@ var setCloudSettings = function setCloudSettings(settings, done) {
   });
 };
 
+var setCloudSecuritySettings = function setCloudSecuritySettings(settings, done) {
+  SecuritySettings.findOneAndUpdate({}, settings, { upsert: true }, done);
+};
+
 var existsCloudSettings = function existsCloudSettings(done) {
   getCloudSettings(function onCloudSettings(err, settings) {
     done(err, !!settings);
@@ -51,6 +72,8 @@ var existsCloudSettings = function existsCloudSettings(done) {
 
 module.exports = {
   getCloudSettings: getCloudSettings,
+  getCloudSecuritySettings: getCloudSecuritySettings,
   setCloudSettings: setCloudSettings,
+  setCloudSecuritySettings: setCloudSecuritySettings,
   existsCloudSettings: existsCloudSettings
 };

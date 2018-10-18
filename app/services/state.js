@@ -38,6 +38,10 @@ function canTransitionToConfigurationCloud(from, done) {
   done(null, isAllowedTransition(from, stateModel.STATES.CONFIGURATION_CLOUD));
 }
 
+function canTransitionToConfigurationCloudSecurity(from, done) {
+  done(null, isAllowedTransition(from, stateModel.STATES.CONFIGURATION_CLOUD_SECURITY));
+}
+
 function canTransitionToConfigurationUser(from, done) {
   if (isAllowedTransition(from, stateModel.STATES.CONFIGURATION_USER)) {
     cloudModel.existsCloudSettings(done);
@@ -83,6 +87,9 @@ function canTransition(from, to, done) {
       break;
     case stateModel.STATES.CONFIGURATION_CLOUD:
       canTransitionToConfigurationCloud(from, done);
+      break;
+    case stateModel.STATES.CONFIGURATION_CLOUD_SECURITY:
+      canTransitionToConfigurationCloudSecurity(from, done);
       break;
     case stateModel.STATES.CONFIGURATION_USER:
       canTransitionToConfigurationUser(from, done);

@@ -16,6 +16,7 @@ var update = {
     .string()
     .valid(supportedPlatforms)
     .required(),
+  disableSecurity: joi.boolean().required(),
   hostname: joi
     .string()
     .hostname()
@@ -38,6 +39,20 @@ var update = {
     .when('platform', { is: 'FIWARE', then: joi.required() })
 };
 
+var updateSecurity = {
+  platform: joi
+    .string()
+    .valid(supportedPlatforms)
+    .required(),
+  hostname: hostname,
+  port: port,
+  clientId: joi.string().required(),
+  clientSecret: joi.string().required(),
+  callbackUrl: joi.string().required(),
+  code: joi.string().required()
+};
+
 module.exports = {
-  update: update
+  update: update,
+  updateSecurity: updateSecurity
 };

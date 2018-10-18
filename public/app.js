@@ -59,7 +59,11 @@ app.config(function config(
       controller: 'ConfigController',
       data: {
         permissions: {
-          only: [PERMISSIONS.CONFIGURE_CLOUD, PERMISSIONS.CONFIGURE_USER],
+          only: [
+            PERMISSIONS.CONFIGURE_CLOUD,
+            PERMISSIONS.CONFIGURE_CLOUD_SECURITY,
+            PERMISSIONS.CONFIGURE_USER
+          ],
           redirectTo: VIEW_STATES.SIGNIN
         }
       }
@@ -81,6 +85,17 @@ app.config(function config(
       data: {
         permissions: {
           only: PERMISSIONS.CONFIGURE_CLOUD,
+          redirectTo: VIEW_STATES.CONFIG_USER
+        }
+      }
+    })
+    .state(VIEW_STATES.CONFIG_CLOUD_SECURITY, {
+      url: '/security',
+      template: require('./views/config.security.html'),
+      controller: 'CloudSecurityController',
+      data: {
+        permissions: {
+          only: PERMISSIONS.CONFIGURE_CLOUD_SECURITY,
           redirectTo: VIEW_STATES.CONFIG_USER
         }
       }
@@ -153,6 +168,11 @@ app.run(function run($urlRouter, StateService, PermPermissionStore, PERMISSIONS)
         && Session.hasPermission(PERMISSIONS.CONFIGURE_CLOUD);
     }]);
 
+    PermPermissionStore.definePermission(PERMISSIONS.CONFIGURE_CLOUD_SECURITY, ['Session', 'State', function hasPermission(Session, State) {
+      return State.isCloudConfigurationSecurityState()
+        && Session.hasPermission(PERMISSIONS.CONFIGURE_CLOUD_SECURITY);
+    }]);
+
     PermPermissionStore.definePermission(PERMISSIONS.CONFIGURE_USER, ['Session', 'State', function hasPermission(Session, State) {
       return State.isUserConfigurationState()
         && Session.hasPermission(PERMISSIONS.CONFIGURE_USER);
@@ -179,12 +199,13 @@ app.constant('PERMISSIONS', {
   NONE: 'none',
   MANAGE: 'manage',
   CONFIGURE_CLOUD: 'configure-cloud',
+  CONFIGURE_CLOUD_SECURITY: 'configure-cloud-security',
   CONFIGURE_USER: 'configure-user'
 });
 
 app.constant('ROLES_PERMISSIONS', {
-  'anonymous': ['none', 'configure-cloud', 'configure-user'], // eslint-disable-line quote-props
-  'admin': ['manage', 'configure-cloud', 'configure-user'] // eslint-disable-line quote-props
+  'anonymous': ['none', 'configure-cloud', 'configure-cloud-security', 'configure-user'], // eslint-disable-line quote-props
+  'admin': ['manage', 'configure-cloud', 'configure-cloud-security', 'configure-user'] // eslint-disable-line quote-props
 });
 
 app.constant('AUTH_EVENTS', {
@@ -204,6 +225,7 @@ app.constant('VIEW_STATES', {
   CONFIG: 'config',
   CONFIG_WELCOME: 'config.welcome',
   CONFIG_CLOUD: 'config.cloud',
+  CONFIG_CLOUD_SECURITY: 'config.security',
   CONFIG_USER: 'config.signup',
 
   APP: 'app',
@@ -215,6 +237,7 @@ app.constant('VIEW_STATES', {
 app.constant('API_STATES', {
   REBOOTING: 'rebooting',
   CONFIGURATION_CLOUD: 'configuration-cloud',
+  CONFIGURATION_CLOUD_SECURITY: 'configuration-cloud-security',
   CONFIGURATION_USER: 'configuration-user',
   READY: 'ready'
 });

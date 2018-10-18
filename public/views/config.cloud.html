@@ -71,6 +71,9 @@
               <input type="number" id="port-orion" name="port-orion" class="form-control" placeholder="1026" ng-model="form.orion.port" ng-disabled="$api.$pending" min="0" max="65535" required>
             </div>
           </div>
+          <div class="checkbox col-sm-offset-3">
+            <label><input type="checkbox" ng-model="form.disableSecurity" ng-checked="form.disableSecurity">Check this option to disable setup FIWARE security components</label>
+          </div>
         </div>
       </form>
 

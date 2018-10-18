@@ -44,10 +44,33 @@ ConnectorService.prototype.setCloudConfig = function setCloudConfig(cloudConfig,
       iota: cloudConfig.iota,
       orion: cloudConfig.orion
     };
+    connectorConfig.cloud.disableSecurity = cloudConfig.disableSecurity;
 
     writeConfigFile(connectorConfig, done);
   });
 };
+
+ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig(
+  cloudSecurityConfig, done) {
+  readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
+    if (readConfigFileErr) {
+      done(readConfigFileErr);
+      return;
+    }
+
+    connectorConfig.cloud.security = {
+      hostname: cloudSecurityConfig.hostname,
+      port: cloudSecurityConfig.port,
+      clientId: cloudSecurityConfig.clientId,
+      clientSecret: cloudSecurityConfig.clientSecret,
+      callbackUrl: cloudSecurityConfig.callbackUrl,
+      code: cloudSecurityConfig.code
+    };
+
+    writeConfigFile(connectorConfig, done);
+  });
+};
+
 
 ConnectorService.prototype.setFogConfig = function setFogConfig(fogConfig, done) {
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {

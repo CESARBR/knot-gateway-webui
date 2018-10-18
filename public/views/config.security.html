@@ -1,0 +1,70 @@
+<div>
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
+    <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+  </div>
+
+  <uib-progressbar value="25"></uib-progressbar>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Step 2. Security configuration</h3>
+    </div>
+    <div class="panel-body">
+      <p>Set the KeyRock Identity Manager address. This is the service that will protect your FIWARE application.</p>
+      <br>
+      <form name="securityForm" class="form-horizontal" novalidate>
+        <div class="form-group ng-class:{ 'has-error': securityForm.hostname.$invalid && !securityForm.hostname.$pristine }">
+          <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+          <div class="col-sm-6">
+            <input type="text" id="hostname-keyrock" name="hostname-keyrock" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
+          </div>
+        </div>
+        <div class="form-group ng-class:{ 'has-error': securityForm.port.$invalid && !securityForm.port.$pristine }">
+          <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+          <div class="col-sm-6">
+            <input type="number" id="port-keyrock" name="port-keyrock" class="form-control" placeholder="5000" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+          </div>
+        </div>
+        <br>
+        <p>Set the FIWARE application authentication parameters and authorization code. The FIWARE documentation explains how to get these parameters and generate the code:
+        <a href="https://fiware-idm.readthedocs.io/en/latest/user_guide/#user-guide" target="_blank">see here</a>.</p>
+        <br>
+        <div class="form-group ng-class:{ 'has-error': securityForm.clientId.$invalid && !securityForm.clientId.$pristine }">
+          <label for="client-id" class="col-sm-2 col-sm-offset-2 control-label">Client Id</label>
+          <div class="col-sm-6">
+            <input type="text" id="client-id" name="client-id" class="form-control" placeholder="c2625835-814a-44ed-a59f-d0b65b175c9f" ng-model="form.clientId" ng-disabled="$api.$pending" required>
+          </div>
+        </div>
+        <div class="form-group ng-class:{ 'has-error': securityForm.clientSecret.$invalid && !securityForm.clientSecret.$pristine }">
+          <label for="client-secret" class="col-sm-2 col-sm-offset-2 control-label">Client Secret</label>
+          <div class="col-sm-6">
+            <input type="text" id="client-secret" name="client-secret" class="form-control" placeholder="4d9dd505-a46e-4128-9ec0-32a09b57feb1" ng-model="form.clientSecret" ng-disabled="$api.$pending" required>
+          </div>
+        </div>
+        <div class="form-group ng-class:{ 'has-error': securityForm.callbackUrl.$invalid && !securityForm.callbackUrl.$pristine }">
+          <label for="callback-url" class="col-sm-2 col-sm-offset-2 control-label">Callback URL</label>
+          <div class="col-sm-6">
+            <input type="text" id="callback-url" name="callback-url" class="form-control" placeholder="https://client.example.com" ng-model="form.callbackUrl" ng-disabled="$api.$pending" required>
+          </div>
+        </div>
+        <div class="form-group ng-class:{ 'has-error': securityForm.code.$invalid && !securityForm.code.$pristine }">
+          <label for="code" class="col-sm-3 col-sm-offset-1 control-label">Authorization Code</label>
+          <div class="col-sm-6">
+            <input type="text" id="code" name="code" class="form-control" placeholder="SplxlOBeZQQYbYS6WxSbIA" ng-model="form.code" ng-disabled="$api.$pending" required>
+          </div>
+        </div>
+      </form>
+
+      <nav>
+        <ul class="pager">
+          <li class="previous ng-class:{ disabled: $apiBack.$pending || $api.$pending }">
+            <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $api.$pending">Previous</a>
+          </li>
+          <li class="next ng-class:{ disabled: securityForm.$invalid || $api.$pending }">
+            <a href api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="securityForm.$invalid || $api.$pending">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </form>
+  </div>
+</div>

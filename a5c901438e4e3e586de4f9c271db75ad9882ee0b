@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b7c0337_5061a9d8",
+        "filename": "public/controllers.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-10-22T16:00:58Z",
+      "side": 1,
+      "message": "The default value shouldn\u0027t be true?\nOr the variable name should be `useSecurity`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 35,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "a5c901438e4e3e586de4f9c271db75ad9882ee0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07dded3c_77955eba",
+        "filename": "public/views/config.security.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2018-10-22T16:00:58Z",
+      "side": 1,
+      "message": "Put this file in the previous commit",
+      "revId": "a5c901438e4e3e586de4f9c271db75ad9882ee0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

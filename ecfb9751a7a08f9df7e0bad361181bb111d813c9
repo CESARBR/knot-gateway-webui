@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7e1085d_f6be8a92",
+        "filename": "public/views/config.security.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2018-11-07T20:43:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the other steps have their progress changed? And as now there are three steps, we should progress in 33% increments",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "ecfb9751a7a08f9df7e0bad361181bb111d813c9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

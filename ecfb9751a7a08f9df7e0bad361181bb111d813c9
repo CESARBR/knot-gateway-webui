@@ -22,6 +22,30 @@
       "revId": "ecfb9751a7a08f9df7e0bad361181bb111d813c9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45505a4c_fde871c2",
+        "filename": "public/views/config.security.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-11-08T17:45:19Z",
+      "side": 1,
+      "message": "Yes. The security configuration is always the second step... I will update this value to 33% and put a verification on `SignupController` to change the value to 66% (if security configuration is disabled it will keep with 50%).",
+      "parentUuid": "f7e1085d_f6be8a92",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "ecfb9751a7a08f9df7e0bad361181bb111d813c9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

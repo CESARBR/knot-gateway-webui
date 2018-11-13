@@ -46,6 +46,30 @@
       "revId": "4350fc8de164cdcd8a2350f56c338f1cd3d27ef6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "912b4d31_0cdf5fea",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2018-11-13T20:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86ae2e2_27c3f5fc",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "4350fc8de164cdcd8a2350f56c338f1cd3d27ef6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

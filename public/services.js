@@ -165,8 +165,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     };
 
     if (config.platform === 'MESHBLU') {
-      body.hostname = config.hostname;
-      body.port = config.port;
+      body.meshblu = config.meshblu;
+      body.authenticator = config.authenticator;
     } else if (config.platform === 'FIWARE') {
       body.iota = config.iota;
       body.orion = config.orion;

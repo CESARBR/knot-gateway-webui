@@ -24,20 +24,37 @@
       <br>
       <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
         <div ng-if="form.platform === 'MESHBLU'">
-          <div class="form-group ng-class:{ 'has-error': cloudForm.hostname.$invalid && !cloudForm.hostname.$pristine }">
+          <p class="text-center">Meshblu configuration</p>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.meshblu.hostname.$invalid && !cloudForm.meshblu.hostname.$pristine }">
             <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
             <div class="col-sm-6">
-              <input type="text" id="hostname" name="hostname" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.hostname" ng-disabled="$api.$pending" hostname required>
+              <input type="text" id="hostname-meshblu" name="hostname-meshblu" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.meshblu.hostname" ng-disabled="$api.$pending" hostname required>
             </div>
           </div>
 
-          <div class="form-group ng-class:{ 'has-error': cloudForm.port.$invalid && !cloudForm.port.$pristine }">
+          <div class="form-group ng-class:{ 'has-error': cloudForm.meshblu.port.$invalid && !cloudForm.meshblu.port.$pristine }">
             <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
             <div class="col-sm-6">
-              <input type="number" id="port" name="port" class="form-control" placeholder="3000" ng-model="form.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+              <input type="number" id="port-meshblu" name="port-meshblu" class="form-control" placeholder="3000" ng-model="form.meshblu.port" ng-disabled="$api.$pending" min="0" max="65535" required>
             </div>
           </div>
 
+          <hr>
+          <p class="text-center">Authenticator configuration</p>
+
+          <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.hostname.$invalid && !cloudForm.authenticator.hostname.$pristine }">
+              <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
+              <div class="col-sm-6">
+                <input type="text" id="hostname-authenticator" name="hostname-authenticator" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.authenticator.hostname" ng-disabled="$api.$pending" hostname required>
+              </div>
+            </div>
+
+            <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.port.$invalid && !cloudForm.authenticator.port.$pristine }">
+              <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
+              <div class="col-sm-6">
+                <input type="number" id="port-authenticator" name="port-authenticator" class="form-control" placeholder="3003" ng-model="form.authenticator.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+              </div>
+            </div>
         </div>
         <div ng-if="form.platform === 'FIWARE'">
           <p class="text-center">IoT Agent configuration</p>

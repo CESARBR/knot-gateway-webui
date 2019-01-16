@@ -17,13 +17,17 @@ var update = {
     .valid(supportedPlatforms)
     .required(),
   disableSecurity: joi.boolean().required(),
-  hostname: joi
-    .string()
-    .hostname()
+  authenticator: joi
+    .object({
+      hostname: hostname,
+      port: port
+    })
     .when('platform', { is: 'MESHBLU', then: joi.required() }),
-  port: joi
-    .number()
-    .integer().min(1).max(65535)
+  meshblu: joi
+    .object({
+      hostname: hostname,
+      port: port
+    })
     .when('platform', { is: 'MESHBLU', then: joi.required() }),
   iota: joi
     .object({

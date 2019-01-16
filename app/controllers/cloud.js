@@ -1,5 +1,4 @@
 var cloud = require('../models/cloud');
-var FogService = require('../services/fog').FogService;
 var ConnectorService = require('../services/connector').ConnectorService;
 
 var get = function get(req, res, next) {
@@ -24,27 +23,12 @@ var getSecurity = function getSecurity(req, res, next) {
 
 var update = function update(req, res, next) {
   cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
-    var fogSvc;
-    var connectorSvc;
+    var connectorSvc = new ConnectorService();
 
     if (setCloudErr) {
       next(setCloudErr);
-    } else if (req.body.platform === 'MESHBLU') {
-      fogSvc = new FogService();
-      fogSvc.setParentAddress({
-        hostname: req.body.hostname,
-        port: req.body.port
-      }, function onParentAddressSet(setAddressErr) {
-        if (setAddressErr) {
-          next(setAddressErr);
-        } else {
-          res.end();
-        }
-      });
     } else if (req.body.platform === 'FIWARE') {
-      connectorSvc = new ConnectorService();
-      connectorSvc.setCloudConfig({
-        platform: req.body.platform,
+      connectorSvc.setCloudConfig(req.body.platform, {
         disableSecurity: req.body.disableSecurity,
         iota: req.body.iota,
         orion: req.body.orion
@@ -69,14 +53,16 @@ var updateSecurity = function updateSecurity(req, res, next) {
       next(setCloudErr);
     } else {
       connectorSvc = new ConnectorService();
-      connectorSvc.setCloudSecurityConfig(req.body,
+      connectorSvc.setCloudSecurityConfig(
+        req.body,
         function onCloudSecurityConfigSet(setCloudSecurityConfigErr) {
           if (setCloudSecurityConfigErr) {
             next(setCloudSecurityConfigErr);
           } else {
             res.end();
           }
-        });
+        }
+      );
     }
   });
 };

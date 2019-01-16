@@ -32,25 +32,21 @@ var writeConfigFile = function writeConfigFile(newConfig, done) { // eslint-disa
 };
 
 
-ConnectorService.prototype.setCloudConfig = function setCloudConfig(cloudConfig, done) {
+ConnectorService.prototype.setCloudConfig = function setCloudConfig(platform, cloudConfig, done) {
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
     if (readConfigFileErr) {
       done(readConfigFileErr);
       return;
     }
 
-    connectorConfig.cloudType = cloudConfig.platform;
-    connectorConfig.cloud = {
-      iota: cloudConfig.iota,
-      orion: cloudConfig.orion
-    };
-    connectorConfig.cloud.disableSecurity = cloudConfig.disableSecurity;
+    connectorConfig.cloudType = platform;
+    connectorConfig.cloud = cloudConfig;
 
     writeConfigFile(connectorConfig, done);
   });
 };
 
-ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig(
+ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig( // eslint-disable-line function-paren-newline, max-len
   cloudSecurityConfig, done) {
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
     if (readConfigFileErr) {

@@ -8,8 +8,14 @@ var settingsSchema = new mongoose.Schema({
 }, options);
 
 var meshbluSettingsSchema = new mongoose.Schema({
-  hostname: String,
-  port: Number
+  authenticator: {
+    hostname: String,
+    port: Number
+  },
+  meshblu: {
+    hostname: String,
+    port: Number
+  }
 }, options);
 
 var fiwareSettingsSchema = new mongoose.Schema({
@@ -51,7 +57,6 @@ var setCloudSettings = function setCloudSettings(settings, done) {
   Settings.deleteOne({}, function onOlderStateRemoved(err) {
     if (err) {
       done(err);
-      return;
     } else if (settings.platform === 'MESHBLU') {
       MeshbluSettings.findOneAndUpdate({}, settings, { upsert: true }, done);
     } else if (settings.platform === 'FIWARE') {

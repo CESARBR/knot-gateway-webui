@@ -171,8 +171,8 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         if (result) {
           $scope.form.disableSecurity = result.disableSecurity;
           if (result.platform === 'MESHBLU') {
-            $scope.form.hostname = result.hostname;
-            $scope.form.port = result.port;
+            $scope.form.meshblu = result.meshblu;
+            $scope.form.authenticator = result.authenticator;
           } else if (result.platform === 'FIWARE') {
             $scope.form.iota = result.iota;
             $scope.form.orion = result.orion;

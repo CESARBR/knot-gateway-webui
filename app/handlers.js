@@ -38,6 +38,11 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
         message: 'User exists',
         code: 'user'
       });
+    } else if (err.isInvalidCredentials) {
+      res.status(401).json({
+        message: 'Invalid credentials',
+        code: 'credentials'
+      });
     } else {
       res.sendStatus(500);
     }

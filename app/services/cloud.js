@@ -1,3 +1,4 @@
+/* eslint-disable vars-on-top */
 var request = require('request');
 var util = require('util');
 
@@ -5,10 +6,10 @@ var logger = require('../logger');
 
 var CLOUD_SERVICE_ERROR_CODE = {
   USER_EXISTS: 'user-exists',
+  INVALID_CREDENTIALS: 'invalid-credentials',
   UNAVAILABLE: 'unavailable',
   UNKNOWN: 'unknown'
 };
-
 
 var CloudServiceError = function CloudServiceError(message, code) {
   this.name = 'CloudServiceError';
@@ -18,7 +19,7 @@ var CloudServiceError = function CloudServiceError(message, code) {
 };
 
 CloudServiceError.prototype = Object.create(Error.prototype);
-CloudServiceError.prototype.constructor = CloudServiceError;
+CloudServiceError.prototype.tructor = CloudServiceError;
 
 Object.defineProperty(CloudServiceError.prototype, 'isUnavailable', {
   get: function isUnavailable() {
@@ -32,8 +33,13 @@ Object.defineProperty(CloudServiceError.prototype, 'isExistingUser', {
   }
 });
 
+Object.defineProperty(CloudServiceError.prototype, 'isInvalidCredentials', {
+  get: function isInvalidCredentials() {
+    return this.code === CLOUD_SERVICE_ERROR_CODE.INVALID_CREDENTIALS;
+  }
+});
 
-var parseRequestError = function parseRequestError(err) { // eslint-disable-line vars-on-top
+var parseRequestError = function parseRequestError(err) {
   if (err.code === 'ECONNREFUSED' || err.code === 'EHOSTUNREACH'
     || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT') {
     logger.warn('Error connecting to cloud service');
@@ -44,19 +50,46 @@ var parseRequestError = function parseRequestError(err) { // eslint-disable-line
   return err;
 };
 
-var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
+var parseResponseError = function parseResponseError(response) {
   if (response.statusCode === 409) {
     return new CloudServiceError('User exists', CLOUD_SERVICE_ERROR_CODE.USER_EXISTS);
+  } else if (response.statusCode === 401) {
+    return new CloudServiceError('Invalid e-mail or password', CLOUD_SERVICE_ERROR_CODE.INVALID_CREDENTIALS);
   }
+
   logger.warn('Unknown error while communicating with cloud service');
   logger.debug(util.inspect(response));
   return new CloudServiceError('Unknown error', CLOUD_SERVICE_ERROR_CODE.UNKNOWN);
 };
 
+var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
+  this.authenticatorAddress = authenticatorAddress;
+  this.cloudAddress = cloudAddress;
+};
 
-var CloudService = function CloudService(host, port) { // eslint-disable-line vars-on-top
-  this.host = host;
-  this.port = port;
+CloudService.prototype.signinUser = function signinUser(credentials, done) {
+  request({
+    url: 'http://' + this.authenticatorAddress.host + ':' + this.authenticatorAddress.port + '/auth',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: true,
+    body: credentials
+  }, function onResponse(requestErr, response, body) {
+    var cloudErr;
+    if (requestErr) {
+      cloudErr = parseRequestError(requestErr);
+      done(cloudErr);
+      return;
+    }
+    if (response.statusCode === 200) {
+      done(null, body);
+      return;
+    }
+    cloudErr = parseResponseError(response);
+    done(cloudErr);
+  });
 };
 
 CloudService.prototype.createGateway = function createGateway(owner, done) {

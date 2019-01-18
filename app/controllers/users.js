@@ -1,14 +1,10 @@
-var util = require('util');
-
 var users = require('../models/users');
-var gateway = require('../models/gateway');
 var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
 var ConnectorService = require('../services/connector').ConnectorService;
-var logger = require('../logger');
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -20,54 +16,24 @@ var me = function me(req, res, next) {
   });
 };
 
-var signupMeshblu = function signupMeshblu(credentials, cloudSvc, done) {
+var signupMeshblu = function signupMeshblu(userCredentials, done) {
   var fogSvc;
-  cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
-    if (createUserErr) {
-      done(createUserErr);
+  var knotSvc;
+  users.setUser(userCredentials, function onUserSet(setUserErr) {
+    if (setUserErr) {
+      done(setUserErr);
     } else {
-      cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gatewayDevice) { // eslint-disable-line max-len
-        if (createGatewayErr) {
-          done(createGatewayErr);
+      knotSvc = new KnotService();
+      knotSvc.setUserCredentials(userCredentials, function onUserCredentialsSet(setUserCredErr) {
+        if (setUserCredErr) {
+          done(setUserCredErr);
         } else {
-          users.setUser(user, function onUserSet(setUserErr) {
-            var knotSvc;
-            if (setUserErr) {
-              done(setUserErr);
+          fogSvc = new FogService();
+          fogSvc.cloneUser(userCredentials, function onUserCloned(userCloneErr) {
+            if (userCloneErr) {
+              done(userCloneErr);
             } else {
-              knotSvc = new KnotService();
-              knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
-                if (setUserCredErr) {
-                  done(setUserCredErr);
-                } else {
-                  gateway.setGatewaySettings(gatewayDevice, function onGatewaySettingsSet(setGwErr) { // eslint-disable-line max-len
-                    if (setGwErr) {
-                      done(setGwErr);
-                    } else {
-                      fogSvc = new FogService();
-                      fogSvc.cloneUser(user, function onUserCloned(userCloneErr) {
-                        if (userCloneErr) {
-                          done(userCloneErr);
-                        } else {
-                          fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
-                            if (setGwCredErr) {
-                              done(setGwCredErr);
-                            } else {
-                              fogSvc.restart(function onRestart(restartErr) {
-                                if (restartErr) {
-                                  logger.warn('Failed to restart the fog');
-                                  logger.debug(util.inspect(restartErr));
-                                }
-                              });
-                              done();
-                            }
-                          });
-                        }
-                      });
-                    }
-                  });
-                }
-              });
+              done();
             }
           });
         }
@@ -110,6 +76,16 @@ var signupFiware = function signupFiware(credentials, done) {
   });
 };
 
+var signinMeshblu = function signinMeshblu(formCredentials, cloudSvc, done) {
+  cloudSvc.signinUser(formCredentials, function onSigninUser(signinErr, userCredentials) {
+    if (signinErr) {
+      done(signinErr);
+      return;
+    }
+    done(null, userCredentials);
+  });
+};
+
 var create = function create(req, res, next) {
   cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
     var cloudSvc;
@@ -119,15 +95,24 @@ var create = function create(req, res, next) {
     } else {
       credentials = {
         email: req.body.email,
-        password: crypto.createPasswordHash(req.body.password)
+        password: req.body.password
       };
       if (cloudSettings.platform === 'MESHBLU') {
-        cloudSvc = new CloudService(cloudSettings.hostname, cloudSettings.port);
-        signupMeshblu(credentials, cloudSvc, function onSignup(signupErr) {
-          if (signupErr) {
-            next(signupErr);
+        cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+        signinMeshblu(credentials, cloudSvc, function onSignin(signinError, cloudCredentials) {
+          if (signinError) {
+            next(signinError);
           } else {
-            res.end();
+            credentials.uuid = cloudCredentials.uuid;
+            credentials.token = cloudCredentials.token;
+            credentials.password = crypto.createPasswordHash(credentials.password);
+            signupMeshblu(credentials, function onSignup(signupErr) {
+              if (signupErr) {
+                next(signupErr);
+              } else {
+                res.end();
+              }
+            });
           }
         });
       } else if (cloudSettings.platform === 'FIWARE') {

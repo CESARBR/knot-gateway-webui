@@ -7,6 +7,7 @@ services:
     depends_on:
       - 'database'
     environment:
+      - DEBUG=*
       - NODE_ENV=development
     security_opt:
       - seccomp=unconfined

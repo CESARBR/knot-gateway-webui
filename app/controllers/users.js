@@ -1,14 +1,10 @@
-var util = require('util');
-
 var users = require('../models/users');
-var gateway = require('../models/gateway');
 var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
 var ConnectorService = require('../services/connector').ConnectorService;
-var logger = require('../logger');
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -20,58 +16,41 @@ var me = function me(req, res, next) {
   });
 };
 
-var signupMeshblu = function signupMeshblu(credentials, cloudSvc, done) {
-  var fogSvc;
-  cloudSvc.createUser(credentials, function onUserCreated(createUserErr, user) {
-    if (createUserErr) {
-      done(createUserErr);
+var configureUser = function configureUser(user, done) {
+  var knotSvc;
+  users.setUser(user, function onUserSet(setUserErr) {
+    if (setUserErr) {
+      done(setUserErr);
     } else {
-      cloudSvc.createGateway(user.uuid, function onGatewayCreated(createGatewayErr, gatewayDevice) { // eslint-disable-line max-len
-        if (createGatewayErr) {
-          done(createGatewayErr);
+      knotSvc = new KnotService();
+      knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
+        var connectorSvc = new ConnectorService();
+        if (setUserCredErr) {
+          done(setUserCredErr);
         } else {
-          users.setUser(user, function onUserSet(setUserErr) {
-            var knotSvc;
-            if (setUserErr) {
-              done(setUserErr);
-            } else {
-              knotSvc = new KnotService();
-              knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
-                if (setUserCredErr) {
-                  done(setUserCredErr);
-                } else {
-                  gateway.setGatewaySettings(gatewayDevice, function onGatewaySettingsSet(setGwErr) { // eslint-disable-line max-len
-                    if (setGwErr) {
-                      done(setGwErr);
-                    } else {
-                      fogSvc = new FogService();
-                      fogSvc.cloneUser(user, function onUserCloned(userCloneErr) {
-                        if (userCloneErr) {
-                          done(userCloneErr);
-                        } else {
-                          fogSvc.setGatewayCredentials(gatewayDevice, function onGatewayCredentialsSet(setGwCredErr) { // eslint-disable-line max-len
-                            if (setGwCredErr) {
-                              done(setGwCredErr);
-                            } else {
-                              fogSvc.restart(function onRestart(restartErr) {
-                                if (restartErr) {
-                                  logger.warn('Failed to restart the fog');
-                                  logger.debug(util.inspect(restartErr));
-                                }
-                              });
-                              done();
-                            }
-                          });
-                        }
-                      });
-                    }
-                  });
-                }
-              });
-            }
-          });
+          connectorSvc.setFogConfig(user, done);
         }
       });
+    }
+  });
+};
+
+var signupMeshblu = function signupMeshblu(userCredentials, done) {
+  var fogSvc;
+  users.getUserByUUID(userCredentials.uuid, function onUserGet(getUserErr, user) {
+    if (getUserErr) {
+      done(getUserErr);
+    } else if (!user) {
+      fogSvc = new FogService();
+      fogSvc.cloneUser(userCredentials, function onCloneUser(cloneUserErr) {
+        if (cloneUserErr) {
+          done(cloneUserErr);
+        } else {
+          configureUser(userCredentials, done);
+        }
+      });
+    } else {
+      done();
     }
   });
 };
@@ -79,7 +58,6 @@ var signupMeshblu = function signupMeshblu(credentials, cloudSvc, done) {
 var signupFiware = function signupFiware(credentials, done) {
   var fogSvc = new FogService();
   fogSvc.createDevice({ }, function onDeviceCreated(createDeviceErr, deviceCreated) {
-    var knotSvc = new KnotService();
     var user;
     if (createDeviceErr) {
       done(createDeviceErr);
@@ -87,26 +65,18 @@ var signupFiware = function signupFiware(credentials, done) {
       user = credentials;
       user.uuid = deviceCreated.uuid;
       user.token = deviceCreated.token;
-      users.setUser(credentials, function onUserSet(setUserErr) {
-        if (setUserErr) {
-          done(setUserErr);
-        } else {
-          knotSvc.setUserCredentials(deviceCreated, function onUserCredentialsSet(setUserCredErr) {
-            var connectorSvc = new ConnectorService();
-            if (setUserCredErr) {
-              done(setUserCredErr);
-            } else {
-              connectorSvc.setFogConfig(user, function onFogConfigSet(setFogConfigErr) {
-                if (setFogConfigErr) {
-                  done(setFogConfigErr);
-                }
-              });
-              done();
-            }
-          });
-        }
-      });
+      configureUser(credentials, done);
     }
+  });
+};
+
+var signinMeshblu = function signinMeshblu(formCredentials, cloudSvc, done) {
+  cloudSvc.signinUser(formCredentials, function onSigninUser(signinErr, userCredentials) {
+    if (signinErr) {
+      done(signinErr);
+      return;
+    }
+    done(null, userCredentials);
   });
 };
 
@@ -119,18 +89,28 @@ var create = function create(req, res, next) {
     } else {
       credentials = {
         email: req.body.email,
-        password: crypto.createPasswordHash(req.body.password)
+        password: req.body.password
       };
       if (cloudSettings.platform === 'MESHBLU') {
-        cloudSvc = new CloudService(cloudSettings.hostname, cloudSettings.port);
-        signupMeshblu(credentials, cloudSvc, function onSignup(signupErr) {
-          if (signupErr) {
-            next(signupErr);
+        cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+        signinMeshblu(credentials, cloudSvc, function onSignin(signinError, cloudCredentials) {
+          if (signinError) {
+            next(signinError);
           } else {
-            res.end();
+            credentials.uuid = cloudCredentials.uuid;
+            credentials.token = cloudCredentials.token;
+            credentials.password = crypto.createPasswordHash(credentials.password);
+            signupMeshblu(credentials, function onSignup(signupErr) {
+              if (signupErr) {
+                next(signupErr);
+              } else {
+                res.end();
+              }
+            });
           }
         });
       } else if (cloudSettings.platform === 'FIWARE') {
+        credentials.password = crypto.createPasswordHash(credentials.password);
         signupFiware(credentials, function onSignup(signupErr) {
           if (signupErr) {
             next(signupErr);

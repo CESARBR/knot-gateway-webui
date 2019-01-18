@@ -26,12 +26,13 @@
     }
   },
   "log": {
-    "console": false,
-    "syslog": true,
-    "level": "info"
+    "console": true,
+    "syslog": false,
+    "level": "debug"
   },
   "runAs": {
     "user": "knot",
     "group": "knot"
   }
 }
+

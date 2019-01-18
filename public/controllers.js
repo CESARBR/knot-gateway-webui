@@ -123,6 +123,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     GatewayApi.getCloudConfig()
       .then(function onSuccess(result) {
         if (result) {
+          $scope.platform = result.platform;
           if (!result.disableSecurity) {
             $scope.progressBarValue = 66;
           }
@@ -138,7 +139,8 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     return IdentityApi
       .signup($scope.form)
       .then(function onSignedUp() {
-        return StateService.changeState(API_STATES.REBOOTING);
+        console.log('Signed up!!'); // eslint-disable-line no-console
+        // TODO: Change the state to CONFIGURATION_GATEWAY
       });
   };
 

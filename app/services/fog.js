@@ -147,6 +147,11 @@ FogService.prototype.cloneUser = function cloneUser(user, done) {
 
     if (response.statusCode === 201) {
       done(null);
+    } else if (response.statusCode === 403) {
+      /* It should not throw an error when cloned user already exists
+      since we can able to back in the configuration and signin again
+      with the same user. */
+      done(null);
     } else {
       fogErr = parseResponseError(response);
       done(fogErr);

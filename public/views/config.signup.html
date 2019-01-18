@@ -1,6 +1,7 @@
 <div>
   <div class="alert alert-danger" ng-show="$apiSignup.$invalid" ng-messages="$apiSignup.$error" role="alert">
     <p ng-message="existing-user">User exists. Try a different e-mail address.</p>
+    <p ng-message="invalid-credentials">Invalid credentials.</p>
     <p ng-message="cloud-unavailable">Cloud service is unavailable. Try again later or check your cloud configuration.</p>
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
   </div>
@@ -16,40 +17,69 @@
       <h3 class="panel-title">Step 2. User credentials</h3>
     </div>
     <div class="panel-body">
-      <p>Create a user account to sign in on this gateway. This account will be saved in the KNoT Cloud server configured in the previous step.</p>
       <form name="signupForm" class="form-horizontal" novalidate>
-        <div class="form-group ng-class:{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
-          <label for="email" class="col-sm-3 col-sm-offset-1 control-label">E-mail</label>
-          <div class="col-sm-6">
-            <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" ng-disabled="$api.$pending" required>
+        <div ng-if="platform === 'MESHBLU'">
+          <p>Sign in with your user account on the cloud platform. If it succeeds, the user device will be cloned locally in order to enable doing operations as the user.</p>
+          <br>
+          <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
+            <p ng-message="invalid-credentials">Invalid credentials.</p>
+            <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+          </div>
+          
+          <div class="form-group ng-class:{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
+            <label for="email" class="col-sm-3 col-sm-offset-1 control-label">E-mail</label>
+            <div class="col-sm-6">
+              <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+
+          <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
+            <label for="password" class="col-sm-3 col-sm-offset-1 control-label">Password</label>
+            <div class="col-sm-6">
+              <input type="password" id="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" ng-disabled="$api.$pending" minlength="6" required>
+            </div>
+          </div>
+          <div class="text-center">
+            <p>Click <a target="_blank" href="http://knot-test.cesar.org.br/signup">here</a> to create a new KNoT Cloud user.</p>
+            <p>If you have brought your own cloud instance, create the user in its web interface.</p>
           </div>
         </div>
+        <div ng-if="platform === 'FIWARE'">
+          <p>Create a user account to sign in on this gateway. This account will be saved in the KNoT Cloud server configured in the previous step.</p>          <br>
+          <br>
+          <div class="form-group ng-class:{ 'has-error': signupForm.email.$invalid && !signupForm.email.$pristine }">
+            <label for="email" class="col-sm-3 col-sm-offset-1 control-label">E-mail</label>
+            <div class="col-sm-6">
+              <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" ng-model="form.email" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
 
-        <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
-          <label for="password" class="col-sm-3 col-sm-offset-1 control-label">Password</label>
-          <div class="col-sm-6">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" ng-disabled="$api.$pending" minlength="6" required>
+          <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
+            <label for="password" class="col-sm-3 col-sm-offset-1 control-label">Password</label>
+            <div class="col-sm-6">
+              <input type="password" id="password" name="password" class="form-control" placeholder="Password" ng-model="form.password" ng-disabled="$api.$pending" minlength="6" required>
+            </div>
+          </div>
+
+          <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
+            <label for="passwordConfirmation" class="col-sm-4 control-label">Password confirmation</label>
+            <div class="col-sm-6">
+              <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" ng-disabled="$api.$pending" compare-to="form.password" minlength="6" required>
+            </div>
           </div>
         </div>
-
-        <div class="form-group ng-class:{ 'has-error': signupForm.password.$invalid && !signupForm.password.$pristine }">
-          <label for="passwordConfirmation" class="col-sm-4 control-label">Password confirmation</label>
-          <div class="col-sm-6">
-            <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control" placeholder="Password confirmation" ng-model="form.passwordConfirmation" ng-disabled="$api.$pending" compare-to="form.password" minlength="6" required>
-          </div>
-        </div>
-      </form>
-
-      <nav>
-        <ul class="pager">
-          <li class="previous ng-class:{ disabled: $apiBack.$pending || $apiSignup.$pending }">
-            <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $apiSignup.$pending">Previous</a>
-          </li>
-          <li class="next ng-class:{ disabled: signupForm.$invalid || $apiSignup.$pending || $apiBack.$pending }">
-            <a href api-click="signup()" api-click-state="$apiSignup" api-click-busy-when="$apiSignup.$pending" ng-disabled="signupForm.$invalid || $apiSignup.$pending || $apiBack.$pending">Finish</a>
-          </li>
-        </ul>
-      </nav>
+        </form>
+        <nav>
+          <ul class="pager">
+            <li class="previous ng-class:{ disabled: $apiBack.$pending || $apiSignup.$pending }">
+              <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $apiSignup.$pending">Previous</a>
+            </li>
+            <li class="next ng-class:{ disabled: signupForm.$invalid || $apiSignup.$pending || $apiBack.$pending }">
+              <a href api-click="signup()" api-click-state="$apiSignup" api-click-busy-when="$apiSignup.$pending" ng-disabled="signupForm.$invalid || $apiSignup.$pending || $apiBack.$pending">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </div>

@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "30d6ccbb_63ba2b20",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-21T18:24:05Z",
+      "side": 1,
+      "message": "Besides hostname and port, you need also to write the uuid and token of the gateway in the connector",
+      "range": {
+        "startLine": 106,
+        "startChar": 12,
+        "endLine": 107,
+        "endChar": 55
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "615b91bd_94305272",
         "filename": "app/services/cloud.js",
         "patchSetId": 2

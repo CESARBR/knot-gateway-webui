@@ -2,8 +2,8 @@ var _ = require('lodash');
 
 var stateModel = require('../models/state');
 var cloudModel = require('../models/cloud');
-var gatewayModel = require('../models/gateway');
 var userModel = require('../models/users');
+var gatewayModel = require('../models/gateway');
 
 var StateServiceError = function StateServiceError(message, state) {
   this.name = 'StateServiceError';
@@ -50,31 +50,19 @@ function canTransitionToConfigurationUser(from, done) {
   }
 }
 
+function canTransitionToConfigurationGateway(from, done) {
+  if (isAllowedTransition(from, stateModel.STATES.CONFIGURATION_GATEWAY)) {
+    userModel.existsUser(done);
+  } else {
+    done(null, false);
+  }
+}
+
 function canTransitionToReady(from, done) {
   if (isAllowedTransition(from, stateModel.STATES.READY)) {
-    gatewayModel.existsGatewaySettings(function onExistsGwSettings(existsGwErr, existsGw) {
-      if (existsGwErr) {
-        done(existsGwErr);
-      } else {
-        cloudModel.getCloudSettings(function onCloudSettings(cloudSettingsErr, cloudSettings) {
-          if (cloudSettingsErr) {
-            done(cloudSettingsErr);
-          } else if (cloudSettings) {
-            if (cloudSettings.platform === 'MESHBLU') {
-              if (!existsGw) {
-                done(null, false);
-              } else {
-                userModel.existsUser(done);
-              }
-            } else if (cloudSettings.platform === 'FIWARE') {
-              userModel.existsUser(done);
-            }
-          } else {
-            done(null, false);
-          }
-        });
-      }
-    });
+    gatewayModel.existsGatewaySettings(done);
+    // TODO: verify if gateway is registered and activated on the cloud
+    // TODO: verify if gateway is saved in the connector config
   } else {
     done(null, false);
   }
@@ -93,6 +81,9 @@ function canTransition(from, to, done) {
       break;
     case stateModel.STATES.CONFIGURATION_USER:
       canTransitionToConfigurationUser(from, done);
+      break;
+    case stateModel.STATES.CONFIGURATION_GATEWAY:
+      canTransitionToConfigurationGateway(from, done);
       break;
     case stateModel.STATES.READY:
       canTransitionToReady(from, done);
@@ -134,32 +125,42 @@ StateService.prototype.reset = function reset(done) {
     if (canReady) {
       stateModel.setState({ state: stateModel.STATES.READY }, done);
     } else {
-      canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
-        if (userErr) {
-          done(userErr);
+      canTransitionToConfigurationGateway(stateModel.STATES.REBOOTING, function onCanGateway(gatewayErr, canGateway) { // eslint-disable-line max-len
+        if (gatewayErr) {
+          done(gatewayErr);
           return;
         }
 
-        if (canUser) {
-          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
+        if (canGateway) {
+          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_GATEWAY }, done);
         } else {
-          canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
-            if (cloudErr) {
-              done(cloudErr);
+          canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
+            if (userErr) {
+              done(userErr);
               return;
             }
 
-            if (canCloud) {
-              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+            if (canUser) {
+              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
             } else {
-              stateModel.getState(function onState(getErr, state) {
-                var resetErr;
-                if (getErr) {
-                  resetErr = getErr;
-                } else {
-                  resetErr = new StateServiceError('Can\'t reset from current state', state);
+              canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
+                if (cloudErr) {
+                  done(cloudErr);
+                  return;
                 }
-                done(resetErr);
+                if (canCloud) {
+                  stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+                } else {
+                  stateModel.getState(function onState(getErr, state) {
+                    var resetErr;
+                    if (getErr) {
+                      resetErr = getErr;
+                    } else {
+                      resetErr = new StateServiceError('Can\'t reset from current state', state);
+                    }
+                    done(resetErr);
+                  });
+                }
               });
             }
           });

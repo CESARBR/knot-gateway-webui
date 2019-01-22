@@ -17,6 +17,7 @@ require('./img/clouds');
 require('./styles/bootstrap/bootstrap.less');
 require('./styles/devices.less');
 require('./styles/clouds.less');
+require('./styles/gateways.less');
 require('./styles/app.css');
 require('./styles/landing.css');
 require('./styles/main.css');
@@ -62,7 +63,8 @@ app.config(function config(
           only: [
             PERMISSIONS.CONFIGURE_CLOUD,
             PERMISSIONS.CONFIGURE_CLOUD_SECURITY,
-            PERMISSIONS.CONFIGURE_USER
+            PERMISSIONS.CONFIGURE_USER,
+            PERMISSIONS.CONFIGURE_GATEWAY
           ],
           redirectTo: VIEW_STATES.SIGNIN
         }
@@ -107,6 +109,17 @@ app.config(function config(
       data: {
         permissions: {
           only: PERMISSIONS.CONFIGURE_USER,
+          redirectTo: VIEW_STATES.CONFIG_GATEWAY
+        }
+      }
+    })
+    .state(VIEW_STATES.CONFIG_GATEWAY, {
+      url: '/gateway',
+      template: require('./views/config.gateway.html'),
+      controller: 'GatewayController',
+      data: {
+        permissions: {
+          only: PERMISSIONS.CONFIGURE_GATEWAY,
           redirectTo: VIEW_STATES.SIGNIN
         }
       }
@@ -177,6 +190,11 @@ app.run(function run($urlRouter, StateService, PermPermissionStore, PERMISSIONS)
       return State.isUserConfigurationState()
         && Session.hasPermission(PERMISSIONS.CONFIGURE_USER);
     }]);
+
+    PermPermissionStore.definePermission(PERMISSIONS.CONFIGURE_GATEWAY, ['Session', 'State', function hasPermission(Session, State) {
+      return State.isGatewayConfigurationState()
+        && Session.hasPermission(PERMISSIONS.CONFIGURE_GATEWAY);
+    }]);
   }
 
   usePermissions.forEach(setupUsePermissionRule);
@@ -200,12 +218,13 @@ app.constant('PERMISSIONS', {
   MANAGE: 'manage',
   CONFIGURE_CLOUD: 'configure-cloud',
   CONFIGURE_CLOUD_SECURITY: 'configure-cloud-security',
-  CONFIGURE_USER: 'configure-user'
+  CONFIGURE_USER: 'configure-user',
+  CONFIGURE_GATEWAY: 'configure-gateway'
 });
 
 app.constant('ROLES_PERMISSIONS', {
-  'anonymous': ['none', 'configure-cloud', 'configure-cloud-security', 'configure-user'], // eslint-disable-line quote-props
-  'admin': ['manage', 'configure-cloud', 'configure-cloud-security', 'configure-user'] // eslint-disable-line quote-props
+  'anonymous': ['none', 'configure-cloud', 'configure-cloud-security', 'configure-user', 'configure-gateway'], // eslint-disable-line quote-props
+  'admin': ['manage', 'configure-cloud', 'configure-cloud-security', 'configure-user', 'configure-gateway'] // eslint-disable-line quote-props
 });
 
 app.constant('AUTH_EVENTS', {
@@ -227,6 +246,7 @@ app.constant('VIEW_STATES', {
   CONFIG_CLOUD: 'config.cloud',
   CONFIG_CLOUD_SECURITY: 'config.security',
   CONFIG_USER: 'config.signup',
+  CONFIG_GATEWAY: 'config.gateway',
 
   APP: 'app',
   APP_ADMIN: 'app.admin',
@@ -239,6 +259,7 @@ app.constant('API_STATES', {
   CONFIGURATION_CLOUD: 'configuration-cloud',
   CONFIGURATION_CLOUD_SECURITY: 'configuration-cloud-security',
   CONFIGURATION_USER: 'configuration-user',
+  CONFIGURATION_GATEWAY: 'configuration-gateway',
   READY: 'ready'
 });
 

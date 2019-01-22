@@ -2,7 +2,19 @@ var appServices;
 var angular = require('angular');
 require('ngstorage');
 
-appServices = angular.module('app.services', ['ngStorage']);
+appServices = angular.module('app.services', ['ngStorage', 'ui.bootstrap']);
+
+appServices.factory('ModalService', function ModalService($uibModal) {
+  return {
+    open: function open(controller, template) {
+      return $uibModal.open({
+        animation: true,
+        templateUrl: template,
+        controller: controller
+      });
+    }
+  };
+});
 
 appServices.factory('AuthService', function AuthService(IdentityApi, Session) {
   var signin = function signin(credentials) {
@@ -140,10 +152,28 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
+  // /api/cloud/gateway
+  var createGateway = function createGateway(name) {
+    return $http.post('/api/cloud/gateway', {
+      name: name
+    });
+  };
+
   // /api/gateway
   var getGatewayConfig = function getGatewayConfig() {
     return $http.get('/api/gateway')
+    .then(extractData);
+  };
+
+  // /api/gateways
+  var getGateways = function getGateways() {
+    return $http.get('/api/cloud/gateways')
       .then(extractData);
+  };
+
+  // /api/cloud/gateway/activate
+  var activateGateway = function activateGateway(uuid) {
+    return $http.put('/api/cloud/gateway/activate/' + uuid);
   };
 
   // /api/cloud
@@ -196,7 +226,10 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     getDevices: getDevices,
     getDeviceDetail: getDeviceDetail,
 
+    createGateway: createGateway,
     getGatewayConfig: getGatewayConfig,
+    getGateways: getGateways,
+    activateGateway: activateGateway,
 
     getCloudConfig: getCloudConfig,
     getCloudSecurityConfig: getCloudSecurityConfig,

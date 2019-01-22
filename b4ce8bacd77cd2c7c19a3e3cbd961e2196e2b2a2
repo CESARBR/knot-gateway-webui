@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29375a8_d39c8572",
+        "filename": "public/services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:56:10Z",
+      "side": 1,
+      "message": "\u0027/api/cloud/gateway/activate/\u0027+uuid\nsee the devices api `updateDevice`",
+      "range": {
+        "startLine": 176,
+        "startChar": 49,
+        "endLine": 176,
+        "endChar": 50
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda24379_5683a2ff",
+        "filename": "public/views/config.gateway.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:56:10Z",
+      "side": 1,
+      "message": "ModalCreate or ModalRegister",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 56
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a3cac2_18f9a459",
+        "filename": "public/views/config.gateway.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:56:10Z",
+      "side": 1,
+      "message": "Create it in a file public/view/modal.html",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

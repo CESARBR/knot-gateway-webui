@@ -1,4 +1,6 @@
 var cloud = require('../models/cloud');
+var users = require('../models/users');
+var CloudService = require('../services/cloud').CloudService;
 var ConnectorService = require('../services/connector').ConnectorService;
 
 var get = function get(req, res, next) {
@@ -17,6 +19,30 @@ var getSecurity = function getSecurity(req, res, next) {
       next(err);
     } else {
       res.json(settings);
+    }
+  });
+};
+
+var listGateways = function listGateways(req, res, next) {
+  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
+    var cloudSvc;
+    if (getCloudErr) {
+      next(getCloudErr);
+    } else {
+      users.getUser(function onUserGet(getUserErr, user) {
+        if (getUserErr) {
+          next(getUserErr);
+        } else {
+          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+          cloudSvc.listDevices(user, { type: 'gateway' }, function onDevicesListed(listDevicesErr, gateways) {
+            if (listDevicesErr) {
+              next(listDevicesErr);
+            } else {
+              res.json(gateways);
+            }
+          });
+        }
+      });
     }
   });
 };
@@ -70,6 +96,7 @@ var updateSecurity = function updateSecurity(req, res, next) {
 module.exports = {
   get: get,
   getSecurity: getSecurity,
+  listGateways: listGateways,
   update: update,
   updateSecurity: updateSecurity
 };

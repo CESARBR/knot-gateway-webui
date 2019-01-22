@@ -1,5 +1,6 @@
 /* eslint-disable vars-on-top */
 var request = require('request');
+var KNoTCloudWebSocket = require('@cesarbr/knot-cloud-websocket');
 var util = require('util');
 
 var logger = require('../logger');
@@ -62,6 +63,23 @@ var parseResponseError = function parseResponseError(response) {
   return new CloudServiceError('Unknown error', CLOUD_SERVICE_ERROR_CODE.UNKNOWN);
 };
 
+var createCloudConnection = function createCloudConnection(address, credentials, done) {
+  var client = new KNoTCloudWebSocket({
+    hostname: address.hostname,
+    port: address.port,
+    uuid: credentials.uuid,
+    token: credentials.token
+  });
+
+  client.once('ready', function onReady() {
+    done(null, client);
+  });
+  client.once('error', function onError() {
+    done(new Error('Connection not established.'));
+  });
+  client.connect();
+};
+
 var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
   this.authenticatorAddress = authenticatorAddress;
   this.cloudAddress = cloudAddress;
@@ -89,6 +107,26 @@ CloudService.prototype.signinUser = function signinUser(credentials, done) {
     }
     cloudErr = parseResponseError(response);
     done(cloudErr);
+  });
+};
+
+CloudService.prototype.listDevices = function listDevices(credentials, query, done) {
+  // eslint-disable-next-line max-len
+  createCloudConnection(this.cloudAddress, credentials, function onCloudConnected(connectionErr, client) {
+    if (connectionErr) {
+      done(connectionErr);
+      return;
+    }
+
+    client.once('devices', function onDevices(devices) {
+      client.close();
+      done(null, devices);
+    });
+    client.once('error', function onError(err) {
+      client.close();
+      done(new Error(err));
+    });
+    client.getDevices(query);
   });
 };
 

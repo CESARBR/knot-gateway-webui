@@ -151,11 +151,79 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     return IdentityApi
       .signup($scope.form)
       .then(function onSignedUp() {
-        // TODO: Change the state to CONFIGURATION_GATEWAY
+        if ($scope.platform === 'MESHBLU') {
+          StateService.changeState(API_STATES.CONFIGURATION_GATEWAY);
+        } else if ($scope.platform === 'FIWARE') {
+          StateService.changeState(API_STATES.REBOOTING);
+        }
       });
   };
 
   init();
+});
+
+appCtrls.controller('GatewayController', function GatewayController($scope, GatewayApi, ModalService, AuthService, StateService, VIEW_STATES, API_STATES) {
+  $scope.$apiBack = {};
+  $scope.$apiSave = {};
+  $scope.gateways = [];
+  $scope.selectedGateway = null;
+  $scope.progressBarValue = 75;
+
+  $scope.open = function open() {
+    var modalInstance = ModalService.open('ModalController', 'createGatewayModal.html');
+    modalInstance.result.catch(function onError() { modalInstance.close(); });
+  };
+
+  $scope.selectGateway = function selectGateway(event, gateway) {
+    var element = angular.element(event.target);
+    if (!$scope.selectedGateway || $scope.selectedGateway !== gateway) {
+      $scope.selectedGateway = gateway;
+      element.addClass('active');
+    } else {
+      $scope.selectedGateway = null;
+      element.removeClass('active');
+    }
+  };
+
+  function init() {
+    GatewayApi.getGateways()
+      .then(function onSuccess(result) {
+        if (result) {
+          $scope.gateways = result.filter(function isNotActivated(gateway) {
+            return gateway.knot.active === false;
+          });
+        }
+      });
+  }
+
+  $scope.back = function back() {
+    return StateService.changeState(API_STATES.CONFIGURATION_USER);
+  };
+
+  $scope.save = function save() {
+    GatewayApi.activateGateway($scope.selectedGateway.uuid)
+      .then(function onSuccess() {
+        return StateService.changeState(API_STATES.REBOOTING);
+      });
+  };
+
+  init();
+});
+
+appCtrls.controller('ModalController', function ModalController($scope, GatewayApi, StateService, $uibModalInstance, API_STATES) {
+  $scope.gatewayName = null;
+
+  $scope.next = function next() {
+    $uibModalInstance.dismiss('cancel');
+    GatewayApi.createGateway($scope.gatewayName)
+      .then(function onSuccess() {
+        return StateService.changeState(API_STATES.REBOOTING);
+      });
+  };
+
+  $scope.cancel = function cancel() {
+    $uibModalInstance.dismiss('cancel');
+  };
 });
 
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES, CLOUD_PLATFORMS) {

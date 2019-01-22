@@ -10,6 +10,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@cesarbr/knot-cloud-websocket": "^0.2.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "celebrate": "^8.0.0",

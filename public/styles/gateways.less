@@ -1,0 +1,83 @@
+@import "~bootstrap/less/variables.less";
+
+.gateway-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.gateway-grid-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  @media all and (min-width: @screen-sm) {
+    flex: 0 1 33.3%;
+    max-width: 33.3%;
+  }
+  border: 10px solid transparent;
+}
+
+.gateway-grid-item a {
+  text-decoration: none;
+}
+
+.gateway {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  padding: 15px;
+}
+
+.gateway:hover {
+  background-color: #f5f5f5;
+}
+
+.gateway.active {
+  background-color:#e8e8e8;
+}
+
+.gateway-heading {
+  margin-bottom: 10px;
+}
+
+.gateway-heading > h5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 20px;
+  color: black;
+}
+
+.gateway-body {
+  flex: 1;
+  margin-bottom: 10px;
+}
+
+.gateway-body p {
+  font-size: 85%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-footer {
+  padding: 10px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+
+.create {
+  display: inline;
+  margin-right: 10px;
+}
+
+.cancel {
+  display: inline;
+  margin-right: 10px;
+}

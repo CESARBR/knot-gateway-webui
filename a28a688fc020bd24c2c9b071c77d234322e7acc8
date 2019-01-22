@@ -22,6 +22,23 @@
       "revId": "a28a688fc020bd24c2c9b071c77d234322e7acc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cafeb7f6_f2480b1b",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-22T20:18:36Z",
+      "side": 1,
+      "message": "Make it as an internal only method and every other method has to connect and disconnect, what do you think?\nThis would make the code in the controller simpler.",
+      "revId": "a28a688fc020bd24c2c9b071c77d234322e7acc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

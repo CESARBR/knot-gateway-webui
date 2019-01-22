@@ -1,5 +1,6 @@
 /* eslint-disable vars-on-top */
 var request = require('request');
+var KNoTCloudWebSocket = require('@cesarbr/knot-cloud-websocket');
 var util = require('util');
 
 var logger = require('../logger');
@@ -67,6 +68,23 @@ var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
   this.cloudAddress = cloudAddress;
 };
 
+CloudService.prototype.startConnection = function startConnection(credentials, done) {
+  this.client = new KNoTCloudWebSocket({
+    hostname: this.cloudAddress.hostname,
+    port: this.cloudAddress.port,
+    uuid: credentials.uuid,
+    token: credentials.token
+  });
+
+  this.client.connect();
+  this.client.once('ready', function onReady() {
+    done();
+  });
+  this.client.once('error', function onError() {
+    done(new Error('Connection not established.'));
+  });
+};
+
 CloudService.prototype.signinUser = function signinUser(credentials, done) {
   request({
     url: 'http://' + this.authenticatorAddress.hostname + ':' + this.authenticatorAddress.port + '/auth',
@@ -92,79 +110,14 @@ CloudService.prototype.signinUser = function signinUser(credentials, done) {
   });
 };
 
-CloudService.prototype.createGateway = function createGateway(owner, done) {
-  request({
-    url: 'http://' + this.host + ':' + this.port + '/devices',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    form: { type: 'gateway', owner: owner }
-  }, function onResponse(requestErr, response, body) {
-    var gateway;
-    var bodyJson;
-    var cloudErr;
+CloudService.prototype.listDevices = function listDevices(query, done) {
+  this.client.getDevices(query);
 
-    if (requestErr) {
-      cloudErr = parseRequestError(requestErr);
-      done(cloudErr);
-      return;
-    }
-
-    try {
-      bodyJson = JSON.parse(body);
-      if (response.statusCode === 201) {
-        gateway = {
-          uuid: bodyJson.uuid,
-          token: bodyJson.token
-        };
-        done(null, gateway);
-      } else {
-        cloudErr = parseResponseError(response);
-        done(cloudErr);
-      }
-    } catch (parseErr) {
-      done(parseErr);
-    }
+  this.client.once('devices', function onDevices(devices) {
+    done(null, devices);
   });
-};
-
-CloudService.prototype.createUser = function createUser(credentials, done) {
-  request({
-    url: 'http://' + this.host + ':' + this.port + '/devices/user',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    form: { type: 'user', user: { email: credentials.email, password: credentials.password } }
-  }, function onResponse(requestErr, response, body) {
-    var user;
-    var bodyJson;
-    var cloudErr;
-
-    if (requestErr) {
-      cloudErr = parseRequestError(requestErr);
-      done(cloudErr);
-      return;
-    }
-
-    try {
-      bodyJson = JSON.parse(body);
-      if (response.statusCode === 201) {
-        user = {
-          email: bodyJson.user.email,
-          password: bodyJson.user.password,
-          uuid: bodyJson.uuid,
-          token: bodyJson.token
-        };
-        done(null, user);
-      } else {
-        cloudErr = parseResponseError(response);
-        done(cloudErr);
-      }
-    } catch (parseErr) {
-      done(parseErr);
-    }
+  this.client.once('error', function onError(err) {
+    done(new Error(err));
   });
 };
 

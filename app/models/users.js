@@ -14,6 +14,10 @@ var setUser = function setUser(user, done) {
   User.findOneAndUpdate({}, user, { upsert: true }, done);
 };
 
+var getUser = function getUser(done) {
+  User.findOne({}, done);
+};
+
 var getUserByUUID = function getUserByUUID(uuid, done) {
   User.findOne({ uuid: uuid }, done);
 };
@@ -30,6 +34,7 @@ var existsUser = function existsUser(done) {
 
 module.exports = {
   setUser: setUser,
+  getUser: getUser,
   getUserByEmail: getUserByEmail,
   getUserByUUID: getUserByUUID,
   existsUser: existsUser

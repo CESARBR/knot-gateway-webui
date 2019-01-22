@@ -50,6 +50,14 @@ function canTransitionToConfigurationUser(from, done) {
   }
 }
 
+function canTransitionToConfigurationGateway(from, done) {
+  if (isAllowedTransition(from, stateModel.STATES.CONFIGURATION_GATEWAY)) {
+    userModel.existsUser(done);
+  } else {
+    done(null, false);
+  }
+}
+
 function canTransitionToReady(from, done) {
   if (isAllowedTransition(from, stateModel.STATES.READY)) {
     gatewayModel.existsGatewaySettings(function onExistsGwSettings(existsGwErr, existsGw) {
@@ -94,6 +102,9 @@ function canTransition(from, to, done) {
     case stateModel.STATES.CONFIGURATION_USER:
       canTransitionToConfigurationUser(from, done);
       break;
+    case stateModel.STATES.CONFIGURATION_GATEWAY:
+      canTransitionToConfigurationGateway(from, done);
+      break;
     case stateModel.STATES.READY:
       canTransitionToReady(from, done);
       break;
@@ -134,32 +145,42 @@ StateService.prototype.reset = function reset(done) {
     if (canReady) {
       stateModel.setState({ state: stateModel.STATES.READY }, done);
     } else {
-      canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
-        if (userErr) {
-          done(userErr);
+      canTransitionToConfigurationGateway(stateModel.STATES.REBOOTING, function onCanGateway(gatewayErr, canGateway) { // eslint-disable-line max-len
+        if (gatewayErr) {
+          done(gatewayErr);
           return;
         }
 
-        if (canUser) {
-          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
+        if (canGateway) {
+          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_GATEWAY }, done);
         } else {
-          canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
-            if (cloudErr) {
-              done(cloudErr);
+          canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
+            if (userErr) {
+              done(userErr);
               return;
             }
 
-            if (canCloud) {
-              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+            if (canUser) {
+              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
             } else {
-              stateModel.getState(function onState(getErr, state) {
-                var resetErr;
-                if (getErr) {
-                  resetErr = getErr;
-                } else {
-                  resetErr = new StateServiceError('Can\'t reset from current state', state);
+              canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
+                if (cloudErr) {
+                  done(cloudErr);
+                  return;
                 }
-                done(resetErr);
+                if (canCloud) {
+                  stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+                } else {
+                  stateModel.getState(function onState(getErr, state) {
+                    var resetErr;
+                    if (getErr) {
+                      resetErr = getErr;
+                    } else {
+                      resetErr = new StateServiceError('Can\'t reset from current state', state);
+                    }
+                    done(resetErr);
+                  });
+                }
               });
             }
           });

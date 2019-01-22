@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69277abb_e6dd862c",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:31:06Z",
+      "side": 1,
+      "message": "why are you removing this?",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d27c51_0cee95df",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:31:06Z",
+      "side": 1,
+      "message": "hostname",
+      "range": {
+        "startLine": 72,
+        "startChar": 47,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1ea9926_86ba526c",
+        "filename": "config/default.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-22T21:31:06Z",
+      "side": 1,
+      "message": "no need to change it",
+      "range": {
+        "startLine": 29,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

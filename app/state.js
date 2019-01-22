@@ -57,10 +57,12 @@ module.exports = {
     STATES.CONFIGURATION_CLOUD_SECURITY
   ]),
   onlyWhenConfigurationUser: onlyWhen([STATES.CONFIGURATION_USER]),
+  onlyWhenConfigurationGateway: onlyWhen([STATES.CONFIGURATION_GATEWAY]),
   exceptWhenConfigurationCloud: exceptWhen([STATES.CONFIGURATION_CLOUD]),
   skipWhenConfiguration: _.curry(skipWhen)([
     STATES.CONFIGURATION_CLOUD,
     STATES.CONFIGURATION_CLOUD_SECURITY,
-    STATES.CONFIGURATION_USER
+    STATES.CONFIGURATION_USER,
+    STATES.CONFIGURATION_GATEWAY
   ])
 };

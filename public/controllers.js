@@ -38,6 +38,10 @@ appCtrls.controller('RebootController', function RebootController($scope, $state
     $state.go(VIEW_STATES.CONFIG_USER);
   });
 
+  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
+    $state.go(VIEW_STATES.CONFIG_GATEWAY);
+  });
+
   waitReboot();
 });
 
@@ -60,6 +64,10 @@ appCtrls.controller('ConfigController', function ConfigController($scope, $state
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
+    $state.go(VIEW_STATES.CONFIG_GATEWAY);
   });
 });
 
@@ -90,6 +98,10 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
+  });
+
+  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
+    $state.go(VIEW_STATES.CONFIG_GATEWAY);
   });
 });
 

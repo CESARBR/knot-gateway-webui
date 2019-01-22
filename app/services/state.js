@@ -2,7 +2,6 @@ var _ = require('lodash');
 
 var stateModel = require('../models/state');
 var cloudModel = require('../models/cloud');
-var gatewayModel = require('../models/gateway');
 var userModel = require('../models/users');
 
 var StateServiceError = function StateServiceError(message, state) {
@@ -60,29 +59,9 @@ function canTransitionToConfigurationGateway(from, done) {
 
 function canTransitionToReady(from, done) {
   if (isAllowedTransition(from, stateModel.STATES.READY)) {
-    gatewayModel.existsGatewaySettings(function onExistsGwSettings(existsGwErr, existsGw) {
-      if (existsGwErr) {
-        done(existsGwErr);
-      } else {
-        cloudModel.getCloudSettings(function onCloudSettings(cloudSettingsErr, cloudSettings) {
-          if (cloudSettingsErr) {
-            done(cloudSettingsErr);
-          } else if (cloudSettings) {
-            if (cloudSettings.platform === 'MESHBLU') {
-              if (!existsGw) {
-                done(null, false);
-              } else {
-                userModel.existsUser(done);
-              }
-            } else if (cloudSettings.platform === 'FIWARE') {
-              userModel.existsUser(done);
-            }
-          } else {
-            done(null, false);
-          }
-        });
-      }
-    });
+    userModel.existsUser(done);
+    // TODO: verify if gateway is registered and activated on the cloud
+    // TODO: verify if gateway is saved in the connector config
   } else {
     done(null, false);
   }

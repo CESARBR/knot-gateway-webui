@@ -1,0 +1,71 @@
+<div>
+  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
+    <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+  </div>
+
+  <uib-progressbar value="progressBarValue"></uib-progressbar>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Step 3. Gateway configuration</h3>
+    </div>
+    <div class="panel-body">
+      <p>This step does the association between the gateway device created on the cloud and the physical device that will operate as it.
+      After that, its credentials will be saved and used by the internal services.
+      <span ng-hide="gateways.length === 0">Below, you can choose one of the registered gateways.</span></p>
+      <br>
+      <p ng-show="gateways.length === 0">No gateway was found.</p>
+      <div class="gateway-grid" ng-hide="gateways.length === 0">
+        <div class="gateway-grid-item" ng-repeat="device in gateways">
+          <a href ng-click="selectGateway($event, device)">
+            <div class="gateway" ng-class="{'active': device.uuid == selectedGateway.uuid}">
+              <div class="gateway-heading">
+                <h5>{{ device.metadata.name }}</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <script type="text/ng-template" id="createGatewayModal.html">
+        <div class="modal-header">
+          <h3 class="modal-title">Create a new gateway</h3>
+        </div>
+        <div class="modal-body">
+          <p>After create this gateway, the system will be configured with its credentials and restarted.</p>
+          <br>
+          <form class="form-horizontal" name="gatewayForm" ng-submit="next()">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="email">Name:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="gatewayName" ng-disabled="$api.$pending" placeholder="My KNoT Gateway" autofocus required>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <ul class="pager">
+            <li class="pull-right ng-class:{ disabled: gatewayForm.$invalid || $api.$pending }">
+              <a href api-click="next()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="gatewayForm.$invalid || $api.$pending">Next</a>
+            </li>
+            <li class="cancel pull-right">
+              <a href api-click="cancel()">Cancel</a>
+            </li>
+          </ul>
+        </div>
+      </script>
+      <nav>
+        <ul class="pager">
+          <li class="previous ng-class:{ disabled: $apiBack.$pending || $apiSignup.$pending }">
+            <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $apiSignup.$pending">Previous</a>
+          </li>
+          <li class="next pull-right ng-class:{ disabled: !selectedGateway || $api.$pending }">
+            <a href api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="!selectedGateway || $api.$pending">Next</a>
+          </li>
+          <li class="create pull-right ng-class:{ disabled: selectedGateway }">
+            <a href api-click="open()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="selectedGateway">Create new gateway</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

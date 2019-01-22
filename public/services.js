@@ -407,6 +407,10 @@ appServices.factory('State', function GatewayState($rootScope, API_STATES) {
     return currentState === API_STATES.CONFIGURATION_USER;
   }
 
+  function isGatewayConfigurationState() {
+    return currentState === API_STATES.CONFIGURATION_GATEWAY;
+  }
+
   function isUseState() {
     return currentState === API_STATES.REBOOTING || currentState === API_STATES.READY;
   }
@@ -417,6 +421,7 @@ appServices.factory('State', function GatewayState($rootScope, API_STATES) {
     isCloudConfigurationState: isCloudConfigurationState,
     isCloudConfigurationSecurityState: isCloudConfigurationSecurityState,
     isUserConfigurationState: isUserConfigurationState,
+    isGatewayConfigurationState: isGatewayConfigurationState,
     isUseState: isUseState
   };
 });

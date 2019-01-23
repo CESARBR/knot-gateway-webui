@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e192b861_cb17eb3a",
+        "filename": "app/schemas/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T13:33:35Z",
+      "side": 1,
+      "message": "Could you keep the port validation?\n```\njoi\n  .number()\n  .integer().min(1).max(65535)\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "1b3862c7aa1a50a6904aa6ca0a43ff7a9014d605",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e694b29_c005af59",
+        "filename": "app/schemas/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T13:33:35Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "1b3862c7aa1a50a6904aa6ca0a43ff7a9014d605",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

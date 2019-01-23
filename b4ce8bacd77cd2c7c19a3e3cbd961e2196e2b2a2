@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "175ee51a_302f7041",
+        "filename": "public/services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29375a8_d39c8572",
+      "range": {
+        "startLine": 176,
+        "startChar": 49,
+        "endLine": 176,
+        "endChar": 50
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dda24379_5683a2ff",
         "filename": "public/views/config.gateway.html",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1c57b873_07029d94",
+        "filename": "public/views/config.gateway.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dda24379_5683a2ff",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 56
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51a3cac2_18f9a459",
         "filename": "public/views/config.gateway.html",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2019-01-22T21:56:10Z",
       "side": 1,
       "message": "Create it in a file public/view/modal.html",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "b4ce8bacd77cd2c7c19a3e3cbd961e2196e2b2a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93490eed_8d7abb11",
+        "filename": "public/views/config.gateway.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:47Z",
+      "side": 1,
+      "message": "I can\u0027t separate this because would be two views for one controller. The inline template is a feature supported by the angularjs for these cases. In addition, I\u0027ve followed the documentation.\nhttps://angular-ui.github.io/bootstrap/versioned-docs/0.12.1/",
+      "parentUuid": "51a3cac2_18f9a459",
       "range": {
         "startLine": 29,
         "startChar": 6,

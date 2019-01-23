@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df967ff_8baff9f4",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-23T16:10:11Z",
+      "side": 1,
+      "message": "With this query you are getting all the gateways. And we should only list the gateways with property active false.\n\nYou can get all of them and return a map with just the ones with active false",
+      "range": {
+        "startLine": 41,
+        "startChar": 35,
+        "endLine": 41,
+        "endChar": 54
+      },
+      "revId": "46806b031b10ac7f18cb4b4c556ca772b8221a30",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40ace42_40aec44d",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-23T16:10:11Z",
+      "side": 1,
+      "message": "gateways.map((gateway) \u003d\u003e return gateway.knot.active \u003d\u003d\u003d false)",
+      "range": {
+        "startLine": 45,
+        "startChar": 27,
+        "endLine": 45,
+        "endChar": 35
+      },
+      "revId": "46806b031b10ac7f18cb4b4c556ca772b8221a30",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

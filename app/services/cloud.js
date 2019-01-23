@@ -130,6 +130,33 @@ CloudService.prototype.listDevices = function listDevices(credentials, query, do
   });
 };
 
+CloudService.prototype.createGateway = function createGateway(credentials, name, done) {
+  // eslint-disable-next-line max-len
+  createCloudConnection(this.cloudAddress, credentials, function onCloudConnected(connectionErr, client) {
+    if (connectionErr) {
+      done(connectionErr);
+      return;
+    }
+
+    client.once('registered', function onDevices(device) {
+      client.activate(device.uuid);
+
+      client.once('activated', function onActivate() {
+        client.close();
+        done(null, device);
+      });
+    });
+    client.once('error', function onError(err) {
+      client.close();
+      done(new Error(err));
+    });
+    client.register({
+      type: 'gateway',
+      name: name
+    });
+  });
+};
+
 module.exports = {
   CloudService: CloudService,
   CloudServiceError: CloudServiceError

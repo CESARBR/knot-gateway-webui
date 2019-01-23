@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a68be26_529035dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7ba8a31_f28163e2",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "906d7d98_48a2f3a5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "865504b9_f1867c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "906d7d98_48a2f3a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,23 @@
     },
     {
       "key": {
+        "uuid": "542f904e_aea73f68",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "This will be done in the Paulo\u0027s patch. Am I right?",
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "615b91bd_94305272",
         "filename": "app/services/cloud.js",
         "patchSetId": 2
@@ -82,6 +147,30 @@
       "writtenOn": "2019-01-21T12:39:57Z",
       "side": 1,
       "message": "why?",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e5d72ac_e73158e4",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done. It was a mistake.",
+      "parentUuid": "615b91bd_94305272",
       "range": {
         "startLine": 22,
         "startChar": 28,
@@ -117,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "c54b43e3_8c8c7cb9",
+        "filename": "config/default.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a934fc0_e590e8ac",
+      "range": {
+        "startLine": 29,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64c70283_c8d356b9",
         "filename": "public/controllers.js",
         "patchSetId": 2
@@ -140,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "2911036e_9ddfe2a4",
+        "filename": "public/controllers.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64c70283_c8d356b9",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 69
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99a55bdc_9e24e695",
         "filename": "public/views/config.signup.html",
         "patchSetId": 2
@@ -151,6 +288,30 @@
       "writtenOn": "2019-01-21T12:39:57Z",
       "side": 1,
       "message": "You need to get this from cloudService",
+      "range": {
+        "startLine": 43,
+        "startChar": 53,
+        "endLine": 43,
+        "endChar": 82
+      },
+      "revId": "03f6d63eda7161ad180a7e3b60ad93fe787679e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14b60636_05ad302a",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "We don\u0027t know the cloud ui address. Think in the case the user prefer to instantiate your own cloud ui in any domain.",
+      "parentUuid": "99a55bdc_9e24e695",
       "range": {
         "startLine": 43,
         "startChar": 53,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a486d2f6_c18df392",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "It was a mistake!",
+      "parentUuid": "69277abb_e6dd862c",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49d27c51_0cee95df",
         "filename": "app/services/cloud.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ece58be4_5fa68389",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d27c51_0cee95df",
+      "range": {
+        "startLine": 72,
+        "startChar": 47,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1ea9926_86ba526c",
         "filename": "config/default.json",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb63eac_f137c106",
+        "filename": "config/default.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T19:23:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c1ea9926_86ba526c",
+      "range": {
+        "startLine": 29,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "276574d4c6739a9bbebe41ea3d38e6fdb4367e6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

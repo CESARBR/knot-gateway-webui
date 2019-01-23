@@ -11,6 +11,10 @@ var port = joi
   .integer().min(1).max(65535)
   .required();
 
+var createGateway = {
+  name: joi.string().required()
+};
+
 var update = {
   platform: joi
     .string()
@@ -58,5 +62,6 @@ var updateSecurity = {
 
 module.exports = {
   update: update,
-  updateSecurity: updateSecurity
+  updateSecurity: updateSecurity,
+  createGateway: createGateway
 };

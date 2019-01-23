@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f2718cb2_9910bd6f",
+        "filename": "app/schemas/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T23:31:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5eb8569a_d0e1cc6e",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "1b3862c7aa1a50a6904aa6ca0a43ff7a9014d605",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e694b29_c005af59",
         "filename": "app/schemas/cloud.js",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "see my above comment",
       "parentUuid": "7e694b29_c005af59",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "1b3862c7aa1a50a6904aa6ca0a43ff7a9014d605",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da0665af_835e38f2",
+        "filename": "app/schemas/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-23T23:31:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "22c91593_33469bf0",
       "range": {
         "startLine": 29,
         "startChar": 12,

@@ -1,5 +1,6 @@
 var cloud = require('../models/cloud');
 var users = require('../models/users');
+var gateway = require('../models/gateway');
 var CloudService = require('../services/cloud').CloudService;
 var ConnectorService = require('../services/connector').ConnectorService;
 
@@ -39,6 +40,59 @@ var listGateways = function listGateways(req, res, next) {
               next(listDevicesErr);
             } else {
               res.json(gateways);
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+var finishSetup = function finishSetup(platform, cloudSettings, gatewaySettings, done) {
+  gateway.setGatewaySettings(gatewaySettings, function onGatewaySettingsUpdated() {
+    var connectorSvc = new ConnectorService();
+    connectorSvc.setCloudConfig(platform, {
+      hostname: cloudSettings.hostname,
+      port: cloudSettings.port,
+      uuid: gatewaySettings.uuid,
+      token: gatewaySettings.token
+    }, function onCloudConfigSet(setCloudConfigErr) {
+      if (setCloudConfigErr) {
+        done(setCloudConfigErr);
+      } else {
+        done(null);
+      }
+    });
+  });
+};
+
+var createGateway = function createGateway(req, res, next) {
+  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
+    var cloudSvc;
+    if (getCloudErr) {
+      next(getCloudErr);
+    } else {
+      users.getUser(function onUserGet(getUserErr, user) {
+        if (getUserErr) {
+          next(getUserErr);
+        } else {
+          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+          cloudSvc.createGateway(user, req.body.name, function onGatewayCreated(createGatewayErr, newGateway) { // eslint-disable-line max-len
+            if (createGatewayErr) {
+              next(createGatewayErr);
+            } else {
+              // TODO:
+              // activate Gateway on Cloud
+              finishSetup('MESHBLU', cloudSettings.meshblu, {
+                uuid: newGateway.uuid,
+                token: newGateway.token
+              }, function onSetupDone(finishSetupErr) {
+                if (finishSetupErr) {
+                  next(finishSetupErr);
+                } else {
+                  res.send(200);
+                }
+              });
             }
           });
         }
@@ -98,5 +152,6 @@ module.exports = {
   getSecurity: getSecurity,
   listGateways: listGateways,
   update: update,
-  updateSecurity: updateSecurity
+  updateSecurity: updateSecurity,
+  createGateway: createGateway
 };

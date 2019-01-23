@@ -11,6 +11,7 @@ router.get('/security', state.skipWhenConfiguration(auth.authorize()), cloudCtrl
 router.get('/gateways', state.onlyWhenConfigurationGateway, cloudCtrl.listGateways);
 router.put('/', state.onlyWhenConfigurationCloud, celebrate({ body: cloudSchemas.update }), cloudCtrl.update);
 router.put('/security', state.onlyWhenConfigurationCloudSecurity, celebrate({ body: cloudSchemas.updateSecurity }), cloudCtrl.updateSecurity);
+router.put('/create', state.onlyWhenConfigurationGateway, cloudCtrl.createGateway);
 
 module.exports = {
   router: router

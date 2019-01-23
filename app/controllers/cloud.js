@@ -53,6 +53,39 @@ var listGateways = function listGateways(req, res, next) {
   });
 };
 
+var createGateway = function createGateway(req, res, next) {
+  cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
+    var cloudSvc;
+    if (getCloudErr) {
+      next(getCloudErr);
+    } else {
+      users.getUser(function onUserGet(getUserErr, user) {
+        if (getUserErr) {
+          next(getUserErr);
+        } else {
+          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+          cloudSvc.startConnection(user, function onConnectionStarted(connectionErr) {
+            if (connectionErr) {
+              next(connectionErr);
+            } else {
+              cloudSvc.createGateway(req.body.name, function onGatewayCreated(createGatewayErr, gateway) { // eslint-disable-line max-len
+                if (createGatewayErr) {
+                  next(createGatewayErr);
+                } else {
+                  // TODO:
+                  // activate Gateway
+                  // save credentials on database
+                  res.json(gateway);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
 var update = function update(req, res, next) {
   cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
     var connectorSvc = new ConnectorService();
@@ -115,5 +148,6 @@ module.exports = {
   getSecurity: getSecurity,
   listGateways: listGateways,
   update: update,
-  updateSecurity: updateSecurity
+  updateSecurity: updateSecurity,
+  createGateway: createGateway
 };

@@ -121,6 +121,19 @@ CloudService.prototype.listDevices = function listDevices(query, done) {
   });
 };
 
+CloudService.prototype.createGateway = function createGateway(name, done) {
+  this.client.once('registered', function onDevices(device) {
+    done(null, device);
+  });
+  this.client.once('error', function onError(err) {
+    done(new Error(err));
+  });
+  this.client.register({
+    type: 'gateway',
+    name: name
+  });
+};
+
 module.exports = {
   CloudService: CloudService,
   CloudServiceError: CloudServiceError

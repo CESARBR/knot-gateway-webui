@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ced4cdd6_2a0862fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-24T13:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8375afaa_bf0f017c",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4457951c_c32751af",
         "filename": "app/controllers/cloud.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-01-24T01:57:46Z",
       "side": 1,
       "message": "Still need to address Ramon\u0027s comment on not handling the \u0027active\u0027 property.",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5db149a5_6f561724",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-24T13:02:52Z",
+      "side": 1,
+      "message": "This filter by \u0027active\u0027 property was made in the front-end.",
+      "parentUuid": "4457951c_c32751af",
       "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6d63924e_b8855e06",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-24T13:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af265769_454d8026",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facefb03_5f7ac550",
         "filename": "app/services/cloud.js",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b975dbe_e25b3294",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-24T13:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facefb03_5f7ac550",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8375afaa_bf0f017c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T01:57:46Z",
+      "side": 1,
+      "message": "I understand the idea, but you\u0027re actually creating the \u0027/cloud/gateways\u0027 (or even /api/cloud/gateways) endpoint. If you think it\u0027s more descriptive to have the behavior/function name, I think at least it should be written as listGateways, same as the function.\n\nPerhaps in the commit subject use the actual endpoint created and then explain the listGateways behavior in the body.",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4457951c_c32751af",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T01:57:46Z",
+      "side": 1,
+      "message": "Still need to address Ramon\u0027s comment on not handling the \u0027active\u0027 property.",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af265769_454d8026",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T01:57:46Z",
+      "side": 1,
+      "message": "Maybe it\u0027s just nit-picking, but having the \u0027once\u0027 behavior defined AFTER calling connect makes me think if we could receive an \u0027ready\u0027 or \u0027error\u0027 BEFORE having the handlers defined. Suggestion:\n\t\n  client.once(\u0027ready\u0027, function onReady() {\n    done(client);\n  });\n  client.once(\u0027error\u0027, function onError() {\n    done(new Error(\u0027Connection not established.\u0027));\n  });\n  client.connect();",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "facefb03_5f7ac550",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T01:57:46Z",
+      "side": 1,
+      "message": "Same nit-pick.",
+      "revId": "34ccbdb5b715ecca71b5ce814b173e7c4a8a2e91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

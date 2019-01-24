@@ -105,12 +105,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     return httpResponse.data;
   };
 
-  // /api/me
-  var me = function me() {
-    return $http.get('/api/me')
-      .then(extractData);
-  };
-
   // /api/state
   var getState = function getState() {
     return $http.get('/api/state')
@@ -157,12 +151,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     return $http.post('/api/cloud/gateway', {
       name: name
     });
-  };
-
-  // /api/gateway
-  var getGatewayConfig = function getGatewayConfig() {
-    return $http.get('/api/gateway')
-      .then(extractData);
   };
 
   // /api/gateways
@@ -214,8 +202,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
 
   return {
-    me: me,
-
     getState: getState,
     setState: setState,
 
@@ -227,7 +213,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     getDeviceDetail: getDeviceDetail,
 
     createGateway: createGateway,
-    getGatewayConfig: getGatewayConfig,
     getGateways: getGateways,
     activateGateway: activateGateway,
 

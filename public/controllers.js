@@ -309,37 +309,6 @@ appCtrls.controller('CloudSecurityController', function CloudSecurityController(
   init();
 });
 
-appCtrls.controller('AdminController', function AdminController($scope, GatewayApi, StateService, API_STATES, CLOUD_PLATFORMS) {
-  $scope.$api = {};
-  $scope.credentials = {};
-
-  function init() {
-    GatewayApi.me()
-      .then(function onSuccess(user) {
-        $scope.credentials.user = user;
-      });
-    GatewayApi.getGatewayConfig()
-      .then(function onSuccess(gateway) {
-        $scope.credentials.gateway = gateway;
-      });
-    GatewayApi.getCloudConfig()
-      .then(function onCloudConfig(config) {
-        $scope.shouldShowGatewayCred = config.platform === 'MESHBLU';
-        if (config.platform === 'MESHBLU') {
-          $scope.platformSrcImg = CLOUD_PLATFORMS.MESHBLU;
-        } else if (config.platform === 'FIWARE') {
-          $scope.platformSrcImg = CLOUD_PLATFORMS.FIWARE;
-        }
-      });
-  }
-
-  $scope.reboot = function reboot() {
-    return StateService.changeState(API_STATES.REBOOTING);
-  };
-
-  init();
-});
-
 appCtrls.controller('NetworkController', function NetworkController($scope, GatewayApi) {
   $scope.$api = {};
   $scope.form = {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bd31b5d_87783881",
+        "filename": "public/services.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T00:28:44Z",
+      "side": 1,
+      "message": "165:1  error  Expected indentation of 6 spaces but found 4  indent\n\nPerhaps you changed the file locally and did not add to the commit?",
+      "revId": "19794a7a0aacfd52d6c3f6b9382a1a30799ea78f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "19794a7a0aacfd52d6c3f6b9382a1a30799ea78f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f29f771_17a0ab9c",
+        "filename": "public/services.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-24T13:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bd31b5d_87783881",
+      "revId": "19794a7a0aacfd52d6c3f6b9382a1a30799ea78f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

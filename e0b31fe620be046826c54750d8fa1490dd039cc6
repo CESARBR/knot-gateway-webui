@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0367d38_ea1db1b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T22:59:22Z",
+      "side": 1,
+      "message": "Sounds weird this placement here. I think since you removed the meshblu from the subject, it\u0027s OK to have the \u0027to frontend\u0027 in the end. My suggestion is somenthing like (choose between meshblu 2.0 OR KNoT Cloud):\n\nAdd authenticator configuration to frontend\n\nThis patch adds the text fields to allow the user to insert meshblu 2.0/KNoT Cloud authenticator address.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "e0b31fe620be046826c54750d8fa1490dd039cc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3baebc_d22fe706",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-24T22:59:22Z",
+      "side": 1,
+      "message": "Since we\u0027re now using the protocol-adapter, I think this should be changed accordingly.",
+      "range": {
+        "startLine": 38,
+        "startChar": 107,
+        "endLine": 38,
+        "endChar": 111
+      },
+      "revId": "e0b31fe620be046826c54750d8fa1490dd039cc6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

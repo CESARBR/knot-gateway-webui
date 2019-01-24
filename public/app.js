@@ -135,11 +135,6 @@ app.config(function config(
         }
       }
     })
-    .state(VIEW_STATES.APP_ADMIN, {
-      url: '/admin',
-      template: require('./views/app.admin.html'),
-      controller: 'AdminController'
-    })
     .state(VIEW_STATES.APP_NETWORK, {
       url: '/network',
       template: require('./views/app.network.html'),
@@ -249,7 +244,6 @@ app.constant('VIEW_STATES', {
   CONFIG_GATEWAY: 'config.gateway',
 
   APP: 'app',
-  APP_ADMIN: 'app.admin',
   APP_NETWORK: 'app.network',
   APP_DEVICES: 'app.devices'
 });

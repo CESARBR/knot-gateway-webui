@@ -99,6 +99,40 @@ var createGateway = function createGateway(req, res, next) {
   });
 };
 
+var activateGateway = function activateGateway(req, res, next) {
+  var uuid = req.params.id;
+  var cloudService;
+  cloud.getCloudSettings(function onCloudSettings(err, settings) {
+    if (err) {
+      next(err);
+    } else {
+      users.getUser(function onUser(userErr, user) {
+        if (userErr) {
+          next(userErr);
+        } else {
+          cloudService = new CloudService(settings.authenticator, settings.meshblu);
+          cloudService.activateGateway(user, uuid, function onActivate(activateErr, token) {
+            if (activateErr) {
+              next(activateErr);
+            } else {
+              finishSetup(settings.platform, settings.meshblu, {
+                uuid: uuid,
+                token: token
+              }, function onSetupDone(finishSetupErr) {
+                if (finishSetupErr) {
+                  next(finishSetupErr);
+                } else {
+                  res.end();
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
 var update = function update(req, res, next) {
   cloud.setCloudSettings(req.body, function onCloudSettingsSet(setCloudErr) {
     var connectorSvc = new ConnectorService();
@@ -151,5 +185,6 @@ module.exports = {
   listGateways: listGateways,
   update: update,
   updateSecurity: updateSecurity,
-  createGateway: createGateway
+  createGateway: createGateway,
+  activateGateway: activateGateway
 };

@@ -3,6 +3,8 @@ var _ = require('lodash');
 var stateModel = require('../models/state');
 var cloudModel = require('../models/cloud');
 var userModel = require('../models/users');
+var gatewayModel = require('../models/gateway');
+var ConnectorService = require('./connector').ConnectorService;
 
 var StateServiceError = function StateServiceError(message, state) {
   this.name = 'StateServiceError';
@@ -57,6 +59,21 @@ function canTransitionToConfigurationGateway(from, done) {
   }
 }
 
+function existsMeshbluInfoOnConnector(done) {
+  var connectorSvc = new ConnectorService();
+  connectorSvc.getConfig(function onConfig(getConfigErr, connectorConfig) {
+    if (getConfigErr) {
+      done(getConfigErr);
+    } else {
+      done(null, connectorConfig.cloudType === 'MESHBLU'
+        && !!connectorConfig.cloud.uuid
+        && !!connectorConfig.cloud.token
+        && !!connectorConfig.cloud.hostname
+        && !!connectorConfig.cloud.port);
+    }
+  });
+}
+
 function canTransitionToReady(from, done) {
   if (isAllowedTransition(from, stateModel.STATES.READY)) {
     cloudModel.getCloudSettings(function onCloudSettings(cloudSettingsErr, cloudSettings) {
@@ -64,9 +81,9 @@ function canTransitionToReady(from, done) {
         done(cloudSettingsErr);
       } else if (cloudSettings) {
         if (cloudSettings.platform === 'MESHBLU') {
-          userModel.existsUser(done); // TODO: remove this
-          // TODO: verify if gateway is registered and activated on the cloud
-          // TODO: verify if gateway is saved in the connector config
+          gatewayModel.existsGatewaySettings(function onGatewayExist() {
+            existsMeshbluInfoOnConnector(done);
+          });
         } else if (cloudSettings.platform === 'FIWARE') {
           userModel.existsUser(done);
         }

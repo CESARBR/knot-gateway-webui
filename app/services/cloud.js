@@ -157,6 +157,45 @@ CloudService.prototype.createGateway = function createGateway(credentials, name,
   });
 };
 
+CloudService.prototype.activateGateway = function activateGateway(credentials, gatewayUuid, done) {
+  // eslint-disable-next-line max-len
+  createCloudConnection(this.cloudAddress, credentials, function onCloudConnected(connectionErr, client) {
+    if (connectionErr) {
+      done(connectionErr);
+      return;
+    }
+
+    client.once('activated', function onActivated() {
+      client.close();
+      done();
+    });
+    client.once('error', function onError(err) {
+      client.close();
+      done(new Error(err));
+    });
+    client.activate(gatewayUuid);
+  });
+};
+
+CloudService.prototype.createToken = function createToken(credentials, uuid, done) {
+  // eslint-disable-next-line max-len
+  createCloudConnection(this.cloudAddress, credentials, function onCloudConnected(connectionErr, client) {
+    if (connectionErr) {
+      done(connectionErr);
+      return;
+    }
+    client.once('created', function onCreated(token) {
+      client.close();
+      done(null, token);
+    });
+    client.once('error', function onError(err) {
+      client.close();
+      done(new Error(err));
+    });
+    client.createSessionToken(uuid);
+  });
+};
+
 module.exports = {
   CloudService: CloudService,
   CloudServiceError: CloudServiceError

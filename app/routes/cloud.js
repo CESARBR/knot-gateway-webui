@@ -12,6 +12,7 @@ router.get('/gateways', state.onlyWhenConfigurationGateway, cloudCtrl.listGatewa
 router.put('/', state.onlyWhenConfigurationCloud, celebrate({ body: cloudSchemas.update }), cloudCtrl.update);
 router.put('/security', state.onlyWhenConfigurationCloudSecurity, celebrate({ body: cloudSchemas.updateSecurity }), cloudCtrl.updateSecurity);
 router.post('/gateway', state.onlyWhenConfigurationGateway, cloudCtrl.createGateway);
+router.put('/gateway/activate/:id', state.onlyWhenConfigurationGateway, celebrate({ params: cloudSchemas.activateGateway }), cloudCtrl.activateGateway);
 
 module.exports = {
   router: router

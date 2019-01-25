@@ -1,5 +1,6 @@
 var cloud = require('../models/cloud');
 var users = require('../models/users');
+var gateway = require('../models/gateway');
 var CloudService = require('../services/cloud').CloudService;
 var ConnectorService = require('../services/connector').ConnectorService;
 
@@ -47,6 +48,24 @@ var listGateways = function listGateways(req, res, next) {
   });
 };
 
+function finishSetup(platform, cloudSettings, gatewaySettings, done) {
+  gateway.setGatewaySettings(gatewaySettings, function onGatewaySettingsUpdated() {
+    var connectorSvc = new ConnectorService();
+    connectorSvc.setCloudConfig(platform, {
+      hostname: cloudSettings.hostname,
+      port: cloudSettings.port,
+      uuid: gatewaySettings.uuid,
+      token: gatewaySettings.token
+    }, function onCloudConfigSet(setCloudConfigErr) {
+      if (setCloudConfigErr) {
+        done(setCloudConfigErr);
+      } else {
+        done(null);
+      }
+    });
+  });
+}
+
 var createGateway = function createGateway(req, res, next) {
   cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
     var cloudSvc;
@@ -62,7 +81,16 @@ var createGateway = function createGateway(req, res, next) {
             if (createGatewayErr) {
               next(createGatewayErr);
             } else {
-              res.json(newGateway);
+              finishSetup(cloudSettings.platform, cloudSettings.meshblu, {
+                uuid: newGateway.uuid,
+                token: newGateway.token
+              }, function onSetupDone(finishSetupErr) {
+                if (finishSetupErr) {
+                  next(finishSetupErr);
+                } else {
+                  res.send(200);
+                }
+              });
             }
           });
         }

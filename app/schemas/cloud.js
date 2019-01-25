@@ -56,7 +56,12 @@ var updateSecurity = {
   code: joi.string().required()
 };
 
+var activateGateway = {
+  id: joi.string().uuid().required()
+};
+
 module.exports = {
   update: update,
-  updateSecurity: updateSecurity
+  updateSecurity: updateSecurity,
+  activateGateway: activateGateway
 };

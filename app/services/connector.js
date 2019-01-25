@@ -82,6 +82,16 @@ ConnectorService.prototype.setFogConfig = function setFogConfig(fogConfig, done)
   });
 };
 
+ConnectorService.prototype.getConfig = function getConfig(done) {
+  readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
+    if (readConfigFileErr) {
+      done(readConfigFileErr);
+      return;
+    }
+    done(null, connectorConfig);
+  });
+};
+
 module.exports = {
   ConnectorService: ConnectorService
 };

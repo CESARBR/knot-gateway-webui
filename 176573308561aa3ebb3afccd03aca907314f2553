@@ -68,6 +68,30 @@
       "revId": "176573308561aa3ebb3afccd03aca907314f2553",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4448de_62ca39ca",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-25T13:05:04Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a2b8d26e_db5dd8e9",
+      "range": {
+        "startLine": 149,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 5
+      },
+      "revId": "176573308561aa3ebb3afccd03aca907314f2553",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

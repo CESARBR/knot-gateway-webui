@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bdad10cb_f443b73c",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-25T13:18:57Z",
+      "side": 1,
+      "message": "no need to create a var as we won\u0027t expose this function",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "176573308561aa3ebb3afccd03aca907314f2553",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a063e1ba_0bd7e340",
         "filename": "app/controllers/cloud.js",
         "patchSetId": 1

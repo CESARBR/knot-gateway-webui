@@ -22,6 +22,30 @@
       "revId": "5c20348ffb05770ff50354a89bea669d08421366",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77dafec2_bc70c667",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-25T12:50:32Z",
+      "side": 1,
+      "message": "As we have discussed, this could affect the page usability in a bad way. Waiting for the team feedback.",
+      "parentUuid": "0e52de52_4a493a55",
+      "range": {
+        "startLine": 43,
+        "startChar": 53,
+        "endLine": 43,
+        "endChar": 75
+      },
+      "revId": "5c20348ffb05770ff50354a89bea669d08421366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

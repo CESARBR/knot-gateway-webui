@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "798b8313_c61744db",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-27T23:32:38Z",
+      "side": 1,
+      "message": "Done, but had to disable eslint rule that enforce vars on top.",
+      "parentUuid": "bdad10cb_f443b73c",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "176573308561aa3ebb3afccd03aca907314f2553",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a063e1ba_0bd7e340",
         "filename": "app/controllers/cloud.js",
         "patchSetId": 1
@@ -106,6 +130,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "a2b8d26e_db5dd8e9",
+      "range": {
+        "startLine": 149,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 5
+      },
+      "revId": "176573308561aa3ebb3afccd03aca907314f2553",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e468d45a_ee9a89d5",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-27T23:32:38Z",
+      "side": 1,
+      "message": "After investigation, it does not seem possible to do it in the \u0027register\u0027 method. However I can use the \u0027activate\u0027 method inside the once(\u0027registered\u0027).",
+      "parentUuid": "6f4448de_62ca39ca",
       "range": {
         "startLine": 149,
         "startChar": 20,

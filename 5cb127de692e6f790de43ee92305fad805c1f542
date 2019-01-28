@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "3c074d98_bdaf8aca",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-28T18:25:07Z",
+      "side": 1,
+      "message": "Also, it needs the device UUID. Can\u0027t define it outside the \u0027registered\u0027 since the device is only received at that point.",
+      "parentUuid": "06d82a51_cf9974c2",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24ac3235_5e578558",
         "filename": "app/services/cloud.js",
         "patchSetId": 2
@@ -155,6 +179,30 @@
       "writtenOn": "2019-01-28T16:27:37Z",
       "side": 1,
       "message": "Should we make a rollback if the activate fail??",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 9
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f041ac2_1dcc2d09",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-28T18:25:07Z",
+      "side": 1,
+      "message": "If the activate fails, it will raise an error (call \u0027done\u0027 method with the first parameter not null).\nI think this method should handle the errors, not here.",
+      "parentUuid": "24ac3235_5e578558",
       "range": {
         "startLine": 147,
         "startChar": 8,

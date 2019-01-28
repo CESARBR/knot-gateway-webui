@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa87d06f_ce6f12f6",
+        "filename": ".eslintrc.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-28T16:35:27Z",
+      "side": 1,
+      "message": "Did not like having to disable the rule as well. However it was the option given the constraints. Will rollback to using var.\n\nSee comment on app/controllers/cloud.",
+      "parentUuid": "a97ad259_59858fca",
+      "range": {
+        "startLine": 8,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "e473d86aaecae0e28ab75084be7006051cfcca0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7d826e7_f19b2ffb",
         "filename": "app/controllers/cloud.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-28T16:20:52Z",
       "side": 1,
       "message": "Create a var to avoid the need to disable the vars-on-top. I thought that the lint won\u0027t complain about it. Besides other private functions, in other files, also creates a var.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 20
+      },
+      "revId": "e473d86aaecae0e28ab75084be7006051cfcca0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f63756c_9419a208",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-28T16:35:27Z",
+      "side": 1,
+      "message": "If I put it on the end of the document, it will raise an error because I\u0027ll be using a function before it is defined.\nThe option to not have to disable a eslint rule (either local or globally), is to have the function as a var. Will rollback to that approach then.",
+      "parentUuid": "d7d826e7_f19b2ffb",
       "range": {
         "startLine": 51,
         "startChar": 0,

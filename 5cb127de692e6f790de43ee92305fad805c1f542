@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "6bd96429_a1fb3fca",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-28T16:20:36Z",
+      "side": 1,
+      "message": "onRegister/onDeviceRegistered",
+      "range": {
+        "startLine": 141,
+        "startChar": 39,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7910da9f_9aef1694",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-28T16:20:36Z",
+      "side": 1,
+      "message": "As you did with the register, activate the device after setup the \u0027activated\u0027 event callback.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "958506e8_9e81b84b",
         "filename": "app/services/cloud.js",
         "patchSetId": 2

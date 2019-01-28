@@ -16,6 +16,24 @@
       "revId": "d8fe09600e7f5a95a38d19cf21ffc14599adc4f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "394422ee_59cb1d40",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-28T14:32:38Z",
+      "side": 1,
+      "message": "This change is necessary in this patch since the `signupFiware()` was expecting a hashed password in the credentials object. I\u0027ve changed the original object removing the hash in the assignment in order to sign in on the cloud. After that, I just hashed the password to do the `signupMeshblu()` and I forgot to do the same for the `signupFiware()`.",
+      "parentUuid": "a42a0b26_e8f0532c",
+      "revId": "d8fe09600e7f5a95a38d19cf21ffc14599adc4f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

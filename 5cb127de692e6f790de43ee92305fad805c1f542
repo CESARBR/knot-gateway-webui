@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958506e8_9e81b84b",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-28T16:01:18Z",
+      "side": 1,
+      "message": "change to `on` error now that you are making 2 requests: register and activate",
+      "range": {
+        "startLine": 149,
+        "startChar": 11,
+        "endLine": 149,
+        "endChar": 15
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

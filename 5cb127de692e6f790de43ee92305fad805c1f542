@@ -48,6 +48,53 @@
     },
     {
       "key": {
+        "uuid": "9b7a2818_ecb1e1c9",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-28T16:27:37Z",
+      "side": 1,
+      "message": "-1\nIt should only activate after the device be registered. Also the activated will just received if you activate something",
+      "parentUuid": "7910da9f_9aef1694",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ac3235_5e578558",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-28T16:27:37Z",
+      "side": 1,
+      "message": "Should we make a rollback if the activate fail??",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 9
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "958506e8_9e81b84b",
         "filename": "app/services/cloud.js",
         "patchSetId": 2

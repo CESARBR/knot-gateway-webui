@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a97ad259_59858fca",
+        "filename": ".eslintrc.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-28T16:20:52Z",
+      "side": 1,
+      "message": "You can avoid it and put it in the file\u0027s bottom after all vars.\n\nBut I think that if the lint is complaining about we should not unable it.",
+      "range": {
+        "startLine": 8,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "e473d86aaecae0e28ab75084be7006051cfcca0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7d826e7_f19b2ffb",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-28T16:20:52Z",
+      "side": 1,
+      "message": "Create a var to avoid the need to disable the vars-on-top. I thought that the lint won\u0027t complain about it. Besides other private functions, in other files, also creates a var.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 20
+      },
+      "revId": "e473d86aaecae0e28ab75084be7006051cfcca0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

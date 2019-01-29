@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d95098f2_7037c078",
+        "filename": "app/routes/cloud.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-29T19:13:31Z",
+      "side": 1,
+      "message": "Maybe you could validate the name to avoid undesirable values, as Ramon did in his patch: https://review.gerrithub.io/c/CESARBR/knot-gateway-webui/+/442621/1/app/schemas/cloud.js",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 85
+      },
+      "revId": "046fcb7f50f08b1af6993910de765883f158a9cc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

@@ -307,6 +307,30 @@
       "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1202245_61c4a462",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-29T18:29:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b48564e1_477915c1",
+      "range": {
+        "startLine": 149,
+        "startChar": 11,
+        "endLine": 149,
+        "endChar": 15
+      },
+      "revId": "5cb127de692e6f790de43ee92305fad805c1f542",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

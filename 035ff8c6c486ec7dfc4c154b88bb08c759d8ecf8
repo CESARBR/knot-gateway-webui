@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf3ad57e_f19753cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-29T19:44:13Z",
+      "side": 1,
+      "message": "You guys can choose the first one (mine ( ͡° ͜ʖ ͡°)) in the commit tree to keep a pattern.",
+      "parentUuid": "d1649d7f_a1dcf4f8",
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "109a8ec2_c4e57871",
         "filename": "app/controllers/cloud.js",
         "patchSetId": 1
@@ -70,6 +88,30 @@
       "writtenOn": "2019-01-29T19:20:36Z",
       "side": 1,
       "message": "Not sure which is the best approach considering REST APIs, but if we do only a PUT to /gateways it would suffice. Or a PUT to /gateway/:id (to send the id in the parameters).\nNo need to have an /activate route at this point.",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4eaf27f_a4e0f1f4",
+        "filename": "app/routes/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-29T19:44:13Z",
+      "side": 1,
+      "message": "You are right Paulo and I didn\u0027t notice that until now. As we have discussed before, isn\u0027t good to put verbs in the URI and \u0027activate\u0027 is one of them. I think the correct would be \u0027PUT /gateway/:id\u0027 with the attribute to be updated in the request body (`active` in this case). Thus, it could semantically be read as: \"I\u0027m doing a PUT request to update the active attribute of the gateway \u003cid\u003e\".",
+      "parentUuid": "43246f0c_b5b875d2",
       "range": {
         "startLine": 15,
         "startChar": 12,

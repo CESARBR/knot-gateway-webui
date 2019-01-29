@@ -16,6 +16,24 @@
       "revId": "6056c17a55c2425cde1e82d88c995dc8ffa6f12c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935aa42f_3ad2399d",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-01-29T20:44:01Z",
+      "side": 1,
+      "message": "Yes, we need to pass the raw password to do the signin in the authenticator.",
+      "parentUuid": "ff529735_27ddda11",
+      "revId": "6056c17a55c2425cde1e82d88c995dc8ffa6f12c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

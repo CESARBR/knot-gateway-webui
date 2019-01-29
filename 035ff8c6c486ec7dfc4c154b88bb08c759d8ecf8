@@ -22,6 +22,30 @@
       "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b92150_c9ecaf05",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-01-29T19:15:49Z",
+      "side": 1,
+      "message": "My mistake. Just for debug proporsed",
+      "parentUuid": "c488e1dd_394ade4b",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 121
+      },
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

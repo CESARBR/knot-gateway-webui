@@ -2,6 +2,120 @@
   "comments": [
     {
       "key": {
+        "uuid": "d1649d7f_a1dcf4f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "We have 3 different commit subject styles for the same purpose: \n- Add activate gateway to backend\n- Add POST /cloud/gateway endpoint to backend\n- Add /cloud/gateways endpoint to backend",
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "109a8ec2_c4e57871",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "listGateways and createGateway use \u0027onCloudSettings\u0027. Let\u0027s keep the pattern.",
+      "range": {
+        "startLine": 105,
+        "startChar": 34,
+        "endLine": 105,
+        "endChar": 57
+      },
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48ceea97_7eec780f",
+        "filename": "app/controllers/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "Is the createToken used by itself in any other context? \nIf not, I\u0027d suggest do the same as in the create and only call the service once. Similar to what is done in the createGateway.",
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43246f0c_b5b875d2",
+        "filename": "app/routes/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "Not sure which is the best approach considering REST APIs, but if we do only a PUT to /gateways it would suffice. Or a PUT to /gateway/:id (to send the id in the parameters).\nNo need to have an /activate route at this point.",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad62cd92_f6ac4142",
+        "filename": "package-lock.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 8401,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "Why did this change here? package-lock is changed without a change in package.json... Seems weird.",
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1df973b_5f4b163f",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "This change should not be here as well. Backend only patch.",
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c488e1dd_394ade4b",
         "filename": "public/views/config.signup.html",
         "patchSetId": 1
@@ -46,6 +160,30 @@
       "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0142090c_b4a10477",
+        "filename": "public/views/config.signup.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-29T19:20:36Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c488e1dd_394ade4b",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 121
+      },
+      "revId": "035ff8c6c486ec7dfc4c154b88bb08c759d8ecf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

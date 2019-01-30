@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d438081_fbfe5307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-30T16:19:30Z",
+      "side": 1,
+      "message": "Use the commit message body to describe the behavior and/or endpoint.\ne.g.:\nWhat is done when a request to the endpoint happens.",
+      "revId": "b304286e5e432321ad0c4d08a05bf3a7b28bcf9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

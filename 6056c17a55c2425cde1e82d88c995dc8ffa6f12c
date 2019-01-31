@@ -34,6 +34,24 @@
       "revId": "6056c17a55c2425cde1e82d88c995dc8ffa6f12c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c28405_562ea3ee",
+        "filename": "app/controllers/users.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-01-31T18:44:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "935aa42f_3ad2399d",
+      "revId": "6056c17a55c2425cde1e82d88c995dc8ffa6f12c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

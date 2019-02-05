@@ -59,13 +59,13 @@ function canTransitionToConfigurationGateway(from, done) {
   }
 }
 
-function existsMeshbluInfoOnConnector(done) {
+function existsKNoTCloudInfoOnConnector(done) {
   var connectorSvc = new ConnectorService();
   connectorSvc.getConfig(function onConfig(getConfigErr, connectorConfig) {
     if (getConfigErr) {
       done(getConfigErr);
     } else {
-      done(null, connectorConfig.cloudType === 'MESHBLU'
+      done(null, connectorConfig.cloudType === 'KNOT_CLOUD'
         && !!connectorConfig.cloud.uuid
         && !!connectorConfig.cloud.token
         && !!connectorConfig.cloud.hostname
@@ -80,9 +80,9 @@ function canTransitionToReady(from, done) {
       if (cloudSettingsErr) {
         done(cloudSettingsErr);
       } else if (cloudSettings) {
-        if (cloudSettings.platform === 'MESHBLU') {
+        if (cloudSettings.platform === 'KNOT_CLOUD') {
           gatewayModel.existsGatewaySettings(function onGatewayExist() {
-            existsMeshbluInfoOnConnector(done);
+            existsKNoTCloudInfoOnConnector(done);
           });
         } else if (cloudSettings.platform === 'FIWARE') {
           userModel.existsUser(done);

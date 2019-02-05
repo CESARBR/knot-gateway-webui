@@ -12,18 +12,13 @@
 }
 
 .cloud-grid-item {
-  flex: 0 0 100%;
-  max-width: 100%;
-  @media all and (min-width: @screen-sm) {
-    flex: 0 1 33.3%;
-    max-width: 33.3%;
-  }
   border: 10px solid transparent;
 }
 
 .cloud {
+  width: 130px;
+  height: 130px;
   display: flex;
-  flex-direction: column;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -37,4 +32,10 @@
 
 .cloud:not(.selected):hover {
   background-color: #f5f5f5;
+}
+
+.cloud > img {
+  max-width: 100px;
+  max-height: 100px;
+  align-self: center;
 }

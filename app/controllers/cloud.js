@@ -34,7 +34,7 @@ var listGateways = function listGateways(req, res, next) {
         if (getUserErr) {
           next(getUserErr);
         } else {
-          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
           cloudSvc.listDevices(user, { type: 'gateway' }, function onDevicesListed(listDevicesErr, gateways) {
             if (listDevicesErr) {
               next(listDevicesErr);
@@ -76,12 +76,12 @@ var createGateway = function createGateway(req, res, next) {
         if (getUserErr) {
           next(getUserErr);
         } else {
-          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
+          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
           cloudSvc.createGateway(user, req.body.name, function onGatewayCreated(createGatewayErr, newGateway) { // eslint-disable-line max-len
             if (createGatewayErr) {
               next(createGatewayErr);
             } else {
-              finishSetup(cloudSettings.platform, cloudSettings.meshblu, {
+              finishSetup(cloudSettings.platform, cloudSettings.knotCloud, {
                 uuid: newGateway.uuid,
                 token: newGateway.token
               }, function onSetupDone(finishSetupErr) {
@@ -110,12 +110,12 @@ var activateGateway = function activateGateway(req, res, next) {
         if (userErr) {
           next(userErr);
         } else {
-          cloudService = new CloudService(settings.authenticator, settings.meshblu);
+          cloudService = new CloudService(settings.authenticator, settings.knotCloud);
           cloudService.activateGateway(user, uuid, function onActivate(activateErr, token) {
             if (activateErr) {
               next(activateErr);
             } else {
-              finishSetup(settings.platform, settings.meshblu, {
+              finishSetup(settings.platform, settings.knotCloud, {
                 uuid: uuid,
                 token: token
               }, function onSetupDone(finishSetupErr) {

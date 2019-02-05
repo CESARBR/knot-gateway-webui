@@ -35,7 +35,7 @@ var configureUser = function configureUser(user, done) {
   });
 };
 
-var signupMeshblu = function signupMeshblu(userCredentials, done) {
+var signupKNoTCloud = function signupKNoTCloud(userCredentials, done) {
   var fogSvc;
   users.getUserByUUID(userCredentials.uuid, function onUserGet(getUserErr, user) {
     if (getUserErr) {
@@ -70,7 +70,7 @@ var signupFiware = function signupFiware(credentials, done) {
   });
 };
 
-var signinMeshblu = function signinMeshblu(formCredentials, cloudSvc, done) {
+var signinKNoTCloud = function signinKNoTCloud(formCredentials, cloudSvc, done) {
   cloudSvc.signinUser(formCredentials, function onSigninUser(signinErr, userCredentials) {
     if (signinErr) {
       done(signinErr);
@@ -91,16 +91,16 @@ var create = function create(req, res, next) {
         email: req.body.email,
         password: req.body.password
       };
-      if (cloudSettings.platform === 'MESHBLU') {
-        cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.meshblu);
-        signinMeshblu(credentials, cloudSvc, function onSignin(signinError, cloudCredentials) {
+      if (cloudSettings.platform === 'KNOT_CLOUD') {
+        cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
+        signinKNoTCloud(credentials, cloudSvc, function onSignin(signinError, cloudCredentials) {
           if (signinError) {
             next(signinError);
           } else {
             credentials.uuid = cloudCredentials.uuid;
             credentials.token = cloudCredentials.token;
             credentials.password = crypto.createPasswordHash(credentials.password);
-            signupMeshblu(credentials, function onSignup(signupErr) {
+            signupKNoTCloud(credentials, function onSignup(signupErr) {
               if (signupErr) {
                 next(signupErr);
               } else {

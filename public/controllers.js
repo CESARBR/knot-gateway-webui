@@ -151,7 +151,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
     return IdentityApi
       .signup($scope.form)
       .then(function onSignedUp() {
-        if ($scope.platform === 'MESHBLU') {
+        if ($scope.platform === 'KNOT_CLOUD') {
           StateService.changeState(API_STATES.CONFIGURATION_GATEWAY);
         } else if ($scope.platform === 'FIWARE') {
           StateService.changeState(API_STATES.REBOOTING);
@@ -231,8 +231,8 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.form = { disableSecurity: true };
 
   $scope.cloudPlatforms = [
-    { name: 'MESHBLU', src: CLOUD_PLATFORMS.MESHBLU, selected: false },
-    { name: 'FIWARE', src: CLOUD_PLATFORMS.FIWARE, selected: false }
+    { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false, width: '44%' },
+    { name: 'FIWARE', src: CLOUD_PLATFORMS.FIWARE, selected: false, width: '60%' }
   ];
 
   $scope.selectPlatform = function selectPlatform(platform) {
@@ -251,8 +251,8 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       .then(function onSuccess(result) {
         if (result) {
           $scope.form.disableSecurity = result.disableSecurity;
-          if (result.platform === 'MESHBLU') {
-            $scope.form.meshblu = result.meshblu;
+          if (result.platform === 'KNOT_CLOUD') {
+            $scope.form.knotCloud = result.knotCloud;
             $scope.form.authenticator = result.authenticator;
           } else if (result.platform === 'FIWARE') {
             $scope.form.iota = result.iota;
@@ -329,9 +329,9 @@ appCtrls.controller('AdminController', function AdminController($scope, GatewayA
       });
     GatewayApi.getCloudConfig()
       .then(function onCloudConfig(config) {
-        $scope.shouldShowGatewayCred = config.platform === 'MESHBLU';
-        if (config.platform === 'MESHBLU') {
-          $scope.platformSrcImg = CLOUD_PLATFORMS.MESHBLU;
+        $scope.shouldShowGatewayCred = config.platform === 'KNOT_CLOUD';
+        if (config.platform === 'KNOT_CLOUD') {
+          $scope.platformSrcImg = CLOUD_PLATFORMS.KNOT_CLOUD;
         } else if (config.platform === 'FIWARE') {
           $scope.platformSrcImg = CLOUD_PLATFORMS.FIWARE;
         }

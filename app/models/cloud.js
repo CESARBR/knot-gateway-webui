@@ -7,12 +7,12 @@ var settingsSchema = new mongoose.Schema({
   disableSecurity: Boolean
 }, options);
 
-var meshbluSettingsSchema = new mongoose.Schema({
+var knotCloudSettingsSchema = new mongoose.Schema({
   authenticator: {
     hostname: String,
     port: Number
   },
-  meshblu: {
+  knotCloud: {
     hostname: String,
     port: Number
   }
@@ -40,7 +40,7 @@ var securitySettingsSchema = new mongoose.Schema({
 });
 
 var Settings = mongoose.model('Settings', settingsSchema);
-var MeshbluSettings = Settings.discriminator('MeshbluSettings', meshbluSettingsSchema);
+var KNoTCloudSettings = Settings.discriminator('KNoTCloudSettings', knotCloudSettingsSchema);
 var FiwareSettings = Settings.discriminator('FiwareSettings', fiwareSettingsSchema);
 var SecuritySettings = mongoose.model('security', securitySettingsSchema);
 
@@ -57,8 +57,8 @@ var setCloudSettings = function setCloudSettings(settings, done) {
   Settings.deleteOne({}, function onOlderStateRemoved(err) {
     if (err) {
       done(err);
-    } else if (settings.platform === 'MESHBLU') {
-      MeshbluSettings.findOneAndUpdate({}, settings, { upsert: true }, done);
+    } else if (settings.platform === 'KNOT_CLOUD') {
+      KNoTCloudSettings.findOneAndUpdate({}, settings, { upsert: true }, done);
     } else if (settings.platform === 'FIWARE') {
       FiwareSettings.findOneAndUpdate({}, settings, { upsert: true }, done);
     }

@@ -233,7 +233,7 @@ app.constant('AUTH_EVENTS', {
 });
 
 app.constant('CLOUD_PLATFORMS', {
-  MESHBLU: '/meshblu.png',
+  KNOT_CLOUD: '/knot.png',
   FIWARE: '/fiware.png'
 });
 

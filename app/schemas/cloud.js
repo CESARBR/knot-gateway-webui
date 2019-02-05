@@ -1,5 +1,5 @@
 var joi = require('celebrate').Joi;
-var supportedPlatforms = ['MESHBLU', 'FIWARE'];
+var supportedPlatforms = ['KNOT_CLOUD', 'FIWARE'];
 
 var hostname = joi
   .string()
@@ -26,13 +26,13 @@ var update = {
       hostname: hostname,
       port: port
     })
-    .when('platform', { is: 'MESHBLU', then: joi.required() }),
-  meshblu: joi
+    .when('platform', { is: 'KNOT_CLOUD', then: joi.required() }),
+  knotCloud: joi
     .object({
       hostname: hostname,
       port: port
     })
-    .when('platform', { is: 'MESHBLU', then: joi.required() }),
+    .when('platform', { is: 'KNOT_CLOUD', then: joi.required() }),
   iota: joi
     .object({
       hostname: hostname,

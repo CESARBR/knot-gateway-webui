@@ -15,27 +15,29 @@
         <div class="cloud-grid-item" ng-repeat="cloud in cloudPlatforms">
           <a href ng-click="selectPlatform(cloud.name)">
             <div class="cloud" ng-class="{'selected': cloud.selected}">
-              <img ng-src={{cloud.src}} width=100% alt="{{cloud.name}}">
+              <img ng-src={{cloud.src}} alt="{{cloud.name}}">
             </div>
           </a>
+          <p ng-if="cloud.name === 'KNOT_CLOUD'" class="text-center">KNoT Cloud</p>
+          <p ng-if="cloud.name === 'FIWARE'" class="text-center">FIWARE</p>
         </div>
       </div>
-      <p ng-hide="!form.platform">Set the KNoT Cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
+      <p ng-hide="!form.platform">Set the cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
       <br>
       <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
-        <div ng-if="form.platform === 'MESHBLU'">
-          <p class="text-center">Meshblu configuration</p>
-          <div class="form-group ng-class:{ 'has-error': cloudForm.meshblu.hostname.$invalid && !cloudForm.meshblu.hostname.$pristine }">
+        <div ng-if="form.platform === 'KNOT_CLOUD'">
+          <p class="text-center">KNoT Cloud configuration</p>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.hostname.$invalid && !cloudForm.knotCloud.hostname.$pristine }">
             <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
             <div class="col-sm-6">
-              <input type="text" id="hostname-meshblu" name="hostname-meshblu" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.meshblu.hostname" ng-disabled="$api.$pending" hostname required>
+              <input type="text" id="hostname-knot-cloud" name="hostname-knot-cloud" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.knotCloud.hostname" ng-disabled="$api.$pending" hostname required>
             </div>
           </div>
 
-          <div class="form-group ng-class:{ 'has-error': cloudForm.meshblu.port.$invalid && !cloudForm.meshblu.port.$pristine }">
+          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.port.$invalid && !cloudForm.knotCloud.port.$pristine }">
             <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
             <div class="col-sm-6">
-              <input type="number" id="port-meshblu" name="port-meshblu" class="form-control" placeholder="3004" ng-model="form.meshblu.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+              <input type="number" id="port-knot-cloud" name="port-knot-cloud" class="form-control" placeholder="3004" ng-model="form.knotCloud.port" ng-disabled="$api.$pending" min="0" max="65535" required>
             </div>
           </div>
 

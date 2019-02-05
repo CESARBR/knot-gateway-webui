@@ -194,8 +194,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       disableSecurity: config.disableSecurity
     };
 
-    if (config.platform === 'MESHBLU') {
-      body.meshblu = config.meshblu;
+    if (config.platform === 'KNOT_CLOUD') {
+      body.knotCloud = config.knotCloud;
       body.authenticator = config.authenticator;
     } else if (config.platform === 'FIWARE') {
       body.iota = config.iota;

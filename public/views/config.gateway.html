@@ -1,6 +1,7 @@
 <div>
-  <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
+  <div class="alert alert-danger" ng-show="$apiSave.$invalid" ng-messages="$apiSave.$error" role="alert">
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
+    <p ng-message="cloud-unavailable">Cloud service is unavailable. Try again later or check your cloud configuration.</p>
   </div>
 
   <uib-progressbar value="progressBarValue"></uib-progressbar>
@@ -31,6 +32,9 @@
           <h3 class="modal-title">Create a new gateway</h3>
         </div>
         <div class="modal-body">
+          <div class="alert alert-danger" ng-show="$activateApi.$invalid" ng-messages="$activateApi.$error" role="alert">
+            <p ng-message="cloud-unavailable">Cloud service is unavailable. Try again later or check your cloud configuration.</p>
+          </div>
           <p>After create this gateway, the system will be configured with its credentials and restarted.</p>
           <br>
           <form class="form-horizontal" name="gatewayForm" ng-submit="next()">
@@ -44,8 +48,8 @@
         </div>
         <div class="modal-footer">
           <ul class="pager">
-            <li class="pull-right ng-class:{ disabled: gatewayForm.$invalid || $api.$pending }">
-              <a href api-click="next()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="gatewayForm.$invalid || $api.$pending">Next</a>
+            <li class="pull-right ng-class:{ disabled: gatewayForm.$invalid || $activateApi.$pending }">
+              <a href api-click="next()" api-click-state="$activateApi" api-click-busy-when="$activateApi.$pending" ng-disabled="gatewayForm.$invalid || $activateApi.$pending">Next</a>
             </li>
             <li class="cancel pull-right">
               <a href api-click="cancel()">Cancel</a>
@@ -55,11 +59,11 @@
       </script>
       <nav>
         <ul class="pager">
-          <li class="previous ng-class:{ disabled: $apiBack.$pending || $apiSignup.$pending }">
-            <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $apiSignup.$pending">Previous</a>
+          <li class="previous ng-class:{ disabled: $apiBack.$pending || $apiSave.$pending }">
+            <a href api-click="back()" api-click-state="$apiBack" api-click-busy-when="$apiBack.$pending" ng-disabled="$apiBack.$pending || $apiSave.$pending">Previous</a>
           </li>
-          <li class="next pull-right ng-class:{ disabled: !selectedGateway || $api.$pending }">
-            <a href api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="!selectedGateway || $api.$pending">Next</a>
+          <li class="next pull-right ng-class:{ disabled: !selectedGateway || $apiSave.$pending }">
+            <a href api-click="save()" api-click-state="$apiSave" api-click-busy-when="$apiSave.$pending" ng-disabled="!selectedGateway || $apiSave.$pending">Next</a>
           </li>
           <li class="create pull-right ng-class:{ disabled: selectedGateway }">
             <a href api-click="open()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="selectedGateway">Create new gateway</a>

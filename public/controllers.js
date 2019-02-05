@@ -162,9 +162,10 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
   init();
 });
 
-appCtrls.controller('GatewayController', function GatewayController($scope, GatewayApi, ModalService, AuthService, StateService, VIEW_STATES, API_STATES) {
+appCtrls.controller('GatewayController', function GatewayController($scope, GatewayApi, ModalService, AuthService, StateService, API_STATES) {
   $scope.$apiBack = {};
   $scope.$apiSave = {};
+  $scope.$apiGateway = {};
   $scope.gateways = [];
   $scope.selectedGateway = null;
   $scope.progressBarValue = 75;
@@ -201,7 +202,7 @@ appCtrls.controller('GatewayController', function GatewayController($scope, Gate
   };
 
   $scope.save = function save() {
-    GatewayApi.activateGateway($scope.selectedGateway.uuid)
+    return GatewayApi.activateGateway($scope.selectedGateway.uuid)
       .then(function onSuccess() {
         return StateService.changeState(API_STATES.REBOOTING);
       });
@@ -212,9 +213,10 @@ appCtrls.controller('GatewayController', function GatewayController($scope, Gate
 
 appCtrls.controller('ModalController', function ModalController($scope, GatewayApi, StateService, $uibModalInstance, API_STATES) {
   $scope.gatewayName = null;
+  $scope.$activateApi = {};
 
   $scope.next = function next() {
-    GatewayApi.createGateway($scope.gatewayName)
+    return GatewayApi.createGateway($scope.gatewayName)
       .then(function onSuccess() {
         $uibModalInstance.dismiss('cancel');
         return StateService.changeState(API_STATES.REBOOTING);

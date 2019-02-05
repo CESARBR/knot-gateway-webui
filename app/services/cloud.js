@@ -75,7 +75,7 @@ var createCloudConnection = function createCloudConnection(address, credentials,
     done(null, client);
   });
   client.once('error', function onError() {
-    done(new Error('Connection not established.'));
+    done(new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE));
   });
   client.connect();
 };
@@ -122,9 +122,9 @@ CloudService.prototype.listDevices = function listDevices(credentials, query, do
       client.close();
       done(null, devices);
     });
-    client.once('error', function onError(err) {
+    client.once('error', function onError() {
       client.close();
-      done(new Error(err));
+      done(new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE));
     });
     client.getDevices(query);
   });
@@ -146,9 +146,9 @@ CloudService.prototype.createGateway = function createGateway(credentials, name,
 
       client.activate(device.uuid);
     });
-    client.once('error', function onError(err) {
+    client.once('error', function onError() {
       client.close();
-      done(new Error(err));
+      done(new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE));
     });
     client.register({
       type: 'gateway',
@@ -173,9 +173,9 @@ CloudService.prototype.activateGateway = function activateGateway(credentials, g
 
       client.createSessionToken(gatewayUuid);
     });
-    client.once('error', function onError(err) {
+    client.once('error', function onError() {
       client.close();
-      done(new Error(err));
+      done(new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE));
     });
     client.activate(gatewayUuid);
   });

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e83994_4c5286a4",
+        "filename": "public/controllers.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-02-07T21:56:21Z",
+      "side": 1,
+      "message": "It is better to have images in the right format than to try to change their dimensions to look similar. Make them have the same dimensions.",
+      "range": {
+        "startLine": 234,
+        "startChar": 76,
+        "endLine": 234,
+        "endChar": 88
+      },
+      "revId": "e11357c719b56053ee4035ac32fc6dc8615d2892",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff5212a_58b86575",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-02-07T21:56:21Z",
+      "side": 1,
+      "message": "Now that the icons are squares, the buttons look better if they are squares. The button can have the same size as the image.",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "e11357c719b56053ee4035ac32fc6dc8615d2892",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

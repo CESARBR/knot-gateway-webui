@@ -22,6 +22,30 @@
       "revId": "07ac0544df0e970592a2ffc5b219476f453389f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238f9bf1_eec1fbda",
+        "filename": "public/styles/clouds.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-02-11T19:37:49Z",
+      "side": 1,
+      "message": "Yes, but the fiware logo isn\u0027t a square (its width is greater than). So, if we put 100x100 or 120x120 the width doesn\u0027t fit proportionally and the button end up smaller.\n\nOne solution is to use the auto value in the width:\n.cloud \u003e img {\n  width: auto;\n  max-height: 100px;\n  align-self: center;\n}\n\nWhat do you think?",
+      "parentUuid": "b2d4c944_bb553f4b",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "07ac0544df0e970592a2ffc5b219476f453389f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

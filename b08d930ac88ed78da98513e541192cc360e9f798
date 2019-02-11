@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "96fb06f4_aba1dcd9",
+        "filename": "public/controllers.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-02-11T18:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1989005_8ac86372",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 4
+      },
+      "revId": "b08d930ac88ed78da98513e541192cc360e9f798",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "989c1396_6043f69c",
         "filename": "public/styles/clouds.less",
         "patchSetId": 4

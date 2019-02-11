@@ -46,6 +46,30 @@
       "revId": "07ac0544df0e970592a2ffc5b219476f453389f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6138040_ad7608a2",
+        "filename": "public/styles/clouds.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-02-11T19:46:31Z",
+      "side": 1,
+      "message": "max-width and max-height doesn\u0027t change the ratio. For instance, if you set max-width:100px and max-height:100px, the FIWARE logo will be rendered in 100x83 (given that you don\u0027t specify width/height).",
+      "parentUuid": "238f9bf1_eec1fbda",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "07ac0544df0e970592a2ffc5b219476f453389f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

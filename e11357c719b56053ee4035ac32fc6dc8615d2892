@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4a4584a_e8f5c837",
+        "filename": "public/controllers.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-02-11T14:25:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13e83994_4c5286a4",
+      "range": {
+        "startLine": 234,
+        "startChar": 76,
+        "endLine": 234,
+        "endChar": 88
+      },
+      "revId": "e11357c719b56053ee4035ac32fc6dc8615d2892",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff5212a_58b86575",
         "filename": "public/views/config.cloud.html",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-02-07T21:56:21Z",
       "side": 1,
       "message": "Now that the icons are squares, the buttons look better if they are squares. The button can have the same size as the image.",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "e11357c719b56053ee4035ac32fc6dc8615d2892",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5001354_c12f5ac9",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-02-11T14:25:27Z",
+      "side": 1,
+      "message": "I don\u0027t know if I understood right, but I\u0027ve updated the card size to be a square in large screens only, keeping it responsible the same way as before. \n\nShould I fix the card size to be always a square?",
+      "parentUuid": "9ff5212a_58b86575",
       "range": {
         "startLine": 14,
         "startChar": 6,

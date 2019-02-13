@@ -67,7 +67,7 @@ var createCloudConnection = function createCloudConnection(address, credentials,
   var client = new KNoTCloudWebSocket({
     hostname: address.hostname,
     port: address.port,
-    uuid: credentials.uuid,
+    id: credentials.uuid,
     token: credentials.token
   });
 

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@cesarbr/knot-cloud-websocket@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@cesarbr/knot-cloud-websocket/-/knot-cloud-websocket-0.3.0.tgz#23cc891b87045808f943b8c147a5eede003d9ee0"
-  integrity sha512-JwlIs65P0R5okZsyJA2R8FRazxoUMGrQZqBtb7fNbO6aZjZEpRd3A0gtxPdcSqEnhTJXmL+pblraBj4VJ9kyHg==
+"@cesarbr/knot-cloud-websocket@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@cesarbr/knot-cloud-websocket/-/knot-cloud-websocket-0.4.1.tgz#3d10089645712f67975bb4afe1fce486a24048f9"
+  integrity sha512-2e+6gsjbwgEtI1SW0dPtFB4U7laYWDFqGZ2jSWi/UbXHMtC4xJ+23d4ZmG2hJY0f2293xnK0xziyZcEyuvyLAg==
   dependencies:
     eventemitter3 "^3.1.0"
     isomorphic-ws "^4.0.1"

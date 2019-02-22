@@ -144,7 +144,7 @@ CloudService.prototype.createGateway = function createGateway(credentials, name,
         done(null, device);
       });
 
-      client.activate(device.uuid);
+      client.activate(device.knot.id);
     });
     client.once('error', function onError() {
       client.close();

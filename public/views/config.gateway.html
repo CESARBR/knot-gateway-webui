@@ -19,7 +19,7 @@
       <div class="gateway-grid" ng-hide="gateways.length === 0">
         <div class="gateway-grid-item" ng-repeat="device in gateways">
           <a href ng-click="selectGateway($event, device)">
-            <div class="gateway" ng-class="{'active': device.uuid == selectedGateway.uuid}">
+            <div class="gateway" ng-class="{'active': device.knot.id == selectedGateway.knot.id}">
               <div class="gateway-heading">
                 <h5>{{ device.metadata.name }}</h5>
               </div>

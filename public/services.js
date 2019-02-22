@@ -172,8 +172,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
   };
 
   // /api/cloud/gateway/:id/attrs/active
-  var activateGateway = function activateGateway(uuid) {
-    return $http.put('/api/cloud/gateway/' + uuid + '/attrs/active');
+  var activateGateway = function activateGateway(id) {
+    return $http.put('/api/cloud/gateway/' + id + '/attrs/active');
   };
 
   // /api/cloud

@@ -202,7 +202,7 @@ appCtrls.controller('GatewayController', function GatewayController($scope, Gate
   };
 
   $scope.save = function save() {
-    return GatewayApi.activateGateway($scope.selectedGateway.uuid)
+    return GatewayApi.activateGateway($scope.selectedGateway.knot.id)
       .then(function onSuccess() {
         return StateService.changeState(API_STATES.REBOOTING);
       });

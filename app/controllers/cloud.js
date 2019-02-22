@@ -82,7 +82,7 @@ var createGateway = function createGateway(req, res, next) {
               next(createGatewayErr);
             } else {
               finishSetup(cloudSettings.platform, cloudSettings.knotCloud, {
-                uuid: newGateway.uuid,
+                uuid: newGateway.knot.id,
                 token: newGateway.token
               }, function onSetupDone(finishSetupErr) {
                 if (finishSetupErr) {

@@ -151,7 +151,7 @@ CloudService.prototype.createGateway = function createGateway(credentials, name,
       done(new CloudServiceError('Cloud service is unavailable', CLOUD_SERVICE_ERROR_CODE.UNAVAILABLE));
     });
     client.register({
-      type: 'gateway',
+      type: 'knot:gateway',
       name: name
     });
   });

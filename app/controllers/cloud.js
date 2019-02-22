@@ -35,7 +35,7 @@ var listGateways = function listGateways(req, res, next) {
           next(getUserErr);
         } else {
           cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
-          cloudSvc.listDevices(user, { type: 'gateway' }, function onDevicesListed(listDevicesErr, gateways) {
+          cloudSvc.listDevices(user, { type: 'knot:gateway' }, function onDevicesListed(listDevicesErr, gateways) {
             if (listDevicesErr) {
               next(listDevicesErr);
             } else {

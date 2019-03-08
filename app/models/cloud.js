@@ -9,10 +9,14 @@ var settingsSchema = new mongoose.Schema({
 
 var knotCloudSettingsSchema = new mongoose.Schema({
   authenticator: {
+    protocol: String,
+    path: String,
     hostname: String,
     port: Number
   },
   knotCloud: {
+    protocol: String,
+    path: String,
     hostname: String,
     port: Number
   }

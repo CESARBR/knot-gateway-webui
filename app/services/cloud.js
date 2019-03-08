@@ -87,7 +87,7 @@ var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
 
 CloudService.prototype.signinUser = function signinUser(credentials, done) {
   request({
-    url: 'http://' + this.authenticatorAddress.hostname + ':' + this.authenticatorAddress.port + '/auth',
+    url: this.authenticatorAddress.protocol + this.authenticatorAddress.hostname + ':' + this.authenticatorAddress.port + this.authenticatorAddress.path + '/auth',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

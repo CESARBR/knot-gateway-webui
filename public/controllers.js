@@ -261,6 +261,19 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
             $scope.form.orion = result.orion;
           }
           $scope.selectPlatform(result.platform);
+        } else {
+          $scope.form.knotCloud = {
+            protocol: 'ws://',
+            hostname: 'ws.knot.cloud',
+            port: 80,
+            path: '/'
+          };
+          $scope.form.authenticator = {
+            protocol: 'http://',
+            hostname: 'auth.knot.cloud',
+            port: 80,
+            path: '/'
+          };
         }
       });
   }

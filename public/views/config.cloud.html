@@ -26,35 +26,53 @@
       <br>
       <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
         <div ng-if="form.platform === 'KNOT_CLOUD'">
-          <p class="text-center">KNoT Cloud configuration</p>
-          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.hostname.$invalid && !cloudForm.knotCloud.hostname.$pristine }">
-            <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
-            <div class="col-sm-6">
-              <input type="text" id="hostname-knot-cloud" name="hostname-knot-cloud" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.knotCloud.hostname" ng-disabled="$api.$pending" hostname required>
+          <p class="text-center">Websocket adapter address</p>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.hostname.$invalid && cloudForm.knotCloud.path.$invalid && cloudForm.knotCloud.protocol.$invalid && !cloudForm.knotCloud.protocol.$pristine && !cloudForm.knotCloud.hostname.$pristine && !cloudForm.knotCloud.path.$pristine }">
+            <label for="hostname" class="col-sm-2 col-sm-offset-1 control-label">Hostname</label>
+            <div class="col-sm-2">
+              <select class="form-control" ng-model="form.knotCloud.protocol" id="select-protocol" required>
+                <option selected>ws://</option>
+                <option>wss://</option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <input type="text" id="hostname-knot-cloud" name="hostname-knot-cloud" class="col-sm-2 form-control" placeholder="ws.knot.cloud" ng-model="form.knotCloud.hostname" ng-disabled="$api.$pending" hostname required>
+            </div>
+            <div class="col-sm-2">
+              <input type="text" id="path-knot-cloud" name="path-knot-cloud" class="col-sm-2 form-control" placeholder="/" ng-model="form.knotCloud.path" ng-disabled="$api.$pending" required>
             </div>
           </div>
 
           <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.port.$invalid && !cloudForm.knotCloud.port.$pristine }">
-            <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
-            <div class="col-sm-6">
-              <input type="number" id="port-knot-cloud" name="port-knot-cloud" class="form-control" placeholder="3004" ng-model="form.knotCloud.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+            <label for="port" class="col-sm-2 col-sm-offset-1 control-label">Port</label>
+            <div class="col-sm-7">
+              <input type="number" id="port-knot-cloud" name="port-knot-cloud" class="form-control" placeholder="80" ng-model="form.knotCloud.port" ng-disabled="$api.$pending" min="0" max="65535" required>
             </div>
           </div>
 
           <hr>
-          <p class="text-center">Authenticator configuration</p>
+          <p class="text-center">Authenticator address</p>
 
-          <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.hostname.$invalid && !cloudForm.authenticator.hostname.$pristine }">
-              <label for="hostname" class="col-sm-2 col-sm-offset-2 control-label">Hostname</label>
-              <div class="col-sm-6">
-                <input type="text" id="hostname-authenticator" name="hostname-authenticator" class="form-control" placeholder="knot-test.cesar.org.br" ng-model="form.authenticator.hostname" ng-disabled="$api.$pending" hostname required>
+          <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.protocol.$invalid && cloudForm.authenticator.hostname.$invalid && cloudForm.authenticator.protocol.$invalid && !cloudForm.authenticator.protocol.$pristine && !cloudForm.authenticator.hostname.$pristine && !cloudForm.authenticator.path.$pristine }">
+            <label for="hostname" class="col-sm-2 col-sm-offset-1 control-label">Hostname</label>
+            <div class="col-sm-2">
+              <select class="form-control" ng-model="form.authenticator.protocol" id="select-protocol" required>
+                <option selected>http://</option>
+                <option>https://</option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="hostname-authenticator" name="hostname-authenticator" class="col-sm-2 form-control" placeholder="auth.knot.cloud" ng-model="form.authenticator.hostname" ng-disabled="$api.$pending" hostname required>
+            </div>
+            <div class="col-sm-2">
+              <input type="text" id="path-authenticator" name="path-authenticator" class="col-sm-2 form-control" placeholder="/" ng-model="form.authenticator.path" ng-disabled="$api.$pending" required>
               </div>
             </div>
 
             <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.port.$invalid && !cloudForm.authenticator.port.$pristine }">
-              <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
-              <div class="col-sm-6">
-                <input type="number" id="port-authenticator" name="port-authenticator" class="form-control" placeholder="3003" ng-model="form.authenticator.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+              <label for="port" class="col-sm-2 col-sm-offset-1 control-label">Port</label>
+              <div class="col-sm-7">
+                <input type="number" id="port-authenticator" name="port-authenticator" class="form-control" placeholder="80" ng-model="form.authenticator.port" ng-disabled="$api.$pending" min="0" max="65535" required>
               </div>
             </div>
         </div>

@@ -23,12 +23,16 @@ var update = {
   disableSecurity: joi.boolean().required(),
   authenticator: joi
     .object({
+      protocol: joi.string().only(['http', 'https']).required(),
+      path: joi.string().required(),
       hostname: hostname,
       port: port
     })
     .when('platform', { is: 'KNOT_CLOUD', then: joi.required() }),
   knotCloud: joi
     .object({
+      protocol: joi.string().only(['ws', 'wss']).required(),
+      path: joi.string().required(),
       hostname: hostname,
       port: port
     })

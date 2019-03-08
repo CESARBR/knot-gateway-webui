@@ -230,7 +230,21 @@ appCtrls.controller('ModalController', function ModalController($scope, GatewayA
 
 appCtrls.controller('CloudController', function CloudController($scope, $state, GatewayApi, StateService, VIEW_STATES, API_STATES, CLOUD_PLATFORMS) {
   $scope.$api = {};
-  $scope.form = { disableSecurity: true };
+  $scope.form = {
+    disableSecurity: true,
+    knotCloud: {
+      protocol: 'wss',
+      hostname: 'ws.knot.cloud',
+      port: 443,
+      path: '/'
+    },
+    authenticator: {
+      protocol: 'https',
+      hostname: 'auth.knot.cloud',
+      port: 443,
+      path: '/'
+    }
+  };
 
   $scope.cloudPlatforms = [
     { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false },
@@ -272,6 +286,24 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
         return StateService.changeState(API_STATES.CONFIGURATION_USER);
       });
   };
+
+  $scope.$watch('form.knotCloud.protocol', function onProtocolChanged(protocol) {
+    // Only change if using the default ports
+    if (protocol === 'wss' && $scope.form.knotCloud.port === 80) {
+      $scope.form.knotCloud.port = 443;
+    } else if (protocol === 'ws' && $scope.form.knotCloud.port === 443) {
+      $scope.form.knotCloud.port = 80;
+    }
+  });
+
+  $scope.$watch('form.authenticator.protocol', function onProtocolChanged(protocol) {
+    // Only change if using the default ports
+    if (protocol === 'https' && $scope.form.authenticator.port === 80) {
+      $scope.form.authenticator.port = 443;
+    } else if (protocol === 'http' && $scope.form.authenticator.port === 443) {
+      $scope.form.authenticator.port = 80;
+    }
+  });
 
   init();
 });

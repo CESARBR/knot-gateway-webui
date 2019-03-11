@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0d112202_0e889dbb",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-03-11T19:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e46e2c51_12374229",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 54
+      },
+      "revId": "ec1bd0996f74295932d0e7c9b880079090c7eb80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1f2283e_310274ad",
         "filename": "app/services/cloud.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "ec1bd0996f74295932d0e7c9b880079090c7eb80",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7987b0_f5aae789",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013096
+      },
+      "writtenOn": "2019-03-11T19:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1f2283e_310274ad",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "ec1bd0996f74295932d0e7c9b880079090c7eb80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

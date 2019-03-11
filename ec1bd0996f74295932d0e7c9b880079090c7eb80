@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46e2c51_12374229",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T19:09:23Z",
+      "side": 1,
+      "message": "To avoid this kind of string processing, we should store the protocol without `://`",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 54
+      },
+      "revId": "ec1bd0996f74295932d0e7c9b880079090c7eb80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f2283e_310274ad",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T19:09:23Z",
+      "side": 1,
+      "message": "Here either you add `/` before `auth` or guarantee that `this.authenticatorAddress.path` ends with a slash. Use `path.join` to correctly join these paths.",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "ec1bd0996f74295932d0e7c9b880079090c7eb80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

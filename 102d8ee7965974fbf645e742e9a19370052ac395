@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "87554e71_7f8ecb81",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T16:55:19Z",
+      "side": 1,
+      "message": "Use wss, https and 443 (port) as default values",
+      "range": {
+        "startLine": 266,
+        "startChar": 22,
+        "endLine": 266,
+        "endChar": 30
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bf89f26_923f676c",
         "filename": "public/controllers.js",
         "patchSetId": 1
@@ -41,6 +64,76 @@
         "startChar": 0,
         "endLine": 276,
         "endChar": 12
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35f79f4f_dca01de3",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T16:55:19Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "7bf89f26_923f676c",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 12
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1016543_36cf33be",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T16:55:19Z",
+      "side": 1,
+      "message": "WebSocket adapter address",
+      "range": {
+        "startLine": 29,
+        "startChar": 33,
+        "endLine": 29,
+        "endChar": 57
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4197ddaa_c519806d",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T16:55:19Z",
+      "side": 1,
+      "message": "Authenticator address",
+      "range": {
+        "startLine": 54,
+        "startChar": 33,
+        "endLine": 54,
+        "endChar": 60
       },
       "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",

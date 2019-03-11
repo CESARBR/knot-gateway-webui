@@ -116,7 +116,7 @@
           <li class="previous ng-class:{ disabled: $api.$pending }">
             <a ui-sref="config.welcome">Previous</a>
           </li>
-          <li class="next ng-class:{ disabled: cloudForm.$invalid || $api.$pending }">
+          <li class="next ng-class:{ disabled: cloudForm.$invalid || $api.$pending || !form.platform }">
             <a href api-click="save()" api-click-state="$api" api-click-busy-when="$api.$pending" ng-disabled="cloudForm.$invalid || $api.$pending">Next</a>
           </li>
         </ul>

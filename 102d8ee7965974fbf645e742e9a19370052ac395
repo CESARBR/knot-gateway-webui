@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cbf2dd0_16b7dc30",
+        "filename": "app/services/cloud.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-03-11T12:18:47Z",
+      "side": 1,
+      "message": "If the default value \u0027/\u0027 come here, will we end up with \u0027:80//auth\u0027 url?",
+      "range": {
+        "startLine": 90,
+        "startChar": 122,
+        "endLine": 90,
+        "endChar": 152
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf89f26_923f676c",
+        "filename": "public/controllers.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013169
+      },
+      "writtenOn": "2019-03-11T12:18:47Z",
+      "side": 1,
+      "message": "Maybe you can initialize with these default values in the line 233 and avoid this else clause.\nhttps://review.gerrithub.io/c/CESARBR/knot-gateway-webui/+/447506/1/public/controllers.js#233",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 12
+      },
+      "revId": "102d8ee7965974fbf645e742e9a19370052ac395",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

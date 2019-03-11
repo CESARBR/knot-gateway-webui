@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "776342d8_14a3ec3d",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T23:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1046c309_17171f7a",
+      "range": {
+        "startLine": 34,
+        "startChar": 48,
+        "endLine": 34,
+        "endChar": 51
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e04dbef8_a55b1746",
         "filename": "public/views/config.cloud.html",
         "patchSetId": 5
@@ -92,6 +116,30 @@
       "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f187c520_ccd09f5a",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T23:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e04dbef8_a55b1746",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8fe35cae_49df69bd",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T23:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27cdb2a4_f50d49ba",
+      "range": {
+        "startLine": 49,
+        "startChar": 113,
+        "endLine": 49,
+        "endChar": 115
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bb673b2_fbbc61aa",
         "filename": "public/views/config.cloud.html",
         "patchSetId": 5
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b83e8539_a30cb331",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T23:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bb673b2_fbbc61aa",
+      "range": {
+        "startLine": 60,
+        "startChar": 52,
+        "endLine": 60,
+        "endChar": 55
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3acb3919_65d8ced9",
         "filename": "public/views/config.cloud.html",
         "patchSetId": 5
@@ -161,6 +257,30 @@
       "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fcad61b_2fa9bc46",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-03-11T23:45:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3acb3919_65d8ced9",
+      "range": {
+        "startLine": 61,
+        "startChar": 41,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

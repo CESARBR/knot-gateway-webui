@@ -4,6 +4,7 @@ var config = require('config');
 var dotenv = require('dotenv');
 var exec = require('child_process').exec;
 var util = require('util');
+var url = require('url');
 
 var logger = require('../logger');
 
@@ -104,7 +105,12 @@ FogService.prototype.restart = function restart(done) {
 
 FogService.prototype.createDevice = function createDevice(properties, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/devices/'
+    }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -130,7 +136,12 @@ FogService.prototype.createDevice = function createDevice(properties, done) {
 
 FogService.prototype.cloneUser = function cloneUser(user, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/devices/'
+    }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -161,7 +172,12 @@ FogService.prototype.cloneUser = function cloneUser(user, done) {
 
 FogService.prototype.getDevices = function getDevices(user, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/',
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/devices/'
+    }),
     qs: {
       type: 'KNOTDevice',
       owner: user.uuid
@@ -198,7 +214,12 @@ FogService.prototype.getDevices = function getDevices(user, done) {
 
 FogService.prototype.getDevice = function getDevice(user, uuid, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/' + uuid,
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/devices/' + uuid
+    }),
     headers: {
       meshblu_auth_uuid: user.uuid,
       meshblu_auth_token: user.token
@@ -231,7 +252,12 @@ FogService.prototype.getDevice = function getDevice(user, uuid, done) {
 
 FogService.prototype.getDeviceData = function getDeviceData(user, uuid, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/data/' + uuid,
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/data/' + uuid
+    }),
     headers: {
       meshblu_auth_uuid: user.uuid,
       meshblu_auth_token: user.token
@@ -262,7 +288,12 @@ FogService.prototype.getDeviceData = function getDeviceData(user, uuid, done) {
 
 FogService.prototype.removeDevice = function removeDevice(user, uuid, done) {
   request({
-    url: 'http://' + FOG_HOST + ':' + FOG_PORT + '/devices/' + uuid,
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/devices/' + uuid
+    }),
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

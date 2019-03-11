@@ -2,6 +2,7 @@
 var request = require('request');
 var KNoTCloudWebSocket = require('@cesarbr/knot-cloud-websocket');
 var util = require('util');
+var url = require('url');
 
 var logger = require('../logger');
 
@@ -87,7 +88,12 @@ var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
 
 CloudService.prototype.signinUser = function signinUser(credentials, done) {
   request({
-    url: 'http://' + this.authenticatorAddress.hostname + ':' + this.authenticatorAddress.port + '/auth',
+    url: url.format({
+      protocol: 'http',
+      hostname: this.authenticatorAddress.hostname,
+      port: this.authenticatorAddress.port,
+      pathname: '/auth'
+    }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

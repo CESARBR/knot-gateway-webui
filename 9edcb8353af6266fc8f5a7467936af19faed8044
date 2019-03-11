@@ -46,6 +46,121 @@
       "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1046c309_17171f7a",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-03-11T21:29:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 34,
+        "startChar": 48,
+        "endLine": 34,
+        "endChar": 51
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04dbef8_a55b1746",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-03-11T21:29:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27cdb2a4_f50d49ba",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-03-11T21:29:43Z",
+      "side": 1,
+      "message": "The placeholder do not match the default value. When you load the UI for the first time, it\u0027s 433, but the placeholder is 80.",
+      "range": {
+        "startLine": 49,
+        "startChar": 113,
+        "endLine": 49,
+        "endChar": 115
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bb673b2_fbbc61aa",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-03-11T21:29:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 60,
+        "startChar": 52,
+        "endLine": 60,
+        "endChar": 55
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3acb3919_65d8ced9",
+        "filename": "public/views/config.cloud.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-03-11T21:29:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 61,
+        "startChar": 41,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "9edcb8353af6266fc8f5a7467936af19faed8044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

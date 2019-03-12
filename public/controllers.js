@@ -233,8 +233,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.form = { disableSecurity: true };
 
   $scope.cloudPlatforms = [
-    { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false },
-    { name: 'FIWARE', src: CLOUD_PLATFORMS.FIWARE, selected: false }
+    { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false }
   ];
 
   $scope.selectPlatform = function selectPlatform(platform) {

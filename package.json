@@ -1,5 +1,5 @@
 {
-  "name": "knot-gateway-webui",
+  "name": "@cesarbr/knot-gateway-webui",
   "version": "1.0.0",
   "description": "Gateway configuration web interface",
   "scripts": {

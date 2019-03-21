@@ -1,6 +1,6 @@
 {
   "name": "@cesarbr/knot-gateway-webui",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Gateway configuration web interface",
   "scripts": {
     "build:dev": "webpack --mode=development",

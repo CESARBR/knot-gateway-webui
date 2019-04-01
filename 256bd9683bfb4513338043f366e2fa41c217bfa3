@@ -16,6 +16,24 @@
       "revId": "256bd9683bfb4513338043f366e2fa41c217bfa3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29eaad9a_3992029d",
+        "filename": "package-lock.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-04-01T19:22:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b25bff56_6cfedac7",
+      "revId": "256bd9683bfb4513338043f366e2fa41c217bfa3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

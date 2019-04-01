@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b25bff56_6cfedac7",
+        "filename": "package-lock.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013086
+      },
+      "writtenOn": "2019-04-01T18:45:45Z",
+      "side": 1,
+      "message": "Remove these changes as you are not making any change to package.json in this patch.",
+      "revId": "256bd9683bfb4513338043f366e2fa41c217bfa3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

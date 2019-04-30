@@ -13,7 +13,7 @@
       <p>Select your cloud platform</p>
       <div class="cloud-grid">
         <div class="cloud-grid-item" ng-repeat="cloud in cloudPlatforms">
-          <a href ng-init="selectPlatform(cloud.name)">
+          <a href ng-click="selectPlatform(cloud.name)">
             <div class="cloud" ng-class="{'selected': cloud.selected}">
               <img ng-src={{cloud.src}} alt="{{cloud.name}}">
             </div>

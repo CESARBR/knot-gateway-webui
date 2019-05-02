@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56424f7f_a3e7c2a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015148
+      },
+      "writtenOn": "2019-05-02T14:39:47Z",
+      "side": 1,
+      "message": "Re-enable",
+      "revId": "c65455b6cebc45cef96e60466ed9d5ceb2b9ab4e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

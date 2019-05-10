@@ -52,8 +52,10 @@ var finishSetup = function finishSetup(platform, cloudSettings, gatewaySettings,
   gateway.setGatewaySettings(gatewaySettings, function onGatewaySettingsUpdated() {
     var connectorSvc = new ConnectorService();
     connectorSvc.setCloudConfig(platform, {
+      protocol: cloudSettings.protocol,
       hostname: cloudSettings.hostname,
       port: cloudSettings.port,
+      path: cloudSettings.path,
       uuid: gatewaySettings.uuid,
       token: gatewaySettings.token
     }, function onCloudConfigSet(setCloudConfigErr) {

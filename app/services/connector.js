@@ -39,8 +39,10 @@ ConnectorService.prototype.setCloudConfig = function setCloudConfig(platform, cl
       return;
     }
 
-    connectorConfig.cloudType = platform;
-    connectorConfig.cloud = cloudConfig;
+    connectorConfig.cloud = {
+      type: platform,
+      settings: JSON.stringify(cloudConfig)
+    };
 
     writeConfigFile(connectorConfig, done);
   });
@@ -49,12 +51,15 @@ ConnectorService.prototype.setCloudConfig = function setCloudConfig(platform, cl
 ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig( // eslint-disable-line function-paren-newline, max-len
   cloudSecurityConfig, done) {
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
+    var settings;
+
     if (readConfigFileErr) {
       done(readConfigFileErr);
       return;
     }
 
-    connectorConfig.cloud.security = {
+    settings = JSON.parse(connectorConfig.cloud.settings);
+    settings.security = {
       hostname: cloudSecurityConfig.hostname,
       port: cloudSecurityConfig.port,
       clientId: cloudSecurityConfig.clientId,
@@ -62,6 +67,7 @@ ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityCon
       callbackUrl: cloudSecurityConfig.callbackUrl,
       code: cloudSecurityConfig.code
     };
+    connectorConfig.cloud.settings = JSON.stringify(settings);
 
     writeConfigFile(connectorConfig, done);
   });

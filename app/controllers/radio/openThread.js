@@ -2,11 +2,11 @@ var OpenThreadService = require('../../services/radio/openThread').OpenThreadSer
 
 var get = function get(req, res, next) {
   var otSvc = new OpenThreadService();
-  otSvc.get(function onParameters(err, parameters) {
+  otSvc.getStatus(function onStatusReturned(err, status) {
     if (err) {
       next(err);
     } else {
-      res.json(parameters);
+      res.json(status);
     }
   });
 };

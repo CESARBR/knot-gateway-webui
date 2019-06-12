@@ -27,6 +27,27 @@ RUN rm /sbin/reboot
 RUN echo "#!/bin/sh\ndocker restart webui" > /sbin/reboot
 RUN chmod +x /sbin/reboot
 
+# wpantund
+# install modules
+WORKDIR /usr/local/bin/wpantund
+COPY ./docker/wpantund/package.json .
+RUN npm_config_tmp=/tmp TMP=/tmp yarn
+
+# install app
+COPY ./docker/wpantund/.babelrc ./.babelrc
+COPY ./docker/wpantund/src ./src
+RUN npm_config_tmp=/tmp TMP=/tmp yarn build
+RUN rm -rf ./src
+
+# install configuration files
+COPY ./docker/wpantund/com.nestlabs.WPANTunnelDriver.conf /etc/dbus-1/system.d
+
+# install init script
+COPY ./docker/wpantund/wpantund.service /lib/systemd/system/wpantund.service
+COPY ./docker/wpantund/wpantund.sh /usr/local/bin/wpantund.sh
+RUN chmod +x /usr/local/bin/wpantund.sh
+RUN systemctl enable wpantund
+
 # knotd mock
 # install modules
 WORKDIR /usr/local/bin/knotd

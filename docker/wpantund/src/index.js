@@ -3,6 +3,7 @@ import _ from 'lodash';
 import InMemoryNetworkAdapterStore from 'data/InMemoryNetworkAdapterStore';
 
 import GetStatus from 'interactors/GetStatus';
+import GetProperty from 'interactors/GetProperty';
 
 import DBusServerFactory from 'dbus/DBusServerFactory';
 import NetworkAdapterController from 'dbus/NetworkAdapterController';
@@ -53,7 +54,11 @@ async function main() {
 
   const networkAdapterStore = new InMemoryNetworkAdapterStore(adapters);
   const getStatusInteractor = new GetStatus(networkAdapterStore);
-  const networkAdapterController = new NetworkAdapterController(getStatusInteractor);
+  const getPropertyInteractor = new GetProperty(networkAdapterStore);
+  const networkAdapterController = new NetworkAdapterController(
+    getStatusInteractor,
+    getPropertyInteractor,
+  );
   new DBusServerFactory().create(networkAdapterController, adapterIds);
 }
 main();

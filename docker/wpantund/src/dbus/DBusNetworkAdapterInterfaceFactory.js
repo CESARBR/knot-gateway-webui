@@ -18,6 +18,13 @@ class DBusNetworkInterfaceFactory {
       controller.getStatus.bind(controller, adapterId),
     );
 
+    builder.addMethod(
+      'PropGet',
+      [String],
+      [Array],
+      controller.getProperty.bind(controller, adapterId),
+    );
+
     return builder.build();
   }
 

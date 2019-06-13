@@ -1,0 +1,8 @@
+[Unit]
+Description=WPAN Tunnel Driver
+
+[Service]
+ExecStart=/usr/local/bin/wpantund.sh
+
+[Install]
+WantedBy=multi-user.target

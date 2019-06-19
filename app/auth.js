@@ -54,8 +54,9 @@ passport.use(new LocalStrategy(
     users.getUserByEmail(email, function onUserReturned(err, user) {
       if (err) {
         return done(err);
-      } else if (!user || email !== user.email ||
-                  !crypto.isPasswordValid(password, user.password)) {
+      }
+      if (!user || email !== user.email
+        || !crypto.isPasswordValid(password, user.password)) {
         return done(null, false);
       }
 

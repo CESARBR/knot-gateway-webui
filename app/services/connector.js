@@ -46,8 +46,7 @@ ConnectorService.prototype.setCloudConfig = function setCloudConfig(platform, cl
   });
 };
 
-ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig( // eslint-disable-line function-paren-newline, max-len
-  cloudSecurityConfig, done) {
+ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig(cloudSecurityConfig, done) { // eslint-disable-line max-len
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
     if (readConfigFileErr) {
       done(readConfigFileErr);

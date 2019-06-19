@@ -1,6 +1,6 @@
 {
   // ES5
-  "extends": "airbnb/legacy",
+  "extends": "airbnb-base/legacy",
   "rules": {
     // It is a common practice in AngularJS code to reassign $scope
     "no-param-reassign": ["error", { "ignorePropertyModificationsFor": ["$scope"] }],

@@ -56,7 +56,8 @@ var parseRequestError = function parseRequestError(err) {
 var parseResponseError = function parseResponseError(response) {
   if (response.statusCode === 409) {
     return new CloudServiceError('User exists', CLOUD_SERVICE_ERROR_CODE.USER_EXISTS);
-  } else if (response.statusCode === 401) {
+  }
+  if (response.statusCode === 401) {
     return new CloudServiceError('Invalid e-mail or password', CLOUD_SERVICE_ERROR_CODE.INVALID_CREDENTIALS);
   }
 

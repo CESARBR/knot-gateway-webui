@@ -32,10 +32,10 @@ app.use('/api', apiRoute.router);
 app.use('*', handlers.defaultHandler);
 app.use(handlers.errorHandler);
 
-databaseUri = 'mongodb://' +
-  config.get('mongodb.host') + ':' +
-  config.get('mongodb.port') + '/' +
-  config.get('mongodb.db');
+databaseUri = 'mongodb://'
+  + config.get('mongodb.host') + ':'
+  + config.get('mongodb.port') + '/'
+  + config.get('mongodb.db');
 mongoose.connect(databaseUri)
   .then(function onDatabaseConnected() {
     stateSvc = new StateService();

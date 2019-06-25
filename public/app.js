@@ -234,7 +234,8 @@ app.constant('AUTH_EVENTS', {
 
 app.constant('CLOUD_PLATFORMS', {
   KNOT_CLOUD: '/knot.png',
-  FIWARE: '/fiware.png'
+  FIWARE: '/fiware.png',
+  MINDSPHERE_CLOUD: '/mindsphere.png'
 });
 
 app.constant('VIEW_STATES', {

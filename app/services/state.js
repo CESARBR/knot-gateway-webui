@@ -84,7 +84,8 @@ function canTransitionToReady(from, done) {
           gatewayModel.existsGatewaySettings(function onGatewayExist() {
             existsKNoTCloudInfoOnConnector(done);
           });
-        } else if (cloudSettings.platform === 'FIWARE') {
+        } else if (cloudSettings.platform === 'FIWARE'
+        || cloudSettings.platform === 'MINDSPHERE_CLOUD') {
           userModel.existsUser(done);
         }
       } else {

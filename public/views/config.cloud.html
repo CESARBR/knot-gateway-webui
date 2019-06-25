@@ -13,13 +13,14 @@
       <p>Select your cloud platform</p>
       <div class="cloud-grid">
         <div class="cloud-grid-item" ng-repeat="cloud in cloudPlatforms">
-          <a href ng-init="selectPlatform(cloud.name)">
+          <a href ng-click="selectPlatform(cloud.name)">
             <div class="cloud" ng-class="{'selected': cloud.selected}">
               <img ng-src={{cloud.src}} alt="{{cloud.name}}">
             </div>
           </a>
           <p ng-if="cloud.name === 'KNOT_CLOUD'" class="text-center">KNoT Cloud</p>
           <p ng-if="cloud.name === 'FIWARE'" class="text-center">FIWARE</p>
+          <p ng-if="cloud.name === 'MINDSPHERE_CLOUD'" class="text-center">Mindsphere</p>
         </div>
       </div>
       <p ng-hide="!form.platform">Set the cloud server address that this gateway will connect to. This is the server where your device data and user credentials will be stored.</p>
@@ -106,6 +107,55 @@
             <label for="port" class="col-sm-2 col-sm-offset-2 control-label">Port</label>
             <div class="col-sm-6">
               <input type="number" id="port-orion" name="port-orion" class="form-control" placeholder="1026" ng-model="form.orion.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+            </div>
+          </div>
+        </div>
+        <div ng-if="form.platform === 'MINDSPHERE_CLOUD'">
+          <p class="text-center">Mindsphere Configuration</p>
+          <div class="form-group">
+            <label for="host_environment" class="col-sm-2 col-sm-offset-2 control-label">Host Environment</label>
+            <div class="col-sm-6">
+              <input type="text" id="host_environment" name="host_environment" class="form-control" placeholder="eu1" ng-model="form.mindsphereCloud.config.host_environment" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="timeout" class="col-sm-2 col-sm-offset-2 control-label">Timeout</label>
+            <div class="col-sm-6">
+              <input type="number" id="timeout" name="timeout" class="form-control" placeholder="10000" ng-model="form.mindsphereCloud.config.timeout" ng-disabled="$api.$pending" min="0" required>
+            </div>
+          </div>
+          <hr>
+          <p class="text-center">Asset Configuration</p>
+          <div class="form-group">
+            <label for="asset_id" class="col-sm-2 col-sm-offset-2 control-label">Asset Id</label>
+            <div class="col-sm-6">
+              <input type="text" id="asset_id" name="asset_id" class="form-control" ng-model="form.mindsphereCloud.asset_configuration.asset_id" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="asset_type_id" class="col-sm-2 col-sm-offset-2 control-label">Asset Type Id</label>
+            <div class="col-sm-6">
+              <input type="text" id="asset_type_id" name="asset_type_id" class="form-control" ng-model="form.mindsphereCloud.asset_configuration.asset_type_id" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+          <hr>
+          <p class="text-center">Credentials</p>
+          <div class="form-group">
+            <label for="client_id" class="col-sm-2 col-sm-offset-2 control-label">Client Id</label>
+            <div class="col-sm-6">
+              <input type="text" id="client_id" name="client_id" class="form-control" ng-model="form.mindsphereCloud.credentials.client_id" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="client_secret" class="col-sm-2 col-sm-offset-2 control-label">Client Secret</label>
+            <div class="col-sm-6">
+              <input type="text" id="client_secret" name="client_secret" class="form-control" ng-model="form.mindsphereCloud.credentials.client_secret" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tenant" class="col-sm-2 col-sm-offset-2 control-label">Tenant</label>
+            <div class="col-sm-6">
+              <input type="text" id="tenant" name="tenant" class="form-control" ng-model="form.mindsphereCloud.credentials.tenant" ng-disabled="$api.$pending" required>
             </div>
           </div>
         </div>

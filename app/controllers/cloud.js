@@ -153,6 +153,17 @@ var update = function update(req, res, next) {
           res.end();
         }
       });
+    } else if (req.body.platform === 'MINDSPHERE_CLOUD') {
+      connectorSvc.setCloudConfig(
+        req.body.platform, req.body.mindsphereCloud,
+        function onCloudConfigSet(setCloudConfigErr) {
+          if (setCloudConfigErr) {
+            next(setCloudConfigErr);
+          } else {
+            res.end();
+          }
+        }
+      );
     } else {
       res.end();
     }

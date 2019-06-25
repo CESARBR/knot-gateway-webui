@@ -1,5 +1,5 @@
 var joi = require('celebrate').Joi;
-var supportedPlatforms = ['KNOT_CLOUD', 'FIWARE'];
+var supportedPlatforms = ['KNOT_CLOUD', 'FIWARE', 'MINDSPHERE_CLOUD'];
 
 var hostname = joi
   .string()
@@ -48,7 +48,27 @@ var update = {
       hostname: hostname,
       port: port
     })
-    .when('platform', { is: 'FIWARE', then: joi.required() })
+    .when('platform', { is: 'FIWARE', then: joi.required() }),
+  mindsphereCloud: joi
+    .object({
+      config: joi.object({
+        host_environment: joi.string().required(),
+        timeout: joi.number().integer().min(0).required(),
+        token_url: joi.string().required(),
+        gateway_url: joi.string().required()
+      }),
+      credentials: joi.object({
+        tenant: joi.string().required(),
+        client_id: joi.string().required(),
+        client_secret:  joi.string().required()
+      }),
+      asset_configuration: joi.object({
+        asset_id: joi.string().required(),
+        asset_type_id: joi.string().required()
+      })
+    })
+    .when('platform', { is: 'MINDSPHERE_CLOUD', then: joi.required() })
+
 };
 
 var updateSecurity = {

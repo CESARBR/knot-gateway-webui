@@ -155,6 +155,8 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
           StateService.changeState(API_STATES.CONFIGURATION_GATEWAY);
         } else if ($scope.platform === 'FIWARE') {
           StateService.changeState(API_STATES.REBOOTING);
+        } else if ($scope.platform === 'MINDSPHERE_CLOUD') {
+          StateService.changeState(API_STATES.REBOOTING);
         }
       });
   };
@@ -243,11 +245,20 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       hostname: 'auth.knot.cloud',
       port: 443,
       path: '/'
+    },
+    mindsphereCloud: {
+      asset_configuration: {},
+      credentials: {},
+      config: {
+        token_url: 'https://{tenant}.piam.{environment}.mindsphere.io/oauth/token',
+        gateway_url: 'https://gateway.{environment}.mindsphere.io'
+      }
     }
   };
 
   $scope.cloudPlatforms = [
-    { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false }
+    { name: 'KNOT_CLOUD', src: CLOUD_PLATFORMS.KNOT_CLOUD, selected: false },
+    { name: 'MINDSPHERE_CLOUD', src: CLOUD_PLATFORMS.MINDSPHERE_CLOUD, selected: false }
   ];
 
   $scope.selectPlatform = function selectPlatform(platform) {
@@ -272,6 +283,8 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
           } else if (result.platform === 'FIWARE') {
             $scope.form.iota = result.iota;
             $scope.form.orion = result.orion;
+          } else if (result.platform === 'MINDSPHERE_CLOUD') {
+            $scope.form.mindsphereCloud = result.mindsphereCloud;
           }
           $scope.selectPlatform(result.platform);
         }
@@ -367,6 +380,8 @@ appCtrls.controller('AdminController', function AdminController($scope, GatewayA
           $scope.platformSrcImg = CLOUD_PLATFORMS.KNOT_CLOUD;
         } else if (config.platform === 'FIWARE') {
           $scope.platformSrcImg = CLOUD_PLATFORMS.FIWARE;
+        } else if (config.platform === 'MINDSPHERE_CLOUD') {
+          $scope.platformSrcImg = CLOUD_PLATFORMS.MINDSPHERE_CLOUD;
         }
       });
   }

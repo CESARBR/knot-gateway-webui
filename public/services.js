@@ -200,6 +200,8 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
     } else if (config.platform === 'FIWARE') {
       body.iota = config.iota;
       body.orion = config.orion;
+    } else if (config.platform === 'MINDSPHERE_CLOUD') {
+      body.mindsphereCloud = config.mindsphereCloud;
     }
 
     return $http.put('/api/cloud', body);

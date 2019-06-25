@@ -70,6 +70,21 @@ var signupFiware = function signupFiware(credentials, done) {
   });
 };
 
+var signupMindsphere = function signupMindsphere(credentials, done) {
+  var fogSvc = new FogService();
+  fogSvc.createDevice({ }, function onDeviceCreated(createDeviceErr, deviceCreated) {
+    var user;
+    if (createDeviceErr) {
+      done(createDeviceErr);
+    } else {
+      user = credentials;
+      user.uuid = deviceCreated.uuid;
+      user.token = deviceCreated.token;
+      configureUser(user, done);
+    }
+  });
+};
+
 var signinKNoTCloud = function signinKNoTCloud(formCredentials, cloudSvc, done) {
   cloudSvc.signinUser(formCredentials, function onSigninUser(signinErr, userCredentials) {
     if (signinErr) {
@@ -112,6 +127,15 @@ var create = function create(req, res, next) {
       } else if (cloudSettings.platform === 'FIWARE') {
         credentials.password = crypto.createPasswordHash(credentials.password);
         signupFiware(credentials, function onSignup(signupErr) {
+          if (signupErr) {
+            next(signupErr);
+          } else {
+            res.end();
+          }
+        });
+      } else if (cloudSettings.platform === 'MINDSPHERE_CLOUD') {
+        credentials.password = crypto.createPasswordHash(credentials.password);
+        signupMindsphere(credentials, function onSignup(signupErr) {
           if (signupErr) {
             next(signupErr);
           } else {

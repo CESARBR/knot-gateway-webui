@@ -35,6 +35,15 @@ var update = function update(req, res, next) {
           logger.debug(util.inspect(errReboot));
         }
       });
+    } else if (state === STATES.FACTORY_RESET) {
+      res.json(req.body);
+      systemSvc = new SystemService();
+      systemSvc.factoryReset(function onFactoryReset(errFactoryReset) {
+        if (errFactoryReset) {
+          logger.warn('Failed to factory resetting');
+          logger.debug(util.inspect(errFactoryReset));
+        }
+      });
     } else {
       res.json(req.body);
     }

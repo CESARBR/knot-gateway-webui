@@ -35,6 +35,10 @@ function canTransitionToRebooting(from, done) {
   done(null, isAllowedTransition(from, stateModel.STATES.REBOOTING));
 }
 
+function canTransitionToFactoryReset(from, done) {
+  done(null, isAllowedTransition(from, stateModel.STATES.FACTORY_RESET));
+}
+
 function canTransitionToConfigurationCloud(from, done) {
   done(null, isAllowedTransition(from, stateModel.STATES.CONFIGURATION_CLOUD));
 }
@@ -100,6 +104,9 @@ function canTransition(from, to, done) {
   switch (to) {
     case stateModel.STATES.REBOOTING:
       canTransitionToRebooting(from, done);
+      break;
+    case stateModel.STATES.FACTORY_RESET:
+      canTransitionToFactoryReset(from, done);
       break;
     case stateModel.STATES.CONFIGURATION_CLOUD:
       canTransitionToConfigurationCloud(from, done);

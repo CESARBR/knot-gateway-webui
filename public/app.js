@@ -256,6 +256,7 @@ app.constant('VIEW_STATES', {
 
 app.constant('API_STATES', {
   REBOOTING: 'rebooting',
+  FACTORY_RESET: 'factory-reset',
   CONFIGURATION_CLOUD: 'configuration-cloud',
   CONFIGURATION_CLOUD_SECURITY: 'configuration-cloud-security',
   CONFIGURATION_USER: 'configuration-user',

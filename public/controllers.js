@@ -50,6 +50,10 @@ appCtrls.controller('ConfigController', function ConfigController($scope, $state
     $state.go(VIEW_STATES.REBOOT);
   });
 
+  $scope.$on(API_STATES.FACTORY_RESET, function onFactoryReset() {
+    $state.go(VIEW_STATES.REBOOT);
+  });
+
   $scope.$on(API_STATES.READY, function onReady() {
     $state.go(VIEW_STATES.SIGNIN);
   });
@@ -81,6 +85,10 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
   });
 
   $scope.$on(API_STATES.REBOOTING, function onRebooting() {
+    $state.go(VIEW_STATES.REBOOT);
+  });
+
+  $scope.$on(API_STATES.FACTORY_RESET, function onFactoryReset() {
     $state.go(VIEW_STATES.REBOOT);
   });
 
@@ -373,6 +381,10 @@ appCtrls.controller('AdminController', function AdminController($scope, GatewayA
 
   $scope.reboot = function reboot() {
     return StateService.changeState(API_STATES.REBOOTING);
+  };
+
+  $scope.factoryReset = function factoryReset() {
+    return StateService.changeState(API_STATES.FACTORY_RESET);
   };
 
   init();

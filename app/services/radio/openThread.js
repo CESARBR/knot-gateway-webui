@@ -1,11 +1,13 @@
+/* eslint-disable max-len */
 var util = require('util');
 
 var bus = require('../../dbus');
 var logger = require('../../logger');
 
-var SERVICE_NAME = 'com.nestlabs.WPANTunnelDriver';
-var INTERFACE_NAME = 'org.wpantund.v1';
-var OBJECT_PATH = '/org/wpantund/wpan0';
+var SERVICE_NAME = 'br.org.cesar.knot.netsetup';
+var DBUS_INTERFACE_NAME = 'org.freedesktop.DBus.Properties';
+var NETSETUP_INTERFACE_NAME = 'br.org.cesar.knot.netsetup.Openthread';
+var OBJECT_PATH = '/br/org/cesar/knot/netsetup/openthread';
 
 var OpenThreadServiceError = function OpenThreadServiceError(message) {
   this.name = 'OpenThreadServiceError';
@@ -16,30 +18,22 @@ var OpenThreadServiceError = function OpenThreadServiceError(message) {
 OpenThreadServiceError.prototype = Object.create(Error.prototype);
 OpenThreadServiceError.prototype.constructor = OpenThreadServiceError;
 
-
 var OpenThreadService = function OpenThreadService() { // eslint-disable-line vars-on-top
 };
 
+var logError = function logError(err) { // eslint-disable-line vars-on-top
+  logger.warn('Error communicating with netsetup service');
+  logger.debug(util.inspect(err));
+};
+
 var parseDBusError = function parseDBusError(err, message) { // eslint-disable-line vars-on-top
-  logger.warn('Unknown error while communicating with WPAN Tunnel Driver service');
+  logger.warn('Unknown error while communicating with netsetup service');
   logger.debug(util.inspect(err));
   return new OpenThreadServiceError(message);
 };
 
-var parseStatus = function parseStatus(status) { // eslint-disable-line vars-on-top
-  return {
-    state: '' + status['NCP:State'],
-    nodeType: '' + status['Network:NodeType'],
-    networkName: '' + status['Network:Name'],
-    panId: '' + status['Network:PANID'],
-    channel: '' + status['NCP:Channel'],
-    xpanId: '' + status['Network:XPANID'],
-    meshIpv6: '' + status['IPv6:MeshLocalAddress']
-  };
-};
-
-var parseNetworkKey = function parseNetworkKey(key) { // eslint-disable-line vars-on-top
-  return key
+var parseXpanID = function parseXpanID(id) { // eslint-disable-line vars-on-top
+  return id
     .map(function mapToHexadecimal(decimal) {
       return decimal
         .toString(16)
@@ -48,40 +42,42 @@ var parseNetworkKey = function parseNetworkKey(key) { // eslint-disable-line var
     .join(':');
 };
 
-var callDBusMethod = function callDBusMethod(name, signature, args, done) { // eslint-disable-line vars-on-top, max-len
-  // getInterface() is returning an error because wpantund might not implement some needed interface
-  // (introspectable?). For this reason, we are calling the method directly, without parsing the
-  // interface
-  bus.callMethod(
-    bus.connection,
-    SERVICE_NAME,
-    OBJECT_PATH,
-    INTERFACE_NAME,
-    name,
-    signature,
-    10000,
-    args,
-    done
-  );
+var parseIntByteArrayToString = function parseIntByteArrayToString(data) { // eslint-disable-line vars-on-top
+  var value = parseInt(Buffer.from(data).toString('hex'), 16);
+  return value.toString();
+};
+
+var parseStatus = function parseStatus(status) { // eslint-disable-line vars-on-top
+  return {
+    networkName: Buffer.from(status.network_name).toString(),
+    panId: parseIntByteArrayToString(status.pan_id),
+    channel: parseIntByteArrayToString(status.channel),
+    xpanId: parseXpanID(status.xpan_id),
+    meshIpv6: Buffer.from(status.mesh_ipv6).toString(),
+    masterKey: Buffer.from(status.masterkey).toString()
+  };
 };
 
 OpenThreadService.prototype.getStatus = function getStatus(done) {
-  callDBusMethod('Status', '', [], function onStatusReturned(statusErr, status) {
+  bus.getInterface(SERVICE_NAME, OBJECT_PATH, DBUS_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) {
     var err;
-    if (statusErr) {
-      err = parseDBusError(statusErr, 'WPAN Tunnel Driver unavailable');
+    if (getInterfaceErr) {
+      logError(getInterfaceErr);
+      err = parseDBusError(getInterfaceErr, 'Netsetup service unavailable');
       done(err);
       return;
     }
-    callDBusMethod('PropGet', 's', ['Network:Key'], function onPropGetReturned(propGetErr, property) {
+
+    iface.GetAll(NETSETUP_INTERFACE_NAME, function onGetAllProperties(getAllPropertiesErr, data) { // eslint-disable-line new-cap
       var result;
-      if (propGetErr) {
-        err = parseDBusError(propGetErr, 'WPAN Tunnel Driver unavailable');
+      if (getAllPropertiesErr) {
+        logError(getAllPropertiesErr);
+        err = parseDBusError(getAllPropertiesErr, 'Failed to get all openthread properties');
         done(err);
         return;
       }
-      result = parseStatus(status);
-      result.masterKey = parseNetworkKey(property[1]);
+
+      result = parseStatus(data[NETSETUP_INTERFACE_NAME]);
       done(null, result);
     });
   });

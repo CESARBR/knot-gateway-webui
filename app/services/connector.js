@@ -66,21 +66,6 @@ ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityCon
   });
 };
 
-
-ConnectorService.prototype.setFogConfig = function setFogConfig(fogConfig, done) {
-  readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
-    if (readConfigFileErr) {
-      done(readConfigFileErr);
-      return;
-    }
-
-    connectorConfig.fog.uuid = fogConfig.uuid;
-    connectorConfig.fog.token = fogConfig.token;
-
-    writeConfigFile(connectorConfig, done);
-  });
-};
-
 ConnectorService.prototype.getConfig = function getConfig(done) {
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
     if (readConfigFileErr) {

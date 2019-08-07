@@ -4,7 +4,6 @@ var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
-var ConnectorService = require('../services/connector').ConnectorService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -24,11 +23,10 @@ var configureUser = function configureUser(user, done) {
     } else {
       knotSvc = new KnotService();
       knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
-        var connectorSvc = new ConnectorService();
         if (setUserCredErr) {
           done(setUserCredErr);
         } else {
-          connectorSvc.setFogConfig(user, done);
+          done();
         }
       });
     }

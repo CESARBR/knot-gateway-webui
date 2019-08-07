@@ -3,7 +3,6 @@ var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
-var KnotService = require('../services/knot').KnotService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -16,19 +15,11 @@ var me = function me(req, res, next) {
 };
 
 var configureUser = function configureUser(user, done) {
-  var knotSvc;
   users.setUser(user, function onUserSet(setUserErr) {
     if (setUserErr) {
       done(setUserErr);
     } else {
-      knotSvc = new KnotService();
-      knotSvc.setUserCredentials(user, function onUserCredentialsSet(setUserCredErr) {
-        if (setUserCredErr) {
-          done(setUserCredErr);
-        } else {
-          done();
-        }
-      });
+      done();
     }
   });
 };

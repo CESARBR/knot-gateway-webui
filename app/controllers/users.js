@@ -2,7 +2,6 @@ var users = require('../models/users');
 var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
-var FogService = require('../services/fog').FogService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -25,19 +24,11 @@ var configureUser = function configureUser(user, done) {
 };
 
 var signupKNoTCloud = function signupKNoTCloud(userCredentials, done) {
-  var fogSvc;
   users.getUserByUUID(userCredentials.uuid, function onUserGet(getUserErr, user) {
     if (getUserErr) {
       done(getUserErr);
     } else if (!user) {
-      fogSvc = new FogService();
-      fogSvc.cloneUser(userCredentials, function onCloneUser(cloneUserErr) {
-        if (cloneUserErr) {
-          done(cloneUserErr);
-        } else {
-          configureUser(userCredentials, done);
-        }
-      });
+      configureUser(userCredentials, done);
     } else {
       done();
     }
@@ -45,16 +36,12 @@ var signupKNoTCloud = function signupKNoTCloud(userCredentials, done) {
 };
 
 var signupFiware = function signupFiware(credentials, done) {
-  var fogSvc = new FogService();
-  fogSvc.createDevice({ }, function onDeviceCreated(createDeviceErr, deviceCreated) {
-    var user;
-    if (createDeviceErr) {
-      done(createDeviceErr);
+  credentials.password = crypto.createPasswordHash(credentials.password);
+  configureUser(credentials, function onUserConfigured(userConfigureErr) {
+    if (userConfigureErr) {
+      done(userConfigureErr);
     } else {
-      user = credentials;
-      user.uuid = deviceCreated.uuid;
-      user.token = deviceCreated.token;
-      configureUser(credentials, done);
+      done();
     }
   });
 };
@@ -99,7 +86,6 @@ var create = function create(req, res, next) {
           }
         });
       } else if (cloudSettings.platform === 'FIWARE') {
-        credentials.password = crypto.createPasswordHash(credentials.password);
         signupFiware(credentials, function onSignup(signupErr) {
           if (signupErr) {
             next(signupErr);

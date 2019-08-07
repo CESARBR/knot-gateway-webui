@@ -1,15 +1,8 @@
 var fs = require('fs');
-var request = require('request');
 var config = require('config');
 var dotenv = require('dotenv');
 var exec = require('child_process').exec;
-var util = require('util');
-var url = require('url');
 
-var logger = require('../logger');
-
-var FOG_HOST = config.get('fog.host');
-var FOG_PORT = config.get('fog.port');
 var FOG_DOTENV_FILE = config.get('fog.envFile');
 
 var PARENT_CONNECTION_SERVER_HOST_KEY = 'PARENT_CONNECTION_SERVER';
@@ -27,23 +20,6 @@ var FogServiceError = function FogServiceError(message) {
 
 FogServiceError.prototype = Object.create(Error.prototype);
 FogServiceError.prototype.constructor = FogServiceError;
-
-var parseRequestError = function parseRequestError(err) { // eslint-disable-line vars-on-top
-  if (err.code === 'ECONNREFUSED' || err.code === 'EHOSTUNREACH'
-    || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT') {
-    logger.warn('Error connecting to fog service');
-    logger.debug(util.inspect(err));
-    return new FogServiceError('Fog service is unavailable');
-  }
-
-  return err;
-};
-
-var parseResponseError = function parseResponseError(response) { // eslint-disable-line vars-on-top
-  logger.warn('Unknown error while communicating with fog service');
-  logger.debug(util.inspect(response));
-  return new FogServiceError('Unknown error');
-};
 
 var readEnvFile = function readEnvFile(done) { // eslint-disable-line vars-on-top
   fs.readFile(FOG_DOTENV_FILE, function onRead(readErr, data) {
@@ -101,122 +77,6 @@ FogService.prototype.setGatewayCredentials = function setGatewayCredentials(cred
 
 FogService.prototype.restart = function restart(done) {
   exec('kill -15 `cat /tmp/knot-fog.pid`', done);
-};
-
-FogService.prototype.getDevices = function getDevices(user, done) {
-  request({
-    url: url.format({
-      protocol: 'http',
-      hostname: FOG_HOST,
-      port: FOG_PORT,
-      pathname: '/devices/'
-    }),
-    qs: {
-      type: 'KNOTDevice',
-      owner: user.uuid
-    },
-    headers: {
-      meshblu_auth_uuid: user.uuid,
-      meshblu_auth_token: user.token
-    }
-  }, function onResponse(requestErr, response, body) {
-    var bodyJson;
-    var fogErr;
-
-    if (requestErr) {
-      fogErr = parseRequestError(requestErr);
-      done(fogErr);
-      return;
-    }
-
-    try {
-      if (response.statusCode === 200) {
-        bodyJson = JSON.parse(body);
-        done(null, bodyJson.devices);
-      } else if (response.statusCode === 404) {
-        done(null, []);
-      } else {
-        fogErr = parseResponseError(response);
-        done(fogErr);
-      }
-    } catch (parseErr) {
-      done(parseErr);
-    }
-  });
-};
-
-FogService.prototype.getDevice = function getDevice(user, uuid, done) {
-  request({
-    url: url.format({
-      protocol: 'http',
-      hostname: FOG_HOST,
-      port: FOG_PORT,
-      pathname: '/devices/' + uuid
-    }),
-    headers: {
-      meshblu_auth_uuid: user.uuid,
-      meshblu_auth_token: user.token
-    }
-  }, function onResponse(requestErr, response, body) {
-    var bodyJson;
-    var fogErr;
-
-    if (requestErr) {
-      fogErr = parseRequestError(requestErr);
-      done(fogErr);
-      return;
-    }
-
-    try {
-      if (response.statusCode === 200) {
-        bodyJson = JSON.parse(body);
-        done(null, bodyJson.devices[0]);
-      } else if (response.statusCode === 404) {
-        done(null);
-      } else {
-        fogErr = parseResponseError(response);
-        done(fogErr);
-      }
-    } catch (parseErr) {
-      done(parseErr);
-    }
-  });
-};
-
-FogService.prototype.getDeviceData = function getDeviceData(user, uuid, done) {
-  request({
-    url: url.format({
-      protocol: 'http',
-      hostname: FOG_HOST,
-      port: FOG_PORT,
-      pathname: '/data/' + uuid
-    }),
-    headers: {
-      meshblu_auth_uuid: user.uuid,
-      meshblu_auth_token: user.token
-    }
-  }, function onResponse(requestErr, response, body) {
-    var bodyJson;
-    var fogErr;
-
-    if (requestErr) {
-      fogErr = parseRequestError(requestErr);
-      done(fogErr);
-      return;
-    }
-
-    try {
-      if (response.statusCode === 200) {
-        bodyJson = JSON.parse(body);
-        done(null, bodyJson.data);
-      } else {
-        fogErr = parseResponseError(response);
-        done(fogErr);
-      }
-    } catch (parseErr) {
-      done(parseErr);
-    }
-  });
 };
 
 module.exports = {

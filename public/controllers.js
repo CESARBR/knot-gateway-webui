@@ -426,7 +426,7 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   init();
 });
 
-appCtrls.controller('DevicesController', function DevicesController($scope, $q, $interval, GatewayApi, GatewayApiErrorService) {
+appCtrls.controller('DevicesController', function DevicesController($scope, $interval, GatewayApi, GatewayApiErrorService) {
   var refreshPromise;
   $scope.$api = {};
   $scope.nearbyDevices = [];
@@ -444,12 +444,7 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $q, 
           return !device.registered && !device.paired;
         });
 
-        return $q.all(pairedDevices.map(function getDetail(device) {
-          if (device.registered) {
-            return GatewayApi.getDeviceDetail(device);
-          }
-          return device;
-        }));
+        return pairedDevices;
       })
       .then(function onSuccess(myDevices) {
         $scope.myDevices = myDevices;

@@ -27,11 +27,6 @@
           <p ng-if="device.online && !device.registered">
             Registering<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>
           </p>
-          <p ng-class="{ 'text-muted': !device.online }" ng-repeat="schema in device.schema"
-            data-toggle="tooltip"
-            ng-attr-title="{{ schema.name + ': ' + (schema.data ? schema.data.value : '?') }}">
-            <b>{{ schema.name }}</b>: {{ schema.data ? schema.data.value : '?' }}
-          </p>
         </div>
         <div class="device-footer">
           <a href="#" api-click="forget(device)" api-click-state="$api" ng-disabled="$api.$pending"

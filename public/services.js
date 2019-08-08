@@ -147,11 +147,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
-  var getDeviceDetail = function getDeviceDetail(device) {
-    return $http.get('/api/devices/' + device.id)
-      .then(extractData);
-  };
-
   // /api/cloud/gateway
   var createGateway = function createGateway(name) {
     return $http.post('/api/cloud/gateway', {
@@ -224,7 +219,6 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     updateDevice: updateDevice,
     getDevices: getDevices,
-    getDeviceDetail: getDeviceDetail,
 
     createGateway: createGateway,
     getGatewayConfig: getGatewayConfig,

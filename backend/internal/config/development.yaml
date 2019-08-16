@@ -3,3 +3,8 @@ server:
 
 logger:
   level: "debug"
+
+mongodb:
+  host: "localhost"
+  port: 27017
+  name: "knot_web_dev"

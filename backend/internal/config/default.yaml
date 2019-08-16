@@ -3,3 +3,8 @@ server:
 
 logger:
   level: "info"
+
+mongodb:
+  host: "localhost"
+  port: 27017
+  name: "knot_web"

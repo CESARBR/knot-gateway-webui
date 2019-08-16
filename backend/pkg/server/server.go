@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/CESARBR/knot-gateway-webui/backend/pkg/controller"
 	"github.com/CESARBR/knot-gateway-webui/backend/pkg/logging"
 
 	"github.com/gorilla/mux"
@@ -17,19 +18,20 @@ type Health struct {
 
 // Server represents the HTTP server
 type Server struct {
-	port   int
-	logger logging.Logger
+	port            int
+	stateController *controller.StateController
+	logger          logging.Logger
 }
 
-// New creates a new server instance
-func New(port int, logger logging.Logger) Server {
-	return Server{port, logger}
+// NewServer creates a new server instance
+func NewServer(port int, stateController *controller.StateController, logger logging.Logger) Server {
+	return Server{port: port, stateController: stateController, logger: logger}
 }
 
 // Start starts the http server
 func (s *Server) Start() {
 	routers := s.createRouters()
-	s.logger.Info(fmt.Sprintf("Listening on %d", s.port))
+	s.logger.Infof("Listening on %d", s.port)
 	err := http.ListenAndServe(fmt.Sprintf(":%d", s.port), s.logRequest(routers))
 	if err != nil {
 		s.logger.Error(err)
@@ -39,12 +41,13 @@ func (s *Server) Start() {
 func (s *Server) createRouters() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/healthcheck", s.healthcheckHandler)
+	r.HandleFunc("/state", s.stateController.Update).Methods("PUT")
 	return r
 }
 
 func (s *Server) logRequest(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		s.logger.Info(fmt.Sprintf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL))
+		s.logger.Infof("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
 		handler.ServeHTTP(w, r)
 	})
 }
@@ -55,6 +58,6 @@ func (s *Server) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(&Health{Status: "online"})
 	_, err := w.Write(response)
 	if err != nil {
-		s.logger.Error(fmt.Sprintf("Error sending response, %s\n", err))
+		s.logger.Errorf("Error sending response, %s\n", err)
 	}
 }

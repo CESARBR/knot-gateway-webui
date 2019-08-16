@@ -19,10 +19,18 @@ type Logger struct {
 	Level string
 }
 
+// MongoDB represents the database configuration properties
+type MongoDB struct {
+	Host string
+	Port int
+	Name string
+}
+
 // Config represents the service configuration
 type Config struct {
 	Server
 	Logger
+	MongoDB
 }
 
 func readFile(name string) {
@@ -37,7 +45,6 @@ func readFile(name string) {
 func Load() Config {
 	var configuration Config
 	logger := logging.NewLogrus("error").Get("Config")
-
 	viper.AddConfigPath("internal/config")
 	viper.SetConfigType("yaml")
 
@@ -57,5 +64,6 @@ func Load() Config {
 	if err := viper.Unmarshal(&configuration); err != nil {
 		logger.Fatalf("Error unmarshalling configuration, %s", err)
 	}
+
 	return configuration
 }

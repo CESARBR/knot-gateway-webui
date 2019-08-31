@@ -8,11 +8,12 @@ import (
 )
 
 func main() {
-	logger := logging.Get("Main")
+	config := config.Load()
+	logrus := logging.NewLogrus(config.Logger.Level)
+
+	logger := logrus.Get("Main")
 	logger.Info("Starting KNoT Gateway WebUI Backend")
 
-	config := config.Load()
-
-	server := server.New(config.Server.Port)
+	server := server.New(config.Server.Port, logrus.Get("Server"))
 	server.Start()
 }

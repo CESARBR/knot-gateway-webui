@@ -14,13 +14,19 @@ type Server struct {
 	Port int
 }
 
+// Logger represents the logger configuration properties
+type Logger struct {
+	Level string
+}
+
 // Config represents the service configuration
 type Config struct {
 	Server
+	Logger
 }
 
 func readFile(name string) {
-	logger := logging.Get("Config")
+	logger := logging.NewLogrus("error").Get("Config")
 	viper.SetConfigName(name)
 	if err := viper.ReadInConfig(); err != nil {
 		logger.Fatalf("Error reading config file, %s", err)
@@ -30,7 +36,7 @@ func readFile(name string) {
 // Load returns the service configuration
 func Load() Config {
 	var configuration Config
-	logger := logging.Get("Config")
+	logger := logging.NewLogrus("error").Get("Config")
 
 	viper.AddConfigPath("internal/config")
 	viper.SetConfigType("yaml")

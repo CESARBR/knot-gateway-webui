@@ -36,6 +36,25 @@ $ make deps
 $ make run
 ```
 
+## Local (Development)
+
+### Build and run (Docker)
+
+A container is specified at `docker/Dockerfile`. To use it, execute the following steps:
+
+1. Build the image:
+
+    ```
+    docker build . -f docker/Dockerfile -t knot-gateway-webui-backend
+    ```
+
+1. Create a file containing the configuration as environment variables.
+1. Run the container:
+
+    ```
+    docker run --env-file knot-gateway-webui-backend.env -ti knot-gateway-webui-backend
+    ```
+
 ### Verify
 
 ```bash

@@ -21,6 +21,16 @@ services:
       - /usr/local/bin/knot-web-app/node_modules
       - /usr/local/bin/knot-web-app/www
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - 'database'
+    environment:
+      - ENV=development
+    ports:
+      - '8081:8081'
   fog:
     build: ./docker/knot-cloud
     depends_on:

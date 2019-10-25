@@ -1,5 +1,5 @@
-hash: be59c1cee1ff6dfd6bd904be273f51262263ee7bcef92812cc3b492b59b38250
-updated: 2019-08-13T01:07:44.498965-03:00
+hash: 4e953aea9d00266004bb3f81832155f2f2f21ebc393f796eb897b1cfba9a7479
+updated: 2019-08-15T23:52:05.66707-03:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 1485a34d5d5723fea214f5710708e19a831720e4
@@ -39,6 +39,8 @@ imports:
   version: 24fa6976df40757dce6aea913e7b81ade90530e1
 - name: github.com/spf13/viper
   version: b5bf975e5823809fb22c7644d008757f78a4259e
+- name: go.mongodb.org/mongo-driver
+  version: d42ea7239f0db8a61e77191b9f2730a922459042
 - name: golang.org/x/sys
   version: 51ab0e2deafac1f46c46ad59cf0921be2f180c3d
   subpackages:

@@ -2,17 +2,38 @@ package main
 
 import (
 	"github.com/CESARBR/knot-gateway-webui/backend/internal/config"
+	"github.com/CESARBR/knot-gateway-webui/backend/pkg/controller"
+	"github.com/CESARBR/knot-gateway-webui/backend/pkg/data"
+	"github.com/CESARBR/knot-gateway-webui/backend/pkg/interactors"
 	"github.com/CESARBR/knot-gateway-webui/backend/pkg/server"
 
 	"github.com/CESARBR/knot-gateway-webui/backend/pkg/logging"
 )
 
 func main() {
-	logger := logging.Get("Main")
+	config := config.Load()
+	logrus := logging.NewLogrus(config.Logger.Level)
+	logger := logrus.Get("Main")
 	logger.Info("Starting KNoT Gateway WebUI Backend")
 
-	config := config.Load()
+	databaseConnection := data.NewMongoDB(
+		config.MongoDB.Host,
+		config.MongoDB.Port,
+		config.MongoDB.Name,
+		logrus.Get("MongoDB"),
+	)
+	stateRepository := data.NewStateRepository(databaseConnection)
+	updateStateInteractor := interactors.NewUpdateStateInteractor(
+		stateRepository,
+		logrus.Get("UpdateStateInteractor"),
+	)
+	getStateInteractor := interactors.NewGetStateInteractor(
+		stateRepository,
+		logrus.Get("GetStateInteractor"),
+	)
+	stateController := controller.NewStateController(updateStateInteractor, getStateInteractor, logrus.Get("StateController"))
+	server := server.NewServer(config.Server.Port, stateController, logrus.Get("Server"))
 
-	server := server.New(config.Server.Port)
+	databaseConnection.Start()
 	server.Start()
 }

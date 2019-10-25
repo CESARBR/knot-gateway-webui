@@ -336,7 +336,17 @@ state | Y | state name.
 
 ### Example
 
-TODO
+```json
+{
+    "state": "ready"
+}
+```
+
+### Response
+
+```text
+200 OK
+```
 
 ---
 

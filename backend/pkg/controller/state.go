@@ -11,6 +11,7 @@ import (
 // StateController represents the controller for state capabilities
 type StateController struct {
 	updateStateInteractor *interactors.UpdateStateInteractor
+	getStateInteractor    *interactors.GetStateInteractor
 	logger                logging.Logger
 }
 
@@ -20,8 +21,12 @@ type StateData struct {
 }
 
 // NewStateController creates a new StateController instance
-func NewStateController(updateStateInteractor *interactors.UpdateStateInteractor, logger logging.Logger) *StateController {
-	return &StateController{updateStateInteractor, logger}
+func NewStateController(
+	updateStateInteractor *interactors.UpdateStateInteractor,
+	getStateInteractor *interactors.GetStateInteractor,
+	logger logging.Logger,
+) *StateController {
+	return &StateController{updateStateInteractor, getStateInteractor, logger}
 }
 
 // Update calls the use case to update the state
@@ -44,6 +49,29 @@ func (sc *StateController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, err := json.Marshal(stateData)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write(response)
+	if err != nil {
+		return
+	}
+}
+
+// Get calls the use case to get the current state
+func (sc *StateController) Get(w http.ResponseWriter, r *http.Request) {
+	state, err := sc.getStateInteractor.Execute()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	stateResponse := &StateData{state.Type}
+	response, err := json.Marshal(stateResponse)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

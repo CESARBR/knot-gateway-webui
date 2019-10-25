@@ -27,7 +27,11 @@ func main() {
 		stateRepository,
 		logrus.Get("UpdateStateInteractor"),
 	)
-	stateController := controller.NewStateController(updateStateInteractor, logrus.Get("StateController"))
+	getStateInteractor := interactors.NewGetStateInteractor(
+		stateRepository,
+		logrus.Get("GetStateInteractor"),
+	)
+	stateController := controller.NewStateController(updateStateInteractor, getStateInteractor, logrus.Get("StateController"))
 	server := server.NewServer(config.Server.Port, stateController, logrus.Get("Server"))
 
 	databaseConnection.Start()

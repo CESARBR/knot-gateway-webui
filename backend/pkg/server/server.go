@@ -42,6 +42,7 @@ func (s *Server) createRouters() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/healthcheck", s.healthcheckHandler)
 	r.HandleFunc("/state", s.stateController.Update).Methods("PUT")
+	r.HandleFunc("/state", s.stateController.Get).Methods("GET")
 	return r
 }
 

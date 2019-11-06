@@ -5,7 +5,7 @@
     "db": "knot_web_dev"
   },
   "fog": {
-    "port" : 3000,
+    "port" : 4000,
     "host" : "fog"
   },
   "server": {

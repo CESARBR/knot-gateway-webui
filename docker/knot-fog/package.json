@@ -1,0 +1,33 @@
+{
+  "name": "knot-fog",
+  "version": "1.0.0",
+  "description": "Mock of knot-fog service",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-import-resolver-babel-module": "^4.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "dependencies": {
+    "config": "^1.30.0",
+    "hapi": "^17.3.1",
+    "hapi-qs": "^2.0.1",
+    "lodash": "^4.17.13",
+    "mongoose": "^5.0.16",
+    "uuid": "^3.2.1"
+  }
+}

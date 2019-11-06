@@ -22,13 +22,13 @@ services:
       - /usr/local/bin/knot-web-app/www
       - /var/run/docker.sock:/var/run/docker.sock:ro
   fog:
-    build: ./docker/knot-cloud
+    build: ./docker/knot-fog
     depends_on:
       - 'database'
     environment:
       - DB_NAME=knot_fog
     expose:
-      - '3000'
+      - '4000'
   cloud:
     build: ./docker/knot-cloud
     depends_on:

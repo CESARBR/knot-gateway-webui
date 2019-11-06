@@ -1,0 +1,11 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"]
+    }],
+    ["babel-plugin-transform-builtin-extend", {
+      "globals": ["Error"]
+    }]
+  ]
+}

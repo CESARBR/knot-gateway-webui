@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": 4000
+  },
+  "db": {
+    "host": "database",
+    "port": 27017,
+    "databaseName": "knot_fog"
+  }
+}

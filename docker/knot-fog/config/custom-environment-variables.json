@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": "PORT"
+  },
+  "db": {
+    "host": "DB_HOST",
+    "port": "DB_PORT",
+    "databaseName": "DB_NAME"
+  }
+}

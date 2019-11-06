@@ -2,6 +2,7 @@ var users = require('../models/users');
 var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
+var FogService = require('../services/fog').FogService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -14,11 +15,20 @@ var me = function me(req, res, next) {
 };
 
 var configureUser = function configureUser(user, done) {
-  users.setUser(user, function onUserSet(setUserErr) {
-    if (setUserErr) {
-      done(setUserErr);
+  var fogSvc = new FogService();
+  var userFogCredentials = { email: user.email, password: user.password };
+  fogSvc.createUser(userFogCredentials, function onUserCreated(createUserError) {
+    if (createUserError) {
+      done(createUserError);
     } else {
-      done();
+      user.password = crypto.createPasswordHash(user.password);
+      users.setUser(user, function onUserSet(setUserErr) {
+        if (setUserErr) {
+          done(setUserErr);
+        } else {
+          done();
+        }
+      });
     }
   });
 };
@@ -36,7 +46,6 @@ var signupKNoTCloud = function signupKNoTCloud(userCredentials, done) {
 };
 
 var signupFiware = function signupFiware(credentials, done) {
-  credentials.password = crypto.createPasswordHash(credentials.password);
   configureUser(credentials, function onUserConfigured(userConfigureErr) {
     if (userConfigureErr) {
       done(userConfigureErr);
@@ -75,7 +84,6 @@ var create = function create(req, res, next) {
           } else {
             credentials.uuid = cloudCredentials.uuid;
             credentials.token = cloudCredentials.token;
-            credentials.password = crypto.createPasswordHash(credentials.password);
             signupKNoTCloud(credentials, function onSignup(signupErr) {
               if (signupErr) {
                 next(signupErr);

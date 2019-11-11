@@ -3,6 +3,7 @@ var cloud = require('../models/cloud');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
+var KnotService = require('../services/knot').KnotService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -14,18 +15,44 @@ var me = function me(req, res, next) {
   });
 };
 
-var configureUser = function configureUser(user, done) {
+var signupFog = function signupFog(user, done) {
   var fogSvc = new FogService();
-  var userFogCredentials = { email: user.email, password: user.password };
-  fogSvc.createUser(userFogCredentials, function onUserCreated(createUserError) {
+  fogSvc.createUser(user, function onUserCreated(createUserError) {
     if (createUserError) {
       done(createUserError);
+      return;
+    }
+    fogSvc.createUserToken(user, function onTokenCreated(createTokenErr, userToken) {
+      if (createTokenErr) {
+        done(createTokenErr);
+        return;
+      }
+      done(createTokenErr, userToken);
+    });
+  });
+};
+
+var configureUser = function configureUser(user, done) {
+  var knotSvc;
+  var credentials;
+  signupFog(user, function onFogSignup(signupFogErr, token) {
+    if (signupFogErr) {
+      done(signupFogErr);
     } else {
       user.password = crypto.createPasswordHash(user.password);
       users.setUser(user, function onUserSet(setUserErr) {
         if (setUserErr) {
           done(setUserErr);
         } else {
+          knotSvc = new KnotService();
+          credentials = { token: token };
+          knotSvc.setUserCredentials(credentials, function onUserCredentialsSet(setUserCredErr) {
+            if (setUserCredErr) {
+              done(setUserCredErr);
+            } else {
+              done();
+            }
+          });
           done();
         }
       });

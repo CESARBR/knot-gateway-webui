@@ -6,6 +6,10 @@ class FogApi {
   async createUser(user) {
     return this.userService.create(user);
   }
+
+  async createToken(user) {
+    return this.userService.createToken(user);
+  }
 }
 
 export default FogApi;

@@ -4,6 +4,7 @@ var UnauthorizedError = require('express-jwt').UnauthorizedError;
 var CloudServiceError = require('./services/cloud').CloudServiceError;
 var DevicesServiceError = require('./services/devices').DevicesServiceError;
 var StateServiceError = require('./services/state').StateServiceError;
+var KnotServiceError = require('./services/knot').KnotServiceError;
 var logger = require('./logger');
 
 var defaultHandler = function defaultHandler(req, res) {
@@ -55,6 +56,11 @@ var errorHandler = function errorHandler(err, req, res, next) { // eslint-disabl
     res.status(422).json({
       message: 'Validation failed',
       errors: err.details
+    });
+  } else if (err instanceof KnotServiceError) {
+    res.status(503).json({
+      message: err.message,
+      code: 'knot'
     });
   } else {
     logger.error('Unexpected error in ' + req.method + ' ' + req.originalUrl);

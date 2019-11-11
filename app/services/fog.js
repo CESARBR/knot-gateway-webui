@@ -69,6 +69,35 @@ FogService.prototype.createUser = function createUser(user, done) {
   });
 };
 
+FogService.prototype.createUserToken = function createUserToken(user, done) {
+  request({
+    url: url.format({
+      protocol: 'http',
+      hostname: FOG_HOST,
+      port: FOG_PORT,
+      pathname: '/tokens/'
+    }),
+    method: 'POST',
+    json: true,
+    body: user
+  }, function onResponse(requestErr, response, body) {
+    var fogErr;
+
+    if (requestErr) {
+      fogErr = parseRequestError(requestErr);
+      done(fogErr);
+      return;
+    }
+
+    if (response.statusCode === 201) {
+      done(null, body.token);
+    } else {
+      fogErr = parseResponseError(response);
+      done(fogErr);
+    }
+  });
+};
+
 module.exports = {
   FogService: FogService
 };

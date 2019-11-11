@@ -33,6 +33,11 @@ class HapiServer {
         path: '/users',
         handler: this.createUserHandler.bind(this),
       },
+      {
+        method: 'POST',
+        path: '/tokens',
+        handler: this.createTokenHandler.bind(this),
+      },
     ];
   }
 
@@ -40,6 +45,15 @@ class HapiServer {
     try {
       await this.fogApi.createUser(request.payload);
       return h.response().code(201);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
+  async createTokenHandler(request, h) {
+    try {
+      const token = await this.fogApi.createToken(request.payload);
+      return h.response({ token }).code(201);
     } catch (err) {
       return this.handleError(err, h);
     }

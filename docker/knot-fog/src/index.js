@@ -4,6 +4,7 @@ import MongoConnection from 'data/MongoConnection';
 import MongoUserGateway from 'data/MongoUserGateway';
 
 import CreateUser from 'domain/interactor/CreateUser';
+import CreateToken from 'domain/interactor/CreateToken';
 import UserService from 'domain/service/UserService';
 import FogApi from 'web/FogApi';
 import HapiServer from 'web/HapiServer';
@@ -16,7 +17,8 @@ const PORT = config.get('server.port');
 const connection = new MongoConnection(DB_HOST, DB_PORT, DB_NAME);
 const userGateway = new MongoUserGateway(connection);
 const createUser = new CreateUser(userGateway);
-const userService = new UserService(createUser);
+const createToken = new CreateToken(userGateway);
+const userService = new UserService(createUser, createToken);
 const fogApi = new FogApi(userService);
 const server = new HapiServer(fogApi);
 

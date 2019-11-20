@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@uirouter/angularjs": "^1.0.18",
-    "angular": "^1.7.2",
+    "angular": "^1.7.9",
     "angular-messages": "^1.7.2",
     "angular-permission": "^6.0.0",
     "angular-ui-bootstrap": "^2.5.6",

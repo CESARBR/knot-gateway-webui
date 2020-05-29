@@ -70,8 +70,20 @@ var update = function update(req, res, next) {
   }
 };
 
+var create = function create(req, res, next) {
+  var device = req.body;
+  devicesService.create(device, function onCreate(devicesErr) {
+    if (devicesErr) {
+      next(devicesErr);
+    } else {
+      res.end();
+    }
+  });
+};
+
 module.exports = {
   get: get,
   list: list,
-  update: update
+  update: update,
+  create: create
 };

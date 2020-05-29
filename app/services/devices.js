@@ -1,5 +1,8 @@
 var _ = require('lodash');
 var util = require('util');
+var fs = require('fs');
+var config = require('config');
+var ini = require('ini');
 
 var bus = require('../dbus');
 var logger = require('../logger');
@@ -25,11 +28,24 @@ var DEVICE_SERVICE_ERROR_CODE = {
   INVALID_OPERATION: 'invalid-operation'
 };
 
+var DEVICE_CONFIG_FILE = config.get('thingd.configFile');
+
 var DevicesServiceError = function DevicesServiceError(message, code) {
   this.name = 'DevicesServiceError';
   this.message = message;
   this.code = code;
   this.stack = (new Error()).stack;
+};
+
+var writeConfigFile = function writeConfigFile(config, done) { // eslint-disable-line vars-on-top, no-shadow, max-len
+  try {
+    fs.writeFileSync(DEVICE_CONFIG_FILE, ini.stringify(config));
+  } catch (err) {
+    done(err);
+    return;
+  }
+
+  done();
 };
 
 DevicesServiceError.prototype = Object.create(Error.prototype);
@@ -414,6 +430,48 @@ DevicesService.prototype.forget = function forget(device, done) {
       done();
     });
   });
+};
+
+DevicesService.prototype.create = function create(device, done) {
+  var deviceConfig = this.getDeviceConfig(device);
+  writeConfigFile(deviceConfig, done);
+};
+
+DevicesService.prototype.getDeviceConfig = function getDeviceConfig(device) {
+  var deviceConfig = {
+    KNoTThing: {
+      Name: device.thingd.name,
+      ModbusSlaveId: device.thingd.modbusSlaveID,
+      ModbusURL: device.thingd.modbusSlaveURL
+    }
+  };
+
+  device.thingd.dataItems.forEach(function (value, index) {
+    var item = 'DataItem_' + index;
+    deviceConfig[item] = {
+      SchemaSensorId: value.schema.sensorID,
+      SchemaSensorName: value.schema.sensorName,
+      SchemaTypeId: value.schema.typeID,
+      SchemaValueType: value.schema.valueType,
+      SchemaUnit: value.schema.unit,
+      ModbusRegisterAddress: value.modbus.registerAddress,
+      ModbusBitOffset: value.modbus.bitOffset
+    };
+
+    if (value.config.lowerThreshold !== undefined) {
+      deviceConfig[item].ConfigLowerThreshold = value.config.lowerThreshold;
+    }
+    if (value.config.upperThreshold !== undefined) {
+      deviceConfig[item].ConfigUpperThreshold = value.config.upperThreshold;
+    }
+    if (value.config.change !== undefined) {
+      deviceConfig[item].ConfigChange = value.config.change ? 1 : 0;
+    }
+    if (value.config.timeSec !== undefined) {
+      deviceConfig[item].ConfigTimeSec = value.config.timeSec;
+    }
+  });
+  return deviceConfig;
 };
 
 var devicesService = new DevicesService(); // eslint-disable-line vars-on-top

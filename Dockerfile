@@ -98,6 +98,8 @@ COPY ./config/gatewayConfig.json ./config/keys.json /etc/knot/
 RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-source/.env
 RUN mkdir -p /usr/local/bin/knot-fog-connector && mkdir -p /usr/local/bin/knot-fog-connector/config
 COPY ./docker/knot-fog-connector/config.json /usr/local/bin/knot-fog-connector/config/default.json
+RUN mkdir -p /usr/local/bin/thingd && mkdir -p /usr/local/bin/thingd/config
+COPY ./docker/thingd/config.conf /usr/local/bin/thingd/config/default.conf
 
 # install init script
 COPY ./docker/knot-web/knot-web.service /lib/systemd/system/knot-web.service

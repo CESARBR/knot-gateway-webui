@@ -17,6 +17,9 @@
   "connector": {
     "configFile": "/usr/local/bin/knot-fog-connector/config/default.json"
   },
+  "thingd": {
+    "configFile": "/usr/local/bin/thingd/config/default.conf"
+  },
   "server": {
     "port": 80,
     "token": {

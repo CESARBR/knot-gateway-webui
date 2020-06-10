@@ -94,7 +94,7 @@ CloudService.prototype.signinUser = function signinUser(credentials, done) {
       protocol: this.authenticatorAddress.protocol,
       hostname: this.authenticatorAddress.hostname,
       port: this.authenticatorAddress.port,
-      pathname: path.join(this.authenticatorAddress.path, 'auth')
+      pathname: path.join(this.authenticatorAddress.path, 'tokens')
     }),
     method: 'POST',
     headers: {
@@ -109,7 +109,7 @@ CloudService.prototype.signinUser = function signinUser(credentials, done) {
       done(cloudErr);
       return;
     }
-    if (response.statusCode === 200) {
+    if (response.statusCode === 201) {
       done(null, body);
       return;
     }

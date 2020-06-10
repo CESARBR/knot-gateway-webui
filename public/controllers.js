@@ -160,7 +160,7 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
       .signup($scope.form)
       .then(function onSignedUp() {
         if ($scope.platform === 'KNOT_CLOUD') {
-          StateService.changeState(API_STATES.CONFIGURATION_GATEWAY);
+          StateService.changeState(API_STATES.REBOOTING);
         } else if ($scope.platform === 'FIWARE') {
           StateService.changeState(API_STATES.REBOOTING);
         }
@@ -241,14 +241,14 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
   $scope.form = {
     disableSecurity: true,
     knotCloud: {
-      protocol: 'wss',
-      hostname: 'ws.knot.cloud',
-      port: 443,
+      protocol: 'amqp',
+      hostname: 'broker.knot.cloud',
+      port: 5672,
       path: '/'
     },
     authenticator: {
       protocol: 'https',
-      hostname: 'auth.knot.cloud',
+      hostname: 'api.knot.cloud',
       port: 443,
       path: '/'
     }
@@ -297,10 +297,10 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
 
   $scope.$watch('form.knotCloud.protocol', function onProtocolChanged(protocol) {
     // Only change if using the default ports
-    if (protocol === 'wss' && $scope.form.knotCloud.port === 80) {
-      $scope.form.knotCloud.port = 443;
-    } else if (protocol === 'ws' && $scope.form.knotCloud.port === 443) {
-      $scope.form.knotCloud.port = 80;
+    if (protocol === 'amqps' && $scope.form.knotCloud.port === 5672) {
+      $scope.form.knotCloud.port = 5671;
+    } else if (protocol === 'amqp' && $scope.form.knotCloud.port === 5671) {
+      $scope.form.knotCloud.port = 5672;
     }
   });
 

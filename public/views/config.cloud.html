@@ -26,13 +26,13 @@
       <br>
       <form ng-hide="!form.platform" name="cloudForm" class="form-horizontal" novalidate>
         <div ng-if="form.platform === 'KNOT_CLOUD'">
-          <p class="text-center">WebSocket adapter address</p>
+          <p class="text-center">Broker address</p>
           <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.hostname.$invalid && cloudForm.knotCloud.path.$invalid && cloudForm.knotCloud.protocol.$invalid && !cloudForm.knotCloud.protocol.$pristine && !cloudForm.knotCloud.hostname.$pristine && !cloudForm.knotCloud.path.$pristine }">
             <label for="hostname" class="col-sm-2 col-sm-offset-1 control-label">Hostname</label>
             <div class="col-sm-2">
               <select class="form-control" ng-model="form.knotCloud.protocol" id="select-protocol" required>
-                <option value="wss" selected>wss</option>
-                <option value="ws">ws</option>
+                <option value="amqps" selected>amqps</option>
+                <option value="amqp">amqp</option>
               </select>
             </div>
             <div class="col-sm-3">
@@ -51,7 +51,7 @@
           </div>
 
           <hr>
-          <p class="text-center">Authenticator address</p>
+          <p class="text-center">Cloud address</p>
 
           <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.protocol.$invalid && cloudForm.authenticator.hostname.$invalid && cloudForm.authenticator.protocol.$invalid && !cloudForm.authenticator.protocol.$pristine && !cloudForm.authenticator.hostname.$pristine && !cloudForm.authenticator.path.$pristine }">
             <label for="hostname" class="col-sm-2 col-sm-offset-1 control-label">Hostname</label>

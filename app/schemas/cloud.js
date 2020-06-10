@@ -31,7 +31,7 @@ var update = {
     .when('platform', { is: 'KNOT_CLOUD', then: joi.required() }),
   knotCloud: joi
     .object({
-      protocol: joi.string().only(['ws', 'wss']).required(),
+      protocol: joi.string().only(['amqp', 'amqps']).required(),
       path: joi.string().required(),
       hostname: hostname,
       port: port

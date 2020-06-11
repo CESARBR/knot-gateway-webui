@@ -3,7 +3,6 @@ var _ = require('lodash');
 var stateModel = require('../models/state');
 var cloudModel = require('../models/cloud');
 var userModel = require('../models/users');
-var gatewayModel = require('../models/gateway');
 var ConnectorService = require('./connector').ConnectorService;
 
 var StateServiceError = function StateServiceError(message, state) {
@@ -55,14 +54,6 @@ function canTransitionToConfigurationUser(from, done) {
   }
 }
 
-function canTransitionToConfigurationGateway(from, done) {
-  if (isAllowedTransition(from, stateModel.STATES.CONFIGURATION_GATEWAY)) {
-    userModel.existsUser(done);
-  } else {
-    done(null, false);
-  }
-}
-
 function existsKNoTCloudInfoOnConnector(done) {
   var connectorSvc = new ConnectorService();
   connectorSvc.getConfig(function onConfig(getConfigErr, connectorConfig) {
@@ -70,7 +61,6 @@ function existsKNoTCloudInfoOnConnector(done) {
       done(getConfigErr);
     } else {
       done(null, connectorConfig.cloudType === 'KNOT_CLOUD'
-        && !!connectorConfig.cloud.uuid
         && !!connectorConfig.cloud.token
         && !!connectorConfig.cloud.hostname
         && !!connectorConfig.cloud.port);
@@ -85,9 +75,7 @@ function canTransitionToReady(from, done) {
         done(cloudSettingsErr);
       } else if (cloudSettings) {
         if (cloudSettings.platform === 'KNOT_CLOUD') {
-          gatewayModel.existsGatewaySettings(function onGatewayExist() {
-            existsKNoTCloudInfoOnConnector(done);
-          });
+          existsKNoTCloudInfoOnConnector(done);
         } else if (cloudSettings.platform === 'FIWARE') {
           userModel.existsUser(done);
         }
@@ -116,9 +104,6 @@ function canTransition(from, to, done) {
       break;
     case stateModel.STATES.CONFIGURATION_USER:
       canTransitionToConfigurationUser(from, done);
-      break;
-    case stateModel.STATES.CONFIGURATION_GATEWAY:
-      canTransitionToConfigurationGateway(from, done);
       break;
     case stateModel.STATES.READY:
       canTransitionToReady(from, done);
@@ -160,42 +145,31 @@ StateService.prototype.reset = function reset(done) {
     if (canReady) {
       stateModel.setState({ state: stateModel.STATES.READY }, done);
     } else {
-      canTransitionToConfigurationGateway(stateModel.STATES.REBOOTING, function onCanGateway(gatewayErr, canGateway) { // eslint-disable-line max-len
-        if (gatewayErr) {
-          done(gatewayErr);
+      canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
+        if (userErr) {
+          done(userErr);
           return;
         }
 
-        if (canGateway) {
-          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_GATEWAY }, done);
+        if (canUser) {
+          stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
         } else {
-          canTransitionToConfigurationUser(stateModel.STATES.REBOOTING, function onCanUser(userErr, canUser) { // eslint-disable-line max-len
-            if (userErr) {
-              done(userErr);
+          canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
+            if (cloudErr) {
+              done(cloudErr);
               return;
             }
-
-            if (canUser) {
-              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_USER }, done);
+            if (canCloud) {
+              stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
             } else {
-              canTransitionToConfigurationCloud(stateModel.STATES.REBOOTING, function onCanCloud(cloudErr, canCloud) { // eslint-disable-line max-len
-                if (cloudErr) {
-                  done(cloudErr);
-                  return;
-                }
-                if (canCloud) {
-                  stateModel.setState({ state: stateModel.STATES.CONFIGURATION_CLOUD }, done);
+              stateModel.getState(function onState(getErr, state) {
+                var resetErr;
+                if (getErr) {
+                  resetErr = getErr;
                 } else {
-                  stateModel.getState(function onState(getErr, state) {
-                    var resetErr;
-                    if (getErr) {
-                      resetErr = getErr;
-                    } else {
-                      resetErr = new StateServiceError('Can\'t reset from current state', state);
-                    }
-                    done(resetErr);
-                  });
+                  resetErr = new StateServiceError('Can\'t reset from current state', state);
                 }
+                done(resetErr);
               });
             }
           });

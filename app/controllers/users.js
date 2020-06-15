@@ -4,6 +4,7 @@ var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
 var KnotService = require('../services/knot').KnotService;
+var ConnectorService = require('../services/connector').ConnectorService;
 
 var me = function me(req, res, next) {
   users.getUserByUUID(req.user.uuid, function onUser(err, user) {
@@ -34,6 +35,7 @@ var signupFog = function signupFog(user, done) {
 
 var configureUser = function configureUser(user, done) {
   var knotSvc;
+  var connectorSvc;
   var credentials;
   signupFog(user, function onFogSignup(signupFogErr, token) {
     if (signupFogErr) {
@@ -50,10 +52,16 @@ var configureUser = function configureUser(user, done) {
             if (setUserCredErr) {
               done(setUserCredErr);
             } else {
-              done();
+              connectorSvc = new ConnectorService();
+              connectorSvc.setFogToken(credentials.token, function onSetFogToken(setFogTokenErr) {
+                if (setFogTokenErr) {
+                  done(setFogTokenErr);
+                } else {
+                  done();
+                }
+              });
             }
           });
-          done();
         }
       });
     }
@@ -92,6 +100,35 @@ var signinKNoTCloud = function signinKNoTCloud(formCredentials, cloudSvc, done) 
   });
 };
 
+var setCloudConfig = function setCloudConfig(token, cloudConfig, done) {
+  var connector;
+  var newCloudConfig;
+  if (cloudConfig.platform === 'KNOT_CLOUD') {
+    newCloudConfig = {
+      protocol: cloudConfig.knotCloud.protocol,
+      hostname: cloudConfig.knotCloud.hostname,
+      port: cloudConfig.knotCloud.port,
+      username: cloudConfig.knotCloud.username,
+      password: cloudConfig.knotCloud.password,
+      token: token
+    };
+  } else if (cloudConfig.platform === 'FIWARE') {
+    newCloudConfig = {
+      iota: cloudConfig.iota,
+      orion: cloudConfig.orion
+    };
+  }
+
+  connector = new ConnectorService();
+  connector.setCloudConfig(cloudConfig.platform, newCloudConfig, function onSetCloudConfig(setCloudConfigErr) { // eslint-disable-line max-len
+    if (setCloudConfigErr) {
+      done(setCloudConfigErr);
+      return;
+    }
+    done();
+  });
+};
+
 var create = function create(req, res, next) {
   cloud.getCloudSettings(function onCloudSettings(getCloudErr, cloudSettings) {
     var cloudSvc;
@@ -109,13 +146,18 @@ var create = function create(req, res, next) {
           if (signinError) {
             next(signinError);
           } else {
-            credentials.uuid = cloudCredentials.uuid;
             credentials.token = cloudCredentials.token;
             signupKNoTCloud(credentials, function onSignup(signupErr) {
               if (signupErr) {
                 next(signupErr);
               } else {
-                res.end();
+                setCloudConfig(credentials.token, cloudSettings, function onSetCloudConfig(setCloudConfigErr) { // eslint-disable-line max-len
+                  if (setCloudConfigErr) {
+                    next(setCloudConfigErr);
+                  } else {
+                    res.end();
+                  }
+                });
               }
             });
           }
@@ -125,7 +167,13 @@ var create = function create(req, res, next) {
           if (signupErr) {
             next(signupErr);
           } else {
-            res.end();
+            setCloudConfig(null, cloudSettings, function onSetCloudConfig(setCloudConfigErr) {
+              if (setCloudConfigErr) {
+                next(setCloudConfigErr);
+              } else {
+                res.end();
+              }
+            });
           }
         });
       }

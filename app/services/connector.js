@@ -46,6 +46,18 @@ ConnectorService.prototype.setCloudConfig = function setCloudConfig(platform, cl
   });
 };
 
+ConnectorService.prototype.setFogToken = function setFogToken(token, done) {
+  readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
+    if (readConfigFileErr) {
+      done(readConfigFileErr);
+      return;
+    }
+
+    connectorConfig.fog.token = token; // eslint-disable-line no-param-reassign
+    writeConfigFile(connectorConfig, done);
+  });
+};
+
 ConnectorService.prototype.setCloudSecurityConfig = function setCloudSecurityConfig(cloudSecurityConfig, done) { // eslint-disable-line max-len
   readConfigFile(function onReadConfigFile(readConfigFileErr, connectorConfig) {
     if (readConfigFileErr) {

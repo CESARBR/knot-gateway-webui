@@ -38,10 +38,6 @@ appCtrls.controller('RebootController', function RebootController($scope, $state
     $state.go(VIEW_STATES.CONFIG_USER);
   });
 
-  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
-    $state.go(VIEW_STATES.CONFIG_GATEWAY);
-  });
-
   waitReboot();
 });
 
@@ -68,10 +64,6 @@ appCtrls.controller('ConfigController', function ConfigController($scope, $state
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
-  });
-
-  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
-    $state.go(VIEW_STATES.CONFIG_GATEWAY);
   });
 });
 
@@ -106,10 +98,6 @@ appCtrls.controller('AppController', function AppController($scope, $state, Auth
 
   $scope.$on(API_STATES.CONFIGURATION_USER, function onConfigurationUser() {
     $state.go(VIEW_STATES.CONFIG_USER);
-  });
-
-  $scope.$on(API_STATES.CONFIGURATION_GATEWAY, function onConfigurationGateway() {
-    $state.go(VIEW_STATES.CONFIG_GATEWAY);
   });
 });
 
@@ -164,55 +152,6 @@ appCtrls.controller('SignupController', function SignupController($scope, $state
         } else if ($scope.platform === 'FIWARE') {
           StateService.changeState(API_STATES.REBOOTING);
         }
-      });
-  };
-
-  init();
-});
-
-appCtrls.controller('GatewayController', function GatewayController($scope, GatewayApi, ModalService, AuthService, StateService, API_STATES) {
-  $scope.$apiBack = {};
-  $scope.$apiSave = {};
-  $scope.$apiGateway = {};
-  $scope.gateways = [];
-  $scope.selectedGateway = null;
-  $scope.progressBarValue = 75;
-
-  $scope.open = function open() {
-    var modalInstance = ModalService.open('ModalController', 'createGatewayModal.html');
-    modalInstance.result.catch(function onError() { modalInstance.close(); });
-  };
-
-  $scope.selectGateway = function selectGateway(event, gateway) {
-    var element = angular.element(event.target);
-    if (!$scope.selectedGateway || $scope.selectedGateway !== gateway) {
-      $scope.selectedGateway = gateway;
-      element.addClass('active');
-    } else {
-      $scope.selectedGateway = null;
-      element.removeClass('active');
-    }
-  };
-
-  function init() {
-    GatewayApi.getGateways()
-      .then(function onSuccess(result) {
-        if (result) {
-          $scope.gateways = result.filter(function isNotActivated(gateway) {
-            return gateway.knot.active === false;
-          });
-        }
-      });
-  }
-
-  $scope.back = function back() {
-    return StateService.changeState(API_STATES.CONFIGURATION_USER);
-  };
-
-  $scope.save = function save() {
-    return GatewayApi.activateGateway($scope.selectedGateway.knot.id)
-      .then(function onSuccess() {
-        return StateService.changeState(API_STATES.REBOOTING);
       });
   };
 

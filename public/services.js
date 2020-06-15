@@ -191,7 +191,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     if (config.platform === 'KNOT_CLOUD') {
       body.knotCloud = config.knotCloud;
-      body.authenticator = config.authenticator;
+      body.apiGateway = config.apiGateway;
     } else if (config.platform === 'FIWARE') {
       body.iota = config.iota;
       body.orion = config.orion;

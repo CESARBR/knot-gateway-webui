@@ -8,7 +8,7 @@ var settingsSchema = new mongoose.Schema({
 }, options);
 
 var knotCloudSettingsSchema = new mongoose.Schema({
-  authenticator: {
+  apiGateway: {
     protocol: String,
     path: String,
     hostname: String,

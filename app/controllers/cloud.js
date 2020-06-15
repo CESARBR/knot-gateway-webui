@@ -34,7 +34,7 @@ var listGateways = function listGateways(req, res, next) {
         if (getUserErr) {
           next(getUserErr);
         } else {
-          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
+          cloudSvc = new CloudService(cloudSettings.apiGateway, cloudSettings.knotCloud);
           cloudSvc.listDevices(user, { type: 'knot:gateway' }, function onDevicesListed(listDevicesErr, gateways) {
             if (listDevicesErr) {
               next(listDevicesErr);
@@ -78,7 +78,7 @@ var createGateway = function createGateway(req, res, next) {
         if (getUserErr) {
           next(getUserErr);
         } else {
-          cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
+          cloudSvc = new CloudService(cloudSettings.apiGateway, cloudSettings.knotCloud);
           cloudSvc.createGateway(user, req.body.name, function onGatewayCreated(createGatewayErr, newGateway) { // eslint-disable-line max-len
             if (createGatewayErr) {
               next(createGatewayErr);
@@ -112,7 +112,7 @@ var activateGateway = function activateGateway(req, res, next) {
         if (userErr) {
           next(userErr);
         } else {
-          cloudService = new CloudService(settings.authenticator, settings.knotCloud);
+          cloudService = new CloudService(settings.apiGateway, settings.knotCloud);
           cloudService.activateGateway(user, uuid, function onActivate(activateErr, token) {
             if (activateErr) {
               next(activateErr);

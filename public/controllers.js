@@ -185,7 +185,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       port: 5672,
       path: '/'
     },
-    authenticator: {
+    apiGateway: {
       protocol: 'https',
       hostname: 'api.knot.cloud',
       port: 443,
@@ -216,7 +216,7 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
           $scope.form.disableSecurity = result.disableSecurity;
           if (result.platform === 'KNOT_CLOUD') {
             $scope.form.knotCloud = result.knotCloud;
-            $scope.form.authenticator = result.authenticator;
+            $scope.form.apiGateway = result.apiGateway;
           } else if (result.platform === 'FIWARE') {
             $scope.form.iota = result.iota;
             $scope.form.orion = result.orion;
@@ -243,12 +243,12 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
     }
   });
 
-  $scope.$watch('form.authenticator.protocol', function onProtocolChanged(protocol) {
+  $scope.$watch('form.apiGateway.protocol', function onProtocolChanged(protocol) {
     // Only change if using the default ports
-    if (protocol === 'https' && $scope.form.authenticator.port === 80) {
-      $scope.form.authenticator.port = 443;
-    } else if (protocol === 'http' && $scope.form.authenticator.port === 443) {
-      $scope.form.authenticator.port = 80;
+    if (protocol === 'https' && $scope.form.apiGateway.port === 80) {
+      $scope.form.apiGateway.port = 443;
+    } else if (protocol === 'http' && $scope.form.apiGateway.port === 443) {
+      $scope.form.apiGateway.port = 80;
     }
   });
 

@@ -104,7 +104,7 @@ var create = function create(req, res, next) {
         password: req.body.password
       };
       if (cloudSettings.platform === 'KNOT_CLOUD') {
-        cloudSvc = new CloudService(cloudSettings.authenticator, cloudSettings.knotCloud);
+        cloudSvc = new CloudService(cloudSettings.apiGateway, cloudSettings.knotCloud);
         signinKNoTCloud(credentials, cloudSvc, function onSignin(signinError, cloudCredentials) {
           if (signinError) {
             next(signinError);

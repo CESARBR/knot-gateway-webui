@@ -53,26 +53,26 @@
           <hr>
           <p class="text-center">Cloud address</p>
 
-          <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.protocol.$invalid && cloudForm.authenticator.hostname.$invalid && cloudForm.authenticator.protocol.$invalid && !cloudForm.authenticator.protocol.$pristine && !cloudForm.authenticator.hostname.$pristine && !cloudForm.authenticator.path.$pristine }">
+          <div class="form-group ng-class:{ 'has-error': cloudForm.apiGateway.protocol.$invalid && cloudForm.apiGateway.hostname.$invalid && cloudForm.apiGateway.protocol.$invalid && !cloudForm.apiGateway.protocol.$pristine && !cloudForm.apiGateway.hostname.$pristine && !cloudForm.apiGateway.path.$pristine }">
             <label for="hostname" class="col-sm-2 col-sm-offset-1 control-label">Hostname</label>
             <div class="col-sm-2">
-              <select class="form-control" ng-model="form.authenticator.protocol" id="select-protocol" required>
+              <select class="form-control" ng-model="form.apiGateway.protocol" id="select-protocol" required>
                 <option value="https" selected>https</option>
                 <option value="http">http</option>
               </select>
             </div>
             <div class="col-sm-3">
-                <input type="text" id="hostname-authenticator" name="hostname-authenticator" class="col-sm-2 form-control" placeholder="auth.knot.cloud" ng-model="form.authenticator.hostname" ng-disabled="$api.$pending" hostname required>
+                <input type="text" id="hostname-apiGateway" name="hostname-apiGateway" class="col-sm-2 form-control" placeholder="auth.knot.cloud" ng-model="form.apiGateway.hostname" ng-disabled="$api.$pending" hostname required>
             </div>
             <div class="col-sm-2">
-              <input type="text" id="path-authenticator" name="path-authenticator" class="col-sm-2 form-control" placeholder="/" ng-model="form.authenticator.path" ng-disabled="$api.$pending" required>
+              <input type="text" id="path-apiGateway" name="path-apiGateway" class="col-sm-2 form-control" placeholder="/" ng-model="form.apiGateway.path" ng-disabled="$api.$pending" required>
               </div>
             </div>
 
-            <div class="form-group ng-class:{ 'has-error': cloudForm.authenticator.port.$invalid && !cloudForm.authenticator.port.$pristine }">
+            <div class="form-group ng-class:{ 'has-error': cloudForm.apiGateway.port.$invalid && !cloudForm.apiGateway.port.$pristine }">
               <label for="port" class="col-sm-2 col-sm-offset-1 control-label">Port</label>
               <div class="col-sm-7">
-                <input type="number" id="port-authenticator" name="port-authenticator" class="form-control" ng-attr-placeholder="{{ form.authenticator.protocol === 'https' ? 443 : 80 }}" ng-model="form.authenticator.port" ng-disabled="$api.$pending" min="0" max="65535" required>
+                <input type="number" id="port-apiGateway" name="port-apiGateway" class="form-control" ng-attr-placeholder="{{ form.apiGateway.protocol === 'https' ? 443 : 80 }}" ng-model="form.apiGateway.port" ng-disabled="$api.$pending" min="0" max="65535" required>
               </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ var update = {
     .valid(supportedPlatforms)
     .required(),
   disableSecurity: joi.boolean().required(),
-  authenticator: joi
+  apiGateway: joi
     .object({
       protocol: joi.string().only(['http', 'https']).required(),
       path: joi.string().required(),

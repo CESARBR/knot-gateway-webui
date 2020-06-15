@@ -83,18 +83,18 @@ var createCloudConnection = function createCloudConnection(address, credentials,
   client.connect();
 };
 
-var CloudService = function CloudService(authenticatorAddress, cloudAddress) {
-  this.authenticatorAddress = authenticatorAddress;
+var CloudService = function CloudService(apiGatewayAddress, cloudAddress) {
+  this.apiGatewayAddress = apiGatewayAddress;
   this.cloudAddress = cloudAddress;
 };
 
 CloudService.prototype.signinUser = function signinUser(credentials, done) {
   request({
     url: url.format({
-      protocol: this.authenticatorAddress.protocol,
-      hostname: this.authenticatorAddress.hostname,
-      port: this.authenticatorAddress.port,
-      pathname: path.join(this.authenticatorAddress.path, 'tokens')
+      protocol: this.apiGatewayAddress.protocol,
+      hostname: this.apiGatewayAddress.hostname,
+      port: this.apiGatewayAddress.port,
+      pathname: path.join(this.apiGatewayAddress.path, 'tokens')
     }),
     method: 'POST',
     headers: {

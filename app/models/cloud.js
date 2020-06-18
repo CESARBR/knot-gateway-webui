@@ -18,7 +18,9 @@ var knotCloudSettingsSchema = new mongoose.Schema({
     protocol: String,
     path: String,
     hostname: String,
-    port: Number
+    port: Number,
+    username: String,
+    password: String
   }
 }, options);
 

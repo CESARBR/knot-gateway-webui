@@ -34,7 +34,9 @@ var update = {
       protocol: joi.string().only(['amqp', 'amqps']).required(),
       path: joi.string().required(),
       hostname: hostname,
-      port: port
+      port: port,
+      username: joi.string().required(),
+      password: joi.string().required()
     })
     .when('platform', { is: 'KNOT_CLOUD', then: joi.required() }),
   iota: joi

@@ -183,7 +183,9 @@ appCtrls.controller('CloudController', function CloudController($scope, $state, 
       protocol: 'amqp',
       hostname: 'broker.knot.cloud',
       port: 5672,
-      path: '/'
+      path: '/',
+      username: '',
+      password: ''
     },
     apiGateway: {
       protocol: 'https',

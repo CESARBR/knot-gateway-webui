@@ -50,6 +50,20 @@
             </div>
           </div>
 
+          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.username.$invalid && !cloudForm.knotCloud.username.$pristine }">
+            <label for="username" class="col-sm-2 col-sm-offset-1 control-label">Username</label>
+            <div class="col-sm-7">
+              <input type="text" id="username-knot-cloud" name="username-knot-cloud" class="form-control" placeholder="username" ng-model="form.knotCloud.username" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+
+          <div class="form-group ng-class:{ 'has-error': cloudForm.knotCloud.password.$invalid && !cloudForm.knotCloud.password.$pristine }">
+            <label for="password" class="col-sm-2 col-sm-offset-1 control-label">Password</label>
+            <div class="col-sm-7">
+              <input type="password" id="password-knot-cloud" name="password-knot-cloud" class="form-control" placeholder="password" ng-model="form.knotCloud.password" ng-disabled="$api.$pending" required>
+            </div>
+          </div>
+
           <hr>
           <p class="text-center">Cloud address</p>
 

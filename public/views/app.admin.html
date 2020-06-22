@@ -26,7 +26,11 @@
         <dl class="list-group">
           <div class="list-group-item">
             <dt>Token</dt>
-            <dd>{{ credentials.user.token }}</dd>
+            <dd id="user-token">{{ credentials.user.token | limitTo: 32: 129 }}...
+              <button data-toggle="tooltip" aria-label="Copy to clipboard" title="Copy to clipboard" ngclipboard data-clipboard-text={{credentials.user.token}}>
+                <span class="glyphicon glyphicon-copy"></span>
+              </button>
+            </dd>
           </div>
         </dl>
       </div>
@@ -41,7 +45,11 @@
         <dl class="list-group">
           <div class="list-group-item">
             <dt>Token</dt>
-            <dd>{{ credentials.gateway.token }}</dd>
+            <dd id="user-token">{{ credentials.gateway.token | limitTo: 32: 129 }}...
+              <button data-toggle="tooltip" aria-label="Copy to clipboard" title="Copy to clipboard" ngclipboard data-clipboard-text={{credentials.gateway.token}}>
+                <span class="glyphicon glyphicon-copy"></span>
+              </button>
+            </dd>
           </div>
         </dl>
       </div>

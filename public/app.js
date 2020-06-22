@@ -8,6 +8,7 @@ require('@uirouter/angularjs');
 require('angular-ui-bootstrap');
 require('angular-permission');
 require('ngstorage');
+require('ngclipboard');
 
 // Assets
 require('./img/favicons');
@@ -26,7 +27,7 @@ require('./directives.js');
 require('./services.js');
 require('./controllers.js');
 
-app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ui.bootstrap',
+app = angular.module('app', ['ui.router', 'permission', 'permission.ui', 'ngStorage', 'ngclipboard', 'ui.bootstrap',
                              'app.controllers', 'app.services', 'app.directives']); // eslint-disable-line indent
 
 app.config(function config(

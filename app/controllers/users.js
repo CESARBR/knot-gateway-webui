@@ -1,5 +1,7 @@
+/* eslint-disable max-len */
 var users = require('../models/users');
 var cloud = require('../models/cloud');
+var gateway = require('../models/gateway');
 var crypto = require('../crypto');
 var CloudService = require('../services/cloud').CloudService;
 var FogService = require('../services/fog').FogService;
@@ -57,7 +59,13 @@ var configureUser = function configureUser(user, done) {
                 if (setFogTokenErr) {
                   done(setFogTokenErr);
                 } else {
-                  done();
+                  gateway.setGatewaySettings(credentials, function onGatewaySettingsUpdated(setGatewayConfigErr) {
+                    if (setGatewayConfigErr) {
+                      done(setGatewayConfigErr);
+                    } else {
+                      done(null);
+                    }
+                  });
                 }
               });
             }
@@ -120,7 +128,7 @@ var setCloudConfig = function setCloudConfig(token, cloudConfig, done) {
   }
 
   connector = new ConnectorService();
-  connector.setCloudConfig(cloudConfig.platform, newCloudConfig, function onSetCloudConfig(setCloudConfigErr) { // eslint-disable-line max-len
+  connector.setCloudConfig(cloudConfig.platform, newCloudConfig, function onSetCloudConfig(setCloudConfigErr) {
     if (setCloudConfigErr) {
       done(setCloudConfigErr);
       return;
@@ -151,7 +159,7 @@ var create = function create(req, res, next) {
               if (signupErr) {
                 next(signupErr);
               } else {
-                setCloudConfig(credentials.token, cloudSettings, function onSetCloudConfig(setCloudConfigErr) { // eslint-disable-line max-len
+                setCloudConfig(credentials.token, cloudSettings, function onSetCloudConfig(setCloudConfigErr) {
                   if (setCloudConfigErr) {
                     next(setCloudConfigErr);
                   } else {

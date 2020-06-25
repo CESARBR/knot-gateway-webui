@@ -43,7 +43,7 @@ FogService.prototype.createUser = function createUser(user, done) {
       protocol: 'http',
       hostname: FOG_HOST,
       port: FOG_PORT,
-      pathname: '/users/'
+      pathname: '/users'
     }),
     method: 'POST',
     json: true,
@@ -75,7 +75,7 @@ FogService.prototype.createUserToken = function createUserToken(user, done) {
       protocol: 'http',
       hostname: FOG_HOST,
       port: FOG_PORT,
-      pathname: '/tokens/'
+      pathname: '/tokens'
     }),
     method: 'POST',
     json: true,
@@ -104,7 +104,7 @@ FogService.prototype.createAppToken = function createAppToken(email, token, done
       protocol: 'http',
       hostname: FOG_HOST,
       port: FOG_PORT,
-      pathname: '/tokens/'
+      pathname: '/tokens'
     }),
     method: 'POST',
     json: true,

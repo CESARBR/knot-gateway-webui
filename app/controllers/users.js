@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+var config = require('config');
 var users = require('../models/users');
 var cloud = require('../models/cloud');
 var gateway = require('../models/gateway');
@@ -56,22 +57,23 @@ var configureUser = function configureUser(user, done) {
         } else {
           knotSvc = new KnotService();
           credentials = { token: token };
-          knotSvc.setUserCredentials(credentials, function onUserCredentialsSet(setUserCredErr) {
-            if (setUserCredErr) {
-              done(setUserCredErr);
+          if (config.get('knotd').enabled) {
+            knotSvc.setUserCredentials(credentials, function onUserCredentialsSet(setUserCredErr) {
+              if (setUserCredErr) {
+                done(setUserCredErr);
+              }
+            });
+          }
+          connectorSvc = new ConnectorService();
+          connectorSvc.setFogToken(credentials.token, function onSetFogToken(setFogTokenErr) {
+            if (setFogTokenErr) {
+              done(setFogTokenErr);
             } else {
-              connectorSvc = new ConnectorService();
-              connectorSvc.setFogToken(credentials.token, function onSetFogToken(setFogTokenErr) {
-                if (setFogTokenErr) {
-                  done(setFogTokenErr);
+              gateway.setGatewaySettings(credentials, function onGatewaySettingsUpdated(setGatewayConfigErr) {
+                if (setGatewayConfigErr) {
+                  done(setGatewayConfigErr);
                 } else {
-                  gateway.setGatewaySettings(credentials, function onGatewaySettingsUpdated(setGatewayConfigErr) {
-                    if (setGatewayConfigErr) {
-                      done(setGatewayConfigErr);
-                    } else {
-                      done(null);
-                    }
-                  });
+                  done(null);
                 }
               });
             }

@@ -2,6 +2,7 @@ import hapi from 'hapi';
 import hapiQs from 'hapi-qs';
 
 import EntityExistsError from 'domain/interactor/EntityExistsError';
+import InvalidTokenTypeError from 'domain/interactor/InvalidTokenTypeError';
 
 class HapiServer {
   constructor(fogApi) {
@@ -52,8 +53,14 @@ class HapiServer {
 
   async createTokenHandler(request, h) {
     try {
-      const token = await this.fogApi.createToken(request.payload);
-      return h.response({ token }).code(201);
+      const type = request.payload.type || 'user';
+      const user = {
+        email: request.payload.email,
+        password: request.payload.password,
+        token: request.payload.token,
+      };
+      const token = await this.fogApi.createToken(type, user);
+      return h.response(token).code(201);
     } catch (err) {
       return this.handleError(err, h);
     }
@@ -63,6 +70,9 @@ class HapiServer {
     const errorObj = this.mapErrorToJson(err);
     if (err instanceof EntityExistsError) {
       return h.response(errorObj).code(409);
+    }
+    if (err instanceof InvalidTokenTypeError) {
+      return h.response(errorObj).code(500);
     }
 
     return h.response(errorObj).code(err.code || 400);

@@ -7,8 +7,8 @@ class FogApi {
     return this.userService.create(user);
   }
 
-  async createToken(user) {
-    return this.userService.createToken(user);
+  async createToken(type, user) {
+    return this.userService.createToken(type, user);
   }
 }
 

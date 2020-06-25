@@ -15,6 +15,7 @@ import CreateUser from 'domain/interactor/CreateUser';
 import UserService from 'domain/service/UserService';
 import CloudApi from 'web/CloudApi';
 import HapiServer from 'web/HapiServer';
+import CreateToken from './domain/interactor/CreateToken';
 
 const DB_HOST = config.get('db.host');
 const DB_PORT = config.get('db.port');
@@ -40,7 +41,9 @@ const deviceService = new DeviceService(
 );
 const userGateway = new MongoUserGateway(connection);
 const createUser = new CreateUser(userGateway);
-const userService = new UserService(createUser);
+const createToken = new CreateToken(userGateway);
+
+const userService = new UserService(createUser, createToken);
 const cloudApi = new CloudApi(deviceService, userService);
 const server = new HapiServer(cloudApi);
 

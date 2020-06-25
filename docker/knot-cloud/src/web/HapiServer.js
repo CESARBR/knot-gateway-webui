@@ -3,6 +3,7 @@ import hapiQs from 'hapi-qs';
 
 import EntityExistsError from 'domain/interactor/EntityExistsError';
 import EntityNotFoundError from 'domain/interactor/EntityNotFoundError';
+import InvalidTokenTypeError from 'domain/interactor/InvalidTokenTypeError';
 
 class HapiServer {
   constructor(cloudApi) {
@@ -63,6 +64,11 @@ class HapiServer {
         method: 'POST',
         path: '/devices/user',
         handler: this.createUserHandler.bind(this),
+      },
+      {
+        method: 'POST',
+        path: '/tokens',
+        handler: this.createTokenHandler.bind(this),
       },
     ];
   }
@@ -149,6 +155,21 @@ class HapiServer {
     }
   }
 
+  async createTokenHandler(request, h) {
+    try {
+      const type = request.payload.type || 'user';
+      const user = {
+        email: request.payload.email,
+        password: request.payload.password,
+        token: request.payload.token,
+      };
+      const token = await this.cloudApi.createToken(type, user);
+      return h.response(token).code(201);
+    } catch (err) {
+      return this.handleError(err, h);
+    }
+  }
+
   handleError(err, h) {
     const errorObj = this.mapErrorToJson(err);
     if (err instanceof EntityExistsError) {
@@ -156,6 +177,9 @@ class HapiServer {
     }
     if (err instanceof EntityNotFoundError) {
       return h.response(errorObj).code(404);
+    }
+    if (err instanceof InvalidTokenTypeError) {
+      return h.response(errorObj).code(500);
     }
 
     return h.response(errorObj).code(err.code || 400);

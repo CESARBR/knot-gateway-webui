@@ -8,8 +8,8 @@ class UserService {
     return this.createUser.execute(user);
   }
 
-  async createToken(user) {
-    return this.createUserToken.execute(user);
+  async createToken(type, user) {
+    return this.createUserToken.execute(type, user);
   }
 }
 

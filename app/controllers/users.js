@@ -30,7 +30,13 @@ var signupFog = function signupFog(user, done) {
         done(createTokenErr);
         return;
       }
-      done(createTokenErr, userToken);
+      fogSvc.createAppToken(user.email, userToken, function onAppTokenCreated(createAppTokenErr, appToken) {
+        if (createAppTokenErr) {
+          done(createAppTokenErr);
+          return;
+        }
+        done(createAppTokenErr, appToken);
+      });
     });
   });
 };

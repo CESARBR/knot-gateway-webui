@@ -110,7 +110,13 @@ var signinKNoTCloud = function signinKNoTCloud(formCredentials, cloudSvc, done) 
       done(signinErr);
       return;
     }
-    done(null, userCredentials);
+    cloudSvc.createAppToken(formCredentials.email, userCredentials.token, function onAppTokenCreated(createAppTokenErr, appToken) {
+      if (createAppTokenErr) {
+        done(createAppTokenErr);
+        return;
+      }
+      done(null, appToken);
+    });
   });
 };
 

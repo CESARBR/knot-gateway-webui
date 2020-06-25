@@ -118,6 +118,40 @@ CloudService.prototype.signinUser = function signinUser(credentials, done) {
   });
 };
 
+CloudService.prototype.createAppToken = function createAppToken(email, token, done) {
+  request({
+    url: url.format({
+      protocol: this.apiGatewayAddress.protocol,
+      hostname: this.apiGatewayAddress.hostname,
+      port: this.apiGatewayAddress.port,
+      pathname: path.join(this.apiGatewayAddress.path, 'tokens')
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: true,
+    body: {
+      type: 'app',
+      email: email,
+      token: token
+    }
+  }, function onResponse(requestErr, response, body) {
+    var cloudErr;
+    if (requestErr) {
+      cloudErr = parseRequestError(requestErr);
+      done(cloudErr);
+      return;
+    }
+    if (response.statusCode === 201) {
+      done(null, body);
+      return;
+    }
+    cloudErr = parseResponseError(response);
+    done(cloudErr);
+  });
+};
+
 CloudService.prototype.listDevices = function listDevices(credentials, query, done) {
   // eslint-disable-next-line max-len
   createCloudConnection(this.cloudAddress, credentials, function onCloudConnected(connectionErr, client) {

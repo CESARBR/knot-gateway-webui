@@ -5,7 +5,8 @@
     "db": "knot_web"
   },
   "knotd": {
-    "configFile": "/etc/knot/gatewayConfig.json"
+    "configFile": "/etc/knot/gatewayConfig.json",
+    "enabled": true
   },
   "nrfd": {
     "devicesFile": "/etc/knot/keys.json"

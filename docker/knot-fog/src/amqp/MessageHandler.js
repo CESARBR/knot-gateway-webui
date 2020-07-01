@@ -11,7 +11,19 @@ class MessageHandler {
   }
 
   mapMessageHandlers() {
-    return {};
+    return {
+      [deviceExchange]: {
+        'device.list': {
+          method: ({ error }, { replyTo, correlationId }) => {
+            if (!error) {
+              this.devicesService.list(replyTo, correlationId);
+            }
+          },
+          noAck: true,
+          exchangeType: 'direct',
+        },
+      },
+    };
   }
 
   parseBuffer(buffer) {

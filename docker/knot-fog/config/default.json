@@ -6,5 +6,9 @@
     "host": "database",
     "port": 27017,
     "databaseName": "knot_fog"
+  },
+  "amqp": {
+    "host": "rabbitmq",
+    "port": 5672
   }
 }

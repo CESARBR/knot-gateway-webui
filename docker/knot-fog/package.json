@@ -23,6 +23,7 @@
     "eslint-plugin-react": "^7.4.0"
   },
   "dependencies": {
+    "amqplib": "^0.5.6",
     "config": "^1.30.0",
     "hapi": "^17.3.1",
     "hapi-qs": "^2.0.1",

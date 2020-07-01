@@ -14,6 +14,7 @@ import FogApi from 'web/FogApi';
 import HapiServer from 'web/HapiServer';
 import DeviceService from './domain/service/DeviceService';
 import ListDevices from './domain/interactor/ListDevices';
+import RegisterDevice from './domain/interactor/RegisterDevice';
 
 const DB_HOST = config.get('db.host');
 const DB_PORT = config.get('db.port');
@@ -28,7 +29,8 @@ const userGateway = new MongoUserGateway(mongoConnection);
 const deviceStore = new InMemoryDeviceStore();
 const amqpConnection = new AMQPConnection({ hostname: AMQP_HOST, port: AMQP_PORT });
 const listDevices = new ListDevices(amqpConnection, deviceStore);
-const deviceService = new DeviceService(listDevices);
+const registerDevice = new RegisterDevice(amqpConnection, deviceStore);
+const deviceService = new DeviceService(listDevices, registerDevice);
 
 const createUser = new CreateUser(userGateway);
 const createToken = new CreateToken(userGateway);

@@ -22,6 +22,15 @@ class MessageHandler {
           noAck: true,
           exchangeType: 'direct',
         },
+        'device.register': {
+          method: (message) => {
+            if (!message.error) {
+              this.devicesService.register(message);
+            }
+          },
+          noAck: true,
+          exchangeType: 'direct',
+        },
       },
     };
   }

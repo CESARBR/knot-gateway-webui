@@ -31,6 +31,15 @@ class MessageHandler {
           noAck: true,
           exchangeType: 'direct',
         },
+        'device.unregister': {
+          method: (message) => {
+            if (!message.error) {
+              this.devicesService.unregister(message);
+            }
+          },
+          noAck: true,
+          exchangeType: 'direct',
+        },
       },
     };
   }

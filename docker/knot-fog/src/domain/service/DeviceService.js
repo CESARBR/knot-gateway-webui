@@ -1,7 +1,8 @@
 class DeviceService {
-  constructor(listDeviceInteractor, registerDeviceInteractor) {
+  constructor(listDeviceInteractor, registerDeviceInteractor, unregisterDeviceInteractor) {
     this.listDeviceInteractor = listDeviceInteractor;
     this.registerDeviceInteractor = registerDeviceInteractor;
+    this.unregisterDeviceInteractor = unregisterDeviceInteractor;
   }
 
   async list(replyTo, correlationId) {
@@ -11,6 +12,9 @@ class DeviceService {
   async register(device) {
     await this.registerDeviceInteractor.execute(device);
   }
+
+  async unregister(id) {
+    await this.unregisterDeviceInteractor.execute(id);
   }
 }
 

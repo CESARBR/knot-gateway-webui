@@ -15,6 +15,7 @@ import HapiServer from 'web/HapiServer';
 import DeviceService from './domain/service/DeviceService';
 import ListDevices from './domain/interactor/ListDevices';
 import RegisterDevice from './domain/interactor/RegisterDevice';
+import UnregisterDevice from './domain/interactor/UnregisterDevice';
 
 const DB_HOST = config.get('db.host');
 const DB_PORT = config.get('db.port');
@@ -30,7 +31,8 @@ const deviceStore = new InMemoryDeviceStore();
 const amqpConnection = new AMQPConnection({ hostname: AMQP_HOST, port: AMQP_PORT });
 const listDevices = new ListDevices(amqpConnection, deviceStore);
 const registerDevice = new RegisterDevice(amqpConnection, deviceStore);
-const deviceService = new DeviceService(listDevices, registerDevice);
+const unregisterDevice = new UnregisterDevice(amqpConnection, deviceStore);
+const deviceService = new DeviceService(listDevices, registerDevice, unregisterDevice);
 
 const createUser = new CreateUser(userGateway);
 const createToken = new CreateToken(userGateway);

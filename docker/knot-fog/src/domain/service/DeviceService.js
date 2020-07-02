@@ -5,16 +5,16 @@ class DeviceService {
     this.unregisterDeviceInteractor = unregisterDeviceInteractor;
   }
 
-  async list(replyTo, correlationId) {
-    await this.listDeviceInteractor.execute(replyTo, correlationId);
+  async list(replyTo, correlationId, authorization) {
+    await this.listDeviceInteractor.execute(replyTo, correlationId, authorization);
   }
 
-  async register(device) {
-    await this.registerDeviceInteractor.execute(device);
+  async register(device, authorization) {
+    await this.registerDeviceInteractor.execute(device, authorization);
   }
 
-  async unregister(id) {
-    await this.unregisterDeviceInteractor.execute(id);
+  async unregister(id, authorization) {
+    await this.unregisterDeviceInteractor.execute(id, authorization);
   }
 }
 

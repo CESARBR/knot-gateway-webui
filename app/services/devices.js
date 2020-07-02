@@ -5,6 +5,7 @@ var util = require('util');
 var fs = require('fs');
 var config = require('config');
 var ini = require('ini');
+var gatewayModel = require('../models/gateway');
 
 var bus = require('../dbus');
 var logger = require('../logger');
@@ -129,35 +130,46 @@ var DevicesService = function DevicesService() { // eslint-disable-line vars-on-
 
 DevicesService.prototype.start = function start(done) {
   var self = this;
-  var amqp = config.get('amqp');
-  var client = new Client({
-    hostname: amqp.host,
-    port: amqp.port,
-    username: amqp.username,
-    password: amqp.password
-  });
+  gatewayModel.getGatewaySettings(function onGwSettings(getGatewaySettingsErr, settings) {
+    var amqp;
+    var client;
 
-  client.connect().then(function onClientStarted() {
-    self.client = client;
-    self.startAMQPMonitoring(function onAMQPMonitoringStarted(amqpMonitoringErr) {
-      if (amqpMonitoringErr) {
-        logger.info('Failed to start monitoring AMQP devices');
-        done(amqpMonitoringErr);
-        return;
-      }
-      done();
+    if (getGatewaySettingsErr) {
+      done(getGatewaySettingsErr);
+      return;
+    }
+
+    amqp = config.get('amqp');
+    client = new Client({
+      hostname: amqp.host,
+      port: amqp.port,
+      username: amqp.username,
+      password: amqp.password,
+      token: settings ? settings.token : ''
     });
 
-    if (KNOTD_ENABLED) {
-      self.startDbusMonitoring(function onDbusMonitoringStarted(dbusMonitoringErr) {
-        if (dbusMonitoringErr) {
-          logger.info('Failed to start monitoring Dbus devices');
-          done(dbusMonitoringErr);
+    client.connect().then(function onClientStarted() {
+      self.client = client;
+      self.startAMQPMonitoring(function onAMQPMonitoringStarted(amqpMonitoringErr) {
+        if (amqpMonitoringErr) {
+          logger.info('Failed to start monitoring AMQP devices');
+          done(amqpMonitoringErr);
           return;
         }
-        self.started = true;
+        done();
       });
-    }
+
+      if (KNOTD_ENABLED) {
+        self.startDbusMonitoring(function onDbusMonitoringStarted(dbusMonitoringErr) {
+          if (dbusMonitoringErr) {
+            logger.info('Failed to start monitoring Dbus devices');
+            done(dbusMonitoringErr);
+            return;
+          }
+          self.started = true;
+        });
+      }
+    });
   });
 };
 

@@ -4,9 +4,15 @@ class ListDevices {
     this.store = store;
   }
 
-  async execute(replyTo, correlationId) {
-    const devices = this.store.list();
-    this.amqp.send("device", "direct", replyTo, { devices }, {}, correlationId);
+  async execute(replyTo, correlationId, authorization) {
+    let error = null;
+    let devices;
+    if (!authorization || authorization === '') {
+      error = 'authorization token not provided';
+    } else {
+      devices = this.store.list();
+    }
+    this.amqp.send("device", "direct", replyTo, { error, devices }, {}, correlationId);
   }
 }
 

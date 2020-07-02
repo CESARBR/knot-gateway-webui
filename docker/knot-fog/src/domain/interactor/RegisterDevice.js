@@ -4,9 +4,14 @@ class RegisterDevice {
     this.store = store;
   }
 
-  async execute(device) {
-    this.store.save(device);
-    this.amqp.send("device", "direct", "device.registered", { error: null, id: device.id, name: device.name }, {});
+  async execute(device, authorization) {
+    let error = null;
+    if (!authorization || authorization === '') {
+      error = 'authorization token not provided';
+    } else {
+      this.store.save(device);
+    }
+    this.amqp.send("device", "direct", "device.registered", { error, id: device.id, name: device.name }, {});
   }
 }
 

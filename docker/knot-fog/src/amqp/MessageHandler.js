@@ -14,27 +14,27 @@ class MessageHandler {
     return {
       [deviceExchange]: {
         'device.list': {
-          method: ({ error }, { replyTo, correlationId }) => {
+          method: ({ error }, { replyTo, correlationId, headers }) => {
             if (!error) {
-              this.devicesService.list(replyTo, correlationId);
+              this.devicesService.list(replyTo, correlationId, headers.Authorization);
             }
           },
           noAck: true,
           exchangeType: 'direct',
         },
         'device.register': {
-          method: (message) => {
+          method: (message, { headers }) => {
             if (!message.error) {
-              this.devicesService.register(message);
+              this.devicesService.register(message, headers.Authorization);
             }
           },
           noAck: true,
           exchangeType: 'direct',
         },
         'device.unregister': {
-          method: (message) => {
+          method: (message, { headers }) => {
             if (!message.error) {
-              this.devicesService.unregister(message);
+              this.devicesService.unregister(message, headers.Authorization);
             }
           },
           noAck: true,

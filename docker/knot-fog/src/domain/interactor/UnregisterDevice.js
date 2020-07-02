@@ -4,9 +4,14 @@ class UnregisterDevice {
     this.store = store;
   }
 
-  async execute({ id }) {
-    this.store.remove(id);
-    this.amqp.send("device", "direct", "device.unregistered", { error: null, id, }, {});
+  async execute({ id }, authorization) {
+    let error = null;
+    if (!authorization || authorization === '') {
+      error = 'authorization token not provided';
+    } else {
+      this.store.remove(id);
+    }
+    this.amqp.send("device", "direct", "device.unregistered", { error, id, }, {});
   }
 }
 

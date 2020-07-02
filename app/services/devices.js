@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/* eslint-disable vars-on-top */
 var _ = require('lodash');
 var util = require('util');
 var fs = require('fs');
@@ -198,24 +199,79 @@ DevicesService.prototype.monitorDbusDeviceProperties = function monitorDbusDevic
   self.devicesList = self.devicesList.concat(devices);
 };
 
-DevicesService.prototype.removeDevice = function removeDevice(path) {
-  var deviceId = _.findKey(this.idPathMap, function onFind(value) {
-    return value === path;
+DevicesService.prototype.forget = function forget(device, done) {
+  var localDevice = this.devicesList.find(function onDeviceFound(d) {
+    return device.id === d.id;
   });
-  if (deviceId) {
-    delete this.idPathMap[deviceId];
-    _.remove(this.devicesList, function onRemove(device) {
-      return device.id === deviceId;
-    });
+
+  if (localDevice.type === 'dbus') {
+    this.forgetDbusDevice(localDevice.id, done);
+  } else if (localDevice.type === 'amqp') {
+    this.removeAMQPDevice(localDevice, done);
   }
 };
 
-DevicesService.prototype.addDevice = function addDevice(device, path) {
-  if (_.has(this.idPathMap, device.id)) {
-    // Remove old device with same id
-    this.removeDevice(this.idPathMap[device.id]);
+DevicesService.prototype.forgetDbusDevice = function forgetDbusDevice(id, done) {
+  var self = this;
+  var err;
+  var objPath;
+
+  if (!this.started) {
+    err = createUnavailableError();
+    done(err);
+    return;
   }
-  this.idPathMap[device.id] = path;
+
+  objPath = this.idPathMap[id];
+  if (!objPath) {
+    err = createNotFoundError(id);
+    done(err);
+    return;
+  }
+
+  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
+    if (getInterfaceErr) {
+      err = parseDbusError(getInterfaceErr);
+      done(err);
+      return;
+    }
+
+    iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
+      if (forgetErr) {
+        err = parseDbusError(forgetErr);
+        done(err);
+        return;
+      }
+
+      var device = this.devicesList.find(function onFind(dev) { return dev.id === id; });
+      self.removeDevice(device);
+      done();
+    });
+  });
+};
+
+DevicesService.prototype.removeDevice = function removeDevice(device) {
+  if (device.type === 'dbus') {
+    delete this.idPathMap[device.id];
+  }
+  _.remove(this.devicesList, function onRemove(dev) {
+    return dev.id === device.id;
+  });
+};
+
+DevicesService.prototype.removeAMQPDevice = function removeAMQPDevice(device, done) {
+  var self = this;
+  self.client.unregister(device.id).then(function onDeviceUnregistered() {
+    self.removeDevice(device);
+  });
+  done();
+};
+
+DevicesService.prototype.addDevice = function addDevice(device) {
+  if (this.deviceExists(device.id)) {
+    // Remove old device with same id
+    this.removeDevice(device);
+  }
   this.devicesList.push(device);
 };
 
@@ -341,6 +397,10 @@ DevicesService.prototype.list = function list(done) {
   done(null, this.devicesList);
 };
 
+DevicesService.prototype.deviceExists = function deviceExists(id) {
+  return this.devicesList.find(function onFind(dev) { return dev.id === id; });
+};
+
 DevicesService.prototype.getDevice = function getDevice(id, done) {
   var err;
   var device;
@@ -351,7 +411,6 @@ DevicesService.prototype.getDevice = function getDevice(id, done) {
     return;
   }
 
-  device = this.devicesList.find(function onFind(dev) { return dev.id === id; });
 
   if (!device) {
     err = createNotFoundError(device.id);
@@ -390,42 +449,6 @@ DevicesService.prototype.pair = function pair(device, done) {
     iface.Pair(function onPair(pairErr) { // eslint-disable-line new-cap
       if (pairErr) {
         err = parseDbusError(pairErr);
-        done(err);
-        return;
-      }
-      done();
-    });
-  });
-};
-
-DevicesService.prototype.forget = function forget(device, done) {
-  var err;
-  var objPath;
-
-  if (!this.started) {
-    err = createUnavailableError();
-    done(err);
-    return;
-  }
-
-  objPath = this.idPathMap[device.id];
-
-  if (!objPath) {
-    err = createNotFoundError(device.id);
-    done(err);
-    return;
-  }
-
-  bus.getInterface(SERVICE_NAME, objPath, DEVICE_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
-    if (getInterfaceErr) {
-      err = parseDbusError(getInterfaceErr);
-      done(err);
-      return;
-    }
-
-    iface.Forget(function onForget(forgetErr) { // eslint-disable-line new-cap
-      if (forgetErr) {
-        err = parseDbusError(forgetErr);
         done(err);
         return;
       }

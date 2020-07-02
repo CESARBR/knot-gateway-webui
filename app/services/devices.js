@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 var _ = require('lodash');
 var util = require('util');
 var fs = require('fs');
@@ -37,7 +38,7 @@ var DevicesServiceError = function DevicesServiceError(message, code) {
   this.stack = (new Error()).stack;
 };
 
-var writeConfigFile = function writeConfigFile(config, done) { // eslint-disable-line vars-on-top, no-shadow, max-len
+var writeConfigFile = function writeConfigFile(config, done) { // eslint-disable-line vars-on-top, no-shadow
   try {
     fs.writeFileSync(DEVICE_CONFIG_FILE, ini.stringify(config));
   } catch (err) {
@@ -183,10 +184,18 @@ function onDevicePropertiesMonitored(device, err) {
   logger.info('Monitoring device \'' + device.id + '\' properties');
 }
 
-DevicesService.prototype.createDevices = function createDevices(objects) {
-  this.devicesList = mapObjectsToDevices(objects);
-
-  this.idPathMap = mapObjectsToIdPath(objects);
+DevicesService.prototype.monitorDbusDeviceProperties = function monitorDbusDeviceProperties(objects) {
+  var self = this;
+  var devices = mapObjectsToDevices(objects);
+  self.idPathMap = mapObjectsToIdPath(objects);
+  devices.forEach(function onForEach(device) {
+    monitorDeviceProperties(
+      device,
+      self.idPathMap[device.id],
+      onDevicePropertiesMonitored.bind(null, device)
+    );
+  });
+  self.devicesList = self.devicesList.concat(devices);
 };
 
 DevicesService.prototype.removeDevice = function removeDevice(path) {
@@ -225,14 +234,7 @@ DevicesService.prototype.loadDevices = function loadDevices(done) {
         done(devicesErr);
         return;
       }
-      self.createDevices(objects);
-      self.devicesList.forEach(function onForEach(device) {
-        monitorDeviceProperties(
-          device,
-          self.idPathMap[device.id],
-          onDevicePropertiesMonitored.bind(null, device)
-        );
-      });
+      self.monitorDbusDeviceProperties(objects);
       done();
     });
   });

@@ -9,6 +9,9 @@ var ini = require('ini');
 var bus = require('../dbus');
 var logger = require('../logger');
 
+var amqplib = require('amqplib/callback_api');
+var Client = require('@cesarbr/knot-cloud-sdk-js-amqp');
+
 var SERVICE_NAME = 'br.org.cesar.knot';
 var OBJECT_MANAGER_INTERFACE_NAME = 'org.freedesktop.DBus.ObjectManager';
 var PROPERTIES_INTERFACE_NAME = 'org.freedesktop.DBus.Properties';
@@ -31,6 +34,7 @@ var DEVICE_SERVICE_ERROR_CODE = {
 };
 
 var DEVICE_CONFIG_FILE = config.get('thingd.configFile');
+var KNOTD_ENABLED = config.get('knotd').enabled;
 
 var DevicesServiceError = function DevicesServiceError(message, code) {
   this.name = 'DevicesServiceError';
@@ -83,7 +87,6 @@ Object.defineProperty(DevicesServiceError.prototype, 'isUnexpected', {
   }
 });
 
-
 var logError = function logError(err) { // eslint-disable-line vars-on-top
   logger.warn('Error communicating with devices service');
   logger.debug(util.inspect(err));
@@ -122,6 +125,85 @@ var DevicesService = function DevicesService() { // eslint-disable-line vars-on-
   this.idPathMap = {};
   this.devicesList = [];
   this.started = false;
+};
+
+DevicesService.prototype.start = function start(done) {
+  var self = this;
+  var amqp = config.get('amqp');
+  var client = new Client({
+    hostname: amqp.host,
+    port: amqp.port,
+    username: amqp.username,
+    password: amqp.password
+  });
+
+  client.connect().then(function onClientStarted() {
+    self.client = client;
+    self.startAMQPMonitoring(function onAMQPMonitoringStarted(amqpMonitoringErr) {
+      if (amqpMonitoringErr) {
+        logger.info('Failed to start monitoring AMQP devices');
+        done(amqpMonitoringErr);
+        return;
+      }
+      done();
+    });
+
+    if (KNOTD_ENABLED) {
+      self.startDbusMonitoring(function onDbusMonitoringStarted(dbusMonitoringErr) {
+        if (dbusMonitoringErr) {
+          logger.info('Failed to start monitoring Dbus devices');
+          done(dbusMonitoringErr);
+          return;
+        }
+        self.started = true;
+      });
+    }
+  });
+};
+
+DevicesService.prototype.startDbusMonitoring = function startDbusMonitoring(done) {
+  var self = this;
+  bus.getInterface(DBUS_SERVICE_NAME, DBUS_OBJECT_PATH, DBUS_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
+    var err;
+    if (getInterfaceErr) {
+      err = parseDbusError(getInterfaceErr);
+      done(err);
+      return;
+    }
+
+    bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE_NAME, function onServiceInterface(serviceInterfaceErr) { // eslint-disable-line max-len
+      if (!serviceInterfaceErr) {
+        logger.info('Devices service is up');
+        self.startDeviceMonitoring(done);
+      } else {
+        logger.info('Devices service is down, waiting for it');
+        self.startMonitoringServiceStatus(iface);
+        done();
+      }
+    });
+  });
+};
+
+DevicesService.prototype.startMonitoringServiceStatus = function startMonitoringServiceStatus(iface) {
+  var self = this;
+  iface.on(NAME_OWNER_CHANGED_NAME, function onNameOwnerChanged(name, oldOwner, newOwner) {
+    if (name !== SERVICE_NAME) {
+      return;
+    }
+
+    if (!oldOwner) {
+      logger.info('Devices service is up');
+      self.startDeviceMonitoring(function onDevicesMonitored(startDeviceMonitoringErr) {
+        if (startDeviceMonitoringErr) {
+          logger.error('Failed to monitor devices, system won\'t function properly');
+          logger.debug(util.inspect(startDeviceMonitoringErr));
+        }
+      });
+    } else if (!newOwner) {
+      logger.info('Devices service is down');
+      self.stopDeviceMonitoring();
+    }
+  });
 };
 
 function setKeysToLowerCase(obj) {
@@ -184,6 +266,90 @@ function onDevicePropertiesMonitored(device, err) {
 
   logger.info('Monitoring device \'' + device.id + '\' properties');
 }
+
+DevicesService.prototype.startDeviceMonitoring = function startDeviceMonitoring(done) {
+  var self = this;
+  self.loadDevices(function onLoad(loadDevicesErr) {
+    if (loadDevicesErr) {
+      done(loadDevicesErr);
+      return;
+    }
+
+    bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
+      var devicesErr;
+      if (getInterfaceErr) {
+        devicesErr = parseDbusError(getInterfaceErr);
+        done(devicesErr);
+        return;
+      }
+
+      iface.on('InterfacesAdded', function onInterfaceAdded(objPath, addedInterface) {
+        var device = mapInterfaceToDevice(addedInterface);
+        // The device can be undefined if the interface added is not DEVICE_INTERFACE
+        if (device) {
+          self.addDbusDevice(device, objPath);
+          monitorDeviceProperties(device, objPath, onDevicePropertiesMonitored.bind(null, device));
+        }
+      });
+      iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {
+        self.removeDevice(objPath);
+      });
+
+      logger.info('Monitoring devices being added and removed');
+      done();
+    });
+  });
+};
+
+DevicesService.prototype.addDbusDevice = function addDevice(device, path) {
+  this.idPathMap[device.id] = path;
+  device.type = 'dbus';
+  this.addDevice(device);
+};
+
+/**
+ * As the '@cesarbr/knot-cloud-sdk-js-amqp' library doesn't support listening events such as
+ * 'device.registered', this method will create a particular connection with the broker to listen
+ * it and operate accordingly.
+*/
+DevicesService.prototype.listenRegisteredDevice = function listenRegisteredDevice(done) {
+  var self = this;
+  self.createConnection(function onConnectionCreated(createConnectionErr, channel) {
+    if (createConnectionErr) {
+      done(createConnectionErr);
+      return;
+    }
+
+    channel.assertExchange('device', 'direct', { durable: true });
+    channel.assertQueue('webui-devices', { durable: true }, function onQueueAsserted(assertQueueErr, queue) {
+      if (assertQueueErr) {
+        done(assertQueueErr);
+        return;
+      }
+
+      channel.bindQueue(queue.queue, 'device', 'device.registered');
+      channel.consume(queue.queue, function onMessageReceived(msg) {
+        self.addAMQPDevice(JSON.parse(msg.content.toString('utf-8')));
+        channel.ack(msg);
+      });
+
+      logger.info('Watching new devices from KNoT Fog');
+      done();
+    });
+  });
+};
+
+DevicesService.prototype.startAMQPMonitoring = function startAMQPMonitoring(done) {
+  var self = this;
+  self.loadAMQPDevices(function onLoad(loadDevicesErr) {
+    if (loadDevicesErr) {
+      done(loadDevicesErr);
+      return;
+    }
+
+    self.listenRegisteredDevice(done);
+  });
+};
 
 DevicesService.prototype.monitorDbusDeviceProperties = function monitorDbusDeviceProperties(objects) {
   var self = this;
@@ -301,40 +467,35 @@ DevicesService.prototype.clearDevices = function clearDevices() {
   this.idPathMap = {};
 };
 
-DevicesService.prototype.startDeviceMonitoring = function startDeviceMonitoring(done) {
+DevicesService.prototype.loadAMQPDevices = function loadAMQPDevices(done) {
   var self = this;
-  self.loadDevices(function onLoad(loadDevicesErr) {
-    if (loadDevicesErr) {
-      done(loadDevicesErr);
+  self.client.getDevices().then(function onDevicesObtained(devices) {
+    devices.devices.forEach(function onEachDevice(device) {
+      self.addAMQPDevice(device);
+    });
+  });
+  done();
+};
+
+
+DevicesService.prototype.createConnection = function createConnection(done) {
+  var amqp = config.get('amqp');
+  var url = 'amqp://' + amqp.host + ':' + amqp.port;
+  amqplib.connect(url, function onConnected(err, conn) {
+    if (err) {
+      done(err);
       return;
     }
 
-    bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line new-cap, max-len
-      var devicesErr;
-      if (getInterfaceErr) {
-        devicesErr = parseDbusError(getInterfaceErr);
-        done(devicesErr);
-        return;
-      }
-
-      iface.on('InterfacesAdded', function onInterfaceAdded(objPath, addedInterface) {
-        var device = mapInterfaceToDevice(addedInterface);
-        // The device can be undefined if the interface added is not DEVICE_INTERFACE
-        if (device) {
-          self.addDevice(device, objPath);
-          monitorDeviceProperties(device, objPath, onDevicePropertiesMonitored.bind(null, device));
-        }
-      });
-      iface.on('InterfacesRemoved', function onInterfaceRemoved(objPath) {
-        self.removeDevice(objPath);
-      });
-
-      logger.info('Monitoring devices being added and removed');
-      self.started = true;
-
-      done();
-    });
+    conn.createChannel(done);
   });
+};
+
+DevicesService.prototype.addAMQPDevice = function addAMQPDevice(device) {
+  device.registered = true;
+  device.paired = true;
+  device.type = 'amqp';
+  this.addDevice(device);
 };
 
 DevicesService.prototype.stopDeviceMonitoring = function stopDeviceMonitoring() {
@@ -342,53 +503,9 @@ DevicesService.prototype.stopDeviceMonitoring = function stopDeviceMonitoring() 
   this.clearDevices();
 };
 
-DevicesService.prototype.start = function start(done) {
-  var self = this;
-  bus.getInterface(DBUS_SERVICE_NAME, DBUS_OBJECT_PATH, DBUS_INTERFACE_NAME, function onInterface(getInterfaceErr, iface) { // eslint-disable-line max-len
-    var err;
-    if (getInterfaceErr) {
-      err = parseDbusError(getInterfaceErr);
-      done(err);
-      return;
-    }
-
-    logger.info('Watching devices service initialization and shutdown');
-
-    iface.on(NAME_OWNER_CHANGED_NAME, function onNameOwnerChanged(name, oldOwner, newOwner) {
-      if (name !== SERVICE_NAME) {
-        return;
-      }
-
-      if (!oldOwner) {
-        logger.info('Devices service is up');
-        self.startDeviceMonitoring(function onDevicesMonitored(startDeviceMonitoringErr) {
-          if (startDeviceMonitoringErr) {
-            logger.error('Failed to monitor devices, system won\'t function properly');
-            logger.debug(util.inspect(startDeviceMonitoringErr));
-          }
-        });
-      } else if (!newOwner) {
-        logger.info('Devices service is down');
-        self.stopDeviceMonitoring();
-      }
-    });
-
-    // If service is already up, the signal above won't be sent
-    bus.getInterface(SERVICE_NAME, OBJECT_PATH, OBJECT_MANAGER_INTERFACE_NAME, function onServiceInterface(serviceInterfaceErr) { // eslint-disable-line max-len
-      if (!serviceInterfaceErr) {
-        logger.info('Devices service is up');
-        self.startDeviceMonitoring(done);
-      } else {
-        logger.info('Devices service is down, waiting for it');
-        done();
-      }
-    });
-  });
-};
-
 DevicesService.prototype.list = function list(done) {
   var err;
-  if (!this.started) {
+  if (!this.started && !this.client) {
     err = createUnavailableError();
     done(err);
     return;

@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "@cesarbr/dbus": "^1.0.4",
+    "@cesarbr/knot-cloud-sdk-js-amqp": "^2.0.0",
     "@cesarbr/knot-cloud-websocket": "^1.0.1",
+    "amqplib": "^0.5.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "celebrate": "^8.0.0",

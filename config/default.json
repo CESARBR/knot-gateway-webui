@@ -15,6 +15,12 @@
     "port" : 8081,
     "host" : "localhost"
   },
+  "amqp": {
+    "host": "localhost",
+    "port": 5672,
+    "username": "guest",
+    "password": "guest"
+  },
   "connector": {
     "configFile": "/usr/local/bin/knot-fog-connector/config/default.json"
   },

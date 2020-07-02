@@ -25,6 +25,7 @@ services:
     build: ./docker/knot-fog
     depends_on:
       - 'database'
+      - 'rabbitmq'
     environment:
       - DB_NAME=knot_fog
     expose:
@@ -39,3 +40,7 @@ services:
     image: mongo
     expose:
       - '27017'
+  rabbitmq:
+    image: rabbitmq
+    expose:
+      - '5672'

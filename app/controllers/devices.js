@@ -1,3 +1,4 @@
+var gateway = require('../models/gateway');
 var devicesService = require('../services/devices').devicesService;
 
 var list = function list(req, res, next) {
@@ -72,12 +73,19 @@ var update = function update(req, res, next) {
 
 var create = function create(req, res, next) {
   var device = req.body;
-  devicesService.create(device, function onCreate(devicesErr) {
-    if (devicesErr) {
-      next(devicesErr);
-    } else {
-      res.end();
+  gateway.getGatewaySettings(function onGatewaySettings(getGatewaySettingsErr, settings) {
+    if (getGatewaySettingsErr) {
+      next(getGatewaySettingsErr);
+      return;
     }
+    device.token = settings.token;
+    devicesService.create(device, function onCreate(devicesErr) {
+      if (devicesErr) {
+        next(devicesErr);
+      } else {
+        res.end();
+      }
+    });
   });
 };
 

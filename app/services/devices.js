@@ -440,13 +440,14 @@ DevicesService.prototype.create = function create(device, done) {
 DevicesService.prototype.getDeviceConfig = function getDeviceConfig(device) {
   var deviceConfig = {
     KNoTThing: {
+      UserToken: device.token,
       Name: device.thingd.name,
       ModbusSlaveId: device.thingd.modbusSlaveID,
       ModbusURL: device.thingd.modbusSlaveURL
     }
   };
 
-  device.thingd.dataItems.forEach(function (value, index) {
+  device.thingd.dataItems.forEach(function onDataItem(value, index) {
     var item = 'DataItem_' + index;
     deviceConfig[item] = {
       SchemaSensorId: value.schema.sensorID,

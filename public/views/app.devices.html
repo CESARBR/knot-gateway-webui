@@ -1,4 +1,4 @@
-<div>
+<div class="device-min-height">
   <div class="alert alert-danger" ng-show="$api.$invalid" ng-messages="$api.$error" role="alert">
     <p ng-message="devices-unavailable">Devices service is unavailable. Try again later or check your configuration.</p>
     <p ng-message="unexpected">An unexpected error occurred. Try again later or check your configuration.</p>
@@ -65,5 +65,123 @@
 
   <div class="panel-body text-center" ng-show="nearbyDevices.length === 0">
     No nearby devices found.
+  </div>
+
+  <div class="add-device">
+    <button api-click="openConfigModal()">+</button>
+    <script type="text/ng-template" id="createDevice.html">
+      <div class="modal-header">
+        <h3 class="modal-title">{{ title }}</h3>
+        <a href class="close-button" api-click="close()">x</a>
+      </div>
+      <div class="modal-body" ng-style="{ 'min-height': currentStep === 'LIST_DATA_ITEMS' ? '200px' : 'auto' }">
+        <form class="form-horizontal device-form" name="deviceForm" ng-submit="next()">
+          <div class="thingd-form" ng-if="currentStep === 'CREATE_DEVICE'">
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="name">Name:</label>
+              <div class="col-sm-9 fields-space">
+                <input type="text" class="form-control" ng-model="form.thingd.name" placeholder="Thingd Name" autofocus required>
+              </div>
+              <label class="control-label col-sm-3" for="slaveID">Slave ID:</label>
+              <div class="col-sm-9 fields-space">
+                <input type="number" class="form-control" ng-model="form.thingd.modbusSlaveID" placeholder="1" required>
+              </div>
+              <label class="control-label col-sm-3" for="slaveURL">Slave URL:</label>
+              <div class="col-sm-9 fields-space">
+                <input type="text" class="form-control" ng-model="form.thingd.modbusSlaveURL" placeholder="tcp://localhost:1502" required>
+              </div>
+            </div>
+          </div>
+          <div class="data-item-form" ng-if="currentStep === 'CONFIG_DATA_ITEM'">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="sensorID">Sensor ID*:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="number" class="form-control" ng-model="form.dataItem.schema.sensorID" placeholder="123" autofocus required>
+              </div>
+              <label class="control-label col-sm-2" for="sensorName">Sensor Name*:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="text" class="form-control" ng-model="form.dataItem.schema.sensorName" placeholder="Sensor Name" required>
+              </div>
+              <label class="control-label col-sm-2" for="typeID">Type ID*:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="text" class="form-control" ng-model="form.dataItem.schema.typeID" placeholder="65521" required>
+              </div>
+              <label class="control-label col-sm-2" for="unit">Unit*:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="text" class="form-control" ng-model="form.dataItem.schema.unit" placeholder="0" required>
+              </div>
+              <label class="control-label col-sm-2" for="valueType">Value Type*:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="text" class="form-control" ng-model="form.dataItem.schema.valueType" placeholder="3" required>
+              </div>
+              <label class="control-label col-sm-3" for="registerAddress">Register Address*:</label>
+              <div class="col-sm-3 fields-space">
+                <input type="number" class="form-control" ng-model="form.dataItem.modbus.registerAddress" placeholder="1" required>
+              </div>
+              <label class="control-label col-sm-2" for="bitOffset">Bit Offset*:</label>
+              <div class="col-sm-4 fields-space">
+                <select class="form-control" ng-model="form.dataItem.modbus.bitOffset" required>
+                  <option value="1" selected>1</option>
+                  <option value="8">8</option>
+                  <option value="16">16</option>
+                  <option value="32">32</option>
+                  <option value="64">64</option>
+                </select>
+              </div>
+              <label class="control-label col-sm-3" for="lowerThreshold">Lower Threshold:</label>
+              <div class="col-sm-3 fields-space">
+                <input type="number" class="form-control" ng-model="form.config.lowerThreshold" placeholder="1000">
+              </div>
+              <label class="control-label col-sm-3" for="upperThreshold">Upper Threshold:</label>
+              <div class="col-sm-3 fields-space">
+                <input type="number" class="form-control" ng-model="form.config.upperThreshold" placeholder="3000">
+              </div>
+              <label class="control-label col-sm-2" for="change">Change:</label>
+              <div class="col-sm-4 fields-space">
+                <select class="form-control" ng-model="form.config.change">
+                  <option value="yes" selected>Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <label class="control-label col-sm-2" for="timeSec">Time Sec:</label>
+              <div class="col-sm-4 fields-space">
+                <input type="number" class="form-control" ng-model="form.config.timeSec" placeholder="5">
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="data-item-list" ng-if="currentStep === 'LIST_DATA_ITEMS'">
+          <div class="col-sm-12 flex-center" ng-repeat="dataItem in serviceForm.thingd.dataItems">
+            <div class="row">
+              <div class="col-sm-1 data-item-index">
+                {{ $index + 1 }}
+              </div>
+              <div class="col-sm-6 data-item">
+                {{ dataItem.schema.sensorName }}
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 flex-center" ng-if="serviceForm.thingd.dataItems.length < 1">
+            <span>No data item configured.</span>
+          </div>
+          <div class="add-data-item">
+            <button class="add-data-item-button" api-click="changePage()">Add a new data item</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <ul class="pager">
+          <li ng-if="currentStep !== 'LIST_DATA_ITEMS'" class="pull-right ng-class:{ disabled: deviceForm.$invalid }">
+            <a href api-click="next()" ng-disabled="deviceForm.$invalid">{{ currentStep === 'CREATE_DEVICE' ? 'Next' : 'Add data item' }}</a>
+          </li>
+          <li ng-if="currentStep === 'LIST_DATA_ITEMS'" class="pull-right ng-class:{ disabled: serviceForm.thingd.dataItems.length < 1 }">
+            <a href api-click="next()" ng-disabled="serviceForm.thingd.dataItems.length < 1">Finish</a>
+          </li>
+          <li ng-if="currentStep !== 'CREATE_DEVICE'" class="cancel pull-left">
+            <a href api-click="backPage()">Back</a>
+          </li>
+        </ul>
+      </div>
+    </script>
   </div>
 </div>

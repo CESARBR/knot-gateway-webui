@@ -367,7 +367,7 @@ appCtrls.controller('NetworkController', function NetworkController($scope, Gate
   init();
 });
 
-appCtrls.controller('DevicesController', function DevicesController($scope, $interval, GatewayApi, GatewayApiErrorService) {
+appCtrls.controller('DevicesController', function DevicesController($scope, $interval, ModalService, GatewayApi, GatewayApiErrorService) {
   var refreshPromise;
   $scope.$api = {};
   $scope.nearbyDevices = [];
@@ -409,6 +409,11 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $int
     $interval.cancel(refreshPromise);
   }
 
+  $scope.openConfigModal = function openConfigModal() {
+    var modalInstance = ModalService.open('DeviceModalController', 'createDevice.html');
+    modalInstance.result.catch(function onError() { modalInstance.close(); });
+  };
+
   function init() {
     reloadDevices();
     startRefresh();
@@ -435,4 +440,126 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $int
   });
 
   init();
+});
+
+appCtrls.controller('DeviceModalController', function DeviceModalController($scope, $rootScope, $uibModalInstance, GatewayApi) {
+  $scope.title = 'Create a new device';
+  $scope.serviceForm = {
+    thingd: {
+      dataItems: []
+    }
+  };
+  $scope.currentStep = 'CREATE_DEVICE';
+  $scope.form = {
+    thingd: {
+      name: '',
+      modbusSlaveID: undefined,
+      modbusSlaveURL: '',
+      dataItems: []
+    },
+    dataItem: {
+      schema: {
+        sensorID: undefined,
+        sensorName: '',
+        typeID: '',
+        unit: '',
+        valueType: ''
+      },
+      modbus: {
+        registerAddress: undefined,
+        bitOffset: '1'
+      },
+      config: {}
+    },
+    config: {
+      lowerThreshold: undefined,
+      upperThreshold: undefined,
+      change: 'yes',
+      timeSec: undefined
+    }
+  };
+
+  function clearDataItemForm() {
+    $scope.form.dataItem = {
+      schema: {
+        sensorID: undefined,
+        sensorName: '',
+        typeID: '',
+        unit: '',
+        valueType: ''
+      },
+      modbus: {
+        registerAddress: undefined,
+        bitOffset: '1'
+      },
+      config: {}
+    };
+    $scope.form.config = {
+      lowerThreshold: undefined,
+      upperThreshold: undefined,
+      change: 'yes',
+      timeSec: undefined
+    };
+  }
+
+  $scope.addDataItem = function addDataItem(dataItem, config) {
+    var index;
+    $scope.serviceForm.thingd.dataItems.push(dataItem);
+    index = $scope.serviceForm.thingd.dataItems.length - 1;
+    $scope.serviceForm.thingd.dataItems[index].modbus.bitOffset = parseInt(dataItem.modbus.bitOffset, 10);
+
+    if (config.change === 'yes') {
+      $scope.serviceForm.thingd.dataItems[index].config.change = true;
+    } else {
+      $scope.serviceForm.thingd.dataItems[index].config.change = false;
+    }
+    if (config.lowerThreshold !== undefined) {
+      $scope.serviceForm.thingd.dataItems[index].config.lowerThreshold = config.lowerThreshold;
+    }
+    if (config.upperThreshold !== undefined) {
+      $scope.serviceForm.thingd.dataItems[index].config.upperThreshold = config.upperThreshold;
+    }
+    if (config.timeSec !== undefined) {
+      $scope.serviceForm.thingd.dataItems[index].config.timeSec = config.timeSec;
+    }
+    clearDataItemForm();
+  };
+
+  $scope.next = function next() {
+    if ($scope.currentStep === 'CONFIG_DATA_ITEM') {
+      $scope.addDataItem($scope.form.dataItem, $scope.form.config);
+      $scope.currentStep = 'LIST_DATA_ITEMS';
+      $scope.title = 'List of all data items';
+      return;
+    } else if ($scope.currentStep === 'LIST_DATA_ITEMS') {
+      GatewayApi.createDevice($scope.serviceForm)
+        .then(function onSuccess() {
+          $uibModalInstance.dismiss('cancel');
+      });
+      return;
+    }
+
+    $scope.serviceForm.thingd = $scope.form.thingd;
+    $scope.currentStep = 'LIST_DATA_ITEMS';
+    $scope.title = 'List of all data items';
+  };
+
+  $scope.close = function close() {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  $scope.backPage = function backPage() {
+    if ($scope.currentStep === 'CONFIG_DATA_ITEM') {
+      clearDataItemForm();
+      $scope.currentStep = 'LIST_DATA_ITEMS';
+      return;
+    }
+
+    $scope.currentStep = 'CREATE_DEVICE';
+  };
+
+  $scope.changePage = function changePage() {
+    $scope.currentStep = 'CONFIG_DATA_ITEM';
+    $scope.title = 'Configure your data item';
+  };
 });

@@ -147,6 +147,10 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
       .then(extractData);
   };
 
+  var createDevice = function createDevice(device) {
+    return $http.post('/api/devices', device);
+  };
+
   // /api/cloud/gateway
   var createGateway = function createGateway(name) {
     return $http.post('/api/cloud/gateway', {
@@ -219,6 +223,7 @@ appServices.factory('GatewayApi', function GatewayApi($http) {
 
     updateDevice: updateDevice,
     getDevices: getDevices,
+    createDevice: createDevice,
 
     createGateway: createGateway,
     getGatewayConfig: getGatewayConfig,

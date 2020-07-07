@@ -95,6 +95,8 @@ RUN npm_config_tmp=/tmp TMP=/tmp yarn
 # install configuration files
 RUN mkdir -p /etc/knot
 COPY ./config/gatewayConfig.json ./config/keys.json /etc/knot/
+COPY ./docker/thingd/start.sh ./docker/thingd/stop.sh /etc/knot/
+RUN chmod +x /etc/knot/start.sh /etc/knot/stop.sh
 RUN mkdir -p /usr/local/bin/knot-fog-source && touch /usr/local/bin/knot-fog-source/.env
 RUN mkdir -p /usr/local/bin/knot-fog-connector && mkdir -p /usr/local/bin/knot-fog-connector/config
 COPY ./docker/knot-fog-connector/config.json /usr/local/bin/knot-fog-connector/config/default.json

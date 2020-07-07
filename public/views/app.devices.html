@@ -74,7 +74,7 @@
         <h3 class="modal-title">{{ title }}</h3>
         <a href class="close-button" api-click="close()">x</a>
       </div>
-      <div class="modal-body" ng-style="{ 'min-height': currentStep === 'LIST_DATA_ITEMS' ? '200px' : 'auto' }">
+      <div class="modal-body data-items-body">
         <form class="form-horizontal device-form" name="deviceForm" ng-submit="next()">
           <div class="thingd-form" ng-if="currentStep === 'CREATE_DEVICE'">
             <div class="form-group">
@@ -94,85 +94,142 @@
           </div>
           <div class="data-item-form" ng-if="currentStep === 'CONFIG_DATA_ITEM'">
             <div class="form-group">
-              <label class="control-label col-sm-2" for="sensorID">Sensor ID*:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="number" class="form-control" ng-model="form.dataItem.schema.sensorID" placeholder="123" autofocus required>
-              </div>
-              <label class="control-label col-sm-2" for="sensorName">Sensor Name*:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="text" class="form-control" ng-model="form.dataItem.schema.sensorName" placeholder="Sensor Name" required>
-              </div>
-              <label class="control-label col-sm-2" for="typeID">Type ID*:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="text" class="form-control" ng-model="form.dataItem.schema.typeID" placeholder="65521" required>
-              </div>
-              <label class="control-label col-sm-2" for="unit">Unit*:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="text" class="form-control" ng-model="form.dataItem.schema.unit" placeholder="0" required>
-              </div>
-              <label class="control-label col-sm-2" for="valueType">Value Type*:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="text" class="form-control" ng-model="form.dataItem.schema.valueType" placeholder="3" required>
-              </div>
-              <label class="control-label col-sm-3" for="registerAddress">Register Address*:</label>
-              <div class="col-sm-3 fields-space">
-                <input type="number" class="form-control" ng-model="form.dataItem.modbus.registerAddress" placeholder="1" required>
-              </div>
-              <label class="control-label col-sm-2" for="bitOffset">Bit Offset*:</label>
-              <div class="col-sm-4 fields-space">
-                <select class="form-control" ng-model="form.dataItem.modbus.bitOffset" required>
-                  <option value="1" selected>1</option>
-                  <option value="8">8</option>
-                  <option value="16">16</option>
-                  <option value="32">32</option>
-                  <option value="64">64</option>
-                </select>
-              </div>
-              <label class="control-label col-sm-3" for="lowerThreshold">Lower Threshold:</label>
-              <div class="col-sm-3 fields-space">
-                <input type="number" class="form-control" ng-model="form.config.lowerThreshold" placeholder="1000">
-              </div>
-              <label class="control-label col-sm-3" for="upperThreshold">Upper Threshold:</label>
-              <div class="col-sm-3 fields-space">
-                <input type="number" class="form-control" ng-model="form.config.upperThreshold" placeholder="3000">
-              </div>
-              <label class="control-label col-sm-2" for="change">Change:</label>
-              <div class="col-sm-4 fields-space">
-                <select class="form-control" ng-model="form.config.change">
-                  <option value="yes" selected>Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <label class="control-label col-sm-2" for="timeSec">Time Sec:</label>
-              <div class="col-sm-4 fields-space">
-                <input type="number" class="form-control" ng-model="form.config.timeSec" placeholder="5">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="col-sm-12 fields-title">
+                      <h3>Schema</h3>
+                    </div>
+                    <label class="control-label col-sm-5" for="sensorID">Sensor ID*:</label>
+                    <div class="col-sm-7 fields-space">
+                      <input type="number" class="form-control" ng-model="form.dataItem.schema.sensorID" placeholder="123" autofocus required>
+                    </div>
+                    <label class="control-label col-sm-5" for="sensorName">Sensor Name*:</label>
+                    <div class="col-sm-7 fields-space">
+                      <input type="text" class="form-control" ng-model="form.dataItem.schema.sensorName" placeholder="Sensor Name" required>
+                    </div>
+                    <label class="control-label col-sm-5" for="typeID">Type ID*:</label>
+                    <div class="col-sm-7 fields-space">
+                      <select class="form-control" ng-change="onTypeIDChange()" ng-model="form.dataItem.schema.typeID" required>
+                        <option value="0" selected>None</option>
+                        <option value="1" >Voltage</option>
+                        <option value="2" >Current</option>
+                        <option value="3" >Resistance</option>
+                        <option value="4">Power</option>
+                        <option value="5">Temperature</option>
+                        <option value="6">Relative Humidity</option>
+                        <option value="7">Luminosity</option>
+                        <option value="8">Time</option>
+                        <option value="9">Mass</option>
+                        <option value="10">Pressure</option>
+                        <option value="11">Distance</option>
+                        <option value="12">Angle</option>
+                        <option value="13">Volume</option>
+                        <option value="14">Area</option>
+                        <option value="15">Rain</option>
+                        <option value="16">Density</option>
+                        <option value="17">Latitude</option>
+                        <option value="18">Longitude</option>
+                        <option value="19">Speed</option>
+                        <option value="20">Volumeflow</option>
+                        <option value="21">Energy</option>
+                        <option value="65520">Presence</option>
+                        <option value="65521">Switch</option>
+                        <option value="65522">Command</option>
+                        <option value="65296">Analog</option>
+                      </select>
+                    </div>
+                    <label class="control-label col-sm-5" for="unit">Unit*:</label>
+                    <div class="col-sm-7 fields-space">
+                      <select class="form-control" ng-model="form.dataItem.schema.unit" required>
+                        <option ng-repeat="option in unitValues[form.dataItem.schema.typeID]"
+                        value="{{ option.value }}">{{ option.name }}</option>
+                      </select>
+                    </div>
+                    <label class="control-label col-sm-5" for="valueType">Value Type*:</label>
+                    <div class="col-sm-7 fields-space">
+                      <select class="form-control" ng-model="form.dataItem.schema.valueType" required>
+                        <option value="1" selected>Int</option>
+                        <option value="2">Float</option>
+                        <option value="3">Bool</option>
+                        <option value="4">Raw</option>
+                        <option value="5">Int64</option>
+                        <option value="6">Uint</option>
+                        <option value="7">Uint64</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="col-sm-12 fields-title">
+                      <h3>Config</h3>
+                    </div>
+                    <label class="control-label col-sm-5" for="lowerThreshold">Lower Threshold:</label>
+                    <div class="col-sm-7 fields-space">
+                      <input type="number" class="form-control" ng-model="form.config.lowerThreshold" placeholder="1000">
+                    </div>
+                    <label class="control-label col-sm-5" for="upperThreshold">Upper Threshold:</label>
+                    <div class="col-sm-7 fields-space">
+                      <input type="number" class="form-control" ng-model="form.config.upperThreshold" placeholder="3000">
+                    </div>
+                    <label class="control-label col-sm-5" for="change">Change:</label>
+                    <div class="col-sm-7 fields-space">
+                      <select class="form-control" ng-model="form.config.change">
+                        <option value="yes" selected>Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    <label class="control-label col-sm-5" for="timeSec">Time Sec:</label>
+                    <div class="col-sm-7 fields-space">
+                      <input type="number" class="form-control" ng-model="form.config.timeSec" placeholder="5">
+                    </div>
+                  </div>
+                  <div class="col-sm-12 separator"></div>
+                  <div class="col-sm-12">
+                    <div class="col-sm-12 fields-title">
+                      <h3>Modbus</h3>
+                    </div>
+                    <label class="control-label col-sm-3" for="registerAddress">Register Address*:</label>
+                    <div class="col-sm-3 fields-space">
+                      <input type="number" class="form-control" ng-model="form.dataItem.modbus.registerAddress" placeholder="1" required>
+                    </div>
+                    <label class="control-label col-sm-3" for="bitOffset">Bit Offset*:</label>
+                    <div class="col-sm-3 fields-space">
+                      <select class="form-control" ng-model="form.dataItem.modbus.bitOffset" required>
+                        <option value="1" selected>1</option>
+                        <option value="8">8</option>
+                        <option value="16">16</option>
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </form>
         <div class="data-item-list" ng-if="currentStep === 'LIST_DATA_ITEMS'">
-          <div class="col-sm-12 flex-center" ng-repeat="dataItem in serviceForm.thingd.dataItems">
+          <div class="col-sm-12">
             <div class="row">
-              <div class="col-sm-1 data-item-index">
-                {{ $index + 1 }}
-              </div>
-              <div class="col-sm-6 data-item">
-                {{ dataItem.schema.sensorName }}
+              <div class="col-sm-3" ng-repeat="dataItem in serviceForm.thingd.dataItems">
+                <div class="data-item">
+                  {{ dataItem.schema.sensorName }}
+                </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 flex-center" ng-if="serviceForm.thingd.dataItems.length < 1">
-            <span>No data item configured.</span>
+            <span>No data item configured</span>
           </div>
           <div class="add-data-item">
             <button class="add-data-item-button" api-click="changePage()">Add a new data item</button>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer space-top">
         <ul class="pager">
           <li ng-if="currentStep !== 'LIST_DATA_ITEMS'" class="pull-right ng-class:{ disabled: deviceForm.$invalid }">
-            <a href api-click="next()" ng-disabled="deviceForm.$invalid">{{ currentStep === 'CREATE_DEVICE' ? 'Next' : 'Add data item' }}</a>
+            <a href api-click="next()" ng-disabled="deviceForm.$invalid">{{ currentStep === 'CREATE_DEVICE' ? 'Next' : 'Save' }}</a>
           </li>
           <li ng-if="currentStep === 'LIST_DATA_ITEMS'" class="pull-right ng-class:{ disabled: serviceForm.thingd.dataItems.length < 1 }">
             <a href api-click="next()" ng-disabled="serviceForm.thingd.dataItems.length < 1">Finish</a>
@@ -185,3 +242,4 @@
     </script>
   </div>
 </div>
+

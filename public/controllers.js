@@ -443,6 +443,30 @@ appCtrls.controller('DevicesController', function DevicesController($scope, $int
 });
 
 appCtrls.controller('DeviceModalController', function DeviceModalController($scope, $rootScope, $uibModalInstance, GatewayApi) {
+  var emptyDataItemForm = function emptyDataItemForm() {
+    return new Object({
+      schema: {
+        sensorID: undefined,
+        sensorName: '',
+        typeID: '0',
+        unit: '0',
+        valueType: '1'
+      },
+      modbus: {
+        registerAddress: undefined,
+        bitOffset: '1'
+      },
+      config: {}
+    });
+  };
+  var emptyConfigForm = function emptyConfigForm() {
+    return new Object({
+      lowerThreshold: undefined,
+      upperThreshold: undefined,
+      change: 'yes',
+      timeSec: undefined
+    });
+  };
   $scope.title = 'Create a new device';
   $scope.serviceForm = {
     thingd: {
@@ -457,49 +481,323 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
       modbusSlaveURL: '',
       dataItems: []
     },
-    dataItem: {
-      schema: {
-        sensorID: undefined,
-        sensorName: '',
-        typeID: '',
-        unit: '',
-        valueType: ''
+    dataItem: emptyDataItemForm(),
+    config: emptyConfigForm()
+  };
+  $scope.unitValues = {
+    0: [
+      {
+        name: 'Not Applicable',
+        value: '0'
+      }
+    ],
+    1: [
+      {
+        name: 'Volt',
+        value: '1'
       },
-      modbus: {
-        registerAddress: undefined,
-        bitOffset: '1'
+      {
+        name: 'Millivolt',
+        value: '2'
       },
-      config: {}
-    },
-    config: {
-      lowerThreshold: undefined,
-      upperThreshold: undefined,
-      change: 'yes',
-      timeSec: undefined
-    }
+      {
+        name: 'Kilovolt',
+        value: '3'
+      }
+    ],
+    2: [
+      {
+        name: 'Amperes',
+        value: '1'
+      },
+      {
+        name: 'Milliamps',
+        value: '2'
+      }
+    ],
+    3: [
+      {
+        name: 'OHM',
+        value: '1'
+      }
+    ],
+    4: [
+      {
+        name: 'Watt',
+        value: '1'
+      },
+      {
+        name: 'Kilowatts',
+        value: '2'
+      },
+      {
+        name: 'Megawatts',
+        value: '3'
+      }
+    ],
+    5: [
+      {
+        name: 'Celsius',
+        value: '1'
+      },
+      {
+        name: 'Fahrenheit',
+        value: '2'
+      },
+      {
+        name: 'Kelvin',
+        value: '3'
+      }
+    ],
+    6: [
+      {
+        name: 'Humidity',
+        value: '1'
+      }
+    ],
+    7: [
+      {
+        name: 'Lumen',
+        value: '1'
+      },
+      {
+        name: 'Candela',
+        value: '2'
+      },
+      {
+        name: 'Lux',
+        value: '3'
+      }
+    ],
+    8: [
+      {
+        name: 'Second',
+        value: '1'
+      },
+      {
+        name: 'Millisecond',
+        value: '2'
+      },
+      {
+        name: 'Microsecond',
+        value: '3'
+      }
+    ],
+    9: [
+      {
+        name: 'Kilogram',
+        value: '1'
+      },
+      {
+        name: 'Gram',
+        value: '2'
+      },
+      {
+        name: 'Pound',
+        value: '3'
+      },
+      {
+        name: 'Ounce',
+        value: '4'
+      }
+    ],
+    10: [
+      {
+        name: 'Pascal',
+        value: '1'
+      },
+      {
+        name: 'Pounds per square inch',
+        value: '2'
+      },
+      {
+        name: 'Bar',
+        value: '3'
+      }
+    ],
+    11: [
+      {
+        name: 'Meter',
+        value: '1'
+      },
+      {
+        name: 'Centimeter',
+        value: '2'
+      },
+      {
+        name: 'Mile',
+        value: '3'
+      },
+      {
+        name: 'Inch',
+        value: '4'
+      }
+    ],
+    12: [
+      {
+        name: 'Radian',
+        value: '1'
+      },
+      {
+        name: 'Degree',
+        value: '2'
+      }
+    ],
+    13: [
+      {
+        name: 'Liter',
+        value: '1'
+      },
+      {
+        name: 'Milliliter',
+        value: '2'
+      },
+      {
+        name: 'Fluid ounce',
+        value: '3'
+      },
+      {
+        name: 'Gallon',
+        value: '4'
+      }
+    ],
+    14: [
+      {
+        name: 'Square meter',
+        value: '1'
+      },
+      {
+        name: 'Hectare',
+        value: '2'
+      },
+      {
+        name: 'Acre',
+        value: '3'
+      }
+    ],
+    15: [
+      {
+        name: 'Millimiter',
+        value: '1'
+      }
+    ],
+    16: [
+      {
+        name: 'Kilogram per cubic meter',
+        value: '1'
+      }
+    ],
+    17: [
+      {
+        name: 'Degree',
+        value: '1'
+      }
+    ],
+    18: [
+      {
+        name: 'Degree',
+        value: '1'
+      }
+    ],
+    19: [
+      {
+        name: 'Metre per second',
+        value: '1'
+      },
+      {
+        name: 'Changeable message signs',
+        value: '2'
+      },
+      {
+        name: 'Kilometres per hour',
+        value: '3'
+      },
+      {
+        name: 'Miles per hour',
+        value: '4'
+      }
+    ],
+    20: [
+      {
+        name: 'Meter cubed per second',
+        value: '1'
+      },
+      {
+        name: 'Standard cubic centimeters per minute',
+        value: '2'
+      },
+      {
+        name: 'Standard liter per minute',
+        value: '3'
+      },
+      {
+        name: 'Standard milliliter per minute',
+        value: '4'
+      },
+      {
+        name: 'Cubic foot per second',
+        value: '5'
+      },
+      {
+        name: 'Galm',
+        value: '6'
+      }
+    ],
+    21: [
+      {
+        name: 'Joule',
+        value: '1'
+      },
+      {
+        name: 'Newton meter',
+        value: '2'
+      },
+      {
+        name: 'Watt per hour',
+        value: '3'
+      },
+      {
+        name: 'Kilowatt per hour',
+        value: '4'
+      },
+      {
+        name: 'Calorie',
+        value: '5'
+      },
+      {
+        name: 'Kilocalorie',
+        value: '6'
+      }
+    ],
+    65520: [
+      {
+        name: 'Not Applicable',
+        value: '0'
+      }
+    ],
+    65521: [
+      {
+        name: 'Not Applicable',
+        value: '0'
+      }
+    ],
+    65522: [
+      {
+        name: 'Not Applicable',
+        value: '0'
+      }
+    ],
+    655296: [
+      {
+        name: 'Not Applicable',
+        value: '0'
+      }
+    ]
   };
 
   function clearDataItemForm() {
-    $scope.form.dataItem = {
-      schema: {
-        sensorID: undefined,
-        sensorName: '',
-        typeID: '',
-        unit: '',
-        valueType: ''
-      },
-      modbus: {
-        registerAddress: undefined,
-        bitOffset: '1'
-      },
-      config: {}
-    };
-    $scope.form.config = {
-      lowerThreshold: undefined,
-      upperThreshold: undefined,
-      change: 'yes',
-      timeSec: undefined
-    };
+    $scope.form.dataItem = emptyDataItemForm();
+    $scope.form.config = emptyConfigForm();
   }
 
   $scope.addDataItem = function addDataItem(dataItem, config) {
@@ -526,22 +824,23 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
   };
 
   $scope.next = function next() {
-    if ($scope.currentStep === 'CONFIG_DATA_ITEM') {
-      $scope.addDataItem($scope.form.dataItem, $scope.form.config);
-      $scope.currentStep = 'LIST_DATA_ITEMS';
-      $scope.title = 'List of all data items';
-      return;
-    } else if ($scope.currentStep === 'LIST_DATA_ITEMS') {
-      GatewayApi.createDevice($scope.serviceForm)
-        .then(function onSuccess() {
-          $uibModalInstance.dismiss('cancel');
-      });
-      return;
+    switch ($scope.currentStep) {
+      case 'CONFIG_DATA_ITEM':
+        $scope.addDataItem($scope.form.dataItem, $scope.form.config);
+        break;
+      case 'LIST_DATA_ITEMS':
+        GatewayApi.createDevice($scope.serviceForm)
+          .then(function onSuccess() {
+            $uibModalInstance.dismiss('cancel');
+        });
+        break;
+      case 'CREATE_DEVICE':
+        $scope.serviceForm.thingd = $scope.form.thingd;
+        break;
     }
 
-    $scope.serviceForm.thingd = $scope.form.thingd;
     $scope.currentStep = 'LIST_DATA_ITEMS';
-    $scope.title = 'List of all data items';
+    $scope.title = 'Data items';
   };
 
   $scope.close = function close() {
@@ -552,14 +851,20 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
     if ($scope.currentStep === 'CONFIG_DATA_ITEM') {
       clearDataItemForm();
       $scope.currentStep = 'LIST_DATA_ITEMS';
+      $scope.title = 'Data items';
       return;
     }
 
     $scope.currentStep = 'CREATE_DEVICE';
+    $scope.title = 'Create a new device';
   };
 
   $scope.changePage = function changePage() {
     $scope.currentStep = 'CONFIG_DATA_ITEM';
     $scope.title = 'Configure your data item';
+  };
+
+  $scope.onTypeIDChange = function onTypeIDChange() {
+    $scope.form.dataItem.schema.unit = '0';
   };
 });

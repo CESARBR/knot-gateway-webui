@@ -22,6 +22,11 @@ SystemService.prototype.reboot = function reboot(done) {
   exec('reboot', done);
 };
 
+SystemService.prototype.restartThingd = function reboot(done) {
+  var command = '/etc/knot/stop.sh thingd && /etc/knot/start.sh thingd -n';
+  exec(command, done);
+};
+
 var logError = function logError(err) { // eslint-disable-line vars-on-top
   logger.warn('Error communicating with gateway control service');
   logger.debug(util.inspect(err));

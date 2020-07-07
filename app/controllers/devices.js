@@ -1,5 +1,6 @@
 var gateway = require('../models/gateway');
 var devicesService = require('../services/devices').devicesService;
+var SystemService = require('../services/system').SystemService;
 
 var list = function list(req, res, next) {
   devicesService.list(function onDevicesReturned(listErr, devices) {
@@ -80,11 +81,18 @@ var create = function create(req, res, next) {
     }
     device.token = settings.token;
     devicesService.create(device, function onCreate(devicesErr) {
+      var systemSvc = new SystemService();
       if (devicesErr) {
         next(devicesErr);
-      } else {
-        res.end();
+        return;
       }
+      systemSvc.restartThingd(function onThingdRestarted(restartThingdErr) {
+        if (restartThingdErr) {
+          next(restartThingdErr);
+          return;
+        }
+        res.end();
+      });
     });
   });
 };

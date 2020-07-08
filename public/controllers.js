@@ -823,6 +823,10 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
     clearDataItemForm();
   };
 
+  $scope.deleteDataItem = function deleteDataItem(index) {
+    $scope.serviceForm.thingd.dataItems.splice(index, 1);
+  };
+
   $scope.next = function next() {
     switch ($scope.currentStep) {
       case 'CONFIG_DATA_ITEM':

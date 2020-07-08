@@ -213,6 +213,7 @@
             <div class="row">
               <div class="col-sm-3" ng-repeat="dataItem in serviceForm.thingd.dataItems">
                 <div class="data-item">
+                  <div class="delete-data-item" api-click="deleteDataItem($index)">x</div>
                   {{ dataItem.schema.sensorName }}
                 </div>
               </div>

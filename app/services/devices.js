@@ -447,8 +447,8 @@ DevicesService.prototype.getDeviceConfig = function getDeviceConfig(device) {
     }
   };
 
-  device.thingd.dataItems.forEach(function onDataItem(value, index) {
-    var item = 'DataItem_' + index;
+  device.thingd.dataItems.forEach(function onDataItem(value) {
+    var item = 'DataItem_' + value.schema.sensorID;
     deviceConfig[item] = {
       SchemaSensorId: value.schema.sensorID,
       SchemaSensorName: value.schema.sensorName,

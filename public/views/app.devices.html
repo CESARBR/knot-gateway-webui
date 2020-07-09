@@ -209,6 +209,9 @@
           </div>
         </form>
         <div class="data-item-list" ng-if="currentStep === 'LIST_DATA_ITEMS'">
+          <div class="alert alert-danger" ng-show="apiError !== null" role="alert">
+            <p>{{ apiError }}</p>
+          </div>
           <div class="col-sm-12">
             <div class="row">
               <div class="col-sm-3" ng-repeat="dataItem in serviceForm.thingd.dataItems">

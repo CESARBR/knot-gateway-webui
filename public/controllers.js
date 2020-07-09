@@ -794,6 +794,7 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
       }
     ]
   };
+  $scope.apiError = null;
 
   function clearDataItemForm() {
     $scope.form.dataItem = emptyDataItemForm();
@@ -835,8 +836,11 @@ appCtrls.controller('DeviceModalController', function DeviceModalController($sco
       case 'LIST_DATA_ITEMS':
         GatewayApi.createDevice($scope.serviceForm)
           .then(function onSuccess() {
+            $scope.apiError = null;
             $uibModalInstance.dismiss('cancel');
-        });
+          }, function onError(error) {
+            $scope.apiError = error.data.errors[0].message;
+          });
         break;
       case 'CREATE_DEVICE':
         $scope.serviceForm.thingd = $scope.form.thingd;

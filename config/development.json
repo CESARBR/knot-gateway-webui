@@ -11,6 +11,9 @@
   "amqp": {
     "host": "rabbitmq"
   },
+  "thingd": {
+    "configFile": "/usr/local/bin/thingd/config/default.conf"
+  },
   "server": {
     "port": 8080,
     "token": {
